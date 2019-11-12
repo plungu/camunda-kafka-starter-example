@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+
+  rabbitmq-mgmt:
+    image: rabbitmq:3-management
+    hostname: rabbitmq-mgmt
+    ports:
+      - "9000:15672"
+      - "5672:5672"
+      - "4369:4369"
+      - "5671:5671"
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: camunda
+      POSTGRES_PASSWORD: camunda
