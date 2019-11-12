@@ -8,11 +8,47 @@
 		{
 			"name": "Send-Transactional-Email",
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "subject ",
+							"value": "test",
+							"type": "text"
+						},
+						{
+							"key": "text",
+							"value": "test some text here",
+							"type": "text"
+						},
+						{
+							"key": "from",
+							"value": "lungu77@gmail.com",
+							"type": "text"
+						},
+						{
+							"key": "to",
+							"value": "test@test.com",
+							"type": "text"
+						},
+						{
+							"key": "SPF",
+							"value": "spf_1234567",
+							"type": "text"
+						}
+					]
+				},
 				"url": {
-					"raw": ""
+					"raw": "localhost:8080/parse",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"parse"
+					]
 				},
 				"description": "Imitates the transaction email from a transactional email provider."
 			},
@@ -89,14 +125,14 @@
 					"raw": "{\n   \"variables\":{\n      \"invoiceDocument\":{\n         \"value\":\"PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGRlZmluaXRpb25zIHhtbG5zPSJodHRwOi8vd3d3Lm9tZy5vcmcvc3BlYy9ETU4vMjAxNTExMDEvZG1uLnhzZCIgeG1sbnM6YmlvZGk9Imh0dHA6Ly9icG1uLmlvL3NjaGVtYS9kbW4vYmlvZGkvMS4wIiBpZD0iZGVmaW5pdGlvbnMiIG5hbWU9IkRlZmluaXRpb25zIiBuYW1lc3BhY2U9Imh0dHA6Ly9jYW11bmRhLm9yZy9zY2hlbWEvMS4wL2RtbiI+CiAgPGRlY2lzaW9uIGlkPSJkZWNpc2lvbiIgbmFtZT0iZGVjaXNpb24iPgogICAgPGV4dGVuc2lvbkVsZW1lbnRzPgogICAgICA8YmlvZGk6Ym91bmRzIHg9IjQwNiIgeT0iMTY0IiB3aWR0aD0iMTgwIiBoZWlnaHQ9IjgwIiAvPgogICAgPC9leHRlbnNpb25FbGVtZW50cz4KICAgIDx2YXJpYWJsZSBpZD0iSW5mb3JtYXRpb25JdGVtXzAwdDRkanciIG5hbWU9InJlc3VsdCIgdHlwZVJlZj0iaW50ZWdlciIgLz4KICAgIDxsaXRlcmFsRXhwcmVzc2lvbiBpZD0iTGl0ZXJhbEV4cHJlc3Npb25fMWZtamUxNCIgZXhwcmVzc2lvbkxhbmd1YWdlPSIiPiAgICA8dGV4dD5hICsgYjwvdGV4dD4KPC9saXRlcmFsRXhwcmVzc2lvbj4KICA8L2RlY2lzaW9uPgo8L2RlZmluaXRpb25zPg==\",\n         \"type\":\"File\",\n         \"valueInfo\":{\n            \"filename\":\"diagram_1.dmn\",\n            \"mimeType\":\"\"\n         }\n      },\n      \"creditor\":{\n         \"value\":\"MONTERREY\",\n         \"type\":\"String\"\n      },\n      \"amount\":{\n         \"value\":30,\n         \"type\":\"Double\"\n      },\n      \"invoiceNumber\":{\n         \"value\":\"I-12345\",\n         \"type\":\"String\"\n      },\n      \"invoiceCategory\":{\n         \"value\":\"Travel Expenses\",\n         \"type\":\"String\"\n      }\n   }\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/engine-rest/process-definition",
+					"raw": "http://localhost:8080/rest/process-definition",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"engine-rest",
+						"rest",
 						"process-definition"
 					]
 				},
@@ -184,7 +220,15 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": ""
+					"raw": "localhost:8080/renew/start",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"renew",
+						"start"
+					]
 				},
 				"description": "Starts a Lease Renewal based on the date in the Lease (upload from spreadsheet)"
 			},
