@@ -1,5 +1,5 @@
 # Camunda React Starter App
-The purpose of this application is to have a UI application that can exemplify some complexity interacting with the Camunda API's for consulting to use a starter project.
+The purpose of this application is to have a custom UI application that can exemplify some complexity interacting with Camunda for consulting to use as a starter project.
 
 
 
@@ -9,7 +9,7 @@ The Camunda React Starter App is a Java app that utilizes the Camunda JAVA API's
 
 ## TODO
 
-- Simplify the app by using the Camunda REST api's from the React app
+- Use the Camunda REST api's from the React app
 
 - Add middle-ware layer to aggregate calls to the REST API e.g. GraphQL
 
@@ -22,6 +22,10 @@ The Camunda React Starter App is a Java app that utilizes the Camunda JAVA API's
 - Setup docker-compose
 
 - Create architecture diagrams to exemplify complex UI architecture
+
+- Externalize email template
+
+- Improve the style of the UI
 
   
 
@@ -66,6 +70,8 @@ or just ````application.properties```` for the default configuration.
 Additionally properties can specified at the command line when the application starts. The notation is as follows.
 ```` -Dspring.profiles.active=init-roles,cli ````
 Properties specified at the command line overrirde properties in the .properties files.
+
+The ***Config*** class makes the configs codeable *more to come ...* 
 
 ### Security
 
