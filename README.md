@@ -1,5 +1,5 @@
 # Camunda React Starter App
-The purpose of this application is to have a React application that can exemplify some complexity interacting with the Camunda API's
+The purpose of this application is to have a UI application that can exemplify some complexity interacting with the Camunda API's for consulting to use a starter project.
 
 
 
@@ -7,7 +7,23 @@ The purpose of this application is to have a React application that can exemplif
 
 The Camunda React Starter App is a Java app that utilizes the Camunda JAVA API's to interact with Camunda. A React app is also built and deployed using maven plugin. The React app utilizes custom Controllers to interact with the work-flow.
 
-TODO: simplify the app by using the Camunda REST api's from the React app
+## TODO
+
+- Simplify the app by using the Camunda REST api's from the React app
+
+- Add middle-ware layer to aggregate calls to the REST API e.g. GraphQL
+
+- Add keycloak and route API calls through security 
+
+- Improve the front-end plugin so node/npm don't need to be installed globally
+
+- Automate seeding of app on startup through CSV
+
+- Setup docker-compose
+
+- Create architecture diagrams to exemplify complex UI architecture
+
+  
 
 
 
@@ -27,11 +43,7 @@ The Java application boot-straps the ReactJS App through Thymeleaf a java/spring
 
 Thymeleaf ties the Java frontend together using a Spring controller. ```src/main/java/com/camunda/react/starter/controller/HomeController.java```. Mapping the app context to /home and calling the app.html.
 
-Visit ```http://<server>:<port>/home``` to access the React app.
-
-
-
-**TODO: Webpack**
+**Visit ```http://<server>:<port>/home``` to access the React app.**
 
 
 
@@ -58,10 +70,6 @@ Properties specified at the command line overrirde properties in the .properties
 ### Security
 
 Roles and users can be added to the app on initialization. In other words the first time the app starts we can initialize the app with some users and groups. This allows users to login to the app. This is done in the .properties files.
-
-**TODO: Keycloak**
-
-
 
 ### Scheduling Background Processes
 
@@ -196,7 +204,5 @@ TheCompany.</camunda:script>
 Files can imported from the imports page. Three csv files exsit in the base directory with test data.
 
 #### TODO: Document importing 
-
-#### TODO: Automate imports for development
 
 
