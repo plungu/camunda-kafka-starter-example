@@ -29,6 +29,10 @@ The Camunda React Starter App is a Java app that utilizes the Camunda JAVA API's
 
   
 
+## Architecture
+
+![MVC Idea](docs/MVC Flow Diagram.jpeg)
+
 
 
 ## Use Case
