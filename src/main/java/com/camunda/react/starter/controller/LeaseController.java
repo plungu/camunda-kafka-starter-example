@@ -36,31 +36,6 @@ public class LeaseController {
 
 	@Autowired LeaseRepository leaseRepository;
 	
-//	@Autowired PagedResourcesAssembler<?> resourceAssembler;
-	
-//	@RequestMapping(method=RequestMethod.GET, value = "/leases")
-//	public ResponseEntity<List<LeaseResource>> leases() {
-//		List<Lease> leases = leaseRepository.findByPriority();
-//		LeaseResourceAssembler assembler = new LeaseResourceAssembler();
-//		List<LeaseResource> leaseResources = assembler.toResources(leases);
-//		return new ResponseEntity<List<LeaseResource>>(leaseResources, HttpStatus.OK);
-//	}
-
-//	@RequestMapping(method=RequestMethod.GET, value = "/leases")
-//	public ResponseEntity<?> leases() {
-//		List<Lease> leases = leaseRepository
-//				.findLeasesByRenewalStartedAndRenewalCompletedAndWorkflowState(
-//						true, false, "Confirm Renewal State");
-//        
-//		Resources<Lease> resources = new Resources<Lease>(leases); 
-//
-//        resources.add(linkTo(methodOn(LeaseController.class).leases()).withSelfRel()); 
-//
-//        // add other links as needed
-//
-//        return ResponseEntity.ok(resources);
-//	}
-	
     @RequestMapping(value="/updateNote", method=RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<HttpStatus> updateNote(     								   
     		@RequestParam(value = "leaseId") String leaseId,

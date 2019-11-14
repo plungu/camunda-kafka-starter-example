@@ -29,7 +29,7 @@ import com.camunda.react.starter.repo.LeaseRepository;
 
 @RestController
 public class ImportController {
-	public static Logger log = Logger.getLogger(MessageController.class.getName());
+	public static Logger log = Logger.getLogger(RecieveMessageController.class.getName());
 
 	@Autowired LeaseRepository leaseRepository;
 

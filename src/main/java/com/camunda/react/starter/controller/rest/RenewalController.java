@@ -1,4 +1,4 @@
-package com.camunda.react.starter.controller;
+package com.camunda.react.starter.controller.rest;
 
 import java.util.Date;
 import java.util.List;
@@ -21,7 +21,7 @@ import com.camunda.react.starter.WorkflowUtil;
 import com.camunda.react.starter.entity.Lease;
 import com.camunda.react.starter.repo.LeaseRepository;
 
-@Profile("java")
+@Profile("rest")
 @RestController
 public class RenewalController {
 
@@ -46,6 +46,7 @@ public class RenewalController {
 		if (!leases.isEmpty()){
 			for(Lease lease : leases){
 				try {
+					//TODO: use REST to start the renewal 
 					LeaseUtil.startLeaseRenewal(lease, leaseRepository, runtimeService, taskService, config);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block

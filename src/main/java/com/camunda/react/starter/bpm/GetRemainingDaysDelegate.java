@@ -9,7 +9,6 @@ import java.util.List;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 
-import com.camunda.react.starter.AppConfigProperties;
 import com.camunda.react.starter.AppConfigProperties.GracePeriodSetting;
 
 import java.util.logging.Logger;

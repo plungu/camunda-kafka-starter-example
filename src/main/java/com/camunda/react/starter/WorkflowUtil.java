@@ -11,11 +11,35 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.history.HistoricActivityInstance;
 import org.camunda.bpm.engine.runtime.ActivityInstance;
 import org.camunda.bpm.engine.task.Task;
+
+import com.camunda.react.starter.entity.Lease;
+import com.camunda.react.starter.entity.Tenant;
+import com.camunda.react.starter.repo.TenantRepository;
+
 import java.util.logging.Logger;
 
 public class WorkflowUtil {
 	public static Logger log = Logger.getLogger(WorkflowUtil.class.getName());
 
+	public static Lease getLeaseByTenantEamil(TenantRepository tenantRepository, String fromEmail, String toEmail) throws Exception {
+		//check if sender os the recipiant is a tenant before saving
+		Tenant tenant = tenantRepository.findByEmail(fromEmail);
+		if (tenant == null)
+			tenant = tenantRepository.findByEmail(toEmail);
+		
+		if (tenant == null)
+			throw new Exception("No Tenant found for message");
+		
+		log.info("[X] Found tenant : "+tenant.getEmail());
+		
+		Lease lease = tenant.getLease();
+		if (lease == null)
+			throw new Exception("No lease found for message");
+		
+		return lease;
+
+	}
+	
 	public static void printCompletedTasks(HistoryService historyService, String processInstanceId){
 		List<HistoricActivityInstance> activities =
 		  historyService.createHistoricActivityInstanceQuery()
