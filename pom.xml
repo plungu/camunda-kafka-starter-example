@@ -301,7 +301,6 @@
 							<npmVersion>6.11.3</npmVersion>
 						</configuration>
 					</execution>
-					<!-- 
 					<execution>
 						<id>npm install</id>
 						<goals>
@@ -311,7 +310,6 @@
 							<arguments>install</arguments>
 						</configuration>
 					</execution>
-					 -->
 					<execution>
 						<id>webpack build</id>
 						<goals>
