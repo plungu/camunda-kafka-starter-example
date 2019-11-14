@@ -11,21 +11,27 @@ The Camunda React Starter App is a Java app that utilizes the Camunda JAVA API's
 
 - Use the Camunda REST api's from the React app
 
-- Add middle-ware layer to aggregate calls to the REST API e.g. GraphQL
+- **Add middle-ware layer to aggregate calls to the REST API e.g. GraphQL **
+
+  - Implementation is to just add new spring controllers that call the camunda rest API's
 
 - Add keycloak and route API calls through security 
 
-- Improve the front-end plugin so node/npm don't need to be installed globally
+- Improve the front-end plugin so node/npm don't need to be installed globally 
+
+  - **DONE: needs testing**
 
 - Automate seeding of app on startup through CSV
 
 - Setup docker-compose
 
-- Create architecture diagrams to exemplify complex UI architecture
+- **Create architecture diagrams to exemplify complex UI architecture**
 
 - Externalize email template
 
-- Improve the style of the UI
+- **Improve the style of the UI**
+
+- Add Batch complete example with data-tables (example [here](https://gitlab.com/camunda-poc-roche.com/roche) ) 
 
   
 
@@ -67,7 +73,7 @@ The application can have many different configurations depending on where it is 
 ### Configuration
 The application utilizes Spring profiles to manage configurations and environments. See more here https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-external-config.html
 
-The configurations are realted to the environments specified above. Additionally there is a default configuration that is not specific to an environment. The application uses properties to specify a configuration. These configurations are grouped into files with the following nameing pattern.
+The configurations are related to the environments specified above. Additionally there is a default configuration that is not specific to an environment. The application uses properties to specify a configuration. These configurations are grouped into files with the following naming pattern.
 ```` application-{evironment}.properties ````
 or just ````application.properties```` for the default configuration.
 
