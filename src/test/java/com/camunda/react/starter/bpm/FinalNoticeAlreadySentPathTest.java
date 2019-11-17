@@ -1,5 +1,16 @@
 package com.camunda.react.starter.bpm;
 
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.test.Deployment;
+import org.junit.Test;
+
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
+import static org.camunda.bpm.engine.test.assertions.bpmn.AbstractAssertions.processEngine;
+import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
+import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.execute;
+import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.job;
+
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,44 +19,30 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.test.Deployment;
-import org.junit.Test;
 
-
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
-import static org.camunda.bpm.engine.test.assertions.bpmn.AbstractAssertions.processEngine;
-import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.assertThat;
-import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.execute;
-import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.job;
-
-
-
-public class FinalNoticePathTest extends LeaseRenewalTestBase {
+public class FinalNoticeAlreadySentPathTest extends LeaseRenewalTestBase{
 	
 	@Test
 	@Deployment(resources = { "processes/leaseRenewalProcess.bpmn" })
-	public void sendFinalNotice() {
-	
+	public void FinalNoticeAlreadySentTest() {
 		/*
 		 * Get the runtime service
 		 * Start the process
 		 * Set the initial params
 		 */
 		RuntimeService runtimeService = processEngine().getRuntimeService();
-	
-		SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
+			
+        SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         NumberFormat moneyFormatter = NumberFormat.getCurrencyInstance();
 
 		List<String> emails = new ArrayList<String>();
 		emails.add("lungu77@gmail.com");		
 				
 		Map<String, Object> variables = new HashMap<String, Object>();
-		
+
 		variables.put("endDate", dateFormatter.format(new Date()));
         variables.put("showDate", dateFormatter.format(new Date()));
-
+        
 		//To go down the final notice sent path remainingDays must be calculated
 		//there-for the days between lease expiration and the buffered days 
 		//must be <= 0
@@ -53,10 +50,9 @@ public class FinalNoticePathTest extends LeaseRenewalTestBase {
         //between the buffer days and lease expiration
 		variables.put("leaseExpirationDate", getLeaseExpirationDate(50));
 		variables.put("leaseExpirationBufferDays", 50);
-		
-		//the final notice sent flag must be false simulating the 
-		//final notice has NOT been sent at least once
-		variables.put("finalNoticeSent", false);
+		//the final notice sent flag must be true simulating the 
+		//final notice has already been sent at least once
+		variables.put("finalNoticeSent", true);
 		variables.put("renewalConfirmed", true);
 		
 		variables.put("gracePeriodSettings", getGracePeriodSetting());
@@ -78,14 +74,15 @@ public class FinalNoticePathTest extends LeaseRenewalTestBase {
 		
   		assertThat(processInstance).isActive();
 
- 		assertThat(processInstance).isWaitingAt("sendFinalNotice");
+ 		assertThat(processInstance).isWaitingAt("notifyPropertyManager");
  		execute(job());
   		
-  		assertThat(processInstance).isWaitingAt("awaitTenantReply");
-  		processEngine().getRuntimeService().correlateMessage("tenant_reply_message");
+  		assertThat(processInstance).isWaitingAt("confrimRenewalState");
+  		complete(task());
   		
   		assertThat(processInstance).isActive();
-
+	
 	}
 	
+
 }

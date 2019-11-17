@@ -1,5 +1,7 @@
 package com.camunda.react.starter.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Date;
@@ -39,6 +41,108 @@ public class ImportController {
     
     @Autowired AppConfigProperties config;
 
+    
+    @RequestMapping(value="/import/all", method= RequestMethod.GET)
+    public ResponseEntity<HttpStatus> autoImport()
+    {
+    	
+        CSVReader reader = null;
+    	ResponseEntity<HttpStatus> tenantStatus = importTenants(reader);
+    	if(tenantStatus.getStatusCode().equals(HttpStatus.OK)) {
+    		return importLeases(reader);
+    	} else {
+    		return tenantStatus;
+    	}
+    }    
+    
+    private ResponseEntity<HttpStatus> importTenants(CSVReader reader) {
+        List<com.camunda.react.starter.csv.Tenant>beanListTenant = null; 
+		try {
+			reader = new CSVReader(new InputStreamReader(new FileInputStream(new File("test-data/tenants.csv"))));
+	        HeaderColumnNameMappingStrategy<com.camunda.react.starter.csv.Tenant> strategy = new HeaderColumnNameMappingStrategy<com.camunda.react.starter.csv.Tenant>();
+	        strategy.setType(com.camunda.react.starter.csv.Tenant.class);
+	        CsvToBean<com.camunda.react.starter.csv.Tenant> csvToBean = new CsvToBean<com.camunda.react.starter.csv.Tenant>();
+	        beanListTenant = csvToBean.parse(strategy, reader);
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if (beanListTenant == null){
+			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+		
+		}else{
+			try {
+				for (com.camunda.react.starter.csv.Tenant bean : beanListTenant){
+					//TODO: support multiple emails
+					com.camunda.react.starter.entity.Tenant tenant = new com.camunda.react.starter.entity.Tenant(bean.getName(), bean.getEmail(), bean.getPropertySlug());
+					tenantRepository.save(tenant);
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+			}	
+		}
+		
+    	return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+
+    }
+    
+    
+    private ResponseEntity<HttpStatus> importLeases(CSVReader reader) {
+        List<Lease> beanListLease = null; 
+		try {
+			reader = new CSVReader(new InputStreamReader(new FileInputStream(new File("test-data/leases.csv"))));
+	        HeaderColumnNameMappingStrategy<Lease> strategy = new HeaderColumnNameMappingStrategy<Lease>();
+	        strategy.setType(Lease.class);
+	        CsvToBean<Lease> csvToBean = new CsvToBean<Lease>();
+	        beanListLease = csvToBean.parse(strategy, reader);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+		if (beanListLease == null){
+			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
+		}else{
+			try {
+				for (Lease bean : beanListLease){				    
+					//Days left until final notice is sent so property has time to be listed
+					int leaseExpirationBufferDays = config.getRenewalSetting().getLeaseExpirationBufferDays();
+					log.fine("Number of days to Lease Renewal Deadline is set to: "+leaseExpirationBufferDays);
+					Date showDate = LeaseUtil.getLeaseShowDate(bean.getEnd(), leaseExpirationBufferDays);
+					log.fine("Lease Renewal Deadline (show date) is set to: "+showDate);
+					
+					com.camunda.react.starter.entity.Lease lease = new com.camunda.react.starter.entity.Lease(bean.getStart(), bean.getEnd(), bean.getPropertySlug());
+					lease.setCurrentRent(bean.getCurrentRent());
+					lease.setOneYearOffer(bean.getOneYearOffer());
+					lease.setTwoYearOffer(bean.getTwoYearOffer());
+					lease.setShowDate(showDate);
+					lease.setRenewalCompleted(false);
+					lease.setRenewalStarted(false);
+					List<Tenant> tenants = tenantRepository.findTenantsByUnitSlug(lease.getProperty());
+					lease.setTenants(tenants);
+					com.camunda.react.starter.entity.Lease newlease = leaseRepository.save(lease);
+					tenants.forEach(tenant -> {
+						tenant.setLease(newlease);
+						tenantRepository.save(tenant);
+					});
+					
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return new ResponseEntity<HttpStatus>(HttpStatus.BAD_REQUEST);
+			}	
+		}
+		
+    	return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+    }
+    
     /**
      * 
      * @param file

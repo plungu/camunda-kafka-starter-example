@@ -15,32 +15,32 @@ import java.util.logging.Logger;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
-import org.camunda.bpm.extension.process_test_coverage.junit.rules.TestCoverageProcessEngineRuleBuilder;
-import org.junit.Before;
-import org.junit.ClassRule;
+import org.camunda.bpm.spring.boot.starter.test.helper.StandaloneInMemoryTestConfiguration;
 import org.junit.Rule;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.camunda.react.starter.WorkflowUtil;
 import com.camunda.react.starter.AppConfigProperties.GracePeriodSetting;
 
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 public class LeaseRenewalTestBase {
-	public static Logger log = Logger.getLogger(LeaseRenewalTestBase.class.getName());
+  public static Logger log = Logger.getLogger(LeaseRenewalTestBase.class.getName());
 
-	  @ClassRule
-	  @Rule
-	  public static ProcessEngineRule rule = TestCoverageProcessEngineRuleBuilder.create().build();
+  protected static final String PROCESS_DEFINITION_KEY = "lease-renewal";
+
+  @Rule
+  public final ProcessEngineRule processEngine = new StandaloneInMemoryTestConfiguration().rule();
 
 	  static {
 	    LogFactory.useSlf4jLogging(); // MyBatis
 	  }
-
-	  @Before
-	  public void setup() {
-	    init(rule.getProcessEngine());
-	  }
-
+	  
 	protected void getRemainingDaysTaskTest(){
 		TaskService taskService = processEngine().getTaskService();
 	    Task task = taskService.createTaskQuery().singleResult();

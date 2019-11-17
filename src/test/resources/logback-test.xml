@@ -8,23 +8,20 @@
     </encoder>
   </appender>
 
-  <logger name="org.apache.ibatis" level="info" />
 <!-- 
+  <logger name="org.apache.ibatis" level="info" />
   <logger name="org.apache.ibatis" level="DEBUG"/>
--->
 
   <logger name="javax.activation" level="info" />
 
   <logger name="org.springframework" level="info" />
 
   <logger name="org.camunda" level="info" />
-<!-- 
+  
   <logger name="org.camunda" level="DEBUG"/>
--->
 
   <logger name="org.camunda.bpm.engine.test" level="debug" />
 
-<!--
   <logger name="org.camunda.bpm.engine.bpmn.parser" level="debug" />
   <logger name="org.camunda.bpm.engine.bpmn.behavior" level="debug" />
 
@@ -56,7 +53,7 @@
   <logger name="org.camunda.bpm.container" level="debug" />
 -->
 
-  <root level="debug">
+  <root level="info">
     <appender-ref ref="STDOUT" />
   </root>
 

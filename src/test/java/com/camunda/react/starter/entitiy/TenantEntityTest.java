@@ -6,19 +6,18 @@ import java.util.Date;
 
 import org.junit.*;
 import org.junit.runner.*;
-//import org.springframework.boot.test.autoconfigure.orm.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.test.context.junit4.SpringRunner;
 
-import com.camunda.react.starter.LeaseRenewalTest;
 import com.camunda.react.starter.entity.Lease;
 import com.camunda.react.starter.entity.Tenant;
 import com.camunda.react.starter.repo.LeaseRepository;
 import com.camunda.react.starter.repo.TenantRepository;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {LeaseRenewalTest.class})
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = WebEnvironment.NONE)
 public class TenantEntityTest {
 
     @Autowired

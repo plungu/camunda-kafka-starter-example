@@ -23,7 +23,7 @@ import com.camunda.react.starter.repo.LeaseRepository;
 
 @Profile("java")
 @RestController
-public class RenewalController {
+public class StartRenewalController {
 
 	public static Logger log = Logger.getLogger(CamundaApplication.class.getName());
 

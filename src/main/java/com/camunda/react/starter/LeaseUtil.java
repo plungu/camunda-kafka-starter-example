@@ -37,6 +37,7 @@ public class LeaseUtil {
 		
 		StringBuilder recipients = new StringBuilder();
 		for (int i=0; tenants.size()>i; i++){
+			
 			if (i==0) recipients.append(tenants.iterator().next().getEmail());
 			
 			else recipients.append(","+tenants.iterator().next().getEmail());	
@@ -70,14 +71,7 @@ public class LeaseUtil {
 		variables.put("managerEmail", config.getManagerEmail());
 		variables.put("systemEmail", config.getSystemEmail());
 		variables.put("defaultFromEmail", config.getDefaultFromEmail());
-		
-		variables.put("mailServerHost", config.getMailServerHost());
-		variables.put("mailServerPort", config.getMailServerPort());
-		variables.put("mailServerDefaultFrom", config.getMailServerDefaultFrom());
-		variables.put("mailServerUserName", config.getMailServerUserName());
-		variables.put("mailServerPassword", config.getMailServerPassword());
-		variables.put("mailServerUseTls", config.isMailServerUseTls());
-				
+						
 		variables.put("property", lease.getProperty());
 		variables.put("endDate", dateFormatter.format(lease.getEnd()));
 		variables.put("oneYearOffer", moneyFormatter.format(lease.getOneYearOffer()));

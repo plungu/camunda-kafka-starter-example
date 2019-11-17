@@ -33,7 +33,6 @@ The Camunda React Starter App is a Java app that utilizes the Camunda JAVA API's
 
 - Add Batch complete example with data-tables (example [here](https://gitlab.com/camunda-poc-roche.com/roche) ) 
 
-  
 
 ## Architecture
 
@@ -132,6 +131,18 @@ or
 ````bash
 mvn spring-boot:run -Dspring.profiles.active=init-roles,seed,cli,dev 
 ````
+
+
+
+**Testing the app**
+
+To start the renewal process run the following 
+
+``` http://<server>:<port>/import/all ```
+
+``` http://<server>:<port>/renew/start ```
+
+
 
 
 

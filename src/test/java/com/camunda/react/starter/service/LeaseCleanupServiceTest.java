@@ -15,10 +15,11 @@ import org.camunda.bpm.engine.test.Deployment;
 import org.junit.*;
 import org.junit.runner.*;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 //import org.springframework.boot.test.autoconfigure.orm.jpa.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
+import org.springframework.test.context.junit4.SpringRunner;
 import org.apache.ibatis.logging.LogFactory;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
 import org.camunda.bpm.extension.process_test_coverage.junit.rules.TestCoverageProcessEngineRuleBuilder;
@@ -30,7 +31,6 @@ import org.junit.Test;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.init;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.processEngine;
 
-import com.camunda.react.starter.LeaseRenewalTest;
 import com.camunda.react.starter.WorkflowUtil;
 import com.camunda.react.starter.bpm.LeaseRenewalTestBase;
 import com.camunda.react.starter.entity.Lease;
@@ -40,9 +40,7 @@ import com.camunda.react.starter.repo.MessageRepository;
 import com.camunda.react.starter.repo.TenantRepository;
 import com.camunda.react.starter.service.LeaseCleanupServiceImpl;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes = {LeaseRenewalTest.class})
-public class LeaseCleanupServiceTest extends LeaseRenewalTestBase{
+public class LeaseCleanupServiceTest extends LeaseRenewalTestBase {
 
     @Autowired
     private LeaseRepository leaseRepository;
