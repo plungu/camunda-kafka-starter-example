@@ -16,7 +16,7 @@ const CannedMessageMain = require('CannedMessageMain');
 require('style!css!foundation-sites/dist/foundation.css');
 $(document).foundation();
 
-//require('style!css!../../main/resources/static/main.css');
+//require('style!css!../../main/resources/static/app.css');
 // end::styles[]
 
 // tag::render[]

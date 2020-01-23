@@ -1,4 +1,4 @@
-version: "2"
+version: "3.3"
 
 services:
 
@@ -6,14 +6,68 @@ services:
     image: rabbitmq:3-management
     hostname: rabbitmq-mgmt
     ports:
-      - "9000:15672"
+      - "9500:15672"
       - "5672:5672"
       - "4369:4369"
       - "5671:5671"
 
-  db:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: camunda
-      POSTGRES_PASSWORD: camunda
+########################################
+# Be sure to add the config to application.yml
+# and driver to pom.xml
+#spring.datasource:
+#  url: jdbc:postgresql://127.0.0.1:5432/camunda?&characterEncoding=UTF-8
+#  username: camunda
+#  password: camunda
+#  driverClassName: org.postgresql.Driver
+#  maxActive: 10
+#  maxIdle: 5
+#  minIdle: 2
+#  initialSize: 5
+#  removeAbandoned: true
+########################################
+
+#  db:
+#    image: postgres
+#    restart: always
+#    environment:
+#      POSTGRES_USER: camunda
+#      POSTGRES_PASSWORD: camunda
+#      POSTGRES_DB: camunda    
+#    ports:
+#      - "5432:5432"
+
+
+
+##########################################
+#      - Key Cloak Realted Services
+##########################################
+#  jboss.keycloak:
+#    build: .
+#    image: jboss/keycloak
+#    image: gunnaraccso/keycloak.server:5.0.0
+#    restart: always
+#    environment:
+#      TZ: Europe/Berlin
+#      KEYCLOAK_USER: keycloak
+#      KEYCLOAK_PASSWORD: keycloak1!
+#    ports:
+#      - "9001:8443"
+#      - "9000:8080"
+
+#  Create a service named db.
+#  postgres:
+#   Use the Docker Image postgres. This will pull the newest release.
+#    image: "postgres"
+#   Give the container the name my_postgres. You can changes to something else.
+#    container_name: "postgres"
+#   Setup the username, password, and database name. You can changes these values.
+#    environment:
+#      - POSTGRES_USER=keycloak
+#      - POSTGRES_PASSWORD=password
+#      - POSTGRES_DB=keycloak
+#   Maps port 54320 (localhost) to port 5432 on the container. You can change the ports to fix your needs.
+#    ports:
+#      - "54320:5432"
+#   Set a volume some that database is not lost after shutting down the container.
+#   I used the name postgres-data but you can changed it to something else.
+#    volumes:

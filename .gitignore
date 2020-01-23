@@ -24,4 +24,4 @@ application-dev.properties
 /local-test/
 /.idea/
 *.iml
-
+/angular-starter/

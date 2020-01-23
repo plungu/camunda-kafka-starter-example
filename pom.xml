@@ -3,8 +3,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+<!--
+   <parent>
+    <groupId>org.camunda.bpm.extension</groupId>
+    <artifactId>camunda-bpm-identity-keycloak-root</artifactId>
+    <version>1.2.0-SNAPSHOT</version>
+  </parent>
+ -->
   <groupId>com.camunda.react.starter</groupId>
-  <artifactId>camunda-react-starter-app</artifactId>
+  <artifactId>camunda-ui-starter</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <name>Camunda React Starter App</name>
@@ -30,7 +37,11 @@
 
     <postgresql.version>9.4.1211</postgresql.version>
     
-    <spring-cloud.version>Fishtown.RC1</spring-cloud.version>    
+    <spring-cloud.version>Fishtown.RC1</spring-cloud.version>
+    <!-- <spring-cloud.version>Finchley.SR2</spring-cloud.version> -->
+    
+    <version.springSecurityOauth2>2.1.6.RELEASE</version.springSecurityOauth2>
+    
   </properties>
 
   <dependencyManagement>
@@ -158,7 +169,7 @@
 	  <artifactId>camunda-template-engines-freemarker</artifactId>
 	</dependency>
 	
-	<!-- messaging -->
+	<!-- messaging integration -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-amqp</artifactId>
@@ -171,6 +182,13 @@
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-stream-test-support</artifactId>
+      <scope>test</scope>
+    </dependency>
+	
+	<!-- CSV Processing -->
 	<dependency>
 	    <groupId>com.opencsv</groupId>
 	    <artifactId>opencsv</artifactId>
@@ -189,9 +207,19 @@
 <!-- 
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-devtools</artifactId>
+		<artifactId>spring-boot-starter-security</artifactId>
+	</dependency>
+	<dependency>
+		<groupId>org.springframework.security.oauth.boot</groupId>
+		<artifactId>spring-security-oauth2-autoconfigure</artifactId>
+		<version>${version.springSecurityOauth2}</version>
 	</dependency>
  -->
+	<!-- Dev tools is disabled due to bug in variable serialization -->
+<!--	<dependency>-->
+<!--		<groupId>org.springframework.boot</groupId>-->
+<!--		<artifactId>spring-boot-devtools</artifactId>-->
+<!--	</dependency>-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
@@ -218,6 +246,30 @@
 		<artifactId>simple-java-mail</artifactId>
 		<version>4.4.5</version>
 	</dependency>
+
+	<!-- Keycloak plugin for SSO and Authentication -->
+	<!-- Keycloak Identity Prover Plugin  -->
+	<!-- https://mvnrepository.com/artifact/org.camunda.bpm.extension/camunda-bpm-identity-keycloak -->
+	<dependency>
+	    <groupId>org.camunda.bpm.extension</groupId>
+	    <artifactId>camunda-bpm-identity-keycloak</artifactId>
+	    <version>1.2.0</version>
+	</dependency>
+
+      <!-- Groovy as JSR-223 scripting engine -->
+      <dependency>
+          <groupId>org.codehaus.groovy</groupId>
+          <artifactId>groovy-all</artifactId>
+          <version>2.4.5</version>
+          <scope>provided</scope>
+      </dependency>
+
+      <!-- added for transactional mail integration via SendGrid -->
+      <dependency>
+          <groupId>com.sendgrid</groupId>
+          <artifactId>sendgrid-java</artifactId>
+          <version>4.4.1</version>
+      </dependency>
 
   </dependencies>
 

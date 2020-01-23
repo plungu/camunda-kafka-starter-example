@@ -1,4 +1,4 @@
-# Camunda React Starter App
+# Camunda UI Starter
 The purpose of this application is to have a custom UI application that can exemplify some complexity interacting with Camunda for consulting to use as a starter project.
 
 
@@ -188,7 +188,7 @@ heroku run echo \$JDBC_DATABASE_URL
 **You will see several tasks that look like the following. These tasks configure the message that will be sent in the process using Freemarker templates.**
 
 ```xml
- <sendTask id="sendTenantMessage" name="Send Tenant Message" camunda:asyncBefore="true" camunda:class="com.camunda.react.starter.bpm.SendMail">
+ <sendTask id="sendTenantMessage" name="Send Tenant Message" camunda:asyncBefore="true" camunda:class="com.camunda.poc.starter.bpm.SendMailDelegate">
       <documentation>Sends the message input by the property manager in the Confirm Renewal State task.</documentation>
       <extensionElements>
         <camunda:inputOutput>

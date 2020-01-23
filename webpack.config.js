@@ -63,7 +63,7 @@ module.exports = {
             ImportCannedMessageMain: 'src/main/js/components/ImportCannedMessageMain.jsx',
             uriListConverter: 'src/main/js/api/uriListConverter.js',
             uriTemplateInterceptor: 'src/main/js/api/uriTemplateInterceptor.js',
-            applicaitonStyles: 'src/main/resources/static/main.css'
+            applicaitonStyles: 'src/main/resources/static/app.css'
         },
         extensions: ['', '.js', '.jsx']
     },
