@@ -1,7 +1,7 @@
 // tag::vars[]
 const React = require('react');
 const ReactDOM = require('react-dom')
-const IFrame = require('IFrame');
+const IFrame = require('src/main/js/reactjs/renewals/components/IFrame.jsx');
 
 // end::vars[]
 

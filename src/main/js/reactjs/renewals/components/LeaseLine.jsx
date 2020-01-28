@@ -4,8 +4,8 @@ var {Link, IndexLink} = require('react-router');
 
 // tag::vars[]
 const React = require('react');
-const DisplayDate = require('DisplayDate');
-const UpdateNoteDialog = require('UpdateNoteDialog');
+const DisplayDate = require('src/main/js/reactjs/renewals/components/DisplayDate.jsx');
+const UpdateNoteDialog = require('src/main/js/reactjs/renewals/components/UpdateNoteDialog.jsx');
 
 // tag::lease[]
 class LeaseLine extends React.Component{

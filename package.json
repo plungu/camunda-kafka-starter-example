@@ -1,7 +1,7 @@
 {
-  "name": "camunda-react-stater",
+  "name": "camunda-poc-stater",
   "version": "0.1.0",
-  "description": "Camunda React Starter Project",
+  "description": "Camunda PoC Starter Project",
   "repository": {
     "type": "git",
     "url": ""

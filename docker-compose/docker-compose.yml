@@ -2,14 +2,27 @@ version: "3.3"
 
 services:
 
-  rabbitmq-mgmt:
-    image: rabbitmq:3-management
-    hostname: rabbitmq-mgmt
-    ports:
-      - "9500:15672"
-      - "5672:5672"
-      - "4369:4369"
-      - "5671:5671"
+#  camunda-poc-starter-node-1:
+#    build:
+#      context: ../
+#      args:
+#        PORT_PARAM: 9090
+#    links:
+#      - db
+#    ports:
+#      - "9090:9090"
+#    environment:
+#      DATABASE_URL: jdbc:postgresql://db:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8
+#      RABBITMQ_HOST: rabbitmq-mgmt
+
+#  rabbitmq-mgmt:
+#    image: rabbitmq:3-management
+#    hostname: rabbitmq-mgmt
+#    ports:
+#      - "9500:15672"
+#      - "5672:5672"
+#      - "4369:4369"
+#      - "5671:5671"
 
 ########################################
 # Be sure to add the config to application.yml

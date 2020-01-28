@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.bpm;
+package com.camunda.poc.starter.usecase.renewal.bpm;
 
 import java.util.logging.Logger;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
@@ -7,6 +7,7 @@ import org.simplejavamail.email.Email;
 import org.simplejavamail.mailer.Mailer;
 import org.simplejavamail.mailer.config.TransportStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import com.camunda.poc.starter.usecase.renewal.AppConfigProperties;
@@ -22,7 +23,12 @@ import com.camunda.poc.starter.usecase.renewal.AppConfigProperties;
 public class SendMailDelegate implements JavaDelegate{
 	public static Logger log = Logger.getLogger(Class.class.getName());
 
-	@Autowired AppConfigProperties config;
+	AppConfigProperties config;
+
+	@Autowired
+	public SendMailDelegate(AppConfigProperties config){
+		this.config = config;
+	}
 
 	public void execute(DelegateExecution execution) throws Exception {
 						

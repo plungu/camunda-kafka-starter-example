@@ -3,9 +3,9 @@
 // tag::vars[]
 const React = require('react');
 
-const LeaseLine = require('LeaseLine');
+const LeaseLine = require('src/main/js/reactjs/renewals/components/LeaseLine.jsx');
 
-const FilterBar = require('FilterBar');
+const FilterBar = require('src/main/js/reactjs/renewals/components/FilterBar.jsx');
 
 // tag::lease-list[]
 class LeaseList extends React.Component{

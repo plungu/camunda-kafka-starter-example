@@ -1,6 +1,6 @@
 const React = require('react');
-const DisplayDate = require('DisplayDate');
-const UpdateNoteDialog = require('UpdateNoteDialog');
+const DisplayDate = require('src/main/js/reactjs/renewals/components/DisplayDate.jsx');
+const UpdateNoteDialog = require('src/main/js/reactjs/renewals/components/UpdateNoteDialog.jsx');
 
 class LeaseInfo extends React.Component{
   constructor(props) {

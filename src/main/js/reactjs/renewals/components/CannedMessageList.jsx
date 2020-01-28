@@ -3,9 +3,9 @@
 // tag::vars[]
 const React = require('react');
 
-const CannedMessage = require('CannedMessageLine');
+const CannedMessage = require('src/main/js/reactjs/renewals/components/CannedMessageLine.jsx');
 
-const FilterBar = require('TenantFilterBar');
+const FilterBar = require('src/main/js/reactjs/renewals/components/TenantFilterBar.jsx');
 
 // tag::CannedMessage-list[]
 class CannedMessageList extends React.Component{

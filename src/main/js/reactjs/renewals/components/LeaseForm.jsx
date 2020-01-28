@@ -1,7 +1,7 @@
 var React = require('react');
-const client = require('./client');
-const DisplayDate = require('DisplayDate');
-const follow = require('./follow'); // function to hop multiple links by "rel"
+const client = require('./client.jsx');
+const DisplayDate = require('src/main/js/reactjs/renewals/components/DisplayDate.jsx');
+const follow = require('./follow.jsx'); // function to hop multiple links by "rel"
 
 class LeaseForm extends React.Component {
         

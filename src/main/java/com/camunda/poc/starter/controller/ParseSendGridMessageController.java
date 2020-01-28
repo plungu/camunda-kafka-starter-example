@@ -22,7 +22,6 @@ import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.MessageRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 
-@Profile("java")
 @RestController
 public class ParseSendGridMessageController {
 	public static Logger log = Logger.getLogger(ParseSendGridMessageController.class.getName());

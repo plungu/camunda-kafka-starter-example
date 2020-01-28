@@ -1,8 +1,8 @@
 const React = require('react');
 
-const ImportLeaseMain = require('ImportLeaseMain');
-const ImportTenantMain = require('ImportTenantMain');
-const ImportCannedMessageMain = require('ImportCannedMessageMain');
+const ImportLeaseMain = require('src/main/js/reactjs/renewals/components/ImportLeaseMain.jsx');
+const ImportTenantMain = require('src/main/js/reactjs/renewals/components/ImportTenantMain.jsx');
+const ImportCannedMessageMain = require('src/main/js/reactjs/renewals/components/ImportCannedMessageMain.jsx');
 
 class Import extends React.Component{
 

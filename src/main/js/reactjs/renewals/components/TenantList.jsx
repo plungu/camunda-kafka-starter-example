@@ -3,9 +3,9 @@
 // tag::vars[]
 const React = require('react');
 
-const Tenant = require('TenantLine');
+const Tenant = require('src/main/js/reactjs/renewals/components/TenantLine.jsx');
 
-const FilterBar = require('TenantFilterBar');
+const FilterBar = require('src/main/js/reactjs/renewals/components/TenantFilterBar.jsx');
 
 // tag::Tenant-list[]
 class TenantList extends React.Component{

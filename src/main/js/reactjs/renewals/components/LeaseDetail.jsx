@@ -1,15 +1,15 @@
 // tag::vars[]
 const React = require('react');
 const ReactDOM = require('react-dom')
-const client = require('./client');
-const follow = require('./follow'); // function to hop multiple links by "rel"
+const client = require('./client.jsx');
+const follow = require('./follow.jsx'); // function to hop multiple links by "rel"
 
-const MessageList = require('MessageList');
-const MessageDetail = require('MessageDetail');
-const LeaseForm = require('LeaseForm');
-const Tenant = require('Tenant');
-const LeaseInfo = require('LeaseInfo');
-const LeaseLine = require('LeaseLine');
+const MessageList = require('src/main/js/reactjs/renewals/components/MessageList.jsx');
+const MessageDetail = require('src/main/js/reactjs/renewals/components/MessageDetail.jsx');
+const LeaseForm = require('src/main/js/reactjs/renewals/components/LeaseForm.jsx');
+const Tenant = require('src/main/js/reactjs/renewals/components/Tenant.jsx');
+const LeaseInfo = require('src/main/js/reactjs/renewals/components/LeaseInfo.jsx');
+const LeaseLine = require('src/main/js/reactjs/renewals/components/LeaseLine.jsx');
 
 // end::vars[]
 

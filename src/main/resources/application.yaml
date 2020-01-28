@@ -12,10 +12,10 @@ spring.datasource:
 spring.h2.console.enabled: true
 
 #Specify active profiles
-spring.profiles.active: none
+#spring.profiles.active: renewals,dev
 
 #disable spring auto-configure
-spring.autoconfigure.exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+#spring.autoconfigure.exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 camunda.bpm:
 #  job-execution:

@@ -11,7 +11,7 @@
   </parent>
  -->
   <groupId>com.camunda.react.starter</groupId>
-  <artifactId>camunda-ui-starter</artifactId>
+  <artifactId>camunda-poc-starter</artifactId>
   <version>0.0.1-SNAPSHOT</version>
 
   <name>Camunda React Starter App</name>

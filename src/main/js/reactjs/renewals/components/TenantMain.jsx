@@ -3,11 +3,11 @@
 // tag::vars[]
 const React = require('react');
 const ReactDOM = require('react-dom');
-const client = require('./client');
-const follow = require('./follow'); // function to hop multiple links by "rel"
+const client = require('./client.jsx');
+const follow = require('./follow.jsx'); // function to hop multiple links by "rel"
 
-const TenantList = require('TenantList');
-const TenantDetail = require('TenantDetail');
+const TenantList = require('src/main/js/reactjs/renewals/components/TenantList.jsx');
+const TenantDetail = require('src/main/js/reactjs/renewals/components/TenantDetail.jsx');
 
 const root = '/api';
 // end::vars[]

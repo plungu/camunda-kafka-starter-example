@@ -1,6 +1,6 @@
 const React = require('react');
 
-const ImportTenantForm = require('ImportTenantForm');
+const ImportTenantForm = require('src/main/js/reactjs/renewals/components/ImportTenantForm.jsx');
 
 class ImportTenantMain extends React.Component{
 
