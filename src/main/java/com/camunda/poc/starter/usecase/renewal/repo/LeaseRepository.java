@@ -35,5 +35,5 @@ public interface LeaseRepository extends PagingAndSortingRepository<Lease, Long>
 			@Param("renewalCompleted") Boolean renewalCompleted,
 			@Param("workflowState") String workflowState);	
 
-	public Lease findLeaseByProcessId(@Param("processId") Long processId);
+	public Lease findLeaseByBusinessKey(@Param("businessKey") String businessKey);
 }

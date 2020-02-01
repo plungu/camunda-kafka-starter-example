@@ -88,7 +88,7 @@ public class RenewalCleanupServiceTest extends LeaseRenewalTestBase {
     	
         Lease lease = new Lease(Calendar.getInstance().getTime(), RenewalUtil.getKickOffDate(100), property);
         lease.setRenewalStarted(true);
-        lease.setProcessId(processInstance.getId());
+        lease.setBusinessKey(processInstance.getId());
         leaseRepository.save(lease);
 
         Tenant tenant = new Tenant("Paul Lungu", "lungu77@gmail.com", property, lease);

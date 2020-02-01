@@ -48,7 +48,7 @@ public class SendMailDelegate implements JavaDelegate{
 				   config.getMailServerPassword(), 
 				   strategy)
 		.sendMail(email);
-		
+
 		execution.setVariable("resultStatus", "Mail Sent!");
 	}
 	

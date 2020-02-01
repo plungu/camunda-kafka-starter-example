@@ -18,7 +18,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -43,24 +42,10 @@ public class RenewalSchedulerImpl {
             @Override
             @Scheduled(cron = "${app.cron.renewal-start}")
             public void run() {
-                log.fine("[X] Running Lease renewal");
-                //kicks off worklfow when the end date is 100 from current date
-                Date leaseRenewalkickoffDate = RenewalUtil.getKickOffDate(config.getCron().getRenewalKickoffBufferDays());
-                log.fine("[X] Start date from today: "+leaseRenewalkickoffDate);
-
-                List<Lease> leases = leaseRepository.findByEndDate(leaseRenewalkickoffDate);
-                if (!leases.isEmpty()){
-                    for(Lease lease : leases){
-                        try {
-                            RenewalUtil.startLeaseRenewal(lease, leaseRepository, runtimeService, taskService, config);
-                        } catch (Exception e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
-                        }
-                    }
-                }else{
-                    log.fine("[X] No leases found ending with kick off date: "+leaseRenewalkickoffDate);
-                }
+                RenewalUtil.startLeaseRenewal(leaseRepository,
+                                                runtimeService,
+                                                    taskService,
+                                                        config);
             }
         };
     }
@@ -77,7 +62,7 @@ public class RenewalSchedulerImpl {
             public void run() {
                 List<Lease> leases = leaseRepository.findStarted();
                 for (Lease lease : leases) {
-                    List<Task> tasks = RenewalUtil.queryTasksById(taskService, lease.getProcessId());
+                    List<Task> tasks = RenewalUtil.queryTasksById(taskService, lease.getBusinessKey());
                     if (tasks != null && !tasks.isEmpty()){
                         Task task = tasks.get(0);
                         log.info("Found Task: "+task.getName());

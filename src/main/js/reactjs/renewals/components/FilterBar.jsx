@@ -1,5 +1,6 @@
 const React = require('react');
 const ReactDOM = require('react-dom');
+
 const {Link, IndexLink} = require('react-router');
 
 class FilterBar extends React.Component{
@@ -7,7 +8,7 @@ class FilterBar extends React.Component{
     constructor(props) {
         super(props);
         this.state = {
-          callUpdate: function (pageSize, that) {that.props.onFilterPriority(pageSize)}
+          callUpdate: function (pageSize, that) {that.props.onFilterAll(pageSize)}
         };
         this.handleNavFirst = this.handleNavFirst.bind(this);
         this.handleNavPrev = this.handleNavPrev.bind(this);
@@ -110,27 +111,15 @@ class FilterBar extends React.Component{
 
     return (
        <div className="top-bar">
-
          <div className="row">
-
-           <div className="small-2 columns">
-             <ul className="menu">
-               <li className="menu-text">{this.props.title}</li>
-             </ul>
-           </div>
-
-
-           <div className="small-5 columns">
+          <div className="small-6 columns">
              <div className="expanded small button-group">
-                  <a className="button secondary hollow">Filters</a>
-                  <a className="button" onClick={this.handleFilterPriority}>Priority</a>
-                  <a className="button secondary" onClick={this.handlefilterState}>State</a>
+                  <a className="button secondary hollow">{this.props.title}</a>
                   <a className="button secondary" onClick={this.handleFilterStarted}>Started</a>
-                  <a className="button secondary" onClick={this.handleFilterAll}>All</a>
+                  <a className="button" onClick={this.handleFilterAll}>All</a>
              </div>
           </div>
-
-            <div className="small-3 columns">
+            <div className="small-5 columns">
               <ul className="menu">
                 <li>
                     <div className="input-group small">
@@ -139,23 +128,17 @@ class FilterBar extends React.Component{
                           defaultValue={this.props.pageSize} onInput={this.handleInput}/>
                     </div>
                 </li>
+                  <li>
+                      <div className="tiny button-group">
+                          {navLinks}
+                      </div>
+                  </li>
               </ul>
-              <div className="tiny button-group">
-                {navLinks}
-              </div>
             </div>
-
-            <div className="small-2 columns">
-             <ul className="menu">
-               <li>&nbsp;</li>
-               <li>
-                <a className="button small float-right" key="last" onClick={this.handleRefresh}>Refresh</a>
-               </li>
-             </ul>
-           </div>
-
+            <div className="small-1 columns">
+              <a className="button small" key="last" onClick={this.handleRefresh}>Refresh</a>
+            </div>
         </div>
-
        </div>
     )
   }

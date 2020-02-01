@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.controller;
+package com.camunda.poc.starter.usecase.renewal.controller;
 
 import javax.mail.internet.InternetAddress;
 
@@ -7,7 +7,6 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,18 +25,18 @@ import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 public class ParseSendGridMessageController {
 	public static Logger log = Logger.getLogger(ParseSendGridMessageController.class.getName());
 
-    @Autowired RuntimeService runtimeService;
+    RuntimeService runtimeService;
+    MessageRepository messageRepository;
+    TenantRepository tenantRepository;
 
-    @Autowired TaskService taskService;
-    
-    @Autowired HistoryService historyService;
-    
-    @Autowired MessageRepository messageRepository;
-    
-    @Autowired LeaseRepository leaseRepository;
-
-    @Autowired TenantRepository tenantRepository;
-
+	@Autowired
+	public ParseSendGridMessageController(RuntimeService runtimeService,
+										  MessageRepository messageRepository,
+										  TenantRepository tenantRepository){
+		this.runtimeService = runtimeService;
+		this.messageRepository = messageRepository;
+		this.tenantRepository = tenantRepository;
+	}
     /**
      * parses the email message from transactional mail provider
      * @param spf

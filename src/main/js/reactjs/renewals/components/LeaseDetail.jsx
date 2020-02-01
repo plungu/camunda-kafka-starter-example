@@ -20,7 +20,7 @@ class LeaseDetail extends React.Component{
         message: null,
         messages: [],
         attributes: [],
-        pageSize: 20,
+        pageSize: 2,
         links: {},
         displayDetail: "none",
         displayList: "block"

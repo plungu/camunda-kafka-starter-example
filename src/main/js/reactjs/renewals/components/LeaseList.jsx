@@ -40,20 +40,20 @@ class LeaseList extends React.Component{
                 <div className="row">
   		            <div className="small-12 columns">
               			<table className="hover stack">
-              				<thead>
-              					<tr>
+						<thead>
+						<tr>
                           <th>Property</th>
-              						<th width="105">End Date</th>
+						  <th width="105">End Date</th>
                           <th width="105">Show Date</th>
-              						<th>Current Rent</th>
-              						<th>1 Year Offer</th>
-              						<th>2 Year Offer</th>
+						  <th>Current Rent</th>
+						  <th>1 Year Offer</th>
+						  <th>2 Year Offer</th>
                           <th>Status</th>
-              						<th>State</th>
-              						<th>Renewing</th>
-              						<th>Note</th>
+						  <th>Process</th>
+						  <th>Renewing</th>
+						  <th>Note</th>
                         </tr>
-              				</thead>
+						</thead>
                       <tbody>
                         {leases}
                       </tbody>

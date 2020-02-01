@@ -53,7 +53,7 @@ public class RenewalCleanupServiceImpl implements RenewalCleanupService {
 	public void clean(){
 		List<Lease> leases = leaseRepository.findStarted();
 		for(Lease lease : leases){
-			boolean complete = RenewalUtil.checkTaskComplete(historyService, lease.getProcessId(), "end");
+			boolean complete = RenewalUtil.checkTaskComplete(historyService, lease.getBusinessKey(), "end");
 			if (complete){
 				lease.setRenewalCompleted(true);
 				lease.setWorkflowState("End");
@@ -62,7 +62,7 @@ public class RenewalCleanupServiceImpl implements RenewalCleanupService {
 		}
 		
 		for(Lease lease : leases){
-			boolean complete = RenewalUtil.checkTaskComplete(historyService, lease.getProcessId(), "end");
+			boolean complete = RenewalUtil.checkTaskComplete(historyService, lease.getBusinessKey(), "end");
 			if (complete){						
 				List<Message> messages = lease.getMessages();
 				for(Message message : messages){

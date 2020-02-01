@@ -64,7 +64,8 @@ public class RenewalCompleteTaskController {
 			   @RequestParam(value = "leaseId", required = false) String leaseId)			   
     {
     	ResponseEntity<HttpStatus> re = new ResponseEntity<HttpStatus>(HttpStatus.OK);
-		List<Task> tasks = RenewalUtil.queryTasksById(taskService, processId);
+
+    	List<Task> tasks = RenewalUtil.queryTasksById(taskService, processId);
     	if (tasks.isEmpty()){
     		//TODO: send message to property manager tenant sent a message but has no tasks.
 	    	log.fine("[X] No tasks found for :"+processId);

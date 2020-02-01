@@ -44,7 +44,7 @@
     <sequenceFlow id="sendTenantMessageToAwaitTenantReply" sourceRef="sendTenantMessage" targetRef="awaitTenantReply" />
     <sequenceFlow id="sendTenantConfirmationToEnd" sourceRef="sendTenantConfirmation" targetRef="end" />
     <endEvent id="end" />
-    <sendTask id="sendTenantMessage" name="Send Tenant Message" camunda:asyncBefore="true" camunda:class="com.camunda.poc.starter.bpm.SendMail">
+    <sendTask id="sendTenantMessage" name="Send Tenant Message" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
       <documentation>Sends the message input by the property manager in the Confirm Renewal State task.</documentation>
       <extensionElements>
         <camunda:inputOutput>
@@ -81,7 +81,7 @@ TheCompany.</camunda:script>
       <incoming>renewalStateDecisionToSendTenantMessage</incoming>
       <outgoing>sendTenantMessageToAwaitTenantReply</outgoing>
     </sendTask>
-    <sendTask id="notifyPropertyManager" name="Notify Property Manager" camunda:asyncBefore="true" camunda:class="com.camunda.poc.starter.bpm.SendMail">
+    <sendTask id="notifyPropertyManager" name="Notify Property Manager" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
       <documentation>Notify Property Manager the tenant has replied.</documentation>
       <extensionElements>
         <camunda:inputOutput>
@@ -129,10 +129,13 @@ TheCompany.</camunda:script>
       <documentation>Property Manager replies to users based on the users last response and sets the &lt;renewal state&gt; variable. If the lease state is set to &lt;confirmed&gt; the workfow goes to the Send Tenant Confirmation task and sends the message from the Property Manager. If the &lt;renewal state&gt; is set to &lt;not confirmed&gt; the workflow will go to Send Tenant Message sending the message input by the property manager. 
 The propery manager at this stage makes the final decision on weather the workflow should contine or not. It's possible a final notice has been and the &lt;grace period&gt; has expired but the property manager can choose to start the grace period over by setting the &lt;renewal state&gt; to not confimerd. 
 May want to include the ability to change the grace period.</documentation>
+      <extensionElements>
+        <camunda:executionListener delegateExpression="${leaseStateListener}" event="start" />
+      </extensionElements>
       <incoming>notifyPropertyManagerToConfrimRenewalState</incoming>
       <outgoing>confirmRenewalStateToRenewalStateDecision</outgoing>
     </userTask>
-    <sendTask id="sendTenantConfirmation" name="Send Tenant Confirmation" camunda:asyncBefore="true" camunda:class="com.camunda.poc.starter.bpm.SendMail">
+    <sendTask id="sendTenantConfirmation" name="Send Tenant Confirmation" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
       <documentation>Sends the confirmation input by property manager in the Confirm Renewal Task.</documentation>
       <extensionElements>
         <camunda:inputOutput>
@@ -173,7 +176,7 @@ May want to include the ability to change the grace period.</documentation>
       <incoming>renewalStateDecisionToSendTenantConfirmation</incoming>
       <outgoing>sendTenantConfirmationToEnd</outgoing>
     </sendTask>
-    <sendTask id="send-final-notice" name="Send Final Notice" camunda:asyncBefore="true" camunda:class="com.camunda.poc.starter.bpm.SendMail">
+    <sendTask id="send-final-notice" name="Send Final Notice" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
       <documentation>Sends final notice to tenant. Once final notice is sent there is a 24 hr &lt;grace period&gt; set. If user does not reply the property manager is notified and the manager can choose to send set the &lt;renewal state&gt; to confirmed or give the tenant another chance and reset the &lt;grace period&gt; and the set  the &lt;renewal state&gt; to not confirmed in the Confirm Renewal State task.</documentation>
       <extensionElements>
         <camunda:inputOutput>
@@ -225,7 +228,7 @@ May want to include the ability to change the grace period.</documentation>
       <incoming>sendFinalNoticeToAwaitTenantReply</incoming>
       <outgoing>tenantReplyToReplyDecision</outgoing>
     </receiveTask>
-    <sendTask id="send-inital-message" name="Send Initial Message" camunda:asyncBefore="true" camunda:class="com.camunda.poc.starter.bpm.SendMail">
+    <sendTask id="send-inital-message" name="Send Initial Message" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
       <documentation>Sends a canned tenant message to initiate the renewal process. This message is sent until there is a reply from tenant.</documentation>
       <extensionElements>
         <camunda:inputOutput>
@@ -298,7 +301,7 @@ May want to include the ability to change the grace period.</documentation>
       <incoming>noticeDecisionToSendInitalTenantMessage</incoming>
       <outgoing>sendInitalTenantMessageToAwaitTenantReply</outgoing>
     </sendTask>
-    <serviceTask id="getRemainingDays" name="Get Remaining Days" camunda:class="com.camunda.poc.starter.bpm.GetRemainingDaysDelegate">
+    <serviceTask id="getRemainingDays" name="Calculate Remaining Days" camunda:delegateExpression="${getRemainingDaysDelegate}">
       <incoming>startToGetDays</incoming>
       <incoming>gracePeriodTimerToGetWorkflowDays</incoming>
       <outgoing>getDaysToNDaysDecision</outgoing>

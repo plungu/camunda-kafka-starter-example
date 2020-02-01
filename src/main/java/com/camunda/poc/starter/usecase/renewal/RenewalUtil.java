@@ -24,8 +24,38 @@ import java.util.logging.Logger;
 public class RenewalUtil {
 	public static Logger log = Logger.getLogger(RenewalUtil.class.getName());
 
+	public static ProcessInstance startLeaseRenewal(LeaseRepository leaseRepository,
+													RuntimeService runtimeService,
+													TaskService taskService,
+													AppConfigProperties config){
+
+		ProcessInstance processInstance = null;
+		log.fine("[X] Running Lease renewal");
+		//kicks off worklfow when the end date is 100 from current date
+		Date leaseRenewalkickoffDate = RenewalUtil.getKickOffDate(config.getCron().getRenewalKickoffBufferDays());
+		log.fine("[X] Start date from today: "+leaseRenewalkickoffDate);
+
+		List<Lease> leases = leaseRepository.findByEndDate(leaseRenewalkickoffDate);
+		if (!leases.isEmpty()){
+			for(Lease lease : leases){
+				try {
+					processInstance = RenewalUtil.startLeaseRenewal(lease, leaseRepository, runtimeService, taskService, config);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}else{
+			log.fine("[X] No leases found ending with kick off date: "+leaseRenewalkickoffDate);
+		}
+		return processInstance;
+	}
+
 	public static ProcessInstance startLeaseRenewal(Lease lease,
-													LeaseRepository leaseRepository, RuntimeService runtimeService, TaskService taskService, AppConfigProperties config) throws Exception{
+													LeaseRepository leaseRepository,
+													RuntimeService runtimeService,
+													TaskService taskService,
+													AppConfigProperties config) throws Exception{
 
 		log.fine("[X] Got Lease : "+lease);
 
@@ -78,14 +108,16 @@ public class RenewalUtil {
 		variables.put("twoYearOffer", moneyFormatter.format(lease.getTwoYearOffer()));
 		variables.put("showDate", dateFormatter.format(lease.getShowDate()));
 
+
+		String businessKey = UUID.randomUUID().toString();
 		ProcessInstance processInstance =
-				runtimeService.startProcessInstanceByKey("lease-renewal", Long.toString(lease.getId()), variables);
+				runtimeService.startProcessInstanceByKey("renewal-process-example", businessKey, variables);
 		if (processInstance.getId() == null)
 			throw new Exception("Processes Id Null! Could Not Start Process for Property"+ lease.getProperty());
 
 		log.info("Starterd Porocess Instance: "+ processInstance.getId());
 
-		lease.setProcessId(processInstance.getId());
+		lease.setBusinessKey(businessKey);
 		lease.setRenewalStarted(true);
 
 		log.info("Tasks Service: " + taskService);

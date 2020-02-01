@@ -14,12 +14,10 @@ class Main extends React.Component{
         return (
            <div>
             <MarketingBar/>
+            <Nav/>
             <div className="row">
-              <div className="small-10 columns">
+              <div className="small-12 columns">
                   {this.props.children}
-              </div>
-              <div className="small-2 columns">
-                <Nav/>
               </div>
             </div>
             <FooterBar/>

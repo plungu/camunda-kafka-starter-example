@@ -22,11 +22,11 @@ public class GetRemainingDaysDelegate implements JavaDelegate {
 	public void execute(DelegateExecution execution) {
 		
 		Date leaseExpirationDate = (Date)execution.getVariable("leaseExpirationDate");
-		log.fine("The lease expiration date is: "
+		log.info("The lease expiration date is: "
 				+ leaseExpirationDate);
 		
 		int leaseExpirationBufferDays = (Integer)execution.getVariable("leaseExpirationBufferDays");
-		log.fine("The buffer number of days for renewal deadline: "
+		log.info("The buffer number of days for renewal deadline: "
 				+ leaseExpirationBufferDays);
 		
 		//Getting the Renewal Dead line days. 
@@ -34,16 +34,18 @@ public class GetRemainingDaysDelegate implements JavaDelegate {
 		// until final notice is sent so property manger can list property.
 		LocalDate expDate = leaseExpirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate renewalDeadlineDate = expDate.minusDays(leaseExpirationBufferDays);
-		log.fine("The renewal deadline date: "
+		log.info("The renewal deadline date: "
 				+ renewalDeadlineDate);
 
 		int remainingDays = (int)ChronoUnit.DAYS.between(LocalDate.now(), renewalDeadlineDate);
 		execution.setVariable("remainingDays", remainingDays);
-		log.fine("Getting Rmaining Days: "
+		log.info("Getting Rmaining Days: "
 				+ remainingDays);
 
 		List<GracePeriodSetting> settings = (List<GracePeriodSetting>)execution.getVariable("gracePeriodSettings");
-		
+		log.info("Grace Period Settings: "
+				+ settings.get(0).toString());
+
 		//set the default grace period  
 		//then make the grace period shorter based on the days remaining on the renewal
 		execution.setVariable("gracePeriod", settings.get(0).getCron());		

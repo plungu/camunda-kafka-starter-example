@@ -7,6 +7,11 @@ import java.util.Optional;
 //import java.util.Map;
 //
 //import org.camunda.bpm.engine.task.Task;
+import com.camunda.poc.starter.usecase.renewal.AppConfigProperties;
+import com.camunda.poc.starter.usecase.renewal.RenewalUtil;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 //import org.springframework.data.rest.webmvc.RepositoryRestController;
 //import org.springframework.data.web.PagedResourcesAssembler;
@@ -26,9 +31,39 @@ import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
 @RestController
 public class RenewalActionsController {
 
-	@Autowired LeaseRepository leaseRepository;
-	
-    @RequestMapping(value="/updateNote", method=RequestMethod.POST, consumes = {"multipart/form-data"})
+	LeaseRepository leaseRepository;
+	RuntimeService runtimeService;
+	TaskService taskService;
+	AppConfigProperties config;
+
+	@Autowired
+	public RenewalActionsController(LeaseRepository leaseRepository,
+									RuntimeService runtimeService,
+									TaskService taskService,
+									AppConfigProperties config){
+
+		this.leaseRepository = leaseRepository;
+		this.runtimeService = runtimeService;
+		this.taskService = taskService;
+		this.config = config;
+	}
+
+	@RequestMapping(value="/renewal/start", method=RequestMethod.GET)
+	public ResponseEntity<HttpStatus> start()
+	{
+		ResponseEntity<HttpStatus> re = new ResponseEntity<HttpStatus>(HttpStatus.OK);
+
+		ProcessInstance processInstance = RenewalUtil.startLeaseRenewal(leaseRepository,
+										runtimeService,
+										taskService,
+				    					config);
+		if(processInstance==null)
+			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+
+		return re;
+	}
+
+	@RequestMapping(value="/updateNote", method=RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<HttpStatus> updateNote(     								   
     		@RequestParam(value = "leaseId") String leaseId,
     		@RequestParam(value = "note") String note)

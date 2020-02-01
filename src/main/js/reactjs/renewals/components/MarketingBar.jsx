@@ -6,17 +6,15 @@ var MarketingBar = React.createClass({
     return (
       <div className="row">
         <div className="large-12 columns">
-          <div className="">
            <nav className="top-bar show-for-medium">
               <div className="top-bar-left">
                 <ul className="menu">
                   <li className="topbar-title">
-                    SomeCo
+                    Camunda PoC
                   </li>
                 </ul>
               </div>
            </nav>
-         </div>
        </div>
      </div>
     );

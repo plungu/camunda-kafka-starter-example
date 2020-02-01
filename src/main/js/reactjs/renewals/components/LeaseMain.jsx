@@ -21,14 +21,14 @@ class LeaseMain extends React.Component {
           lease: null,
           leases: [],
           attributes: [],
-          pageSize: 20,
+          pageSize: 2,
           links: {},
           displayDetail: "none",
           displayList: "block",
           displayInfo: "none",
           displayLine: "block",
           toggleDetailInfo: "off",
-          callUpdate: function (pageSize, that) {that.loadPriorityFromServer(pageSize)}
+          callUpdate: function (pageSize, that) {that.loadAllFromServer(pageSize)}
         };
         this.updatePageSize = this.updatePageSize.bind(this);
         this.onNavigate = this.onNavigate.bind(this);
@@ -54,7 +54,7 @@ class LeaseMain extends React.Component {
 
     // tag::follow-1[]
     componentDidMount() {
-        this.loadPriorityFromServer(this.state.pageSize);
+        this.loadAllFromServer(this.state.pageSize);
         this.loadCannedMessageFromServer(); 
     }
     // end::follow-1[]
@@ -357,7 +357,7 @@ class LeaseMain extends React.Component {
                <div className="top-bar-right">
                  <ul className="menu">
                    <li className="topbar-title">
-                     <a className="button tiny" onClick={this.handleToggleClick}>&lt;&gt;</a>
+                     <a className="button small" onClick={this.handleToggleClick}>&lt;Details&gt;</a>
                    </li>                   
                    <li className="topbar-title">
                      <a className="button" onClick={this.handleBackClick}>&lt;&lt;&lt;Back</a>

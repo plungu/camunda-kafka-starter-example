@@ -128,10 +128,12 @@ class TenantFilterBar extends React.Component{
                           defaultValue={this.props.pageSize} onInput={this.handleInput}/>
                     </div>
                 </li>
+                <li>
+                    <div className="tiny button-group">
+                        {navLinks}
+                    </div>
+                </li>
               </ul>
-              <div className="tiny button-group">
-                {navLinks}
-              </div>
             </div>
 
         </div>

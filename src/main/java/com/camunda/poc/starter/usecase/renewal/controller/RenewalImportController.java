@@ -1,6 +1,5 @@
 package com.camunda.poc.starter.usecase.renewal.controller;
 
-import com.camunda.poc.starter.controller.ParseSendGridMessageController;
 import com.camunda.poc.starter.usecase.renewal.AppConfigProperties;
 import com.camunda.poc.starter.usecase.renewal.RenewalUtil;
 import com.camunda.poc.starter.usecase.renewal.csv.Lease;
@@ -52,7 +51,7 @@ public class RenewalImportController {
 		this.config = config;
 	}
 
-    @RequestMapping(value="/renewals/start", method= RequestMethod.GET)
+    @RequestMapping(value="/renewals/load", method= RequestMethod.GET)
     public ResponseEntity<HttpStatus> autoImport()
     {
     	

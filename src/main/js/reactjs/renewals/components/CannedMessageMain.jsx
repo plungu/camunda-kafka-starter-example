@@ -21,7 +21,7 @@ class CannedMessageMain extends React.Component {
           cannedMessage: null,
           cannedMessages: [],
           attributes: [],
-          pageSize: 20,
+          pageSize: 2,
           links: {},
           displayDetail: "none",
           displayList: "block"

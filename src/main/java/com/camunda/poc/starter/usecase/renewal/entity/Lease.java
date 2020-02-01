@@ -91,6 +91,7 @@ public class Lease implements Serializable{
 //		this.cannedMessages = cannedMessages;
 //	}
 
+
 	@Column(nullable=false, name="lease_start_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date start;
@@ -128,7 +129,7 @@ public class Lease implements Serializable{
     private String workflowState;
 
     @Column(nullable=true)
-    private String processId;
+    private String businessKey;
 
 	@Column(nullable=true, columnDefinition = "text")
     private String note;
@@ -165,11 +166,11 @@ public class Lease implements Serializable{
 	public void setRenewalCompleted(Boolean renewalCompleted) {
 		this.renewalCompleted = renewalCompleted;
 	}
-	public String getProcessId() {
-		return processId;
+	public String getBusinessKey() {
+		return businessKey;
 	}
-	public void setProcessId(String processId) {
-		this.processId = processId;
+	public void setBusinessKey(String processId) {
+		this.businessKey = processId;
 	}
 	public Date getCreated() {
 		return created;
