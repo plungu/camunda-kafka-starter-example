@@ -28,8 +28,8 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 //TODO: Decide if lombok Data should be used
 //import lombok.Data;
 
-@Entity(name="lease")
-public class Lease implements Serializable{
+@Entity(name="renewal")
+public class Renewal implements Serializable{
 
 	/**
 	 *
@@ -38,8 +38,8 @@ public class Lease implements Serializable{
 
 	private @Version @JsonIgnore Long version;
 
-	public Lease(){};
-	public Lease(Date start, Date end, String property){
+	public Renewal(){};
+	public Renewal(Date start, Date end, String property){
 		this.start = start;
 		this.end = end;
 		this.property = property;
@@ -62,7 +62,7 @@ public class Lease implements Serializable{
 		this.property = property;
 	}
 
-	@OneToMany(cascade=CascadeType.ALL, mappedBy="lease")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="renewal")
 	@LazyCollection(LazyCollectionOption.FALSE)
     @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 	private List<Tenant> tenants;
@@ -71,7 +71,7 @@ public class Lease implements Serializable{
     	this.tenants = tenants;
     }
 
-    @OneToMany(cascade=CascadeType.ALL, mappedBy="lease")
+    @OneToMany(cascade=CascadeType.ALL, mappedBy="renewal")
 	@LazyCollection(LazyCollectionOption.FALSE)
     @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
     @OrderBy("created DESC")
@@ -92,15 +92,15 @@ public class Lease implements Serializable{
 //	}
 
 
-	@Column(nullable=false, name="lease_start_date")
+	@Column(nullable=false, name="renewal_start_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date start;
 
-    @Column(nullable=false, name="lease_end_date")
+    @Column(nullable=false, name="renewal_end_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date end;
 
-    @Column(nullable=true, name="lease_show_date")
+    @Column(nullable=true, name="renewal_show_date")
 		@Temporal(TemporalType.TIMESTAMP)
     private Date showDate;
 

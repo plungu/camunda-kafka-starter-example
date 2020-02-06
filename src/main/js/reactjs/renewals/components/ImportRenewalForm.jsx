@@ -1,7 +1,7 @@
 var React = require('react');
 const client = require('./client.jsx');
 
-var ImportLeaseForm = React.createClass({
+var ImportRenewalForm = React.createClass({
     
   handleSubmit(e){
     e.preventDefault();
@@ -14,11 +14,11 @@ var ImportLeaseForm = React.createClass({
   onCreate(message) {
     client({
             method: 'POST',
-            path: "/importlease",
+            path: "/importrenewal",
             entity: message,
             headers: {'Content-Type': 'multipart/form-data'}
     }).done(response => {
-        alert("Leases Uploaded Successfully");
+        alert("Renewals Uploaded Successfully");
     },
     response => {
        if (response.error){
@@ -51,4 +51,4 @@ var ImportLeaseForm = React.createClass({
   }
 })
 
-module.exports = ImportLeaseForm;
+module.exports = ImportRenewalForm;

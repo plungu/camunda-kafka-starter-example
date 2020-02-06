@@ -2,11 +2,11 @@ package com.camunda.poc.starter.usecase.renewal.controller;
 
 import com.camunda.poc.starter.usecase.renewal.AppConfigProperties;
 import com.camunda.poc.starter.usecase.renewal.RenewalUtil;
-import com.camunda.poc.starter.usecase.renewal.csv.Lease;
+import com.camunda.poc.starter.usecase.renewal.csv.Renewal;
 import com.camunda.poc.starter.usecase.renewal.csv.Tenant;
 import com.camunda.poc.starter.usecase.renewal.entity.CannedMessage;
 import com.camunda.poc.starter.usecase.renewal.repo.CannedMessageRepository;
-import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
+import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 import com.opencsv.CSVReader;
 import com.opencsv.bean.CsvToBean;
@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 public class RenewalImportController {
 	public static Logger log = Logger.getLogger(ParseSendGridMessageController.class.getName());
 
-	LeaseRepository leaseRepository;
+	RenewalRepository leaseRepository;
 
     TenantRepository tenantRepository;
 
@@ -41,7 +41,7 @@ public class RenewalImportController {
     AppConfigProperties config;
 
 	@Autowired
-	public RenewalImportController(LeaseRepository leaseRepository,
+	public RenewalImportController(RenewalRepository leaseRepository,
 								   TenantRepository tenantRepository,
 								   CannedMessageRepository cannedMessageRepository,
 								   AppConfigProperties config) {
@@ -58,7 +58,7 @@ public class RenewalImportController {
         CSVReader reader = null;
     	ResponseEntity<HttpStatus> tenantStatus = importTenants(reader);
     	if(tenantStatus.getStatusCode().equals(HttpStatus.OK)) {
-    		return importLeases(reader);
+    		return importRenewals(reader);
     	} else {
     		return tenantStatus;
     	}
@@ -101,32 +101,32 @@ public class RenewalImportController {
     }
     
     
-    private ResponseEntity<HttpStatus> importLeases(CSVReader reader) {
-        List<Lease> beanListLease = null;
+    private ResponseEntity<HttpStatus> importRenewals(CSVReader reader) {
+        List<Renewal> beanListRenewal = null;
 		try {
 			reader = new CSVReader(new InputStreamReader(new FileInputStream(new File("test-data/leases.csv"))));
-	        HeaderColumnNameMappingStrategy<Lease> strategy = new HeaderColumnNameMappingStrategy<Lease>();
-	        strategy.setType(Lease.class);
-	        CsvToBean<Lease> csvToBean = new CsvToBean<Lease>();
-	        beanListLease = csvToBean.parse(strategy, reader);
+	        HeaderColumnNameMappingStrategy<Renewal> strategy = new HeaderColumnNameMappingStrategy<Renewal>();
+	        strategy.setType(Renewal.class);
+	        CsvToBean<Renewal> csvToBean = new CsvToBean<Renewal>();
+	        beanListRenewal = csvToBean.parse(strategy, reader);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-		if (beanListLease == null){
+		if (beanListRenewal == null){
 			return new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 		}else{
 			try {
-				for (Lease bean : beanListLease){				    
+				for (Renewal bean : beanListRenewal){
 					//Days left until final notice is sent so property has time to be listed
-					int leaseExpirationBufferDays = config.getRenewalSetting().getLeaseExpirationBufferDays();
-					log.fine("Number of days to Lease Renewal Deadline is set to: "+leaseExpirationBufferDays);
-					Date showDate = RenewalUtil.getLeaseShowDate(bean.getEnd(), leaseExpirationBufferDays);
-					log.fine("Lease Renewal Deadline (show date) is set to: "+showDate);
+					int leaseExpirationBufferDays = config.getRenewalSetting().getRenewalExpirationBufferDays();
+					log.fine("Number of days to Renewal Renewal Deadline is set to: "+leaseExpirationBufferDays);
+					Date showDate = RenewalUtil.getRenewalShowDate(bean.getEnd(), leaseExpirationBufferDays);
+					log.fine("Renewal Renewal Deadline (show date) is set to: "+showDate);
 					
-					com.camunda.poc.starter.usecase.renewal.entity.Lease lease = new com.camunda.poc.starter.usecase.renewal.entity.Lease(bean.getStart(), bean.getEnd(), bean.getPropertySlug());
+					com.camunda.poc.starter.usecase.renewal.entity.Renewal lease = new com.camunda.poc.starter.usecase.renewal.entity.Renewal(bean.getStart(), bean.getEnd(), bean.getPropertySlug());
 					lease.setCurrentRent(bean.getCurrentRent());
 					lease.setOneYearOffer(bean.getOneYearOffer());
 					lease.setTwoYearOffer(bean.getTwoYearOffer());
@@ -135,9 +135,9 @@ public class RenewalImportController {
 					lease.setRenewalStarted(false);
 					List<com.camunda.poc.starter.usecase.renewal.entity.Tenant> tenants = tenantRepository.findTenantsByUnitSlug(lease.getProperty());
 					lease.setTenants(tenants);
-					com.camunda.poc.starter.usecase.renewal.entity.Lease newlease = leaseRepository.save(lease);
+					com.camunda.poc.starter.usecase.renewal.entity.Renewal newlease = leaseRepository.save(lease);
 					tenants.forEach(tenant -> {
-						tenant.setLease(newlease);
+						tenant.setRenewal(newlease);
 						tenantRepository.save(tenant);
 					});
 					
@@ -158,18 +158,18 @@ public class RenewalImportController {
      * @return
      */
     @RequestMapping(value="/importlease", method= RequestMethod.POST, consumes = {"multipart/form-data"})
-    public ResponseEntity<HttpStatus> importLease(
+    public ResponseEntity<HttpStatus> importRenewal(
     		 @RequestParam(value = "file") MultipartFile file)
     {
     	ResponseEntity<HttpStatus> re = new ResponseEntity<HttpStatus>(HttpStatus.OK);
     	
         CSVReader reader = null;
-        List<Lease> beanList = null; 
+        List<Renewal> beanList = null;
 		try {
 			reader = new CSVReader(new InputStreamReader(file.getInputStream()));
-	        HeaderColumnNameMappingStrategy<Lease> strategy = new HeaderColumnNameMappingStrategy<Lease>();
-	        strategy.setType(Lease.class);
-	        CsvToBean<Lease> csvToBean = new CsvToBean<Lease>();
+	        HeaderColumnNameMappingStrategy<Renewal> strategy = new HeaderColumnNameMappingStrategy<Renewal>();
+	        strategy.setType(Renewal.class);
+	        CsvToBean<Renewal> csvToBean = new CsvToBean<Renewal>();
 	        beanList = csvToBean.parse(strategy, reader);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -181,14 +181,14 @@ public class RenewalImportController {
 			re = new ResponseEntity<HttpStatus>(HttpStatus.NO_CONTENT);
 		}else{
 			try {
-				for (Lease bean : beanList){				    
+				for (Renewal bean : beanList){
 					//Days left until final notice is sent so property has time to be listed
-					int leaseExpirationBufferDays = config.getRenewalSetting().getLeaseExpirationBufferDays();
-					log.fine("Number of days to Lease Renewal Deadline is set to: "+leaseExpirationBufferDays);
-					Date showDate = RenewalUtil.getLeaseShowDate(bean.getEnd(), leaseExpirationBufferDays);
-					log.fine("Lease Renewal Deadline (show date) is set to: "+showDate);
+					int leaseExpirationBufferDays = config.getRenewalSetting().getRenewalExpirationBufferDays();
+					log.fine("Number of days to Renewal Renewal Deadline is set to: "+leaseExpirationBufferDays);
+					Date showDate = RenewalUtil.getRenewalShowDate(bean.getEnd(), leaseExpirationBufferDays);
+					log.fine("Renewal Renewal Deadline (show date) is set to: "+showDate);
 					
-					com.camunda.poc.starter.usecase.renewal.entity.Lease lease = new com.camunda.poc.starter.usecase.renewal.entity.Lease(bean.getStart(), bean.getEnd(), bean.getPropertySlug());
+					com.camunda.poc.starter.usecase.renewal.entity.Renewal lease = new com.camunda.poc.starter.usecase.renewal.entity.Renewal(bean.getStart(), bean.getEnd(), bean.getPropertySlug());
 					lease.setCurrentRent(bean.getCurrentRent());
 					lease.setOneYearOffer(bean.getOneYearOffer());
 					lease.setTwoYearOffer(bean.getTwoYearOffer());
@@ -197,9 +197,9 @@ public class RenewalImportController {
 					lease.setRenewalStarted(false);
 					List<com.camunda.poc.starter.usecase.renewal.entity.Tenant> tenants = tenantRepository.findTenantsByUnitSlug(lease.getProperty());
 					lease.setTenants(tenants);
-					com.camunda.poc.starter.usecase.renewal.entity.Lease newlease = leaseRepository.save(lease);
+					com.camunda.poc.starter.usecase.renewal.entity.Renewal newlease = leaseRepository.save(lease);
 					tenants.forEach(tenant -> {
-						tenant.setLease(newlease);
+						tenant.setRenewal(newlease);
 						tenantRepository.save(tenant);
 					});
 					

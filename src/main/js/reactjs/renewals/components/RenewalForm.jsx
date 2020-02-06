@@ -3,13 +3,13 @@ const client = require('./client.jsx');
 const DisplayDate = require('src/main/js/reactjs/renewals/components/DisplayDate.jsx');
 const follow = require('./follow.jsx'); // function to hop multiple links by "rel"
 
-class LeaseForm extends React.Component {
+class RenewalForm extends React.Component {
         
   constructor(props) {
     super(props);
     this.state = {
-      signed: this.props.lease.signed,
-      renewing: this.props.lease.renewing
+      signed: this.props.renewal.signed,
+      renewing: this.props.renewal.renewing
 
     };
     this.handleSignedCheck = this.handleSignedCheck.bind(this);
@@ -39,8 +39,8 @@ class LeaseForm extends React.Component {
 //    if (this.refs.renewing.checked){
 //      message.renewing = true;
 //    }
-    message.processId = this.props.lease.processId;
-    message.leaseId = this.props.lease.id;
+    message.processId = this.props.renewal.businessKey;
+    message.renewalId = this.props.renewal.id;
     this.onCreate(message);
 
     // clear out the dialog's inputs
@@ -50,7 +50,7 @@ class LeaseForm extends React.Component {
   setMessage(e){
     e.preventDefault();
         
-    var sdate = new Date(this.props.lease.showDate);
+    var sdate = new Date(this.props.renewal.showDate);
     var showDate = (sdate.getMonth()+1) + "-" + sdate.getDate()  + "-" + sdate.getFullYear();
 
     this.refs.newMessage.value = "";
@@ -78,8 +78,8 @@ class LeaseForm extends React.Component {
     if (this.refs.signed.checked){
       message.signed = true;
     }
-    message.processId = this.props.lease.processId;
-    message.leaseId = this.props.lease.id;
+    message.processId = this.props.renewal.processId;
+    message.renewalId = this.props.renewal.id;
     
     this.onUpdateSigned(message);
   }
@@ -91,7 +91,7 @@ class LeaseForm extends React.Component {
                entity: message,
                headers: {'Content-Type': 'multipart/form-data'}
        }).done(response => {
-           alert("Lease Signed flag has been updated!");
+           alert("Renewal Signed flag has been updated!");
            this.setState({
                signed: message.signed
            });
@@ -109,8 +109,8 @@ class LeaseForm extends React.Component {
     if (this.refs.renewing.checked){
       message.renewing = true;
     }
-    message.processId = this.props.lease.processId;
-    message.leaseId = this.props.lease.id;
+    message.processId = this.props.renewal.processId;
+    message.renewalId = this.props.renewal.id;
     
     this.onUpdateRenewing(message);
   }
@@ -122,7 +122,7 @@ class LeaseForm extends React.Component {
               entity: message,
               headers: {'Content-Type': 'multipart/form-data'}
       }).done(response => {
-          alert("Lease Renewing flag has been updated!");
+          alert("Renewal Renewing flag has been updated!");
           this.setState({
               renewing: message.renewing
           });
@@ -193,4 +193,4 @@ class LeaseForm extends React.Component {
   }
 }
 
-module.exports = LeaseForm;
+module.exports = RenewalForm;

@@ -8,7 +8,7 @@ const FilterBar = require('FilterBar');
 var MarketingBar = require('MarketingBar');
 var FooterBar = require('FooterBar');
 
-// tag::lease[]
+// tag::renewal[]
 class Main extends React.Component{
     render() {
         return (
@@ -25,6 +25,6 @@ class Main extends React.Component{
         )
     }
 }
-// end::lease[]
+// end::renewal[]
 
 module.exports = Main;

@@ -28,17 +28,17 @@ import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.init;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.processEngine;
 
 import com.camunda.poc.starter.usecase.renewal.RenewalUtil;
-import com.camunda.poc.starter.bpm.LeaseRenewalTestBase;
-import com.camunda.poc.starter.usecase.renewal.entity.Lease;
+import com.camunda.poc.starter.bpm.RenewalRenewalTestBase;
+import com.camunda.poc.starter.usecase.renewal.entity.Renewal;
 import com.camunda.poc.starter.usecase.renewal.entity.Tenant;
-import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
+import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.MessageRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 
-public class RenewalCleanupServiceTest extends LeaseRenewalTestBase {
+public class RenewalCleanupServiceTest extends RenewalRenewalTestBase {
 
     @Autowired
-    private LeaseRepository leaseRepository;
+    private RenewalRepository renewalRepository;
         
     @Autowired
     private TenantRepository tenantRepository;
@@ -64,7 +64,7 @@ public class RenewalCleanupServiceTest extends LeaseRenewalTestBase {
     	// Setup the workflow
 		RuntimeService runtimeService = processEngine().getRuntimeService();
 		
-		Date leaseExpirationDate = getLeaseExpirationDate(100);
+		Date leaseExpirationDate = getRenewalExpirationDate(100);
 		
 		List<String> emails = new ArrayList<String>();
 		emails.add("lungu77@gmail.com");
@@ -86,12 +86,12 @@ public class RenewalCleanupServiceTest extends LeaseRenewalTestBase {
     	//Setup the data
     	String property = "1180 Atlantis Ave, Lafayette Colorado CO 80026";
     	
-        Lease lease = new Lease(Calendar.getInstance().getTime(), RenewalUtil.getKickOffDate(100), property);
-        lease.setRenewalStarted(true);
-        lease.setBusinessKey(processInstance.getId());
-        leaseRepository.save(lease);
+        Renewal renewal = new Renewal(Calendar.getInstance().getTime(), RenewalUtil.getKickOffDate(100), property);
+        renewal.setRenewalStarted(true);
+        renewal.setBusinessKey(processInstance.getId());
+        renewalRepository.save(renewal);
 
-        Tenant tenant = new Tenant("Paul Lungu", "lungu77@gmail.com", property, lease);
+        Tenant tenant = new Tenant("Paul Lungu", "lungu77@gmail.com", property, renewal);
         tenantRepository.save(tenant);
 
 		
@@ -115,17 +115,17 @@ public class RenewalCleanupServiceTest extends LeaseRenewalTestBase {
     @Deployment(resources = { 
    	     "processes/renewal-process-example.bpmn"
    		})
-    public void leaseCleanupTest() throws Exception {
+    public void renewalCleanupTest() throws Exception {
         
 		RenewalCleanupServiceImpl service = new RenewalCleanupServiceImpl();
 		service.setHistoryService(processEngine().getHistoryService());
-		service.setLeaseRepository(leaseRepository);
+		service.setRenewalRepository(renewalRepository);
 		service.setMessageRepository(messageRepository);
 		service.clean();
 		
-		//TODO: Need to get the correct leaseReposoitory for the test context
-    	List<Lease> leases = leaseRepository.findStarted();
-    	Assert.assertTrue(leases.get(0).isRenewalCompleted());
+		//TODO: Need to get the correct renewalReposoitory for the test context
+    	List<Renewal> renewals = renewalRepository.findStarted();
+    	Assert.assertTrue(renewals.get(0).isRenewalCompleted());
     }
     
 }

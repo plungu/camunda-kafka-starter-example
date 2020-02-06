@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.activiti.org/processdef" exporter="Camunda Modeler" exporterVersion="3.4.1">
   <process id="renewal-process-example" name="Renewal Process Example" isExecutable="true">
+    <extensionElements>
+      <camunda:executionListener delegateExpression="${renewalStateListener}" event="start" />
+    </extensionElements>
     <sequenceFlow id="startToGetDays" sourceRef="startEvent" targetRef="getRemainingDays" />
     <sequenceFlow id="getDaysToNDaysDecision" sourceRef="getRemainingDays" targetRef="noticeDecision" />
     <exclusiveGateway id="finalNoticeDecision" name="Final Notice Sent">
@@ -33,7 +36,7 @@
     <sequenceFlow id="notifyPropertyManagerToConfrimRenewalState" sourceRef="notifyPropertyManager" targetRef="confrimRenewalState" />
     <sequenceFlow id="confirmRenewalStateToRenewalStateDecision" sourceRef="confrimRenewalState" targetRef="renewalStateDecision" />
     <exclusiveGateway id="renewalStateDecision" name="Renewal Confirmed">
-      <documentation>If the lease state is set to &lt;confirmed&gt; the workfow goes to the Send Tenant Confirmation task and sends the message from the property manager. If the &lt;renewal state&gt; is set to &lt;not confirmed&gt; the workflow will go to Send Tenant Message sending the message input by the property manager.</documentation>
+      <documentation>If the renewal state is set to &lt;confirmed&gt; the workfow goes to the Send Tenant Confirmation task and sends the message from the property manager. If the &lt;renewal state&gt; is set to &lt;not confirmed&gt; the workflow will go to Send Tenant Message sending the message input by the property manager.</documentation>
     </exclusiveGateway>
     <sequenceFlow id="renewalStateDecisionToSendTenantMessage" name="No" sourceRef="renewalStateDecision" targetRef="sendTenantMessage">
       <conditionExpression xsi:type="tFormalExpression">${renewalConfirmed == false}</conditionExpression>
@@ -44,178 +47,34 @@
     <sequenceFlow id="sendTenantMessageToAwaitTenantReply" sourceRef="sendTenantMessage" targetRef="awaitTenantReply" />
     <sequenceFlow id="sendTenantConfirmationToEnd" sourceRef="sendTenantConfirmation" targetRef="end" />
     <endEvent id="end" />
-    <sendTask id="sendTenantMessage" name="Send Tenant Message" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+    <sendTask id="sendTenantMessage" name="Send Tenant Message" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
       <documentation>Sends the message input by the property manager in the Confirm Renewal State task.</documentation>
-      <extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="cc" />
-          <camunda:inputParameter name="to">${recipients}</camunda:inputParameter>
-          <camunda:inputParameter name="bcc">${systemEmail}</camunda:inputParameter>
-          <camunda:inputParameter name="subject">
-            <camunda:script scriptFormat="freemarker">You still have time to renew your lease ${property}!</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="html">
-            <camunda:script scriptFormat="freemarker">&lt;html&gt;
-	            &lt;body&gt;
-	              Hello Tennat,&lt;br/&gt;&lt;br/&gt;
-	
-	              ${message} &lt;br/&gt;&lt;br/&gt;
-	              
-	              Kind regards,&lt;br/&gt;
-	              TheCompany.
-	            &lt;/body&gt;
-	          &lt;/html&gt;</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="text">
-            <camunda:script scriptFormat="freemarker">Hello Tennat,
-
-${message} 
-	             
-Kind regards,
-TheCompany.</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="from">${systemEmail}</camunda:inputParameter>
-          <camunda:outputParameter name="mailSendResult">${ resultStatus }</camunda:outputParameter>
-        </camunda:inputOutput>
-      </extensionElements>
       <incoming>renewalStateDecisionToSendTenantMessage</incoming>
       <outgoing>sendTenantMessageToAwaitTenantReply</outgoing>
     </sendTask>
-    <sendTask id="notifyPropertyManager" name="Notify Property Manager" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+    <sendTask id="notifyPropertyManager" name="Notify Property Manager" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
       <documentation>Notify Property Manager the tenant has replied.</documentation>
-      <extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="cc" />
-          <camunda:inputParameter name="to">${managerEmail}</camunda:inputParameter>
-          <camunda:inputParameter name="from">${defaultFromEmail}</camunda:inputParameter>
-          <camunda:inputParameter name="html">
-            <camunda:script scriptFormat="freemarker">&lt;html&gt;
-	            &lt;body&gt;
-	              Hello Property Manager,&lt;br/&gt;&lt;br/&gt;
-	
-	              A message from ${recipients} has been recieved &lt;br/&gt;
-	              Please go to http://test.com to check on this lease renewal. &lt;br/&gt;&lt;br/&gt;
-	              
-	              Kind regards,&lt;br/&gt;
-	              TheCompany.
-	            &lt;/body&gt;
-	          &lt;/html&gt;</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="text">
-            <camunda:script scriptFormat="freemarker">&lt;html&gt;
-	            &lt;body&gt;
-	              Hello Property Manager,&lt;br/&gt;&lt;br/&gt;
-	
-	              A message from ${recipients} has been recieved &lt;br/&gt;
-	              Please go to http://test.com to check on this lease renewal. &lt;br/&gt;&lt;br/&gt;
-	              
-	              Kind regards,&lt;br/&gt;
-	              TheCompany.
-	            &lt;/body&gt;
-	          &lt;/html&gt;</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="subject">
-            <camunda:script scriptFormat="freemarker">A lease renewal needs your attention for ${property}!</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="bcc" />
-          <camunda:outputParameter name="mailSendResult">${ resultStatus }</camunda:outputParameter>
-        </camunda:inputOutput>
-      </extensionElements>
       <incoming>finalNoticeDecisionToNotifiyAdmin</incoming>
       <incoming>tenantReplyToReplyDecision</incoming>
       <outgoing>notifyPropertyManagerToConfrimRenewalState</outgoing>
     </sendTask>
     <userTask id="confrimRenewalState" name="Confirm Renewal State">
-      <documentation>Property Manager replies to users based on the users last response and sets the &lt;renewal state&gt; variable. If the lease state is set to &lt;confirmed&gt; the workfow goes to the Send Tenant Confirmation task and sends the message from the Property Manager. If the &lt;renewal state&gt; is set to &lt;not confirmed&gt; the workflow will go to Send Tenant Message sending the message input by the property manager. 
+      <documentation>Property Manager replies to users based on the users last response and sets the &lt;renewal state&gt; variable. If the renewal state is set to &lt;confirmed&gt; the workfow goes to the Send Tenant Confirmation task and sends the message from the Property Manager. If the &lt;renewal state&gt; is set to &lt;not confirmed&gt; the workflow will go to Send Tenant Message sending the message input by the property manager.
 The propery manager at this stage makes the final decision on weather the workflow should contine or not. It's possible a final notice has been and the &lt;grace period&gt; has expired but the property manager can choose to start the grace period over by setting the &lt;renewal state&gt; to not confimerd. 
 May want to include the ability to change the grace period.</documentation>
       <extensionElements>
-        <camunda:executionListener delegateExpression="${leaseStateListener}" event="start" />
+        <camunda:executionListener delegateExpression="${renewalStateListener}" event="start" />
       </extensionElements>
       <incoming>notifyPropertyManagerToConfrimRenewalState</incoming>
       <outgoing>confirmRenewalStateToRenewalStateDecision</outgoing>
     </userTask>
-    <sendTask id="sendTenantConfirmation" name="Send Tenant Confirmation" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+    <sendTask id="sendTenantConfirmation" name="Send Tenant Confirmation" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
       <documentation>Sends the confirmation input by property manager in the Confirm Renewal Task.</documentation>
-      <extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="cc" />
-          <camunda:inputParameter name="html">
-            <camunda:script scriptFormat="freemarker">&lt;html&gt;
-	            &lt;body&gt;
-	              Hello Tennat,&lt;br/&gt;&lt;br/&gt;
-	
-	              ${message} &lt;br/&gt;&lt;br/&gt;
-	              
-	              Kind regards,&lt;br/&gt;
-	              TheCompany.
-	            &lt;/body&gt;
-	          &lt;/html&gt;</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="text">
-            <camunda:script scriptFormat="freemarker">&lt;html&gt;
-	            &lt;body&gt;
-	              Hello Tennat,&lt;br/&gt;&lt;br/&gt;
-	
-	              ${message} &lt;br/&gt;&lt;br/&gt;
-	              
-	              Kind regards,&lt;br/&gt;
-	              TheCompany.
-	            &lt;/body&gt;
-	          &lt;/html&gt;</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="to">${recipients}</camunda:inputParameter>
-          <camunda:inputParameter name="bcc">${systemEmail}</camunda:inputParameter>
-          <camunda:inputParameter name="subject">
-            <camunda:script scriptFormat="freemarker">Lease renewal confirmation for ${property}!</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="from">${systemEmail}</camunda:inputParameter>
-          <camunda:outputParameter name="mailSendResult">${ resultStatus }</camunda:outputParameter>
-        </camunda:inputOutput>
-      </extensionElements>
       <incoming>renewalStateDecisionToSendTenantConfirmation</incoming>
       <outgoing>sendTenantConfirmationToEnd</outgoing>
     </sendTask>
-    <sendTask id="send-final-notice" name="Send Final Notice" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+    <sendTask id="send-final-notice" name="Send Final Notice" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
       <documentation>Sends final notice to tenant. Once final notice is sent there is a 24 hr &lt;grace period&gt; set. If user does not reply the property manager is notified and the manager can choose to send set the &lt;renewal state&gt; to confirmed or give the tenant another chance and reset the &lt;grace period&gt; and the set  the &lt;renewal state&gt; to not confirmed in the Confirm Renewal State task.</documentation>
-      <extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="cc" />
-          <camunda:inputParameter name="subject">
-            <camunda:script scriptFormat="freemarker">Last chance to renew your lease for ${property}</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="html">
-            <camunda:script scriptFormat="freemarker">&lt;html&gt;
-	            &lt;body&gt;
-	              Hello Tenant,&lt;br/&gt;&lt;br/&gt;
-	
-	              This is your final chance to accept your renewal offer. If we do not receive a response, the  property will be listed at market rent within the next 72 hours and we will begin showings. You will receive at least 24 hour notice for all showings.
-	              &lt;br/&gt;&lt;br/&gt;
-	              
-	              Kind regards,&lt;br/&gt;
-	              Pioneer Property Management Team
-	            &lt;/body&gt;
-	          &lt;/html&gt;</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="text">
-            <camunda:script scriptFormat="freemarker">&lt;html&gt;
-	            &lt;body&gt;
-	              Hello Tenant,&lt;br/&gt;&lt;br/&gt;
-	
-	              This is your final chance to accept your renewal offer. If we do not receive a response, the  property will be listed at market rent within the next 72 hours and we will begin showings. You will receive at least 24 hour notice for all showings.
-	              &lt;br/&gt;&lt;br/&gt;
-	              
-	              Kind regards,&lt;br/&gt;
-	              Pioneer Property Management Team
-	            &lt;/body&gt;
-	          &lt;/html&gt;</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="to">${recipients}</camunda:inputParameter>
-          <camunda:inputParameter name="bcc">${systemEmail}</camunda:inputParameter>
-          <camunda:inputParameter name="from">${systemEmail}</camunda:inputParameter>
-          <camunda:outputParameter name="mailSendResult">${ resultStatus }</camunda:outputParameter>
-        </camunda:inputOutput>
-      </extensionElements>
       <incoming>finalNoticeToSendFinalNotice</incoming>
       <outgoing>sendFinalNoticeToAwaitTenantReply</outgoing>
     </sendTask>
@@ -223,81 +82,16 @@ May want to include the ability to change the grace period.</documentation>
       <documentation>Waits for the tenant to reply to message. If no reply within &lt;grace period&gt; go back to check the &lt;final renewal date&gt;. If tenant replies than property manager is notified immediatly.
         Calculate the &lt;grace period&gt; based on the &lt;final renewal day&gt;. The workflow should stagger the messages depending on the number of days left until &lt;final renewal day&gt;. Also the property manager can set the &lt;grace period&gt;, overriding the stagger. The override is done by property manager in Confirm Renewal State task.
         TODO - Document how this will be done in more detail.</documentation>
+      <extensionElements>
+        <camunda:executionListener delegateExpression="${renewalStateListener}" event="start" />
+      </extensionElements>
       <incoming>sendInitalTenantMessageToAwaitTenantReply</incoming>
       <incoming>sendTenantMessageToAwaitTenantReply</incoming>
       <incoming>sendFinalNoticeToAwaitTenantReply</incoming>
       <outgoing>tenantReplyToReplyDecision</outgoing>
     </receiveTask>
-    <sendTask id="send-inital-message" name="Send Initial Message" camunda:asyncBefore="true" camunda:delegateExpression="${sendMailDelegate}">
+    <sendTask id="send-inital-message" name="Send Initial Message" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
       <documentation>Sends a canned tenant message to initiate the renewal process. This message is sent until there is a reply from tenant.</documentation>
-      <extensionElements>
-        <camunda:inputOutput>
-          <camunda:inputParameter name="cc" />
-          <camunda:inputParameter name="to">${recipients}</camunda:inputParameter>
-          <camunda:inputParameter name="bcc">${systemEmail}</camunda:inputParameter>
-          <camunda:inputParameter name="text">
-            <camunda:script scriptFormat="freemarker">&lt;html&gt;
-	            &lt;body&gt;
-	              Hello Tenant,&lt;br/&gt;&lt;br/&gt;
-	
-                  Your current lease is set to expire on ${endDate}. The owner has advised us to offer a lease renewal of:&lt;br/&gt;
-                  1 year at a monthly rent of $${oneYearOffer}&lt;br/&gt;
-                  or&lt;br/&gt;
-                  2 years at a monthly rent of $${twoYearOffer} &lt;br/&gt;
-                  This Renewal Offer will expire on ${showDate}.&lt;br/&gt;
-                  &lt;br/&gt;&lt;br/&gt;
-
-                  Please note the following&lt;br/&gt;
-                  * A month-to-month extension of your current lease is not an option.&lt;br/&gt;
-                  * Tenancy changes are not part of a standard lease renewal.  If you have questions about the process, please contact the office.&lt;br/&gt;
-                  * If no response is received by the Renewal Offer expiration date ${showDate}, per your lease, the property will be listed for rent. Advertising and showing of the property will begin.  Please understand that this allows for the necessary time to secure new tenants for the property if necessary.&lt;br/&gt;
-                  * You will receive regular reminders until we have received a response.&lt;br/&gt;
-                  &lt;br/&gt;&lt;br/&gt;
-
-                  Please let us know how you would like to proceed. We do hope you choose to renew!
-                  &lt;br/&gt;&lt;br/&gt;
-
-                  Kind regards,&lt;br/&gt;
-	              Pioneer Property Management Team
-
-	            &lt;/body&gt;
-	          &lt;/html&gt;</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="html">
-            <camunda:script scriptFormat="freemarker">&lt;html&gt;
-	            &lt;body&gt;
-	              Hello Tenant,&lt;br/&gt;&lt;br/&gt;
-	
-                  Your current lease is set to expire on ${endDate}. The owner has advised us to offer a lease renewal of:&lt;br/&gt;
-                  1 year at a monthly rent of $${oneYearOffer}&lt;br/&gt;
-                  or&lt;br/&gt;
-                  2 years at a monthly rent of $${twoYearOffer} &lt;br/&gt;
-                  This Renewal Offer will expire on ${showDate}.&lt;br/&gt;
-                  &lt;br/&gt;&lt;br/&gt;
-
-                  Please note the following&lt;br/&gt;
-                  * A month-to-month extension of your current lease is not an option.&lt;br/&gt;
-                  * Tenancy changes are not part of a standard lease renewal.  If you have questions about the process, please contact the office.&lt;br/&gt;
-                  * If no response is received by the Renewal Offer expiration date ${showDate}, per your lease, the property will be listed for rent. Advertising and showing of the property will begin.  Please understand that this allows for the necessary time to secure new tenants for the property if necessary.&lt;br/&gt;
-                  * You will receive regular reminders until we have received a response.&lt;br/&gt;
-                  &lt;br/&gt;&lt;br/&gt;
-
-                  Please let us know how you would like to proceed. We do hope you choose to renew!
-                  &lt;br/&gt;&lt;br/&gt;
-
-                  Kind regards,&lt;br/&gt;
-	              Pioneer Property Management Team
-
-	            &lt;/body&gt;
-	          &lt;/html&gt;</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="subject">
-            <camunda:script scriptFormat="freemarker">Time to renew your lease for ${property}!</camunda:script>
-          </camunda:inputParameter>
-          <camunda:inputParameter name="from">${systemEmail}</camunda:inputParameter>
-          <camunda:outputParameter name="mailSendResult">${ resultStatus }</camunda:outputParameter>
-        </camunda:inputOutput>
-      </extensionElements>
       <incoming>noticeDecisionToSendInitalTenantMessage</incoming>
       <outgoing>sendInitalTenantMessageToAwaitTenantReply</outgoing>
     </sendTask>
@@ -311,8 +105,8 @@ May want to include the ability to change the grace period.</documentation>
     </startEvent>
   </process>
   <message id="Message_0jc16nv" name="tenant_reply_message" />
-  <bpmndi:BPMNDiagram id="BPMNDiagram_leaseRenewal">
-    <bpmndi:BPMNPlane id="BPMNPlane_leaseRenewal" bpmnElement="renewal-process-example">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_renewalRenewal">
+    <bpmndi:BPMNPlane id="BPMNPlane_renewalRenewal" bpmnElement="renewal-process-example">
       <bpmndi:BPMNShape id="BPMNShape_finalNoticeDecision" bpmnElement="finalNoticeDecision" isMarkerVisible="true">
         <omgdc:Bounds x="442" y="180" width="40" height="40" />
         <bpmndi:BPMNLabel>
@@ -425,10 +219,10 @@ May want to include the ability to change the grace period.</documentation>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_renewalStateDecisionToSendTenantMessage" bpmnElement="renewalStateDecisionToSendTenantMessage">
         <omgdi:waypoint x="1429" y="366" />
-        <omgdi:waypoint x="1429" y="484" />
-        <omgdi:waypoint x="1237" y="484" />
+        <omgdi:waypoint x="1429" y="494" />
+        <omgdi:waypoint x="1237" y="494" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="1433" y="368" width="14" height="14" />
+          <omgdc:Bounds x="1433" y="369" width="14" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_renewalStateDecisionToSendTenantConfirmation" bpmnElement="renewalStateDecisionToSendTenantConfirmation">
@@ -439,8 +233,8 @@ May want to include the ability to change the grace period.</documentation>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_sendTenantMessageToAwaitTenantReply" bpmnElement="sendTenantMessageToAwaitTenantReply">
-        <omgdi:waypoint x="1137" y="483" />
-        <omgdi:waypoint x="975" y="483" />
+        <omgdi:waypoint x="1137" y="493" />
+        <omgdi:waypoint x="975" y="493" />
         <omgdi:waypoint x="975" y="386" />
         <bpmndi:BPMNLabel>
           <omgdc:Bounds x="1011" y="338" width="90" height="20" />
@@ -463,7 +257,7 @@ May want to include the ability to change the grace period.</documentation>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="SendTask_0lam0v8_di" bpmnElement="sendTenantMessage">
-        <omgdc:Bounds x="1137" y="444" width="100" height="80" />
+        <omgdc:Bounds x="1137" y="454" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SendTask_16ksfc6_di" bpmnElement="notifyPropertyManager">
         <omgdc:Bounds x="1069" y="306" width="100" height="80" />

@@ -223,11 +223,11 @@ public class AppConfigProperties implements Serializable {
  		private static final long serialVersionUID = 111291833570892146L;
 		private int leaseExpirationBufferDays;
 
-		public int getLeaseExpirationBufferDays() {
+		public int getRenewalExpirationBufferDays() {
 			return leaseExpirationBufferDays;
 		}
 
-		public void setLeaseExpirationBufferDays(int leaseExpirationBufferDays) {
+		public void setRenewalExpirationBufferDays(int leaseExpirationBufferDays) {
 			this.leaseExpirationBufferDays = leaseExpirationBufferDays;
 		}
     }

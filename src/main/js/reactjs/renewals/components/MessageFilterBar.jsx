@@ -11,7 +11,7 @@ class MessageFilterBar extends React.Component{
 
   handleRefresh(e){
     e.preventDefault();
-    this.props.onRefreshMessages(this.props.lease);
+    this.props.onRefreshMessages(this.props.renewal);
   }
 
   render(){

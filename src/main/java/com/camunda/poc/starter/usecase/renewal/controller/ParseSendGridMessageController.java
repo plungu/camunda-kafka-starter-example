@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camunda.poc.starter.usecase.renewal.RenewalUtil;
-import com.camunda.poc.starter.usecase.renewal.entity.Lease;
+import com.camunda.poc.starter.usecase.renewal.entity.Renewal;
 import com.camunda.poc.starter.usecase.renewal.entity.Message;
-import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
+import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.MessageRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 
@@ -82,7 +82,7 @@ public class ParseSendGridMessageController {
 				String fromEmail = new InternetAddress(from).getAddress();
 				String toEmail = new InternetAddress(to).getAddress();
 				
-				Lease lease = RenewalUtil.getLeaseByTenantEamil(tenantRepository, fromEmail, toEmail);
+				Renewal renewal = RenewalUtil.getRenewalByTenantEamil(tenantRepository, fromEmail, toEmail);
 				
 				//save the message from the request
 				Message message = new Message();
@@ -91,13 +91,14 @@ public class ParseSendGridMessageController {
 				message.setSubject(subject);
 				message.setText(text);
 				message.setHtml(html);
-				message.setLease(lease);
+				message.setRenewal(renewal);
 				messageRepository.save(message);
 				log.info("[X] Saved email from : "+new InternetAddress(from).getAddress());
-				log.info("\n[X] About : "+subject);					
-				
-				runtimeService.correlateMessage("tenant_reply_message", Long.toString(lease.getId()));
-				log.info("[X] Corrlating Message tenant_reply_message for :" + lease.getProperty() );
+				log.info("\n[X] About : "+subject);
+				log.info("\n[X] For Biz Key : "+renewal.getBusinessKey());
+
+				runtimeService.correlateMessage("tenant_reply_message", renewal.getBusinessKey());
+				log.info("[X] Corrlating Message tenant_reply_message for :" + renewal.getProperty() );
 
 			}
 			

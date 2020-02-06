@@ -25,24 +25,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 //import com.camunda.react.starter.WorkflowUtil;
-import com.camunda.poc.starter.usecase.renewal.entity.Lease;
-import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
+import com.camunda.poc.starter.usecase.renewal.entity.Renewal;
+import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 
 @RestController
 public class RenewalActionsController {
 
-	LeaseRepository leaseRepository;
+	RenewalRepository renewalRepository;
 	RuntimeService runtimeService;
 	TaskService taskService;
 	AppConfigProperties config;
 
 	@Autowired
-	public RenewalActionsController(LeaseRepository leaseRepository,
+	public RenewalActionsController(RenewalRepository renewalRepository,
 									RuntimeService runtimeService,
 									TaskService taskService,
 									AppConfigProperties config){
 
-		this.leaseRepository = leaseRepository;
+		this.renewalRepository = renewalRepository;
 		this.runtimeService = runtimeService;
 		this.taskService = taskService;
 		this.config = config;
@@ -53,67 +53,67 @@ public class RenewalActionsController {
 	{
 		ResponseEntity<HttpStatus> re = new ResponseEntity<HttpStatus>(HttpStatus.OK);
 
-		ProcessInstance processInstance = RenewalUtil.startLeaseRenewal(leaseRepository,
+		ProcessInstance processInstance = RenewalUtil.startRenewalRenewal(renewalRepository,
 										runtimeService,
 										taskService,
 				    					config);
 		if(processInstance==null)
-			return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
 
 		return re;
 	}
 
 	@RequestMapping(value="/updateNote", method=RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<HttpStatus> updateNote(     								   
-    		@RequestParam(value = "leaseId") String leaseId,
+    		@RequestParam(value = "renewalId") String renewalId,
     		@RequestParam(value = "note") String note)
     {
     	ResponseEntity<HttpStatus> re = new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		
-    	Long id = Long.valueOf(leaseId);
-    	Optional<Lease> lease = leaseRepository.findById(id);
-    	if(lease==null)
+    	Long id = Long.valueOf(renewalId);
+    	Optional<Renewal> renewal = renewalRepository.findById(id);
+    	if(renewal==null)
     		return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
     	
-    	lease.get().setNote(note);
-    	leaseRepository.save(lease.get());
+    	renewal.get().setNote(note);
+    	renewalRepository.save(renewal.get());
     	
 		return re;
     }
 
     @RequestMapping(value="/signed", method=RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<HttpStatus> signed(     								   
-    		@RequestParam(value = "leaseId") String leaseId,
+    		@RequestParam(value = "renewalId") String renewalId,
     		@RequestParam(value = "signed") Boolean signed)
     {
     	ResponseEntity<HttpStatus> re = new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		
-    	Long id = Long.valueOf(leaseId);
-    	Optional<Lease> lease = leaseRepository.findById(id);
-    	if(lease==null)
+    	Long id = Long.valueOf(renewalId);
+    	Optional<Renewal> renewal = renewalRepository.findById(id);
+    	if(renewal==null)
     		return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
     	
-    	lease.get().setSigned(signed);
-    	leaseRepository.save(lease.get());
+    	renewal.get().setSigned(signed);
+    	renewalRepository.save(renewal.get());
     	
 		return re;
     }
 
     @RequestMapping(value="/renewing", method=RequestMethod.POST, consumes = {"multipart/form-data"})
     public ResponseEntity<HttpStatus> renewing(     								   
-    		@RequestParam(value = "leaseId") String leaseId,
+    		@RequestParam(value = "renewalId") String renewalId,
     		@RequestParam(value = "renewing", required = false) Boolean renewing)
     {
     	ResponseEntity<HttpStatus> re = new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		
-    	Long id = Long.valueOf(leaseId);
-    	Optional<Lease> lease = leaseRepository.findById(id);
-    	if(lease==null)
+    	Long id = Long.valueOf(renewalId);
+    	Optional<Renewal> renewal = renewalRepository.findById(id);
+    	if(renewal==null)
     		return new ResponseEntity<HttpStatus>(HttpStatus.NOT_FOUND);
     	if(renewing != null)
-    		lease.get().setRenewing(renewing);
+    		renewal.get().setRenewing(renewing);
     	
-    	leaseRepository.save(lease.get());
+    	renewalRepository.save(renewal.get());
     	
 		return re;
     }

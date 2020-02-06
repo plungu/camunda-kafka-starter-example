@@ -21,7 +21,7 @@ import static org.camunda.bpm.engine.test.assertions.bpmn.BpmnAwareTests.job;
 
 
 
-public class FinalNoticePathTest extends LeaseRenewalTestBase {
+public class FinalNoticePathTest extends RenewalRenewalTestBase {
 	
 	@Test
 	@Deployment(resources = { "processes/renewal-process-example.bpmn" })
@@ -46,11 +46,11 @@ public class FinalNoticePathTest extends LeaseRenewalTestBase {
         variables.put("showDate", dateFormatter.format(new Date()));
 
 		//To go down the final notice sent path remainingDays must be calculated
-		//there-for the days between lease expiration and the buffered days 
+		//there-for the days between renewal expiration and the buffered days
 		//must be <= 0
-		//Setting the lease expiration date to 50 as to create no wait time
-        //between the buffer days and lease expiration
-		variables.put("leaseExpirationDate", getLeaseExpirationDate(50));
+		//Setting the renewal expiration date to 50 as to create no wait time
+        //between the buffer days and renewal expiration
+		variables.put("leaseExpirationDate", getRenewalExpirationDate(50));
 		variables.put("leaseExpirationBufferDays", 50);
 		
 		//the final notice sent flag must be false simulating the 

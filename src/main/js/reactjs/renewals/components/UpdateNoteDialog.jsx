@@ -12,12 +12,12 @@ class UpdateNoteDialog extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         if(e.keyCode == 13){
-            var updatedLease = {};
+            var updatedRenewal = {};
             if(this.refs.note.value){
-                updatedLease.note = this.refs.note.value;
-                updatedLease.leaseId = this.props.lease.id;
+                updatedRenewal.note = this.refs.note.value;
+                updatedRenewal.renewalId = this.props.renewal.id;
             }
-            this.props.onUpdateNote(this.props.lease, updatedLease);
+            this.props.onUpdateNote(this.props.renewal, updatedRenewal);
         }
     }
 
@@ -32,10 +32,10 @@ class UpdateNoteDialog extends React.Component {
             <div>
                 <a>
                 <form onKeyUp={this.handleSubmit}>
-                    <input type="text" ref="note" defaultValue={this.props.lease.note} />
+                    <input type="text" ref="note" defaultValue={this.props.renewal.note} />
                 </form>
                 </a>
-                <div className="note">{this.props.lease.note}</div>
+                <div className="note">{this.props.renewal.note}</div>
             </div>    
         )
     }

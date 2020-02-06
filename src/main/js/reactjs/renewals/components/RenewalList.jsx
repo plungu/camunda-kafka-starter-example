@@ -3,20 +3,20 @@
 // tag::vars[]
 const React = require('react');
 
-const LeaseLine = require('src/main/js/reactjs/renewals/components/LeaseLine.jsx');
+const RenewalLine = require('src/main/js/reactjs/renewals/components/RenewalLine.jsx');
 
 const FilterBar = require('src/main/js/reactjs/renewals/components/FilterBar.jsx');
 
-// tag::lease-list[]
-class LeaseList extends React.Component{
+// tag::renewal-list[]
+class RenewalList extends React.Component{
   constructor(props) {
       super(props);
   }
 
   render() {
-		var leases = this.props.leases.map(lease =>
-			<LeaseLine key={lease._links.self.href}
-        lease={lease}
+		var renewals = this.props.renewals.map(renewal =>
+			<RenewalLine key={renewal._links.self.href}
+        renewal={renewal}
 		onUpdateNote={this.props.onUpdateNote}
         onSelectItem={this.props.onSelectItem}/>
 		);
@@ -55,7 +55,7 @@ class LeaseList extends React.Component{
                         </tr>
 						</thead>
                       <tbody>
-                        {leases}
+                        {renewals}
                       </tbody>
               			</table>
               		</div>
@@ -65,6 +65,6 @@ class LeaseList extends React.Component{
 		)
 	}
 }
-// end::lease-list[]
+// end::renewal-list[]
 
-module.exports = LeaseList;
+module.exports = RenewalList;

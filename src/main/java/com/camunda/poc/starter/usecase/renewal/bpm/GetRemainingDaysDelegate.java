@@ -30,7 +30,7 @@ public class GetRemainingDaysDelegate implements JavaDelegate {
 				+ leaseExpirationBufferDays);
 		
 		//Getting the Renewal Dead line days. 
-		//Subtracting the Lease end date by number of buffer days 
+		//Subtracting the Renewal end date by number of buffer days
 		// until final notice is sent so property manger can list property.
 		LocalDate expDate = leaseExpirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate renewalDeadlineDate = expDate.minusDays(leaseExpirationBufferDays);

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.camunda.poc.starter.usecase.renewal.RenewalUtil;
-import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
+import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.MessageRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 
@@ -26,17 +26,11 @@ import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 public class RenewalCompleteTaskController {
 	public static Logger log = Logger.getLogger(RenewalCompleteTaskController.class.getName());
 
-    @Autowired RuntimeService runtimeService;
+	private TaskService taskService;
 
-    @Autowired TaskService taskService;
-    
-    @Autowired HistoryService historyService;
-    
-    @Autowired MessageRepository messageRepository;
-    
-    @Autowired LeaseRepository leaseRepository;
-
-    @Autowired TenantRepository tenantRepository;
+	public RenewalCompleteTaskController(TaskService taskService) {
+		this.taskService = taskService;
+	}
 
     /**
      * Controller Request Mapping that processes request from the ReactUI 
@@ -48,8 +42,8 @@ public class RenewalCompleteTaskController {
      * @param text
      * @param subject
      * @param gracePeriod
-     * @param processId
-     * @param leaseId
+     * @param bizKey
+     * @param renewalId
      * @return
      */
     @RequestMapping(value="/message", method= RequestMethod.POST, consumes = {"multipart/form-data"})
@@ -60,19 +54,20 @@ public class RenewalCompleteTaskController {
 			   @RequestParam(value = "text") String text,
 			   @RequestParam(value = "subject") String subject,
 			   @RequestParam(value = "gracePeriod", required = false) Integer gracePeriod,
-			   @RequestParam(value = "processId") String processId,
-			   @RequestParam(value = "leaseId", required = false) String leaseId)			   
+			   @RequestParam(value = "processId") String bizKey,
+			   @RequestParam(value = "renewalId", required = false) String renewalId)
     {
     	ResponseEntity<HttpStatus> re = new ResponseEntity<HttpStatus>(HttpStatus.OK);
 
-    	List<Task> tasks = RenewalUtil.queryTasksById(taskService, processId);
+		log.info("\n\n Biz Key: "+bizKey);
+		List<Task> tasks = RenewalUtil.queryTasksByBizKey(taskService, bizKey);
     	if (tasks.isEmpty()){
     		//TODO: send message to property manager tenant sent a message but has no tasks.
-	    	log.fine("[X] No tasks found for :"+processId);
+	    	log.info("\n\n No tasks found for :"+bizKey);
     	}
     	
 		Task task = tasks.get(0);
-		log.fine("Completing Task: "+task.getName());		
+		log.info("\n\n Completing Task: "+task.getName());
 		Map<String, Object> variables = new HashMap<String, Object>();
 		variables.put("subject", subject);
 		variables.put("message", text);

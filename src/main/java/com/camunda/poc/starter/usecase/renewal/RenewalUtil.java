@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
-import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
+import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
@@ -15,7 +15,7 @@ import org.camunda.bpm.engine.runtime.ActivityInstance;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 
-import com.camunda.poc.starter.usecase.renewal.entity.Lease;
+import com.camunda.poc.starter.usecase.renewal.entity.Renewal;
 import com.camunda.poc.starter.usecase.renewal.entity.Tenant;
 import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 
@@ -24,46 +24,57 @@ import java.util.logging.Logger;
 public class RenewalUtil {
 	public static Logger log = Logger.getLogger(RenewalUtil.class.getName());
 
-	public static ProcessInstance startLeaseRenewal(LeaseRepository leaseRepository,
+	public static ProcessInstance startRenewalRenewal(RenewalRepository renewalRepository,
 													RuntimeService runtimeService,
 													TaskService taskService,
 													AppConfigProperties config){
 
 		ProcessInstance processInstance = null;
-		log.fine("[X] Running Lease renewal");
+		log.info("\n\n Running Renewal renewal");
 		//kicks off worklfow when the end date is 100 from current date
-		Date leaseRenewalkickoffDate = RenewalUtil.getKickOffDate(config.getCron().getRenewalKickoffBufferDays());
-		log.fine("[X] Start date from today: "+leaseRenewalkickoffDate);
+		Date leaseRenewalkickoffDate = RenewalUtil
+				.getKickOffDate(config.getCron()
+						.getRenewalKickoffBufferDays());
 
-		List<Lease> leases = leaseRepository.findByEndDate(leaseRenewalkickoffDate);
-		if (!leases.isEmpty()){
-			for(Lease lease : leases){
+		log.info("\n\n Start date from today: "+leaseRenewalkickoffDate);
+
+		List<Renewal> renewals = renewalRepository
+				.findByEndDate(leaseRenewalkickoffDate);
+
+		if (!renewals.isEmpty()){
+			for(Renewal renewal : renewals){
 				try {
-					processInstance = RenewalUtil.startLeaseRenewal(lease, leaseRepository, runtimeService, taskService, config);
+					processInstance = RenewalUtil
+							.startRenewalRenewal(renewal,
+									renewalRepository,
+									runtimeService,
+									taskService,
+									config);
+
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}else{
-			log.fine("[X] No leases found ending with kick off date: "+leaseRenewalkickoffDate);
+			log.info("\n\n No leases found ending with kick off date: "+leaseRenewalkickoffDate);
 		}
 		return processInstance;
 	}
 
-	public static ProcessInstance startLeaseRenewal(Lease lease,
-													LeaseRepository leaseRepository,
+	public static ProcessInstance startRenewalRenewal(Renewal lease,
+													RenewalRepository leaseRepository,
 													RuntimeService runtimeService,
 													TaskService taskService,
 													AppConfigProperties config) throws Exception{
 
-		log.fine("[X] Got Lease : "+lease);
+		log.info("\n\n Got Renewal : "+lease);
 
 		String property = lease.getProperty();
-		log.fine("[X] Property: "+property);
+		log.fine("\n\n Property: "+property);
 
 		List<Tenant> tenants = lease.getTennants();
-		log.fine("[X] Tenants: "+tenants.size());
+		log.fine("\n\n Tenants: "+tenants.size());
 
 		StringBuilder recipients = new StringBuilder();
 		for (int i=0; tenants.size()>i; i++){
@@ -78,14 +89,14 @@ public class RenewalUtil {
 			emails.add(tenant.getEmail());
 		}
 
-		log.info("[X] Tennant Emails: "+emails.toString());
+		log.info("\n\n Tennant Emails: "+emails.toString());
 
 		Date leaseExpirationDate = lease.getEnd();
-		log.info("Date of Lease Expiration set to :"+leaseExpirationDate);
+		log.info("\n\n Date of Renewal Expiration set to :"+leaseExpirationDate);
 
 		//Days left until final notice is sent so property has time to be listed
-		int leaseExpirationBufferDays = config.getRenewalSetting().getLeaseExpirationBufferDays();
-		log.info("Number of days to Lease Renewal Deadline is set to: "+leaseExpirationBufferDays);
+		int leaseExpirationBufferDays = config.getRenewalSetting().getRenewalExpirationBufferDays();
+		log.info("\n\n Number of days to Renewal Renewal Deadline is set to: "+leaseExpirationBufferDays);
 
 		SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
 		NumberFormat moneyFormatter = NumberFormat.getCurrencyInstance();
@@ -108,51 +119,39 @@ public class RenewalUtil {
 		variables.put("twoYearOffer", moneyFormatter.format(lease.getTwoYearOffer()));
 		variables.put("showDate", dateFormatter.format(lease.getShowDate()));
 
-
 		String businessKey = UUID.randomUUID().toString();
-		ProcessInstance processInstance =
-				runtimeService.startProcessInstanceByKey("renewal-process-example", businessKey, variables);
-		if (processInstance.getId() == null)
-			throw new Exception("Processes Id Null! Could Not Start Process for Property"+ lease.getProperty());
-
-		log.info("Starterd Porocess Instance: "+ processInstance.getId());
 
 		lease.setBusinessKey(businessKey);
 		lease.setRenewalStarted(true);
+		Renewal savedRenewal = leaseRepository.save(lease);
+		log.info("Saved Renewal: "+ savedRenewal);
 
-		log.info("Tasks Service: " + taskService);
-
-		String taskName = null;
-
-		ActivityInstance activity = RenewalUtil.queryActivityById(runtimeService, processInstance.getProcessInstanceId());
-		if (activity != null) {
-			taskName = activity.getActivityName();
-		}else {
-			List<Task> tasks = RenewalUtil.queryTasksById(taskService, processInstance.getProcessInstanceId());
-			if (tasks != null && !tasks.isEmpty()) {
-				taskName = tasks.get(0).getName();
-			}else {
-				runtimeService.deleteProcessInstance(processInstance.getProcessInstanceId(), "No Tasks Found When Saving Lease");
-				log.info("No tasks found for "+processInstance.getProcessInstanceId()+"! Could Not Start Process for Property: "+ lease.getProperty());
-			}
+		ProcessInstance processInstance = null;
+		if(savedRenewal != null) {
+			processInstance =
+					runtimeService
+							.startProcessInstanceByKey("renewal-process-example",
+									businessKey,
+									variables);
+			if (processInstance.getId() == null)
+				throw new Exception("\n\n Processes Id Null! Could Not Start Process for Property" + lease.getProperty());
+		}else{
+			throw new Exception("\n\n Could not save lease");
 		}
 
-		lease.setWorkflowState(taskName);
-
-		Lease savedLease = leaseRepository.save(lease);
-		log.info("Saved Lease: "+ savedLease);
+		log.info("\n\n Starterd Porocess Instance: "+ processInstance.getId());
 
 		return processInstance;
 
 	}
 
-	public static Date getLeaseShowDate(Date leaseExpirationDate, int leaseExpirationBufferDays){
+	public static Date getRenewalShowDate(Date leaseExpirationDate, int leaseExpirationBufferDays){
 		LocalDate expDate = leaseExpirationDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate renewalDeadlineDate = expDate.minusDays(leaseExpirationBufferDays);
 		return Date.from(renewalDeadlineDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 
-	public static Lease getLeaseByTenantEamil(TenantRepository tenantRepository, String fromEmail, String toEmail) throws Exception {
+	public static Renewal getRenewalByTenantEamil(TenantRepository tenantRepository, String fromEmail, String toEmail) throws Exception {
 		//check if sender os the recipiant is a tenant before saving
 		Tenant tenant = tenantRepository.findByEmail(fromEmail);
 		if (tenant == null)
@@ -163,7 +162,7 @@ public class RenewalUtil {
 		
 		log.info("[X] Found tenant : "+tenant.getEmail());
 		
-		Lease lease = tenant.getLease();
+		Renewal lease = tenant.getRenewal();
 		if (lease == null)
 			throw new Exception("No lease found for message");
 		
@@ -265,8 +264,8 @@ public class RenewalUtil {
 		return counter;
 	}
 	
-	public static List<Task> queryTasksById(final TaskService taskService, String id){
-		List<Task> tasks = taskService.createTaskQuery().processInstanceId(id).list();
+	public static List<Task> queryTasksByBizKey(final TaskService taskService, String id){
+		List<Task> tasks = taskService.createTaskQuery().processInstanceBusinessKey(id).list();
 		return tasks;
 	}
 

@@ -65,9 +65,9 @@ JS code for custom ReactJS UI lives in
 
 ## Use Case: Renewals
 
-Lease Renewal use-case allows apartment leasing agents to manage apartment lease renewal process through email. A leasing company may manage hundreds of apartments which will come up for renewal at different times during the year. The renewal process will need to start well before the apartment is up for lease to make sure there is time to list the apartment if the current tenant does not want to renew. A deadline must be set to ensure the apartment will be rented out as soon as possible if the tenant does not want to renew the lease. The tenant must be given multiple chances to renew up to the deadline. It's necessary to track the email sent to the tenant and responses from the tenant so it's easy and efficient for the property manager to track a renewal. 
+Renewal Renewal use-case allows apartment leasing agents to manage apartment lease renewal process through email. A leasing company may manage hundreds of apartments which will come up for renewal at different times during the year. The renewal process will need to start well before the apartment is up for lease to make sure there is time to list the apartment if the current tenant does not want to renew. A deadline must be set to ensure the apartment will be rented out as soon as possible if the tenant does not want to renew the lease. The tenant must be given multiple chances to renew up to the deadline. It's necessary to track the email sent to the tenant and responses from the tenant so it's easy and efficient for the property manager to track a renewal. 
 
-![Lease Renewal BPMN](docs/lease-renewal.png)
+![Renewal Renewal BPMN](docs/lease-renewal.png)
 
 ### Architecture
 

@@ -24,7 +24,7 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
 
 
-public class ResendTenantMessagePathTest extends LeaseRenewalTestBase{
+public class ResendTenantMessagePathTest extends RenewalRenewalTestBase{
 	
 
 	  @ClassRule

@@ -21,13 +21,13 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Message {
 
 	public Message(){};
-	public Message(String sender, String recipient, String subject, String text, String html, Lease lease){
+	public Message(String sender, String recipient, String subject, String text, String html, Renewal renewal){
 		this.sender = sender;
 		this.recipient = recipient;
 		this.subject = subject;
 		this.text = text;
 		this.html = html;
-		this.lease = lease;
+		this.renewal = renewal;
 	}
 	
     @Id
@@ -37,10 +37,10 @@ public class Message {
     @ManyToOne
     @JoinColumn(nullable=false)
     @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-    private Lease lease;
-    public Lease getLease() { return lease; }   
-    public void setLease(Lease lease){
-    	this.lease = lease;
+    private Renewal renewal;
+    public Renewal getRenewal() { return renewal; }   
+    public void setRenewal(Renewal renewal){
+    	this.renewal = renewal;
     }
 
  	@Column(nullable=false) 

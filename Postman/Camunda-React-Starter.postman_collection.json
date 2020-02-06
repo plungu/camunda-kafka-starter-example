@@ -230,7 +230,7 @@
 						"start"
 					]
 				},
-				"description": "Starts a Lease Renewal based on the date in the Lease (upload from spreadsheet)"
+				"description": "Starts a Renewal Renewal based on the date in the Renewal (upload from spreadsheet)"
 			},
 			"response": []
 		}

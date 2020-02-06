@@ -29,7 +29,7 @@ class MessageList extends React.Component{
           <div className="row">
               <div className="small-12 columns">
                   <MessageFilterBar
-                      lease={this.props.lease}
+                      renewal={this.props.renewal}
                       onRefreshMessages={this.props.onRefreshMessages}/>
               </div>
           </div>

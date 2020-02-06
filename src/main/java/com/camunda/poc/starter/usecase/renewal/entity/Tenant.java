@@ -22,11 +22,11 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 public class Tenant {
 
 	public Tenant(){};
-	public Tenant(String name, String email, String unitSlug, Lease lease){
+	public Tenant(String name, String email, String unitSlug, Renewal renewal){
 		this.name = name;
 		this.email = email;
 		this.unitSlug = unitSlug;
-		this.lease = lease;
+		this.renewal = renewal;
 	}
 	
 	public Tenant(String name, String email, String unitSlug){
@@ -46,10 +46,10 @@ public class Tenant {
     @ManyToOne
     @JoinColumn(nullable=true)
     @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
-    private Lease lease;
-    public Lease getLease() { return lease; }   
-    public void setLease(Lease lease){
-    	this.lease = lease;
+    private Renewal renewal;
+    public Renewal getRenewal() { return renewal; }
+    public void setRenewal(Renewal lease){
+    	this.renewal = lease;
     }
 
     private String name;

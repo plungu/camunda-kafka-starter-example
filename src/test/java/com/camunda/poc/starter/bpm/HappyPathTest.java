@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.camunda.bpm.engine.RuntimeService;
 
-public class HappyPathTest extends LeaseRenewalTestBase{
+public class HappyPathTest extends RenewalRenewalTestBase{
 	
 	@Test
 	@Deployment(resources = { 
@@ -32,7 +32,7 @@ public class HappyPathTest extends LeaseRenewalTestBase{
 		 */
 		RuntimeService runtimeService = processEngine().getRuntimeService();
 	
-		Date leaseExpirationDate = getLeaseExpirationDate(100);
+		Date leaseExpirationDate = getRenewalExpirationDate(100);
         SimpleDateFormat dateFormatter = new SimpleDateFormat("MM/dd/yyyy");
         NumberFormat moneyFormatter = NumberFormat.getCurrencyInstance();
 

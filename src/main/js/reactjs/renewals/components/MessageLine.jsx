@@ -6,7 +6,7 @@ var {Link, IndexLink} = require('react-router');
 const React = require('react');
 const DisplayDate = require('src/main/js/reactjs/renewals/components/DisplayDateTime.jsx');
 
-// tag::lease[]
+// tag::message[]
 class MessageLine extends React.Component{
 
   constructor(props) {
@@ -24,6 +24,6 @@ class MessageLine extends React.Component{
     )
   }
 }
-// end::lease[]
+// end::message[]
 
 module.exports = MessageLine;

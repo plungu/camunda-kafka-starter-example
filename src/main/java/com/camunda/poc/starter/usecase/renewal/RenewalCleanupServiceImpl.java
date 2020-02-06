@@ -2,35 +2,35 @@ package com.camunda.poc.starter.usecase.renewal;
 
 import java.util.List;
 
+import com.camunda.poc.starter.usecase.renewal.entity.Renewal;
 import org.camunda.bpm.engine.HistoryService;
 import org.springframework.stereotype.Service;
 
-import com.camunda.poc.starter.usecase.renewal.entity.Lease;
 import com.camunda.poc.starter.usecase.renewal.entity.Message;
-import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
+import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.MessageRepository;
 
 @Service
 public class RenewalCleanupServiceImpl implements RenewalCleanupService {
 
 	public RenewalCleanupServiceImpl(){}
-	public RenewalCleanupServiceImpl(LeaseRepository leaseRepository, MessageRepository messageRepository, HistoryService historyService){
-		this.leaseRepository = leaseRepository;
+	public RenewalCleanupServiceImpl(RenewalRepository renewalRepository, MessageRepository messageRepository, HistoryService historyService){
+		this.renewalRepository = renewalRepository;
 		this.messageRepository = messageRepository;
 		this.historyService = historyService;
 	}
-    private LeaseRepository leaseRepository;
+    private RenewalRepository renewalRepository;
     
     private MessageRepository messageRepository;
 
     private HistoryService historyService;
     
-	public LeaseRepository getLeaseRepository() {
-		return leaseRepository;
+	public RenewalRepository getRenewalRepository() {
+		return renewalRepository;
 	}
 
-	public void setLeaseRepository(LeaseRepository leaseRepository) {
-		this.leaseRepository = leaseRepository;
+	public void setRenewalRepository(RenewalRepository renewalRepository) {
+		this.renewalRepository = renewalRepository;
 	}
 
 	public MessageRepository getMessageRepository() {
@@ -51,20 +51,20 @@ public class RenewalCleanupServiceImpl implements RenewalCleanupService {
 
 	
 	public void clean(){
-		List<Lease> leases = leaseRepository.findStarted();
-		for(Lease lease : leases){
-			boolean complete = RenewalUtil.checkTaskComplete(historyService, lease.getBusinessKey(), "end");
+		List<Renewal> renewals = renewalRepository.findStarted();
+		for(Renewal renewal : renewals){
+			boolean complete = RenewalUtil.checkTaskComplete(historyService, renewal.getBusinessKey(), "end");
 			if (complete){
-				lease.setRenewalCompleted(true);
-				lease.setWorkflowState("End");
-				leaseRepository.save(lease);
+				renewal.setRenewalCompleted(true);
+				renewal.setWorkflowState("End");
+				renewalRepository.save(renewal);
 			}
 		}
 		
-		for(Lease lease : leases){
-			boolean complete = RenewalUtil.checkTaskComplete(historyService, lease.getBusinessKey(), "end");
+		for(Renewal renewal : renewals){
+			boolean complete = RenewalUtil.checkTaskComplete(historyService, renewal.getBusinessKey(), "end");
 			if (complete){						
-				List<Message> messages = lease.getMessages();
+				List<Message> messages = renewal.getMessages();
 				for(Message message : messages){
 					message.setArchived(true);
 					messageRepository.save(message);

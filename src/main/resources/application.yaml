@@ -11,8 +11,14 @@ spring.datasource:
   password: sa
 spring.h2.console.enabled: true
 
+# Has no effect for some reason
+spring:
+  jpa:
+    generate-ddl: false
+    hibernate.ddl-auto: none
+
 #Specify active profiles
-spring.profiles.active: renewal,dev
+#spring.profiles.active: renewal
 
 #disable spring auto-configure
 #spring.autoconfigure.exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration

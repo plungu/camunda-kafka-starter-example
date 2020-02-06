@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 
-public class FinalNoticeAlreadySentPathTest extends LeaseRenewalTestBase{
+public class FinalNoticeAlreadySentPathTest extends RenewalRenewalTestBase{
 	
 	@Test
 	@Deployment(resources = { "processes/renewal-process-example.bpmn" })
@@ -48,7 +48,7 @@ public class FinalNoticeAlreadySentPathTest extends LeaseRenewalTestBase{
 		//must be <= 0
 		//Setting the lease expiration date to 50 as to create no wait time
         //between the buffer days and lease expiration
-		variables.put("leaseExpirationDate", getLeaseExpirationDate(50));
+		variables.put("leaseExpirationDate", getRenewalExpirationDate(50));
 		variables.put("leaseExpirationBufferDays", 50);
 		//the final notice sent flag must be true simulating the 
 		//final notice has already been sent at least once

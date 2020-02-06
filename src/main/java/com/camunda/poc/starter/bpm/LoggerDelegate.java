@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 

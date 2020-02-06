@@ -5,8 +5,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import com.camunda.poc.starter.usecase.renewal.entity.Lease;
-import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
+import com.camunda.poc.starter.usecase.renewal.entity.Renewal;
+import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import org.junit.*;
 import org.junit.runner.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,21 +16,21 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
-public class LeaseEntityTest {
+public class RenewalEntityTest {
 
     @Autowired
-    private LeaseRepository leaseRepository;
+    private RenewalRepository renewalRepository;
    
     @Test
     public void savePropertyTest() throws Exception {
         String property = "1180 Atlantis Ave, Lafayette Colorado CO 80026";;
     	
-    	Lease lease = new Lease(Calendar.getInstance().getTime(), new Date(LocalDate.now().plusDays(100).getDayOfYear()), property);
-        this.leaseRepository.save(lease);
+    	Renewal renewal = new Renewal(Calendar.getInstance().getTime(), new Date(LocalDate.now().plusDays(100).getDayOfYear()), property);
+        this.renewalRepository.save(renewal);
         
-    	List<Lease> leases = leaseRepository.findByEndDate(new Date(LocalDate.now().plusDays(100).getDayOfYear()));
+    	List<Renewal> renewals = renewalRepository.findByEndDate(new Date(LocalDate.now().plusDays(100).getDayOfYear()));
 
-    	Assert.assertNotNull(leases);
+    	Assert.assertNotNull(renewals);
     }
     
 }

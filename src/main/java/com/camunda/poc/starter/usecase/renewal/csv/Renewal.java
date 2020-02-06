@@ -9,7 +9,7 @@ import java.util.Locale;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class Lease {
+public class Renewal {
 
     @CsvBindByName
 	private String start;

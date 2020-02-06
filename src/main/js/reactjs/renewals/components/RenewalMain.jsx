@@ -6,20 +6,20 @@ const ReactDOM = require('react-dom');
 const client = require('./client.jsx');
 const follow = require('./follow.jsx'); // function to hop multiple links by "rel"
 
-const LeaseList = require('src/main/js/reactjs/renewals/components/LeaseList.jsx');
-const LeaseDetail = require('src/main/js/reactjs/renewals/components/LeaseDetail.jsx');
+const RenewalList = require('src/main/js/reactjs/renewals/components/RenewalList.jsx');
+const RenewalDetail = require('src/main/js/reactjs/renewals/components/RenewalDetail.jsx');
 
 const root = '/api';
 // end::vars[]
 
 // tag::app[]
-class LeaseMain extends React.Component {
+class RenewalMain extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-          lease: null,
-          leases: [],
+          renewal: null,
+          renewals: [],
           attributes: [],
           pageSize: 2,
           links: {},
@@ -61,12 +61,12 @@ class LeaseMain extends React.Component {
 
     // tag::navigate[]
     onNavigate(navUri) {
-        client({method: 'GET', path: navUri}).done(leaseCollection => {
+        client({method: 'GET', path: navUri}).done(renewalCollection => {
             this.setState({
-                leases: leaseCollection.entity._embedded.leases,
+                renewals: renewalCollection.entity._embedded.renewals,
                 attributes: this.state.attributes,
                 pageSize: this.state.pageSize,
-                links: leaseCollection.entity._links
+                links: renewalCollection.entity._links
             });
         });
     }
@@ -100,8 +100,8 @@ class LeaseMain extends React.Component {
       });
     }
 
-    handleRefreshMessages(lease){
-      this.loadMessagesFromServer(lease._links.messages.href);
+    handleRefreshMessages(renewal){
+      this.loadMessagesFromServer(renewal._links.messages.href);
     }
 
     // tag::follow-2[]
@@ -129,12 +129,12 @@ class LeaseMain extends React.Component {
     loadPriorityFromServer(pageSize){
       client({
         method: 'GET',
-        path: root+"/leases/search/findLeasesByRenewalStartedAndRenewalCompletedAndWorkflowStateOrderByShowDateAsc",
+        path: root+"/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedAndWorkflowStateOrderByShowDateAsc",
         params: {size: pageSize, renewalStarted: true, renewalCompleted: false, workflowState: "Confirm Renewal State"},
       }).done(response => {
           this.setState(
             {
-              leases: response.entity._embedded.leases,
+              renewals: response.entity._embedded.renewals,
               pageSize: pageSize,
               links: response.entity._links
             }
@@ -145,12 +145,12 @@ class LeaseMain extends React.Component {
     loadStartedFromServer(pageSize){
       client({
         method: 'GET',
-        path: root+"/leases/search/findLeasesByRenewalStartedAndRenewalCompletedOrderByRenewalStartedAsc",
+        path: root+"/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByRenewalStartedAsc",
         params: {size: pageSize, renewalStarted: true, renewalCompleted: false},
       }).done(response => {
           this.setState(
             {
-              leases: response.entity._embedded.leases,
+              renewals: response.entity._embedded.renewals,
               pageSize: pageSize,
               links: response.entity._links
             }
@@ -161,12 +161,12 @@ class LeaseMain extends React.Component {
     loadStateFromServer(pageSize){
       client({
         method: 'GET',
-        path: root+"/leases/search/findLeasesByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
+        path: root+"/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
         params: {size: pageSize, renewalStarted: true, renewalCompleted: false},
       }).done(response => {
           this.setState(
             {
-              leases: response.entity._embedded.leases,
+              renewals: response.entity._embedded.renewals,
               pageSize: pageSize,
               links: response.entity._links
             }
@@ -177,22 +177,22 @@ class LeaseMain extends React.Component {
     // tag::follow-2[]
     loadAllFromServer(pageSize) {
         follow(client, root, [
-            {rel: 'leases', params: {size: pageSize}}]
-        ).then(leaseCollection => {
+            {rel: 'renewals', params: {size: pageSize}}]
+        ).then(renewalCollection => {
             return client({
                 method: 'GET',
-                path: leaseCollection.entity._links.profile.href,
+                path: renewalCollection.entity._links.profile.href,
                 headers: {'Accept': 'application/schema+json'}
             }).then(schema => {
                 this.schema = schema.entity;
-                return leaseCollection;
+                return renewalCollection;
             });
-        }).done(leaseCollection => {
+        }).done(renewalCollection => {
             this.setState({
-                leases: leaseCollection.entity._embedded.leases,
+                renewals: renewalCollection.entity._embedded.renewals,
                 attributes: Object.keys(this.schema.properties),
                 pageSize: pageSize,
-                links: leaseCollection.entity._links});
+                links: renewalCollection.entity._links});
         });
     }
     // end::follow-2[]
@@ -205,10 +205,10 @@ class LeaseMain extends React.Component {
     }
     // end::follow-3[]
 
-    handleSelectedItem(lease){
-      if(lease.renewalStarted === true
-              && lease.renewalCompleted === false
-              && lease.workflowState === "Confirm Renewal State")
+    handleSelectedItem(renewal){
+      if(renewal.renewalStarted === true
+              && renewal.renewalCompleted === false
+              && renewal.workflowState === "Confirm Renewal State")
       {
           this.setState({
               displayForm: "block"
@@ -219,7 +219,7 @@ class LeaseMain extends React.Component {
         });
       }
 
-      if(lease.renewalStarted === true){
+      if(renewal.renewalStarted === true){
           this.setState({
             displayMessages: "block"
          });
@@ -230,11 +230,11 @@ class LeaseMain extends React.Component {
       }
 
       this.setState({
-        lease: lease,
+        renewal: renewal,
         displayDetail: "block",
         displayList: "none"
       });
-      this.loadMessagesFromServer(lease._links.messages.href);
+      this.loadMessagesFromServer(renewal._links.messages.href);
     }
 
     handleBackClick(e){ 
@@ -261,12 +261,12 @@ class LeaseMain extends React.Component {
         }
     }
 
-    onUpdateNote(lease, updatedLease) {
+    onUpdateNote(renewal, updatedRenewal) {
         debugger
         client({
           method: 'POST',
           path: "/updateNote",
-          entity: updatedLease,
+          entity: updatedRenewal,
           headers: {'Content-Type': 'multipart/form-data'}
         }).done(response => {
           if (response.status.code === 200) {
@@ -274,37 +274,37 @@ class LeaseMain extends React.Component {
           }
           if (response.status.code === 412) {
               alert('DENIED: Unable to update ' +
-                  lease._links.self.href + ' METHOD NOT ALLOWED');
+                  renewal._links.self.href + ' METHOD NOT ALLOWED');
           }
           if (response.status.code === 412) {
               alert('DENIED: Unable to update ' +
-                  lease._links.self.href + '. Your copy is stale.');
+                  renewal._links.self.href + '. Your copy is stale.');
           }
           if (response.status.code === 500) {
             alert('DENIED: Unable to update ' +
-              lease._links.self.href + '. Internal Server Error.');
+              renewal._links.self.href + '. Internal Server Error.');
           }
         });   
     }
 
 
     // tag::on-delete[]
-    onDelete(lease) {
+    onDelete(renewal) {
         client(
-           {method: 'DELETE', path: lease._links.self.href}
+           {method: 'DELETE', path: renewal._links.self.href}
         ).done(response => {
            /* let the websocket handle updating the UI */  
-           alert("You successfully deleted " +lease.property+ "Use the back button and refresh the Lease list to view the changes"); 
+           alert("You successfully deleted " +renewal.property+ "Use the back button and refresh the Renewal list to view the changes");
         },
         response => {
             if (response.error){
                  alert("Somthing went wrong "+ reponse.error)   
             }else if (response.status.code === 400) {
                 alert('SERVER ERROR: You request was not completed ' +
-                        lease._links.self.href);
+                        renewal._links.self.href);
             }else if (response.status.code === 403) {
                 alert('ACCESS DENIED: You are not authorized to delete ' +
-                        lease._links.self.href);
+                        renewal._links.self.href);
             }else{
                 alert("Somthing went wrong "+ reponse.error)   
             }
@@ -314,8 +314,8 @@ class LeaseMain extends React.Component {
     
     render() {
       var item = "";
-      if (this.state.lease !== null) {
-        item = <LeaseDetail lease={this.state.lease}
+      if (this.state.renewal !== null) {
+        item = <RenewalDetail renewal={this.state.renewal}
                     messages={this.state.messages}
                     cannedMessages={this.state.cannedMessages}
                     onRefreshMessages={this.handleRefreshMessages}
@@ -332,7 +332,7 @@ class LeaseMain extends React.Component {
           <div>
 
             <div style={{display: this.state.displayList}}>
-              <LeaseList leases={this.state.leases}
+              <RenewalList renewals={this.state.renewals}
                 links={this.state.links}
                 pageSize={this.state.pageSize}
                 onNavigate={this.onNavigate}
@@ -350,7 +350,7 @@ class LeaseMain extends React.Component {
                <div className="top-bar-left">
                  <ul className="menu">
                    <li className="topbar-title">
-                     Lease Detail
+                     Renewal Detail
                    </li>
                  </ul>
                </div>
@@ -378,4 +378,4 @@ class LeaseMain extends React.Component {
 }
 // end::app[]
 
-module.exports = LeaseMain;
+module.exports = RenewalMain;

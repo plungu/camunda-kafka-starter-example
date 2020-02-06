@@ -24,7 +24,7 @@ import org.junit.Test;
 
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
 
-public class GracePeriodExpirationPathTest extends LeaseRenewalTestBase{
+public class GracePeriodExpirationPathTest extends RenewalRenewalTestBase{
 
 	  @ClassRule
 	  @Rule
@@ -52,7 +52,7 @@ public class GracePeriodExpirationPathTest extends LeaseRenewalTestBase{
 		RuntimeService runtimeService = processEngine().getRuntimeService();
 	
 		//Test message expiration 1 - 10  days before expiration
-		Date leaseExpirationDate = getLeaseExpirationDate(51);
+		Date leaseExpirationDate = getRenewalExpirationDate(51);
 		List<String> emails = new ArrayList<String>();
 		emails.add("lungu77@gmail.com");
 		
@@ -99,7 +99,7 @@ public class GracePeriodExpirationPathTest extends LeaseRenewalTestBase{
 		RuntimeService runtimeService = processEngine().getRuntimeService();
 	
 		//Test message cantor 11 to 20 days before deadline
-		Date leaseExpirationDate = getLeaseExpirationDate(65);
+		Date leaseExpirationDate = getRenewalExpirationDate(65);
 		List<String> emails = new ArrayList<String>();
 		emails.add("lungu77@gmail.com");
 		
@@ -145,7 +145,7 @@ public class GracePeriodExpirationPathTest extends LeaseRenewalTestBase{
 		RuntimeService runtimeService = processEngine().getRuntimeService();
 	
 		//Test message cantor 11 to 20 days before deadline
-		Date leaseExpirationDate = getLeaseExpirationDate(100);
+		Date leaseExpirationDate = getRenewalExpirationDate(100);
 		List<String> emails = new ArrayList<String>();
 		emails.add("lungu77@gmail.com");
 		

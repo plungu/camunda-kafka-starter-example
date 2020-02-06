@@ -6,14 +6,14 @@ const follow = require('./follow.jsx'); // function to hop multiple links by "re
 
 const MessageList = require('src/main/js/reactjs/renewals/components/MessageList.jsx');
 const MessageDetail = require('src/main/js/reactjs/renewals/components/MessageDetail.jsx');
-const LeaseForm = require('src/main/js/reactjs/renewals/components/LeaseForm.jsx');
+const RenewalForm = require('src/main/js/reactjs/renewals/components/RenewalForm.jsx');
 const Tenant = require('src/main/js/reactjs/renewals/components/Tenant.jsx');
-const LeaseInfo = require('src/main/js/reactjs/renewals/components/LeaseInfo.jsx');
-const LeaseLine = require('src/main/js/reactjs/renewals/components/LeaseLine.jsx');
+const RenewalInfo = require('src/main/js/reactjs/renewals/components/RenewalInfo.jsx');
+const RenewalLine = require('src/main/js/reactjs/renewals/components/RenewalLine.jsx');
 
 // end::vars[]
 
-class LeaseDetail extends React.Component{
+class RenewalDetail extends React.Component{
   constructor(props) {
       super(props);
       this.state = {
@@ -61,7 +61,7 @@ class LeaseDetail extends React.Component{
     var displayForm = this.props.displayForm;
     var displayMessages = this.props.displayMessages;
 
-    var tenants = this.props.lease.tennants.map(tenant =>
+    var tenants = this.props.renewal.tennants.map(tenant =>
         <Tenant key={tenant.email}
             tenant={tenant}/>
     );
@@ -88,8 +88,8 @@ class LeaseDetail extends React.Component{
                              </tr>
                         </thead>
                         <tbody>
-                            <LeaseLine key={this.props.lease._links.self.href}
-                                lease={this.props.lease}
+                            <RenewalLine key={this.props.renewal._links.self.href}
+                                renewal={this.props.renewal}
                                 onUpdateNote={this.props.onUpdateNote}
                                 onSelectItem={this.props.onSelectItem}/>
                         </tbody>
@@ -99,9 +99,9 @@ class LeaseDetail extends React.Component{
         </div>
                                 
         <div style={{display: this.props.displayInfo}}>
-            <LeaseInfo 
+            <RenewalInfo
                 tenants={tenants}
-                lease={this.props.lease}
+                renewal={this.props.renewal}
                 onUpdateNote={this.props.onUpdateNote}
                 onDelete={this.props.onDelete}/>
         </div>
@@ -110,7 +110,7 @@ class LeaseDetail extends React.Component{
           <hr />
           <div style={{display: this.state.displayList}}>
               <MessageList messages={this.props.messages}
-                  lease={this.props.lease}
+                  renewal={this.props.renewal}
                   links={this.state.links}
                   pageSize={this.state.pageSize}
                   onNavigate={this.onNavigate}
@@ -145,7 +145,7 @@ class LeaseDetail extends React.Component{
                   
         <div style={{display: displayForm}}>
           <hr />
-          <LeaseForm lease={this.props.lease}
+          <RenewalForm renewal={this.props.renewal}
                    cannedMessages={this.props.cannedMessages}/>
         </div>
 
@@ -154,4 +154,4 @@ class LeaseDetail extends React.Component{
   }
 }
 
-module.exports = LeaseDetail;
+module.exports = RenewalDetail;

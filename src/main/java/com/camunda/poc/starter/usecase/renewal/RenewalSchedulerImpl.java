@@ -1,7 +1,7 @@
 package com.camunda.poc.starter.usecase.renewal;
 
-import com.camunda.poc.starter.usecase.renewal.entity.Lease;
-import com.camunda.poc.starter.usecase.renewal.repo.LeaseRepository;
+import com.camunda.poc.starter.usecase.renewal.entity.Renewal;
+import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.RuntimeService;
@@ -33,7 +33,7 @@ public class RenewalSchedulerImpl {
 
     @Bean
     @Profile("schedule-renewal-start")
-    public RenewalScheduler leaseRenewalScheduler(final LeaseRepository leaseRepository,
+    public RenewalScheduler leaseRenewalScheduler(final RenewalRepository renewalRepository,
                                                   final RuntimeService runtimeService,
                                                   final TaskService taskService){
 
@@ -42,7 +42,7 @@ public class RenewalSchedulerImpl {
             @Override
             @Scheduled(cron = "${app.cron.renewal-start}")
             public void run() {
-                RenewalUtil.startLeaseRenewal(leaseRepository,
+                RenewalUtil.startRenewalRenewal(renewalRepository,
                                                 runtimeService,
                                                     taskService,
                                                         config);
@@ -50,26 +50,26 @@ public class RenewalSchedulerImpl {
         };
     }
 
-    //TODO: refactor this is not scalable when there are many lease
+    //TODO: refactor this is not scalable when there are many renewal
     @Bean
-    public RenewalScheduler updateLeaseState(final TaskService taskService,
-                                             final LeaseRepository leaseRepository) {
+    public RenewalScheduler updateRenewalState(final TaskService taskService,
+                                             final RenewalRepository renewalRepository) {
 
         return new RenewalScheduler() {
 
             @Override
             @Scheduled(cron = "0/10 * * * * ?")
             public void run() {
-                List<Lease> leases = leaseRepository.findStarted();
-                for (Lease lease : leases) {
-                    List<Task> tasks = RenewalUtil.queryTasksById(taskService, lease.getBusinessKey());
+                List<Renewal> renewals = renewalRepository.findStarted();
+                for (Renewal renewal : renewals) {
+                    List<Task> tasks = RenewalUtil.queryTasksByBizKey(taskService, renewal.getBusinessKey());
                     if (tasks != null && !tasks.isEmpty()){
                         Task task = tasks.get(0);
                         log.info("Found Task: "+task.getName());
-                        if (!task.getName().equalsIgnoreCase(lease.getWorkflowState())) {
-                            lease.setWorkflowState(task.getName());
-                            leaseRepository.save(lease);
-                            log.info("Updating Lease State with Task: "+task.getName());
+                        if (!task.getName().equalsIgnoreCase(renewal.getWorkflowState())) {
+                            renewal.setWorkflowState(task.getName());
+                            renewalRepository.save(renewal);
+                            log.info("Updating Renewal State with Task: "+task.getName());
                         }
                     }
                 }
@@ -86,7 +86,7 @@ public class RenewalSchedulerImpl {
             @Override
             @Scheduled(cron = "${app.cron.renewal-clean}")
             public void run() {
-                log.fine("[X] Start Lease Cleanup: "+ Calendar.getInstance().getTime());
+                log.fine("[X] Start Renewal Cleanup: "+ Calendar.getInstance().getTime());
                 renewalCleanupService.clean();
             }
         };
@@ -96,7 +96,7 @@ public class RenewalSchedulerImpl {
     @Profile("init-roles")
     InitializingBean usersAndGroupsInitializer(final IdentityService identityService,
                                                final TenantRepository tenantRepository,
-                                               final LeaseRepository leaseRepository,
+                                               final RenewalRepository renewalRepository,
                                                final RuntimeService runtimeService) {
 
         return new InitializingBean() {

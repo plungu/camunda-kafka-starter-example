@@ -1,8 +1,8 @@
 const React = require('react');
 
-const ImportLeaseForm = require('src/main/js/reactjs/renewals/components/ImportLeaseForm.jsx');
+const ImportRenewalForm = require('src/main/js/reactjs/renewals/components/ImportRenewalForm.jsx');
 
-class ImportLeaseMain extends React.Component{
+class ImportRenewalMain extends React.Component{
 
   render(){
       return (
@@ -40,10 +40,10 @@ class ImportLeaseMain extends React.Component{
                   </tbody>
               </table>
           </div>
-          <ImportLeaseForm />
+          <ImportRenewalForm />
         </div>
       )
   }
 }
 
-module.exports = ImportLeaseMain;
+module.exports = ImportRenewalMain;

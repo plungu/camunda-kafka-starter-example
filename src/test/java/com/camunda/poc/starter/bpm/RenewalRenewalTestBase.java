@@ -28,8 +28,8 @@ import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.NONE)
-public class LeaseRenewalTestBase {
-  public static Logger log = Logger.getLogger(LeaseRenewalTestBase.class.getName());
+public class RenewalRenewalTestBase {
+  public static Logger log = Logger.getLogger(RenewalRenewalTestBase.class.getName());
 
   protected static final String PROCESS_DEFINITION_KEY = "lease-renewal";
 
@@ -86,7 +86,7 @@ public class LeaseRenewalTestBase {
 		taskService.complete(task.getId(), variables);
 	}
 		
-	protected Date getLeaseExpirationDate(int days){
+	protected Date getRenewalExpirationDate(int days){
 		return Date.from(LocalDate.now().plusDays(days).atStartOfDay(ZoneId.systemDefault()).toInstant());
 	}
 	
