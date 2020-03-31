@@ -51,88 +51,18 @@ Example specific use-case `` renewal-process-example.bpmn ``
 JS code for custom ReactJS UI lives in
 `` src/main/js/reactjs/<use-case> ``
 
+## Use Case Examples
 
-## Use Case: Renewals
-
-Renewal use-case allows agents to manage renewal process through email. A company may manage hundreds of renewals which will come up for renewal at different times during the year. The renewal process will need to start well before the renewal has elapsed to make sure there is time to reassign the resource.
-
-A deadline must be set to ensure the resource will be available as soon as possible if the current user does not want to renew the resource. The current user must be given multiple chances to renew up to the deadline.
-
-It's necessary to track the communication sent to the user by the manager and system and responses from the user so it's easy and efficient for the manager to track the state of the renewal.
-
-![Renewal Renewal BPMN](docs/lease-renewal.png)
-
-### Architecture
-
-**_more to come ..._**
-
-#### Renewals: ReactJS UI Integration
-
-The Maven frontend-maven-plugin configured in pom.xml is used to build the ReactJS app. The plugin creates a bundle.js file which ends up in `src/main/resources/static/built/bundle.js`. The static directory makes static resources such as JS and HTML available to the java app.
-
-The Java application boot-straps the ReactJS App through Thymeleaf a java/spring frontend framework. The templates directory `src/main/resources/templates/app.html` has a HTML file app.html which calls the React app through a `<script />` tag loading the HTML into the react div `<div id="react"></div>`
-
-Thymeleaf ties the Java frontend together using a Spring controller. `src/main/java/com/camunda/react/starter/controller/HomeController.java`. Mapping the app context to /home and calling the app.html.
-
-**Visit `http://<server>:<port>/home` to access the React app.**
-
-## Use Case: Registrations
-
-The registrations use case is an example of handling a customer registration / onboarding process. This process demonstrates bulk completion of human tasks with a traditional server side JSP style UI. Additionally it leverages JS data-tables to create a slick list page for displaying UI.
-
-**_more to come ..._**
-
-### Architecture
-
-**_more to come ..._**
-
-# #
-
-## Use Case: Email Notifications
-
-**_more to come ..._**
-
-### Architecture
-
-**_more to come ..._**
-
-# #
-
-## Use Case: Integration with events and messaging
-
-**_more to come ..._**
-
-### Architecture
-
-**_more to come ..._**
-
-# #
-
-## Use Case: Authentication with Keycloak
-
-**_more to come ..._**
-
-### Architecture
-
-**_more to come ..._**
-
-# #
-
-## Use Case: Scheduling Processes
-
-**_more to come ..._**
-
-### Architecture
-
-**_more to come ..._**
-
-## Use Case: Batch Process
-
-**_more to come ..._**
-
-### Architecture
-
-**_more to come ..._**
+| Use Case  | Feature Examples |
+|---|---|
+| [Business Case - Renewals](./docs/business-case-renewals.md)  | ReactJS UI Example |
+| [Business Case - Registration](./docs/business-case-registrations.md) | Bulk Complete Tasks UI Example  |
+| [Technical Case - Email Notifications](./docs/) | Email Integration, Freemarker Templates |
+| [Technical Case - Events and Messaging](./docs/tecnical-case-events-and-messaging.md) | Integration with RabbitMQ, Global Execution Listener |
+| [Technical Case - SSO](./docs/technical-case-sso.md) | Keycloak Authentication |
+| [Technical Case - Camunda Variables](./docs/technical-case-camunda-variables.md) | REST, Objects, JSON, Entity Manager |
+| [Technical Case - Camunda as Task SoT](./docs/technical-case-task-sot.md) | Persistence and Retrieve task meta-data |
+| [Technical Case - Open API](/docs/technical-case-open-api.md) | Swagger |
 
 ## Setting up the App for your use-case
 
@@ -179,7 +109,8 @@ Adding configs to this class allows you to customize the configurations. This cl
 
 **_more to come ..._**
 
-## #
+
+
 
 ### Externalizing Configuration
 
@@ -267,6 +198,7 @@ There are a few configurations you must add to Heroku for the app to work correc
 In the heroku configuration panel we can feed in the parameters to our startup command and the app configs in the .properties files.
 
 ​
+[//]: # (
 
 ## TODO
 
@@ -282,3 +214,5 @@ In the heroku configuration panel we can feed in the parameters to our startup c
 - Externalize email template
 
 - **Improve the style of the UI**
+
+)
