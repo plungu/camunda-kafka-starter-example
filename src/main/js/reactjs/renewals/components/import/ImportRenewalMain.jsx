@@ -1,6 +1,6 @@
 const React = require('react');
 
-const ImportRenewalForm = require('src/main/js/reactjs/renewals/components/ImportRenewalForm.jsx');
+const ImportRenewalForm = require('src/main/js/reactjs/renewals/components/import/ImportRenewalForm.jsx');
 
 class ImportRenewalMain extends React.Component{
 

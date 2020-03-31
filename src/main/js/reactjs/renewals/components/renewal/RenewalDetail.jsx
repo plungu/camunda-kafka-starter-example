@@ -1,15 +1,15 @@
 // tag::vars[]
 const React = require('react');
 const ReactDOM = require('react-dom')
-const client = require('./client.jsx');
-const follow = require('./follow.jsx'); // function to hop multiple links by "rel"
+const client = require('../client.jsx');
+const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
-const MessageList = require('src/main/js/reactjs/renewals/components/MessageList.jsx');
-const MessageDetail = require('src/main/js/reactjs/renewals/components/MessageDetail.jsx');
-const RenewalForm = require('src/main/js/reactjs/renewals/components/RenewalForm.jsx');
-const Tenant = require('src/main/js/reactjs/renewals/components/Tenant.jsx');
-const RenewalInfo = require('src/main/js/reactjs/renewals/components/RenewalInfo.jsx');
-const RenewalLine = require('src/main/js/reactjs/renewals/components/RenewalLine.jsx');
+const MessageList = require('src/main/js/reactjs/renewals/components/message/MessageList.jsx');
+const MessageDetail = require('src/main/js/reactjs/renewals/components/message/MessageDetail.jsx');
+const RenewalForm = require('src/main/js/reactjs/renewals/components/renewal/RenewalForm.jsx');
+const Tenant = require('src/main/js/reactjs/renewals/components/tenant/Tenant.jsx');
+const RenewalInfo = require('src/main/js/reactjs/renewals/components/renewal/RenewalInfo.jsx');
+const RenewalLine = require('src/main/js/reactjs/renewals/components/renewal/RenewalLine.jsx');
 
 // end::vars[]
 
@@ -81,7 +81,7 @@ class RenewalDetail extends React.Component{
                                 <th>Current Rent</th>
                                 <th>1 Year Offer</th>
                                 <th>2 Year Offer</th>
-                                <th>Status</th>
+                                {/*<th>Status</th>*/}
                                 <th>State</th>
                                 <th>Renewing</th>
                                 <th>Note</th>

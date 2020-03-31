@@ -3,11 +3,11 @@
 // tag::vars[]
 const React = require('react');
 const ReactDOM = require('react-dom');
-const client = require('./client.jsx');
-const follow = require('./follow.jsx'); // function to hop multiple links by "rel"
+const client = require('../client.jsx');
+const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
-const CannedMessageList = require('src/main/js/reactjs/renewals/components/CannedMessageList.jsx');
-const CannedMessageDetail = require('src/main/js/reactjs/renewals/components/CannedMessageDetail.jsx');
+const CannedMessageList = require('src/main/js/reactjs/renewals/components/canned-message/CannedMessageList.jsx');
+const CannedMessageDetail = require('src/main/js/reactjs/renewals/components/canned-message/CannedMessageDetail.jsx');
 
 const root = '/api';
 // end::vars[]

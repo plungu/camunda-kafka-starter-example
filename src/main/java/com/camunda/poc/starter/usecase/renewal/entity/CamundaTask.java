@@ -11,7 +11,7 @@ import java.util.Date;
 public class CamundaTask {
 
 	public CamundaTask(){};
-	public CamundaTask(long leaseId, long taskId){ }
+	public CamundaTask(String taskId){ }
 	
     @Id
     @Column(nullable=false, name="ID_")

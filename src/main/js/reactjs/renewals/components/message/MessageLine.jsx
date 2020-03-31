@@ -4,7 +4,7 @@ var {Link, IndexLink} = require('react-router');
 
 // tag::vars[]
 const React = require('react');
-const DisplayDate = require('src/main/js/reactjs/renewals/components/DisplayDateTime.jsx');
+const DisplayDate = require('src/main/js/reactjs/renewals/components/date/DisplayDateTime.jsx');
 
 // tag::message[]
 class MessageLine extends React.Component{

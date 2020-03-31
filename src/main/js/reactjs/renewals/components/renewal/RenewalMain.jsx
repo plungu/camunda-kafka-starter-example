@@ -3,11 +3,11 @@
 // tag::vars[]
 const React = require('react');
 const ReactDOM = require('react-dom');
-const client = require('./client.jsx');
-const follow = require('./follow.jsx'); // function to hop multiple links by "rel"
+const client = require('../client.jsx');
+const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
-const RenewalList = require('src/main/js/reactjs/renewals/components/RenewalList.jsx');
-const RenewalDetail = require('src/main/js/reactjs/renewals/components/RenewalDetail.jsx');
+const RenewalList = require('src/main/js/reactjs/renewals/components/renewal/RenewalList.jsx');
+const RenewalDetail = require('src/main/js/reactjs/renewals/components/renewal/RenewalDetail.jsx');
 
 const root = '/api';
 // end::vars[]

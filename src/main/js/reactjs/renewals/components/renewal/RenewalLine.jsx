@@ -4,8 +4,8 @@ var {Link, IndexLink} = require('react-router');
 
 // tag::vars[]
 const React = require('react');
-const DisplayDate = require('src/main/js/reactjs/renewals/components/DisplayDate.jsx');
-const UpdateNoteDialog = require('src/main/js/reactjs/renewals/components/UpdateNoteDialog.jsx');
+const DisplayDate = require('src/main/js/reactjs/renewals/components/date/DisplayDate.jsx');
+const UpdateNoteDialog = require('src/main/js/reactjs/renewals/components/note/UpdateNoteDialog.jsx');
 
 // tag::renewal[]
 class RenewalLine extends React.Component{
@@ -37,7 +37,7 @@ class RenewalLine extends React.Component{
             <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.currentRent}</td>
             <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.oneYearOffer}</td>
             <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.twoYearOffer}</td>
-            <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{status}</td>
+            {/*<td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{status}</td>*/}
             <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.workflowState}</td>
             <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{renewing}</td>
             <td>

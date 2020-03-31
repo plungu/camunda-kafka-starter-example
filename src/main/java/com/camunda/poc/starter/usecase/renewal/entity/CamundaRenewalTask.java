@@ -12,7 +12,7 @@ import java.util.Date;
 public class CamundaRenewalTask {
 
 	public CamundaRenewalTask(){};
-	public CamundaRenewalTask(long renewalId, long taskId){
+	public CamundaRenewalTask(long renewalId, String taskId){
 	}
 	
     @Id

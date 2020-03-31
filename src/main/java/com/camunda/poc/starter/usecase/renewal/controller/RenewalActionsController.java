@@ -9,6 +9,7 @@ import java.util.Optional;
 //import org.camunda.bpm.engine.task.Task;
 import com.camunda.poc.starter.usecase.renewal.AppConfigProperties;
 import com.camunda.poc.starter.usecase.renewal.RenewalUtil;
+import com.camunda.poc.starter.usecase.renewal.repo.CamundaRenewalTaskRepository;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
@@ -32,12 +33,14 @@ import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 public class RenewalActionsController {
 
 	RenewalRepository renewalRepository;
+	CamundaRenewalTaskRepository camundaRenewalTaskRepository;
 	RuntimeService runtimeService;
 	TaskService taskService;
 	AppConfigProperties config;
 
 	@Autowired
 	public RenewalActionsController(RenewalRepository renewalRepository,
+									CamundaRenewalTaskRepository camundaRenewalTaskRepository,
 									RuntimeService runtimeService,
 									TaskService taskService,
 									AppConfigProperties config){
@@ -53,10 +56,10 @@ public class RenewalActionsController {
 	{
 		ResponseEntity<HttpStatus> re = new ResponseEntity<HttpStatus>(HttpStatus.OK);
 
-		ProcessInstance processInstance = RenewalUtil.startRenewalRenewal(renewalRepository,
-										runtimeService,
-										taskService,
-				    					config);
+		ProcessInstance processInstance = RenewalUtil.startRenewal( renewalRepository,
+																	camundaRenewalTaskRepository,
+																	runtimeService,
+																	config);
 		if(processInstance==null)
 			return new ResponseEntity<HttpStatus>(HttpStatus.INTERNAL_SERVER_ERROR);
 

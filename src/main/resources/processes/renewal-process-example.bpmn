@@ -4,18 +4,18 @@
     <extensionElements>
       <camunda:executionListener delegateExpression="${renewalStateListener}" event="start" />
     </extensionElements>
-    <sequenceFlow id="startToGetDays" sourceRef="startEvent" targetRef="getRemainingDays" />
-    <sequenceFlow id="getDaysToNDaysDecision" sourceRef="getRemainingDays" targetRef="noticeDecision" />
-    <exclusiveGateway id="finalNoticeDecision" name="Final Notice Sent">
+    <sequenceFlow id="startToGetDays" sourceRef="start-renewal" targetRef="get-remaining-days" />
+    <sequenceFlow id="getDaysToNDaysDecision" sourceRef="get-remaining-days" targetRef="noticeDecision" />
+    <exclusiveGateway id="finalNoticeDecision" name="Final Notice Sent ?">
       <documentation>Checks if the final notice has been sent? Go to Send Final Notice if No. Go to Notify Property Manager if final notice sent. Note that the worklfow goes through one more cycle giving the tenant final chance to reply.</documentation>
     </exclusiveGateway>
     <sequenceFlow id="finalNoticeToSendFinalNotice" name="No" sourceRef="finalNoticeDecision" targetRef="send-final-notice">
       <conditionExpression xsi:type="tFormalExpression">${finalNoticeSent == false}</conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="finalNoticeDecisionToNotifiyAdmin" name="Yes" sourceRef="finalNoticeDecision" targetRef="notifyPropertyManager">
+    <sequenceFlow id="finalNoticeDecisionToNotifiyAdmin" name="Yes" sourceRef="finalNoticeDecision" targetRef="notify-manager">
       <conditionExpression xsi:type="tFormalExpression">${finalNoticeSent == true}</conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="sendFinalNoticeToAwaitTenantReply" sourceRef="send-final-notice" targetRef="awaitTenantReply" />
+    <sequenceFlow id="sendFinalNoticeToAwaitTenantReply" sourceRef="send-final-notice" targetRef="await-reply" />
     <exclusiveGateway id="noticeDecision" name="Remaining Days?">
       <documentation>Check the number of days the workflow has existed. If less than specified N days then go to Send Initial Tenant Message Task. If N days or older go to the Final Notice Decision.</documentation>
     </exclusiveGateway>
@@ -25,40 +25,39 @@
     <sequenceFlow id="noticeDecisionToSendInitalTenantMessage" name="&#62;0" sourceRef="noticeDecision" targetRef="send-inital-message">
       <conditionExpression xsi:type="tFormalExpression">${remainingDays &gt; 0}</conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="sendInitalTenantMessageToAwaitTenantReply" sourceRef="send-inital-message" targetRef="awaitTenantReply" />
-    <boundaryEvent id="gracePeriodTimer" attachedToRef="awaitTenantReply">
+    <sequenceFlow id="sendInitalTenantMessageToAwaitTenantReply" sourceRef="send-inital-message" targetRef="await-reply" />
+    <boundaryEvent id="gracePeriodTimer" attachedToRef="await-reply">
       <timerEventDefinition>
         <timeCycle>${gracePeriod}</timeCycle>
       </timerEventDefinition>
     </boundaryEvent>
-    <sequenceFlow id="tenantReplyToReplyDecision" sourceRef="awaitTenantReply" targetRef="notifyPropertyManager" />
-    <sequenceFlow id="gracePeriodTimerToGetWorkflowDays" sourceRef="gracePeriodTimer" targetRef="getRemainingDays" />
-    <sequenceFlow id="notifyPropertyManagerToConfrimRenewalState" sourceRef="notifyPropertyManager" targetRef="confrimRenewalState" />
-    <sequenceFlow id="confirmRenewalStateToRenewalStateDecision" sourceRef="confrimRenewalState" targetRef="renewalStateDecision" />
-    <exclusiveGateway id="renewalStateDecision" name="Renewal Confirmed">
+    <sequenceFlow id="tenantReplyToReplyDecision" sourceRef="await-reply" targetRef="notify-manager" />
+    <sequenceFlow id="gracePeriodTimerToGetWorkflowDays" sourceRef="gracePeriodTimer" targetRef="get-remaining-days" />
+    <sequenceFlow id="notifyPropertyManagerToConfrimRenewalState" sourceRef="notify-manager" targetRef="confrim-renewal-state" />
+    <sequenceFlow id="confirmRenewalStateToRenewalStateDecision" sourceRef="confrim-renewal-state" targetRef="renewalStateDecision" />
+    <exclusiveGateway id="renewalStateDecision" name="Renewal Confirmed ?">
       <documentation>If the renewal state is set to &lt;confirmed&gt; the workfow goes to the Send Tenant Confirmation task and sends the message from the property manager. If the &lt;renewal state&gt; is set to &lt;not confirmed&gt; the workflow will go to Send Tenant Message sending the message input by the property manager.</documentation>
     </exclusiveGateway>
     <sequenceFlow id="renewalStateDecisionToSendTenantMessage" name="No" sourceRef="renewalStateDecision" targetRef="sendTenantMessage">
       <conditionExpression xsi:type="tFormalExpression">${renewalConfirmed == false}</conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="renewalStateDecisionToSendTenantConfirmation" name="Yes" sourceRef="renewalStateDecision" targetRef="sendTenantConfirmation">
+    <sequenceFlow id="renewalStateDecisionToSendTenantConfirmation" name="Yes" sourceRef="renewalStateDecision" targetRef="send-confirmation">
       <conditionExpression xsi:type="tFormalExpression">${renewalConfirmed == true}</conditionExpression>
     </sequenceFlow>
-    <sequenceFlow id="sendTenantMessageToAwaitTenantReply" sourceRef="sendTenantMessage" targetRef="awaitTenantReply" />
-    <sequenceFlow id="sendTenantConfirmationToEnd" sourceRef="sendTenantConfirmation" targetRef="end" />
-    <endEvent id="end" />
-    <sendTask id="sendTenantMessage" name="Send Tenant Message" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
+    <sequenceFlow id="sendTenantMessageToAwaitTenantReply" sourceRef="sendTenantMessage" targetRef="await-reply" />
+    <sequenceFlow id="sendTenantConfirmationToEnd" sourceRef="send-confirmation" targetRef="renewal-ended" />
+    <sendTask id="sendTenantMessage" name="Send Message" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
       <documentation>Sends the message input by the property manager in the Confirm Renewal State task.</documentation>
       <incoming>renewalStateDecisionToSendTenantMessage</incoming>
       <outgoing>sendTenantMessageToAwaitTenantReply</outgoing>
     </sendTask>
-    <sendTask id="notifyPropertyManager" name="Notify Property Manager" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
+    <sendTask id="notify-manager" name="Notify Manager" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
       <documentation>Notify Property Manager the tenant has replied.</documentation>
       <incoming>finalNoticeDecisionToNotifiyAdmin</incoming>
       <incoming>tenantReplyToReplyDecision</incoming>
       <outgoing>notifyPropertyManagerToConfrimRenewalState</outgoing>
     </sendTask>
-    <userTask id="confrimRenewalState" name="Confirm Renewal State">
+    <userTask id="confrim-renewal-state" name="Confirm Renewal State">
       <documentation>Property Manager replies to users based on the users last response and sets the &lt;renewal state&gt; variable. If the renewal state is set to &lt;confirmed&gt; the workfow goes to the Send Tenant Confirmation task and sends the message from the Property Manager. If the &lt;renewal state&gt; is set to &lt;not confirmed&gt; the workflow will go to Send Tenant Message sending the message input by the property manager.
 The propery manager at this stage makes the final decision on weather the workflow should contine or not. It's possible a final notice has been and the &lt;grace period&gt; has expired but the property manager can choose to start the grace period over by setting the &lt;renewal state&gt; to not confimerd. 
 May want to include the ability to change the grace period.</documentation>
@@ -68,7 +67,7 @@ May want to include the ability to change the grace period.</documentation>
       <incoming>notifyPropertyManagerToConfrimRenewalState</incoming>
       <outgoing>confirmRenewalStateToRenewalStateDecision</outgoing>
     </userTask>
-    <sendTask id="sendTenantConfirmation" name="Send Tenant Confirmation" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
+    <sendTask id="send-confirmation" name="Send Confirmation" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
       <documentation>Sends the confirmation input by property manager in the Confirm Renewal Task.</documentation>
       <incoming>renewalStateDecisionToSendTenantConfirmation</incoming>
       <outgoing>sendTenantConfirmationToEnd</outgoing>
@@ -78,7 +77,7 @@ May want to include the ability to change the grace period.</documentation>
       <incoming>finalNoticeToSendFinalNotice</incoming>
       <outgoing>sendFinalNoticeToAwaitTenantReply</outgoing>
     </sendTask>
-    <receiveTask id="awaitTenantReply" name="Await Tenant Reply" messageRef="Message_0jc16nv">
+    <receiveTask id="await-reply" name="Await Reply" messageRef="Message_0jc16nv">
       <documentation>Waits for the tenant to reply to message. If no reply within &lt;grace period&gt; go back to check the &lt;final renewal date&gt;. If tenant replies than property manager is notified immediatly.
         Calculate the &lt;grace period&gt; based on the &lt;final renewal day&gt;. The workflow should stagger the messages depending on the number of days left until &lt;final renewal day&gt;. Also the property manager can set the &lt;grace period&gt;, overriding the stagger. The override is done by property manager in Confirm Renewal State task.
         TODO - Document how this will be done in more detail.</documentation>
@@ -90,27 +89,39 @@ May want to include the ability to change the grace period.</documentation>
       <incoming>sendFinalNoticeToAwaitTenantReply</incoming>
       <outgoing>tenantReplyToReplyDecision</outgoing>
     </receiveTask>
-    <sendTask id="send-inital-message" name="Send Initial Message" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
+    <sendTask id="send-inital-message" name="Send Intial Message" camunda:asyncBefore="true" camunda:delegateExpression="${logger}">
       <documentation>Sends a canned tenant message to initiate the renewal process. This message is sent until there is a reply from tenant.</documentation>
       <incoming>noticeDecisionToSendInitalTenantMessage</incoming>
       <outgoing>sendInitalTenantMessageToAwaitTenantReply</outgoing>
     </sendTask>
-    <serviceTask id="getRemainingDays" name="Calculate Remaining Days" camunda:delegateExpression="${getRemainingDaysDelegate}">
+    <serviceTask id="get-remaining-days" name="Calculate Remaining Days" camunda:delegateExpression="${getRemainingDaysDelegate}">
       <incoming>startToGetDays</incoming>
       <incoming>gracePeriodTimerToGetWorkflowDays</incoming>
       <outgoing>getDaysToNDaysDecision</outgoing>
     </serviceTask>
-    <startEvent id="startEvent" name="Start">
+    <endEvent id="renewal-ended" name="Renewal Ended">
+      <extensionElements>
+        <camunda:executionListener delegateExpression="${renewalStateListener}" event="start" />
+      </extensionElements>
+      <incoming>sendTenantConfirmationToEnd</incoming>
+      <messageEventDefinition />
+    </endEvent>
+    <startEvent id="start-renewal" name="Start Renewal">
+      <extensionElements>
+        <camunda:executionListener delegateExpression="${renewalStateListener}" event="start" />
+      </extensionElements>
       <outgoing>startToGetDays</outgoing>
+      <messageEventDefinition messageRef="Message_0nz05fz" />
     </startEvent>
   </process>
   <message id="Message_0jc16nv" name="tenant_reply_message" />
+  <message id="Message_0nz05fz" name="renewal-start" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_renewalRenewal">
     <bpmndi:BPMNPlane id="BPMNPlane_renewalRenewal" bpmnElement="renewal-process-example">
       <bpmndi:BPMNShape id="BPMNShape_finalNoticeDecision" bpmnElement="finalNoticeDecision" isMarkerVisible="true">
         <omgdc:Bounds x="442" y="180" width="40" height="40" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="348" y="193" width="84" height="14" />
+          <omgdc:Bounds x="348" y="193" width="84" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_noticeDecision" bpmnElement="noticeDecision" isMarkerVisible="true">
@@ -128,13 +139,7 @@ May want to include the ability to change the grace period.</documentation>
       <bpmndi:BPMNShape id="BPMNShape_renewalStateDecision" bpmnElement="renewalStateDecision" isMarkerVisible="true">
         <omgdc:Bounds x="1409" y="326" width="40" height="40" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="1404" y="284" width="51" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_end" bpmnElement="end">
-        <omgdc:Bounds x="1686" y="328" width="35" height="35" />
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="1659" y="243" width="90" height="20" />
+          <omgdc:Bounds x="1400" y="284" width="60" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="BPMNEdge_startToGetDays" bpmnElement="startToGetDays">
@@ -249,8 +254,8 @@ May want to include the ability to change the grace period.</documentation>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="BPMNEdge_gracePeriodTimerToGetWorkflowDays" bpmnElement="gracePeriodTimerToGetWorkflowDays">
         <omgdi:waypoint x="949" y="401" />
-        <omgdi:waypoint x="949" y="480" />
-        <omgdi:waypoint x="312" y="480" />
+        <omgdi:waypoint x="949" y="490" />
+        <omgdi:waypoint x="312" y="490" />
         <omgdi:waypoint x="312" y="386" />
         <bpmndi:BPMNLabel>
           <omgdc:Bounds x="585.5" y="420" width="90" height="20" />
@@ -259,31 +264,37 @@ May want to include the ability to change the grace period.</documentation>
       <bpmndi:BPMNShape id="SendTask_0lam0v8_di" bpmnElement="sendTenantMessage">
         <omgdc:Bounds x="1137" y="454" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="SendTask_16ksfc6_di" bpmnElement="notifyPropertyManager">
+      <bpmndi:BPMNShape id="SendTask_16ksfc6_di" bpmnElement="notify-manager">
         <omgdc:Bounds x="1069" y="306" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="UserTask_0yky9yq_di" bpmnElement="confrimRenewalState">
+      <bpmndi:BPMNShape id="UserTask_0yky9yq_di" bpmnElement="confrim-renewal-state">
         <omgdc:Bounds x="1243" y="306" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="SendTask_0bqyixm_di" bpmnElement="sendTenantConfirmation">
+      <bpmndi:BPMNShape id="SendTask_0bqyixm_di" bpmnElement="send-confirmation">
         <omgdc:Bounds x="1533" y="306" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SendTask_0jgef82_di" bpmnElement="send-final-notice">
         <omgdc:Bounds x="630" y="161" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ReceiveTask_1aap0e5_di" bpmnElement="awaitTenantReply">
+      <bpmndi:BPMNShape id="ReceiveTask_1aap0e5_di" bpmnElement="await-reply">
         <omgdc:Bounds x="899" y="306" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="SendTask_0zmpm8z_di" bpmnElement="send-inital-message">
         <omgdc:Bounds x="630" y="306" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0cfhmm1_di" bpmnElement="getRemainingDays">
+      <bpmndi:BPMNShape id="ServiceTask_0cfhmm1_di" bpmnElement="get-remaining-days">
         <omgdc:Bounds x="262" y="306" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="StartEvent_1tom3ss_di" bpmnElement="startEvent">
+      <bpmndi:BPMNShape id="EndEvent_0vkm0hp_di" bpmnElement="renewal-ended">
+        <omgdc:Bounds x="1686" y="328" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="1665" y="371" width="78" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_0zjbkti_di" bpmnElement="start-renewal">
         <omgdc:Bounds x="154" y="328" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="160" y="363" width="24" height="14" />
+          <omgdc:Bounds x="137" y="376" width="69" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>

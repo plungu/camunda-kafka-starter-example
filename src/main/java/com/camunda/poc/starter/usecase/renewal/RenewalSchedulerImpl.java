@@ -1,6 +1,7 @@
 package com.camunda.poc.starter.usecase.renewal;
 
 import com.camunda.poc.starter.usecase.renewal.entity.Renewal;
+import com.camunda.poc.starter.usecase.renewal.repo.CamundaRenewalTaskRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.TenantRepository;
 import org.camunda.bpm.engine.IdentityService;
@@ -21,30 +22,33 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Logger;
 
-@Profile("renewal")
+//@Profile("renewal")
 @Component
-@EnableConfigurationProperties(AppConfigProperties.class)
 public class RenewalSchedulerImpl {
 
     public static Logger log = Logger.getLogger(Class.class.getName());
 
-    @Autowired
     AppConfigProperties config;
+
+    @Autowired
+    public RenewalSchedulerImpl(AppConfigProperties config){
+        this.config = config;
+    }
 
     @Bean
     @Profile("schedule-renewal-start")
     public RenewalScheduler leaseRenewalScheduler(final RenewalRepository renewalRepository,
-                                                  final RuntimeService runtimeService,
-                                                  final TaskService taskService){
+                                                  final CamundaRenewalTaskRepository camundaRenewalTaskRepository,
+                                                  final RuntimeService runtimeService){
 
         return new RenewalScheduler() {
 
             @Override
             @Scheduled(cron = "${app.cron.renewal-start}")
             public void run() {
-                RenewalUtil.startRenewalRenewal(renewalRepository,
+                RenewalUtil.startRenewal(renewalRepository,
+                                            camundaRenewalTaskRepository,
                                                 runtimeService,
-                                                    taskService,
                                                         config);
             }
         };

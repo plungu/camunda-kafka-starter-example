@@ -6,6 +6,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.*;
 
+import com.camunda.poc.starter.usecase.renewal.entity.CamundaRenewalTask;
+import com.camunda.poc.starter.usecase.renewal.repo.CamundaRenewalTaskRepository;
 import com.camunda.poc.starter.usecase.renewal.repo.RenewalRepository;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.RuntimeService;
@@ -24,31 +26,31 @@ import java.util.logging.Logger;
 public class RenewalUtil {
 	public static Logger log = Logger.getLogger(RenewalUtil.class.getName());
 
-	public static ProcessInstance startRenewalRenewal(RenewalRepository renewalRepository,
-													RuntimeService runtimeService,
-													TaskService taskService,
-													AppConfigProperties config){
+	public static ProcessInstance startRenewal(RenewalRepository renewalRepository,
+											   CamundaRenewalTaskRepository camundaRenewalTaskRepository,
+											   RuntimeService runtimeService,
+											   AppConfigProperties config){
 
 		ProcessInstance processInstance = null;
-		log.info("\n\n Running Renewal renewal");
+		log.info("\n\n Running Renewal");
 		//kicks off worklfow when the end date is 100 from current date
-		Date leaseRenewalkickoffDate = RenewalUtil
+		Date renewalkickoffDate = RenewalUtil
 				.getKickOffDate(config.getCron()
 						.getRenewalKickoffBufferDays());
 
-		log.info("\n\n Start date from today: "+leaseRenewalkickoffDate);
+		log.info("\n\n Start date from today: "+renewalkickoffDate);
 
 		List<Renewal> renewals = renewalRepository
-				.findByEndDate(leaseRenewalkickoffDate);
+				.findByEndDate(renewalkickoffDate);
 
 		if (!renewals.isEmpty()){
 			for(Renewal renewal : renewals){
 				try {
 					processInstance = RenewalUtil
-							.startRenewalRenewal(renewal,
+							.startRenewal(renewal,
 									renewalRepository,
+									camundaRenewalTaskRepository,
 									runtimeService,
-									taskService,
 									config);
 
 				} catch (Exception e) {
@@ -57,23 +59,23 @@ public class RenewalUtil {
 				}
 			}
 		}else{
-			log.info("\n\n No leases found ending with kick off date: "+leaseRenewalkickoffDate);
+			log.info("\n\n No leases found ending with kick off date: "+renewalkickoffDate);
 		}
 		return processInstance;
 	}
 
-	public static ProcessInstance startRenewalRenewal(Renewal lease,
-													RenewalRepository leaseRepository,
-													RuntimeService runtimeService,
-													TaskService taskService,
-													AppConfigProperties config) throws Exception{
+	public static ProcessInstance startRenewal(Renewal renewal,
+											   RenewalRepository renewalRepository,
+											   CamundaRenewalTaskRepository camundaRenewalTaskRepository,
+											   RuntimeService runtimeService,
+											   AppConfigProperties config) throws Exception{
 
-		log.info("\n\n Got Renewal : "+lease);
+		log.info("\n\n Got Renewal : "+renewal);
 
-		String property = lease.getProperty();
+		String property = renewal.getProperty();
 		log.fine("\n\n Property: "+property);
 
-		List<Tenant> tenants = lease.getTennants();
+		List<Tenant> tenants = renewal.getTennants();
 		log.fine("\n\n Tenants: "+tenants.size());
 
 		StringBuilder recipients = new StringBuilder();
@@ -91,7 +93,7 @@ public class RenewalUtil {
 
 		log.info("\n\n Tennant Emails: "+emails.toString());
 
-		Date leaseExpirationDate = lease.getEnd();
+		Date leaseExpirationDate = renewal.getEnd();
 		log.info("\n\n Date of Renewal Expiration set to :"+leaseExpirationDate);
 
 		//Days left until final notice is sent so property has time to be listed
@@ -113,19 +115,23 @@ public class RenewalUtil {
 		variables.put("systemEmail", config.getSystemEmail());
 		variables.put("defaultFromEmail", config.getDefaultFromEmail());
 
-		variables.put("property", lease.getProperty());
-		variables.put("endDate", dateFormatter.format(lease.getEnd()));
-		variables.put("oneYearOffer", moneyFormatter.format(lease.getOneYearOffer()));
-		variables.put("twoYearOffer", moneyFormatter.format(lease.getTwoYearOffer()));
-		variables.put("showDate", dateFormatter.format(lease.getShowDate()));
+		variables.put("property", renewal.getProperty());
+		variables.put("endDate", dateFormatter.format(renewal.getEnd()));
+		variables.put("oneYearOffer", moneyFormatter.format(renewal.getOneYearOffer()));
+		variables.put("twoYearOffer", moneyFormatter.format(renewal.getTwoYearOffer()));
+		variables.put("showDate", dateFormatter.format(renewal.getShowDate()));
 
+		//TODO: ALL this should be in a transaction
+
+		//Save the lease with a biz key
 		String businessKey = UUID.randomUUID().toString();
 
-		lease.setBusinessKey(businessKey);
-		lease.setRenewalStarted(true);
-		Renewal savedRenewal = leaseRepository.save(lease);
+		renewal.setBusinessKey(businessKey);
+		renewal.setRenewalStarted(true);
+		Renewal savedRenewal = renewalRepository.save(renewal);
 		log.info("Saved Renewal: "+ savedRenewal);
 
+		//start a process with the biz key and renewal
 		ProcessInstance processInstance = null;
 		if(savedRenewal != null) {
 			processInstance =
@@ -133,13 +139,19 @@ public class RenewalUtil {
 							.startProcessInstanceByKey("renewal-process-example",
 									businessKey,
 									variables);
+
 			if (processInstance.getId() == null)
-				throw new Exception("\n\n Processes Id Null! Could Not Start Process for Property" + lease.getProperty());
+				throw new Exception("\n\n Processes Id Null! Could Not Start Process for Property" + renewal.getProperty());
+
+			String taskId = runtimeService.getActivityInstance(processInstance.getProcessInstanceId()).getActivityId();
+			camundaRenewalTaskRepository.save(new CamundaRenewalTask(savedRenewal.getId(), taskId));
+
 		}else{
-			throw new Exception("\n\n Could not save lease");
+			throw new Exception("\n\n Could not save Renewal");
 		}
 
-		log.info("\n\n Starterd Porocess Instance: "+ processInstance.getId());
+
+		log.info("\n\n Started Process Instance: "+ processInstance.getId());
 
 		return processInstance;
 

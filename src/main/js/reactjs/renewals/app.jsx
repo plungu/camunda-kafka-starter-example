@@ -5,12 +5,12 @@ const React = require('react');
 const ReactDOM = require('react-dom')
 const {Route, Router, IndexRoute, hashHistory} = require('react-router');
 const Main = require('Main');
-const RenewalMain = require('RenewalMain');
-const TenantMain = require('TenantMain');
-const Import = require('Import');
-const RenewalDetail = require('RenewalDetail');
-const TenantDetail = require('TenantDetail');
-const CannedMessageMain = require('CannedMessageMain');
+const RenewalMain = require('./components/renewal/RenewalMain');
+const TenantMain = require('./components/tenant/TenantMain');
+const Import = require('./components/import/Import');
+const RenewalDetail = require('./components/renewal/RenewalDetail');
+const TenantDetail = require('./components/tenant/TenantDetail');
+const CannedMessageMain = require('./components/canned-message/CannedMessageMain');
 
 // tag::styles[]
 require('style!css!foundation-sites/dist/foundation.css');

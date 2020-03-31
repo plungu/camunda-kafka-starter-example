@@ -3,22 +3,22 @@
 // tag::vars[]
 const React = require('react');
 
-const Tenant = require('src/main/js/reactjs/renewals/components/TenantLine.jsx');
+const CannedMessage = require('src/main/js/reactjs/renewals/components/canned-message/CannedMessageLine.jsx');
 
-const FilterBar = require('src/main/js/reactjs/renewals/components/TenantFilterBar.jsx');
+const FilterBar = require('src/main/js/reactjs/renewals/components/tenant/TenantFilterBar.jsx');
 
-// tag::Tenant-list[]
-class TenantList extends React.Component{
+// tag::CannedMessage-list[]
+class CannedMessageList extends React.Component{
     constructor(props) {
         super(props);
     }
 
     render() {
-		var tenants = this.props.tenants.map(tenant =>
-			<Tenant key={tenant._links.self.href}
-        tenant={tenant}
+		var cannedMessages = this.props.cannedMessages.map(cannedMessage =>
+			<CannedMessage key={cannedMessage._links.self.href}
+        cannedMessage={cannedMessage}
         onSelectItem={this.props.onSelectItem}
-	    onDelete={this.props.onDelete}/>
+		onDelete={this.props.onDelete}/>
 		);
 
 		return (
@@ -29,7 +29,7 @@ class TenantList extends React.Component{
                                    pageSize={this.props.pageSize}
                                    onNavigate={this.props.onNavigate}
                                    updatePageSize={this.props.updatePageSize}
-                                   title="Tenants"/>
+                                   title="Canned Messages"/>
                     </div>
                 </div>
 
@@ -38,13 +38,13 @@ class TenantList extends React.Component{
               			<table className="hover stack">
               				<thead>
               					<tr>
-              						<th>Name</th>
+              						<th>Subject</th>
+              						<th>Text</th>
               						<th>Email</th>
-              						<th>Unit Slug</th>
               					</tr>
               				</thead>
                       <tbody>
-                        {tenants}
+                        {cannedMessages}
                       </tbody>
               			</table>
               		</div>
@@ -54,6 +54,6 @@ class TenantList extends React.Component{
 		)
 	}
 }
-// end::Tenant-list[]
+// end::CannedMessage-list[]
 
-module.exports = TenantList;
+module.exports = CannedMessageList;

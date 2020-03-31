@@ -3,7 +3,7 @@
 // tag::vars[]
 const React = require('react');
 
-const RenewalLine = require('src/main/js/reactjs/renewals/components/RenewalLine.jsx');
+const RenewalLine = require('src/main/js/reactjs/renewals/components/renewal/RenewalLine.jsx');
 
 const FilterBar = require('src/main/js/reactjs/renewals/components/FilterBar.jsx');
 
@@ -48,7 +48,7 @@ class RenewalList extends React.Component{
 						  <th>Current Rent</th>
 						  <th>1 Year Offer</th>
 						  <th>2 Year Offer</th>
-                          <th>Status</th>
+                          {/*<th>Status</th>*/}
 						  <th>Process</th>
 						  <th>Renewing</th>
 						  <th>Note</th>

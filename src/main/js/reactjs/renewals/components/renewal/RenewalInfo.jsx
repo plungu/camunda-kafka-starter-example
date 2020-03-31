@@ -1,6 +1,6 @@
 const React = require('react');
-const DisplayDate = require('src/main/js/reactjs/renewals/components/DisplayDate.jsx');
-const UpdateNoteDialog = require('src/main/js/reactjs/renewals/components/UpdateNoteDialog.jsx');
+const DisplayDate = require('src/main/js/reactjs/renewals/components/date/DisplayDate.jsx');
+const UpdateNoteDialog = require('src/main/js/reactjs/renewals/components/note/UpdateNoteDialog.jsx');
 
 class RenewalInfo extends React.Component{
   constructor(props) {
@@ -77,7 +77,7 @@ class RenewalInfo extends React.Component{
                     <ul>
                       <li><span className="label">Start Date</span><span className="data"><DisplayDate date={this.props.renewal.start} /></span></li>
                       <li><span className="label">End Date</span><span className="data"><DisplayDate date={this.props.renewal.end} /></span></li>
-                      <li><span className="label">Status</span><span className="data">{status}</span></li>
+                      {/*<li><span className="label">Status</span><span className="data">{status}</span></li>*/}
                       <li><span className="label">Worflow State</span><span className="data">{this.props.renewal.workflowState}</span></li>
                       <li><span className="label">Show Date</span><span className="data"><DisplayDate date={this.props.renewal.showDate} /></span></li>
                       <li><span className="label">Renewing</span><span className="data">{renewing}</span></li>

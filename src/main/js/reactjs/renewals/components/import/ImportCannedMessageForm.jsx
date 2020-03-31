@@ -1,5 +1,5 @@
 var React = require('react');
-const client = require('./client.jsx');
+const client = require('../client.jsx');
 
 var ImportCannedMessageForm = React.createClass({
     

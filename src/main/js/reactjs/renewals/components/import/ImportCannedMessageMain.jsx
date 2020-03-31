@@ -1,6 +1,6 @@
 const React = require('react');
 
-const ImportCannedMessageForm = require('src/main/js/reactjs/renewals/components/ImportCannedMessageForm.jsx');
+const ImportCannedMessageForm = require('src/main/js/reactjs/renewals/components/import/ImportCannedMessageForm.jsx');
 
 class ImportCannedMessageMain extends React.Component{
 
