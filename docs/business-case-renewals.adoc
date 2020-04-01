@@ -6,13 +6,37 @@ A deadline must be set to ensure the resource will be available as soon as possi
 
 It's necessary to track the communication sent to the user by the manager and system and responses from the user so it's easy and efficient for the manager to track the state of the renewal.
 
-![Renewal Renewal BPMN](lease-renewal.png)
+image:./images/lease-renewal.png[Renewal BPMN]
 
-### Architecture
+IMPORTANT: Running the app once with no profile is necessary. Do to a bug when initalizing the Camunda schema and the custom entities. Before running the renewal profile run the following.
+
+## Running the use-case
+
+**Profiles** can be specified at the command line when the application starts. The notation is as follows. `-Dspring.profiles.active=dev,renewals`
+
+Or you can use the application.properties file to specify the profile.
+
+```yaml
+spring.profiles.active: dev,renewals
+```
+
+### Loading Data
+
+To load some default data use the URL
+
+`http://<server>:<port>/renewals/start`
+
+or use the postman collection `Camunda-PoC-Starter-Renewals.postman_collection.json` in the `postman` folder.
+
+### See it running
+**Visit `http://<server>:<port>/renewals` to access the React app.**
+
+
+## Architecture
 
 **_more to come ..._**
 
-#### Renewals: ReactJS UI Integration
+#### ReactJS UI Integration
 
 The Maven frontend-maven-plugin configured in pom.xml is used to build the ReactJS app. The plugin creates a bundle.js file which ends up in `src/main/resources/static/built/bundle.js`. The static directory makes static resources such as JS and HTML available to the java app.
 
@@ -20,4 +44,4 @@ The Java application boot-straps the ReactJS App through Thymeleaf a java/spring
 
 Thymeleaf ties the Java frontend together using a Spring controller. `src/main/java/com/camunda/react/starter/controller/HomeController.java`. Mapping the app context to /home and calling the app.html.
 
-**Visit `http://<server>:<port>/home` to access the React app.**
+The React Components are organized under the `src\main\js\reactjs` folder into a use-case folder then subdivided by component. Webpack and package.json define the structure and dependencies for the React App that allow node to build the app into the bundle.js which is later placed in the static directory as explained previously. 
