@@ -256,6 +256,12 @@
 	    <version>1.2.0</version>
 	</dependency>
 
+    <!-- LDAP plugin -->
+    <dependency>
+      <groupId>org.camunda.bpm.identity</groupId>
+      <artifactId>camunda-identity-ldap</artifactId>
+    </dependency>
+
       <!-- Groovy as JSR-223 scripting engine -->
       <dependency>
           <groupId>org.codehaus.groovy</groupId>

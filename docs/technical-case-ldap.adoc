@@ -1,0 +1,27 @@
+## Use Case: Authentication with LDAP Plugin
+
+=== Steps
+1. Start docker-compose
+ a. go to docker-compose folder ~/docker-compose
+ b. open docker-compose.yml and uncomment the ldap section
+   - based on https://github.com/kuchenmn/cam-apacheds[Kuch's ApacheDS project image]
+ c. start docker-compose
+    ``
+    docker-compose up --build
+    ``
+
+2. __(Optional)__ http://directory.apache.org/studio/[Start Apache DS]
+ a. Connect to AapacheDS server
+ b. review and edit ldap for use-case
+
+3. Start Camunda spring with LDAP plugin
+ a. Make sure the dependency for plugin is in POM.
+ b. check and customize the LDAP query config in
+    ``src/main/resources/application-ldap.properties``
+ c. start camunda spring-boot with LDAP profile
+  ``mvn spring-boot:run -Dspring.profiles.active=ldap``
+
+
+### Architecture
+
+Using LDAP with the camunda springboot single node.

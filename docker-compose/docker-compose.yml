@@ -45,10 +45,30 @@ services:
 #    environment:
 #      POSTGRES_USER: camunda
 #      POSTGRES_PASSWORD: camunda
-#      POSTGRES_DB: camunda    
+#      POSTGRES_DB: camunda
 #    ports:
 #      - "5432:5432"
 
+#########################################
+# LDAP Service
+#########################################
+# ou=people,ou=example,ou=com
+#  ou=jane,ou=people,ou=example,ou=com (Password: jane)
+#  ou=john,ou=people,ou=example,ou=com (Password: john)
+#  ou=joe,ou=people,ou=example,ou=com (Password: joe)
+#  ou=judy,ou=people,ou=example,ou=com (Password: judy)
+# ou=groups,ou=example,ou=com
+#  ou=camunda-users,ou=people,ou=example,ou=com
+#  ou=all-users,ou=people,ou=example,ou=com
+#
+#########################################
+  apacheds:
+    image: kuchenmn/cam-apacheds
+    restart: always
+    environment:
+      USER: demo
+    ports:
+    - 10389:10389
 
 
 ##########################################
