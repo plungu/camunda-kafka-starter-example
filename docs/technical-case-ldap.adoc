@@ -14,7 +14,7 @@
  a. Connect to AapacheDS server
  b. review and edit ldap for use-case
 
-3. Start Camunda spring with LDAP plugin
+3. Start Camunda Spring-Boot with LDAP plugin
  a. Make sure the dependency for plugin is in POM.
  b. __(Optional)__ check and customize the LDAP query config in
     ``src/main/resources/application-ldap.properties``
