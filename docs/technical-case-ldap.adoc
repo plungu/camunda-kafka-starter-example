@@ -23,6 +23,15 @@
  c. start camunda spring-boot with LDAP profile
   ``mvn spring-boot:run -Dspring.profiles.active=ldap``
 
+IMPORTANT: Dont forget to remove the Camunda Admin User in the default application.yaml.
+
+``` yaml
+#  admin-user:
+#    id: demo
+#    password: demo
+#    firstName: Demo
+#    lastName: Demo
+```
 
 ### Architecture
 
