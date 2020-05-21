@@ -12,10 +12,10 @@ spring.datasource:
 spring.h2.console.enabled: true
 
 # Has no effect for some reason
-spring:
-  jpa:
-    generate-ddl: false
-    hibernate.ddl-auto: none
+#spring:
+#  jpa:
+#    generate-ddl: false
+#    hibernate.ddl-auto: none
 
 #Specify active profiles
 #spring.profiles.active: renewal
@@ -26,10 +26,10 @@ spring:
 camunda.bpm:
 #  job-execution:
 #    deployment-aware: true
-#  admin-user:
-#    id: demo
-#    password: demo
-#    firstName: Demo
-#    lastName: Demo
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+    lastName: Demo
   filter:
     create: All Tasks

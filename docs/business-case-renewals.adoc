@@ -10,6 +10,10 @@ image:./images/lease-renewal.png[Renewal BPMN]
 
 IMPORTANT: Running the app once with no profile is necessary. Do to a bug when initalizing the Camunda schema and the custom entities. Before running the renewal profile run the following.
 
+```
+mvn spring-boot:run
+```
+
 ## Running the use-case
 
 **Profiles** can be specified at the command line when the application starts. The notation is as follows. `-Dspring.profiles.active=dev,renewals`
