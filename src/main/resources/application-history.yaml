@@ -1,0 +1,12 @@
+camunda.bpm:
+  history-level: audit
+#  authorization:
+#    enabled: true
+#  filter:
+#    create: All tasks
+
+camunda:
+  history:
+    cleanup:
+      historyCleanupBatchSize: 10
+      historyCleanupBatchThreshold: 10
