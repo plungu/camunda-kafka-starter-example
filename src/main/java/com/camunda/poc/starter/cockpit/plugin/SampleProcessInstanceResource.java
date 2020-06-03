@@ -6,9 +6,9 @@ import javax.ws.rs.GET;
 import org.camunda.bpm.cockpit.db.QueryParameters;
 import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginResource;
 
-public class ProcessInstanceResource extends AbstractCockpitPluginResource {
+public class SampleProcessInstanceResource extends AbstractCockpitPluginResource {
 
-    public ProcessInstanceResource(String engineName) {
+    public SampleProcessInstanceResource(String engineName) {
         super(engineName);
     }
 

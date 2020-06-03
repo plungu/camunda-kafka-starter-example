@@ -10,9 +10,9 @@
     </resultMap>
 
     <select id="selectProcessInstanceCountsByProcessDefinition" resultMap="processInstanceCountMap">
-    select d.KEY_, count(d.KEY_) INSTANCES_
-      from ACT_RU_EXECUTION e JOIN ACT_RE_PROCDEF d ON e.PROC_DEF_ID_ = d.ID_
-      group by d.KEY_
-  </select>
+        select d.KEY_, count(d.KEY_) INSTANCES_
+          from ACT_RU_EXECUTION e JOIN ACT_RE_PROCDEF d ON e.PROC_DEF_ID_ = d.ID_
+          group by d.KEY_
+    </select>
 
 </mapper>

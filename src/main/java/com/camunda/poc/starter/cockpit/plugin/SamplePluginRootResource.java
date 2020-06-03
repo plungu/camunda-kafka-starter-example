@@ -3,7 +3,6 @@ package com.camunda.poc.starter.cockpit.plugin;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 
-import org.camunda.bpm.cockpit.impl.plugin.base.sub.resources.ProcessInstanceResource;
 import org.camunda.bpm.cockpit.plugin.resource.AbstractCockpitPluginRootResource;
 
 @Path("plugin/" + SamplePlugin.ID)
@@ -14,7 +13,7 @@ public class SamplePluginRootResource extends AbstractCockpitPluginRootResource 
     }
 
     @Path("{engineName}/process-instance")
-    public ProcessInstanceResource getProcessInstanceResource(@PathParam("engineName") String engineName) {
-        return subResource(new ProcessInstanceResource(engineName, SamplePlugin.ID), engineName);
+    public SampleProcessInstanceResource getProcessInstanceResource(@PathParam("engineName") String engineName) {
+        return subResource(new SampleProcessInstanceResource(engineName), engineName);
     }
 }
