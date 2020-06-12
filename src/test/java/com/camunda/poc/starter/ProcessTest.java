@@ -1,11 +1,11 @@
 package com.camunda.poc.starter;
 
 import org.apache.ibatis.logging.LogFactory;
-import org.camunda.bpm.engine.ProcessEngine;
-import org.junit.Before;
+import org.camunda.bpm.engine.test.ProcessEngineRule;
+import org.camunda.bpm.spring.boot.starter.test.helper.StandaloneInMemoryTestConfiguration;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -21,18 +21,12 @@ import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
 public class ProcessTest {
 
   //private static final String PROCESS_DEFINITION_KEY = "spring-boot-starter";
-
-  @Autowired
-  private ProcessEngine processEngine;
-
   static {
     LogFactory.useSlf4jLogging(); // MyBatis
   }
 
-  @Before
-  public void setup() {
-    init(processEngine);
-  }
+  @Rule
+  public final ProcessEngineRule processEngine = new StandaloneInMemoryTestConfiguration().rule();
 
   @Test
   public void testHappyPath() {

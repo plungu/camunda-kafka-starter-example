@@ -26,10 +26,10 @@ spring:
 camunda.bpm:
 #  job-execution:
 #    deployment-aware: true
-#  admin-user:
-#    id: demo
-#    password: demo
-#    firstName: Demo
-#    lastName: Demo
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+    lastName: Demo
   filter:
     create: All Tasks
