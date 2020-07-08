@@ -18,6 +18,8 @@ The Camunda React Starter App is a Java app that utilizes the Camunda JAVA API's
 | link:./docs/technical-case-task-sot.adoc[Technical Case - Camunda as Task SoT] | Persistence and Retrieve task meta-data
 | link:/docs/technical-case-open-api.adoc[Technical Case - Open API] | Swagger
 | link:/docs/technical-case-ldap.adoc[Technical Case - LDAP] | LDAP Plugin Configuration
+| link:/docs/technical-case-history-engine-plugin.adoc[Technical Case - History Engine Plugin] | History Configuration, History Event Handler, History Transaction Listener, Custom History Level
+| link:/docs/technical-case-camunda-generic-pros-hisrtory-config.adoc[Technical Case - Generic Properties] | History Configuration with Generic Properties
 |===
 
 ### Get started in a PoC or other engagement

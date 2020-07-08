@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definitions_0cnrg3v" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.0.0">
+  <bpmn:process id="history-event-example" name="History-Event-Example" isExecutable="true">
+    <bpmn:startEvent id="Start-History-Event-Example" name="Start History Event Example">
+      <bpmn:outgoing>Flow_1kf44zo</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_1kf44zo" sourceRef="Start-History-Event-Example" targetRef="Activity-1" />
+    <bpmn:sequenceFlow id="Flow_1rm42c4" sourceRef="Activity-1" targetRef="Activity-2" />
+    <bpmn:sequenceFlow id="Flow_0htj7iq" sourceRef="Activity-2" targetRef="Activity-3" />
+    <bpmn:sequenceFlow id="Flow_0nqydz5" sourceRef="Activity-3" targetRef="Activity-4" />
+    <bpmn:endEvent id="Event_0r0xyvz">
+      <bpmn:incoming>Flow_0c1aha1</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0c1aha1" sourceRef="Activity-4" targetRef="Event_0r0xyvz" />
+    <bpmn:serviceTask id="Activity-1" name="Activity-1" camunda:delegateExpression="${logger}">
+      <bpmn:incoming>Flow_1kf44zo</bpmn:incoming>
+      <bpmn:outgoing>Flow_1rm42c4</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity-2" name="Activity-2" camunda:asyncAfter="true" camunda:delegateExpression="${logger}">
+      <bpmn:incoming>Flow_1rm42c4</bpmn:incoming>
+      <bpmn:outgoing>Flow_0htj7iq</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity-3" name="Activity-3" camunda:delegateExpression="${logger}">
+      <bpmn:incoming>Flow_0htj7iq</bpmn:incoming>
+      <bpmn:outgoing>Flow_0nqydz5</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="Activity-4" name="Activity-4" camunda:delegateExpression="${bpmnError}">
+      <bpmn:incoming>Flow_0nqydz5</bpmn:incoming>
+      <bpmn:outgoing>Flow_0c1aha1</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="history-event-example">
+      <bpmndi:BPMNEdge id="Flow_0c1aha1_di" bpmnElement="Flow_0c1aha1">
+        <di:waypoint x="850" y="117" />
+        <di:waypoint x="912" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0nqydz5_di" bpmnElement="Flow_0nqydz5">
+        <di:waypoint x="690" y="117" />
+        <di:waypoint x="750" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0htj7iq_di" bpmnElement="Flow_0htj7iq">
+        <di:waypoint x="530" y="117" />
+        <di:waypoint x="590" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1rm42c4_di" bpmnElement="Flow_1rm42c4">
+        <di:waypoint x="370" y="117" />
+        <di:waypoint x="430" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1kf44zo_di" bpmnElement="Flow_1kf44zo">
+        <di:waypoint x="215" y="117" />
+        <di:waypoint x="270" y="117" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="Start-History-Event-Example">
+        <dc:Bounds x="179" y="99" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="161" y="142" width="74" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0r0xyvz_di" bpmnElement="Event_0r0xyvz">
+        <dc:Bounds x="912" y="99" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1a8v1w3_di" bpmnElement="Activity-1">
+        <dc:Bounds x="270" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06t5ga1_di" bpmnElement="Activity-2">
+        <dc:Bounds x="430" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ilsq7k_di" bpmnElement="Activity-3">
+        <dc:Bounds x="590" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0sai6pt_di" bpmnElement="Activity-4">
+        <dc:Bounds x="750" y="77" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
