@@ -2,10 +2,6 @@
 
 The purpose of this application is to have a starter for PoC and other less structured engagements. This enables the consultant to easily discuss and demonstrate common concepts and patterns without customizing the application. Additionally it can be used as a starter project in many cases.
 
-### Summary
-
-The Camunda React Starter App is a Java app that utilizes the Camunda JAVA API's to interact with Camunda. A React app is also built and deployed using maven plugin. The React app utilizes custom Controllers to interact with the work-flow.
-
 ### Use Case Examples
 |===
 | **Use Case** | **Feature Examples**

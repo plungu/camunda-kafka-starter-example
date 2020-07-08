@@ -4,6 +4,13 @@
 
     MyCustomHistoryLevelEnginePlugin.java
 
+Modify the application-history.yaml to set the custom history level corresponding to your `CustomHistoryLevel.java`
+```yaml
+camunda:
+  bpm:
+    history-level: custom-history-level
+```
+
 #### Running the use-case
 
 **Profiles** can be specified at the command line when the application starts. The notation is as follows. `-Dspring.profiles.active=history`
@@ -17,14 +24,6 @@ Or you can use the application.properties file to specify the profile.
 ```yaml
 spring.profiles.active: history
 ```
-
-Modify the application-history.yaml to set the custom history level corresponding to your `CustomHistoryLevel.java`
-```yaml
-camunda:
-  bpm:
-    history-level: custom-history-level
-```
-
 
 ---
 
