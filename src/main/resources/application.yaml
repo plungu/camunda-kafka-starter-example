@@ -1,18 +1,18 @@
-#debug=true
+debug: false
 #logging.level.com.camunda.*: INFO
 
 server.port: 8080
 
 # See the docker-compose to use PostgreSQL
-spring.datasource:
-  url: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;MVCC=TRUE;DB_CLOSE_ON_EXIT=FALSE
-#shareable h2 database: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;MVCC=TRUE;DB_CLOSE_ON_EXIT=FALSE;AUTO_SERVER=TRUE
-  username: sa
-  password: sa
-spring.h2.console.enabled: true
-
-# Has no effect for some reason
 spring:
+  datasource:
+    #shareable h2 database
+    url: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;MVCC=TRUE;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: sa
+
+  h2.console.enabled: true
+
   jpa:
     generate-ddl: false
     hibernate.ddl-auto: none

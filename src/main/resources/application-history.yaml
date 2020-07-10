@@ -27,7 +27,12 @@
 
 camunda:
   bpm:
+    history-level: audit
 #    history-level: custom-history-level
     generic-properties:
       properties:
         history-cleanup-strategy: removalTimeBased
+    history:
+      cleanup:
+        historyCleanupBatchSize: 10
+        historyCleanupBatchThreshold: 10
