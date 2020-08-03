@@ -6,18 +6,18 @@ services:
 # Camunda Service
 ########################################
 
-#  camunda-poc-starter-node-1:
-#    build:
-#      context: ../
-#      args:
-#        PORT_PARAM: 9090
-#    links:
-#      - db
-#    ports:
-#      - "9090:9090"
-#    environment:
-#      DATABASE_URL: jdbc:postgresql://db:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8
-#      RABBITMQ_HOST: rabbitmq-mgmt
+  camunda-poc-starter-node-1:
+    build:
+      context: ../
+      args:
+        PORT_PARAM: 9090
+    links:
+      - db
+    ports:
+      - "9090:9090"
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8
+      RABBITMQ_HOST: rabbitmq-mgmt
 
 ########################################
 # Postgres Service
@@ -36,15 +36,15 @@ services:
 #  removeAbandoned: true
 ########################################
 
-#  db:
-#    image: postgres
-#    restart: always
-#    environment:
-#      POSTGRES_USER: camunda
-#      POSTGRES_PASSWORD: camunda
-#      POSTGRES_DB: camunda
-#    ports:
-#      - "5432:5432"
+  db:
+    image: library/postgres:12.2
+    restart: always
+    environment:
+      POSTGRES_USER: camunda
+      POSTGRES_PASSWORD: camunda
+      POSTGRES_DB: camunda
+    ports:
+      - "5432:5432"
 
 
 #########################################
