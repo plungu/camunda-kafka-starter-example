@@ -5,10 +5,12 @@ import org.camunda.bpm.engine.impl.context.Context;
 import org.camunda.bpm.engine.impl.history.event.HistoryEvent;
 import org.camunda.bpm.engine.impl.history.handler.DbHistoryEventHandler;
 import org.camunda.bpm.engine.impl.history.handler.HistoryEventHandler;
+import org.springframework.context.annotation.Profile;
 
 import java.util.List;
 import java.util.logging.Logger;
 
+@Profile("history")
 public class MyCustomHistoryEventHandler implements HistoryEventHandler {
 
     private final Logger LOGGER = Logger.getLogger(MyCustomHistoryEventHandler.class.getName());

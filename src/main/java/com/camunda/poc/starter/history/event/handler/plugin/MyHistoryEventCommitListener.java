@@ -3,9 +3,11 @@ package com.camunda.poc.starter.history.event.handler.plugin;
 import org.camunda.bpm.engine.impl.cfg.TransactionListener;
 import org.camunda.bpm.engine.impl.history.event.HistoryEvent;
 import org.camunda.bpm.engine.impl.interceptor.CommandContext;
+import org.springframework.context.annotation.Profile;
 
 import java.util.logging.Logger;
 
+@Profile("history")
 public class MyHistoryEventCommitListener implements TransactionListener {
 
     private Logger _logger = Logger.getLogger(Class.class.getName());

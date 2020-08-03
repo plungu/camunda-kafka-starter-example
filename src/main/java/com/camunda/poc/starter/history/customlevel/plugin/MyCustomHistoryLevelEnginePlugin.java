@@ -6,6 +6,7 @@ import org.camunda.bpm.engine.impl.cfg.ProcessEngineConfigurationImpl;
 import org.camunda.bpm.engine.impl.cfg.ProcessEnginePlugin;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.impl.history.handler.CompositeDbHistoryEventHandler;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Component
+@Profile("history")
 public class MyCustomHistoryLevelEnginePlugin implements ProcessEnginePlugin {
 
     private final Logger LOGGER = Logger.getLogger(Class.class.getName());

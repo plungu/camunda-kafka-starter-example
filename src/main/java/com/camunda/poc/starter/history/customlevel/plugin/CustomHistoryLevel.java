@@ -4,10 +4,12 @@ import org.camunda.bpm.engine.impl.history.AbstractHistoryLevel;
 import org.camunda.bpm.engine.impl.history.HistoryLevel;
 import org.camunda.bpm.engine.impl.history.event.HistoryEventType;
 import org.camunda.bpm.engine.impl.history.event.HistoryEventTypes;
+import org.springframework.context.annotation.Profile;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Profile("history")
 public class CustomHistoryLevel extends AbstractHistoryLevel implements HistoryLevel {
 
     public static final CustomHistoryLevel INSTANCE = new CustomHistoryLevel();
