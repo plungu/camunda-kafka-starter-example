@@ -135,7 +135,7 @@ or for development run
 
 [source,bash]
 ----
-mvn spring-boot:run -Dspring.profiles.active=dev,<other profile>
+mvn clean spring-boot:run -Dspring-boot.run.profiles=dev,<other profile>
 ----
 
 **Profiles** can be specified at the command line when the application starts. The notation is as follows.

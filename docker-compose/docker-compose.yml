@@ -6,18 +6,28 @@ services:
 # Camunda Service
 ########################################
 
-  camunda-poc-starter-node-1:
+  camunda-node-1:
     build:
       context: ../
-      args:
-        PORT_PARAM: 9090
     links:
       - db
     ports:
-      - "9090:9090"
+      - "8080:8080"
     environment:
-      DATABASE_URL: jdbc:postgresql://db:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8
+      DATABASE_URL: jdbc:postgresql://db:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
+      DATABASE_DRIVER: org.postgresql.Driver
+      SERVER_PORT: 8080
+      MAX_POOL_SIZE: 3
       RABBITMQ_HOST: rabbitmq-mgmt
+      ADMIN_CLIENT_URL: http://camunda-node-1:8080
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1000M
+        reservations:
+          cpus: '2'
+          memory: 1000M
 
 ########################################
 # Postgres Service
@@ -45,20 +55,61 @@ services:
       POSTGRES_DB: camunda
     ports:
       - "5432:5432"
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 5000M
+        reservations:
+          cpus: '3'
+          memory: 2000M
 
+#########################################
+# Camunda Optimize
+#########################################
+#  optimize:
+#    image: registry.camunda.cloud/optimize-ee/optimize:3.1.0
+#    environment:
+#      OPTIMIZE_CAMUNDABPM_REST_URL: http://camunda-node-1:8080/engine-rest
+#      OPTIMIZE_CAMUNDABPM_WEBAPPS_URL: http://camunda-node-1:8080/camunda
+#      OPTIMIZE_ELASTICSEARCH_HOST: optimize-elastic
+#      OPTIMIZE_ELASTICSEARCH_HTTP_PORT: 9200
+#    ports:
+#      - "8090:8090"
+#
+#
+#  optimize-elastic:
+#    image: docker.elastic.co/elasticsearch/elasticsearch:7.6.2
+#    ports:
+#      - "9200:9200"
+#    environment:
+#      - cluster.name=docker-cluster
+#      - bootstrap.memory_lock=true
+#      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+#      - discovery.type=single-node
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+
+#########################################
+# Spring-Boot Admin Server
+#########################################
+#  spring-boot-admin:
+#    image:
 
 #########################################
 # Rabbit MQ Service
 #########################################
 
-#  rabbitmq-mgmt:
-#    image: rabbitmq:3-management
-#    hostname: rabbitmq-mgmt
-#    ports:
-#      - "9500:15672"
-#      - "5672:5672"
-#      - "4369:4369"
-#      - "5671:5671"
+  rabbitmq-mgmt:
+    image: rabbitmq:3-management
+    hostname: rabbitmq-mgmt
+    ports:
+      - "9500:15672"
+      - "5672:5672"
+      - "4369:4369"
+      - "5671:5671"
 
 #########################################
 # LDAP Service

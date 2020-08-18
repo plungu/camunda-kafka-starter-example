@@ -1,7 +1,7 @@
 debug: false
 #logging.level.com.camunda.*: INFO
 
-server.port: 8080
+#server.port: 8080
 
 # See the docker-compose to use PostgreSQL
 spring:
@@ -17,8 +17,10 @@ spring:
     generate-ddl: false
     hibernate.ddl-auto: none
 
-#Specify active profiles
-#spring.profiles.active: renewal
+#Specify active profiles from YAML
+# WARNING: preferable to specify the profiles from the command line like ` -Dspring-boot.run.profiles=dev` or `-Dspring.profiles.active=jobs`
+#spring.profiles.active: ${profile:dev}
+
 
 #disable spring auto-configure
 #spring.autoconfigure.exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
