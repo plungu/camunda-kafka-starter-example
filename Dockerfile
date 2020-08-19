@@ -7,14 +7,14 @@ RUN mvn -s settings.xml dependency:resolve-plugins dependency:resolve clean pack
 COPY src/ src/
 RUN mvn clean package -DskipTests
 
-
+# create another image layer and run the app that was built
 FROM openjdk:8-jdk-alpine as process-application
 
 # Create app directory
 WORKDIR /usr/src/app
 
-COPY --from=builder /usr/src/app/target/node/node ${WORKDIR}
-
 COPY --from=builder /usr/src/app/target/camunda-poc-starter.jar ${WORKDIR}
 
-ENTRYPOINT ["java","-Dserver.port=8080","-Djava.security.egd=file:/dev/./urandom","-jar","/usr/src/app/camunda-poc-starter.jar"]
+#COPY target/camunda-poc-starter.jar ${WORKDIR}
+
+ENTRYPOINT ["java","-Dspring.profiles.active=prod","-Djava.security.egd=file:/dev/./urandom","-jar","/usr/src/app/camunda-poc-starter.jar"]
