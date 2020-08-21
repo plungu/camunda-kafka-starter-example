@@ -32,7 +32,7 @@ public class SendEventPublishingDelegate implements JavaDelegate {
       Contact contact = (Contact) execution.getVariable("contact");
 
       source.publish().send(MessageBuilder.withPayload(contact).build());
-      System.out.println("Contact Payload Sent: "+contact.toString());
+      LOGGER.info("Contact Payload Sent: "+contact.toString());
 
 
   }
