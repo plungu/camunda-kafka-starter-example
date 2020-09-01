@@ -14,10 +14,10 @@ Steps to debug
 
 
 === Check for jobs piling up ???check what and where???
-* job execution consumtion
+* job execution consumption
 
-=== Check Job Aquistiion through-put
-* if the job aquisition query can get for one job in one second, our throughput is limited to 60 jobs per minute.
+=== Check Job Acquisition through-put
+* if the job acquisition query can get for one job in one second, our throughput is limited to 60 jobs per minute.
 * Increase the number of jobs acquired with every query. Often the performance of the query does not depend on the number of jobs selected. Set the job executor configuration property maxJobsPerAcquisition to a higher value.
 
 === Check Job acquisition polling {{ACT_RU_JOB}}.
@@ -37,7 +37,7 @@ Steps to debug
 
 ### Architecture
 
-When using Async activities with Camunda the Job Executor comes into play. Timers and Async Continuations affect the performance of the process.
+When using Async activities with Camunda the Job Executor comes into play. Timers and Async Continuations affect the performance of the process. We can sometimes attribute latency to the delay in execution of jobs.
 
 https://camunda.com/blog/2019/10/job-executor-what-is-going-on-in-my-process-engine/[Whats Going on in my process]
 
