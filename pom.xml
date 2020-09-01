@@ -113,11 +113,22 @@
 		<groupId>com.h2database</groupId>
 		<artifactId>h2</artifactId>
 	</dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.apache.tomcat</groupId>-->
+<!--      <artifactId>tomcat-jdbc</artifactId>-->
+<!--      <version>9.0.10</version>-->
+<!--    </dependency>-->
 
     <!-- required to use H2 as a file based database  (Otherwise it's In-Memory) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
+<!--        <exclusions>-->
+<!--            <exclusion>-->
+<!--                <groupId>com.zaxxer</groupId>-->
+<!--                <artifactId>HikariCP</artifactId>-->
+<!--            </exclusion>-->
+<!--        </exclusions>-->
     </dependency>
 
     <!-- Required to use Spin dataformat support -->
@@ -172,23 +183,23 @@
 	</dependency>
 	
 	<!-- messaging integration -->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-amqp</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-amqp</artifactId>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-stream</artifactId>
     </dependency>
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-stream-binder-rabbit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-stream-test-support</artifactId>
-      <scope>test</scope>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.cloud</groupId>-->
+<!--      <artifactId>spring-cloud-stream-binder-rabbit</artifactId>-->
+<!--    </dependency>-->
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.cloud</groupId>-->
+<!--      <artifactId>spring-cloud-stream-test-support</artifactId>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
 	
 	<!-- CSV Processing -->
 	<dependency>
