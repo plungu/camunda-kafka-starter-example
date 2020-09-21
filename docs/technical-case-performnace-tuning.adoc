@@ -59,7 +59,7 @@ link[See below for more]
 Always apply changes in a methodical and structure way.
 
 - Using a spreadsheet is a good approach to track changes.
-- Do not change more than 1 variable at a time before measuring the effect of the change.
+- *Do not change more than 1 variable at a time before measuring the effect of the change.*
 - Make sure to go through root cause analysis so you understand and have formed a theory why you are making the change.
 - Build tests that isolate throughput and latency issues and that can be run quickly
 ====
@@ -232,7 +232,7 @@ As we start to narrow down where the latency occurs with the help of command log
 
 image::../docs/images/logger-taskentity.png[Task Entity Logger]
 
-Once the the logger is enabled we can then analyse the query. If we determine the query is slow then we can determine involve the database team and get
+Once the the logger is enabled we can then analyse the query. If we determine the query is slow then we can involve the database team and get query plan for this query.
 
 image::../docs/images/logger-slow-query-taskentitiy.png[Slow Query Logged]
 ====
