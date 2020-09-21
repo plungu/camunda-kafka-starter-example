@@ -1,24 +1,102 @@
 ## Use Case: Practicle Performance Tuning
 
-IMPORTANT: Use a scientific approach to performance tuning
+IMPORTANT: Use a scientific approach to performance tuning. This means before going and changing things have solid understanding why you are changing stuff.
 
-*Steps:*
+1. Gather information
+2. Analyse information
+3. Create a hypothisis
+4. Measure
 
-1. Detect and measure problem
-2. Analyse root cause, understand the problem
-3. Apply changes
-4. Repeat
+== *Steps to consider when approaching performance:*
 
-=== Detect problems
-Problems are usually detected in a few ways
+=== 1. Detecting a problem (This usually falls on the customer)
+
+Customers will likely approach you with the following.
 
 - UI is slow. Maybe the tasks are appearing very slowly. Cockpit is tacking a long time to show instances.
 - Performance tests are slow. Usually this is some kind of end-to-end test and average results are measured.
 - Slow queries are detected by DB monitoring.
 
-=== Analyse Root Cause
+IMPORTANT: Be sure to understand the goals of the customers. Ask for the perfromanc KPI's.
 
-IMPORTANT: The measurement of process execution performance can be divided into two main phases. *__Throughput__* How many process and/or transactions can be started. *__Latency__* How long does a business transaction take (defined by wait states in the process or lack there of).
+==== Things to request from customer
+====
+- How many processes do you want to start?
+- How does your load test work?
+- How long should a process take?
+- How do you measure latency of process?
+- Do you have visibility into the hardware performance?
+- Top 10 slow queries?
+- Has CPU profiling shown slowness in any specific functions?
+- Does a thread dump show any blocked threads?
+====
+
+==== Things to Advise
+====
+- Don't change to many variables at once, usually best to change only one
+- Use the steps, analyse and measure
+- Better Load Testing (See below)
+- Isolate the problem (See below)
+- Use tools to create visiblilty
+====
+
+==== Building tests for Throughput
+====
+A throughput test should have a specific targeted aim.
+
+- Such as starting n number of workflows.
+- Or testing the number of Jobs that can be started
+====
+
+==== Building tests for Latency
+====
+A latency test should have a specific and targeted aim.
+
+- How long does it take to get n number of user tasks?
+- Or how long does it take to execute n number of tasks?
+- How long does it take to execute n number of workflows.
+====
+
+
+=== 2. Analyse root cause, understand the problem (Usually the job of consulting and support)
+====
+IMPORTANT: Establish an approch to the problem based on measurement. The measurement of process execution performance can be divided into two main phases. *__Throughput__* How many process and/or transactions can be started. *__Latency__* How long does a business transaction take (defined by wait states in the process or lack there of).
+====
+link[See below for more]
+
+
+=== 3. Apply changes
+
+==== How To Apply changes
+====
+Always apply changes in a methodical and structure way.
+
+- Using a spreadsheet is a good approach to track changes.
+- Do not change more than 1 variable at a time before measuring the effect of the change.
+- Make sure to go through root cause analysis so you understand and have formed a theory why you are making the change.
+- Build tests that isolate throughput and latency issues and that can be run quickly
+====
+
+==== What could be changed
+====
+Depending on what we find from analysis
+
+- SQL Queries could be rewritten
+- Indexes added or removed from DB
+- Change the API usage
+- Change third party code
+- Change environment and engine configurations
+** Application HTTP Thread Pools
+** Job Executor
+** Database Connection Pool
+** Change or increase database resources
+- Redesign processes
+====
+
+=== 4. Repeat
+Do it over again. Often an assumption may be wrong but can reveal some useful information. Follow the steps by analysigng the information, forming a hypothesis, then testing by making changes in a structured and measurable way.
+
+== Digging In - Analyse Root Cause
 
 === Tools for Detecting, Measuring and Analysing
 ====
@@ -51,28 +129,6 @@ Factors affecting throughput
 - Limits of resources
 ====
 ====
-*Latency*
-
-Latency can generally be thought of as `how long is it taking to execute a certain number of steps in a Workflow, generally demarcated by transaction boundaries` or `the entire workflow`
-
-This leads to the question `what's happening while a Workflow is executing?` and `what's in this workflow?`
-
-To understand latency issues we can use different approaches to understand why potentially unacceptable latency exists in the process.
-
-It's important to clarify what is acceptable latency.
-====
-
-NOTE: Tips to help debug latency issues will be marked with *__Latency__*. Tips to help debug throughput issues will be marked *__Throughput__*
-
-==== Using loggers to detect, isolate, and determine root cause
-
-TIP: The idea is to use the loggers to identify slow operations. The timestamps can be used to see how long a particular Command or Query, Job, etc ... took to execute.
-
-==== Loggers for visiblity into job execution
-    <logger name="org.camunda.bpm.engine.jobexecutor" level="debug" />
-    <logger name="org.camunda.bpm.engine.impl.persistence.entity.JobEntity" level="debug" />
-
-====
 *_Throughput_* - Debugging jobs
 
 When enabling the Job logging to measure throughput the goal is to a achieve a baseline measurement. In this case we probably don't want to use a real world use-case for our BPMN model. But rather a model that will isolate the job execution and allow fast testing iterations. Also we should set some KPI's that will allow us to measure our overall system performance for average loads and peak loads.
@@ -95,6 +151,29 @@ Once we establish base lines then we can tweak the environment to achieve the pe
 
 Finally we can include real-world business process logic and start to measure the effects on throughput and start to detect and analyse latency issues.
 ====
+
+====
+*Latency*
+
+Latency can generally be thought of as `how long is it taking to execute a certain number of steps in a Workflow, generally demarcated by transaction boundaries` or `the entire workflow`
+
+This leads to the question `what's happening while a Workflow is executing?` and `what's in this workflow?`
+
+To understand latency issues we can use different approaches to understand why potentially unacceptable latency exists in the process.
+
+It's important to clarify what is acceptable latency.
+====
+
+NOTE: Tips to help debug latency issues will be marked with *__Latency__*. Tips to help debug throughput issues will be marked *__Throughput__*
+
+==== Using loggers to detect, isolate, and determine root cause
+
+TIP: The idea is to use the loggers to identify slow operations. The timestamps can be used to see how long a particular Command or Query, Job, etc ... took to execute.
+
+==== Loggers for visiblity into job execution
+    <logger name="org.camunda.bpm.engine.jobexecutor" level="debug" />
+    <logger name="org.camunda.bpm.engine.impl.persistence.entity.JobEntity" level="debug" />
+
 
 ==== Loggers for visibility into workflow execution
 
@@ -155,49 +234,6 @@ image::../docs/images/logger-slow-query-taskentitiy.png[Slow Query Logged]
 Sometime it can appear that Camunda is running slow but in fact it is third party code. In these cases we must isolate the code or get visibility into the execution of the code to determine if and why the code is running slowly. This can be accomplished with logging, profiling, thread dumps etc.
 ====
 
-=== How To Apply changes
-====
-Always apply changes in a methodical and structure way.
-
-- Using a spreadsheet is a good approach to track changes.
-- Do not change more than 1 variable at a time before measuring the effect of the change.
-- Make sure to go through root cause analysis so you understand and have formed a theory why you are making the change.
-- Build tests that isolate throughput and latency issues and that can be run quickly
-====
-
-=== What could be changed
-====
-Depending on what we find from analysis
-
-- SQL Queries could be rewritten
-- Indexes added or removed from DB
-- Change the API usage
-- Change third party code
-- Change environment and engine configurations
-** Application HTTP Thread Pools
-** Job Executor
-** Database Connection Pool
-** Change or increase database resources
-- Redesign processes
-====
-
-== Load Testing
-=== Building tests for Throughput
-====
-A throughput test should have a specific targeted aim.
-
-- Such as starting n number of workflows.
-- Or testing the number of Jobs that can be started
-====
-
-=== Building tests for Latency
-====
-A latency test should have a specific and targeted aim.
-
-- How long does it take to get n number of user tasks?
-- Or how long does it take to execute n number of tasks?
-- How long does it take to execute n number of workflows.
-====
 
 == **_more info and resources..._**
 
