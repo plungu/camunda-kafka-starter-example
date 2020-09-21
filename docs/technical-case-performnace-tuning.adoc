@@ -1,4 +1,10 @@
-## Use Case: Practicle Performance Tuning
+
+= Use Case: Practicle Performance Tuning
+Doc Writer <paul.lungu@camunda.com>
+v0.3, 2020-05-07
+:toc:
+
+== *Use Scientific Approach*
 
 IMPORTANT: Use a scientific approach to performance tuning. This means before going and changing things have solid understanding why you are changing stuff.
 
@@ -7,7 +13,7 @@ IMPORTANT: Use a scientific approach to performance tuning. This means before go
 3. Create a hypothisis
 4. Measure
 
-== *Steps to consider when approaching performance:*
+== *Steps to consider when approaching performance*
 
 === 1. Detecting a problem (This usually falls on the customer)
 
@@ -15,7 +21,7 @@ Customers will likely approach you with the following.
 
 - UI is slow. Maybe the tasks are appearing very slowly. Cockpit is tacking a long time to show instances.
 - Performance tests are slow. Usually this is some kind of end-to-end test and average results are measured.
-- Slow queries are detected by DB monitoring.
+- Slow performance is detected by high level system monitoring tools. e.g. Slow queries are detected by DB monitoring.
 
 IMPORTANT: Be sure to understand the goals of the customers. Ask for the perfromanc KPI's.
 
@@ -40,24 +46,6 @@ IMPORTANT: Be sure to understand the goals of the customers. Ask for the perfrom
 - Use tools to create visiblilty
 ====
 
-==== Building tests for Throughput
-====
-A throughput test should have a specific targeted aim.
-
-- Such as starting n number of workflows.
-- Or testing the number of Jobs that can be started
-====
-
-==== Building tests for Latency
-====
-A latency test should have a specific and targeted aim.
-
-- How long does it take to get n number of user tasks?
-- Or how long does it take to execute n number of tasks?
-- How long does it take to execute n number of workflows.
-====
-
-
 === 2. Analyse root cause, understand the problem (Usually the job of consulting and support)
 ====
 IMPORTANT: Establish an approch to the problem based on measurement. The measurement of process execution performance can be divided into two main phases. *__Throughput__* How many process and/or transactions can be started. *__Latency__* How long does a business transaction take (defined by wait states in the process or lack there of).
@@ -65,8 +53,7 @@ IMPORTANT: Establish an approch to the problem based on measurement. The measure
 link[See below for more]
 
 
-=== 3. Apply changes
-
+=== 3. Apply changes (Consultant Can Suggest)
 ==== How To Apply changes
 ====
 Always apply changes in a methodical and structure way.
@@ -96,7 +83,26 @@ Depending on what we find from analysis
 === 4. Repeat
 Do it over again. Often an assumption may be wrong but can reveal some useful information. Follow the steps by analysigng the information, forming a hypothesis, then testing by making changes in a structured and measurable way.
 
-== Digging In - Analyse Root Cause
+== Building Better Load Tests
+
+==== Building tests for Throughput
+====
+A throughput test should have a specific targeted aim.
+
+- Such as starting n number of workflows.
+- Or testing the number of Jobs that can be started
+====
+
+==== Building tests for Latency
+====
+A latency test should have a specific and targeted aim.
+
+- How long does it take to get n number of user tasks?
+- Or how long does it take to execute n number of tasks?
+- How long does it take to execute n number of workflows.
+====
+
+== *Digging In - Analyse Root Cause*
 
 === Tools for Detecting, Measuring and Analysing
 ====
@@ -104,14 +110,23 @@ Do it over again. Often an assumption may be wrong but can reveal some useful in
 
     Example <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
 
-- Thread Dumps - See if threads are stuck blocked, waiting for long time
+- Thread Dumps - See if threads are stuck, blocked, waiting for long time
 - Profiling - Profile CPU to see where time is spent
 - System monitoring tools - JvisualVM, YourKIT, JStack, SSH Tunnel
+- Slow query log
+- Query plans
 ====
 
-====
-*Throughput*
+=== Using loggers to detect, isolate, and determine root cause
 
+Loggers will likely be the first line in detecting, isolating and generally gathering information about performance issues. Loggers can help identify latency and throughput issues depending on how they are applied.
+
+TIP: The idea is to use the loggers to identify slow operations. The timestamps can be used to see how long a particular Command or Query, Job, etc ... took to execute.
+
+TODO: Video on using loggers
+
+=== Throughput Issues
+====
 When dealing with throughput issues there are generally a couple places to look.
 
 1. The number of Workflows that can be started.
@@ -128,8 +143,9 @@ Factors affecting throughput
 - Single operation performance
 - Limits of resources
 ====
+
+=== Throughput - Debugging jobs
 ====
-*_Throughput_* - Debugging jobs
 
 When enabling the Job logging to measure throughput the goal is to a achieve a baseline measurement. In this case we probably don't want to use a real world use-case for our BPMN model. But rather a model that will isolate the job execution and allow fast testing iterations. Also we should set some KPI's that will allow us to measure our overall system performance for average loads and peak loads.
 
@@ -138,37 +154,31 @@ Once we establish base lines then we can tweak the environment to achieve the pe
 Finally we can include real-world business process logic and start to measure the effects on throughput and start to detect and analyse latency issues.
 ====
 
+=== Throughput - Starting processes and tasks
 ====
-*_Throughput_* - Starting processes and tasks
 
 When measuring throughput for starting processes the goal is to a achieve a baseline measurement. In this case we probably don't want to use a real world use-case for our BPMN model. But rather a model that will isolate the start of the workflow and allow fast testing iterations. Also we should set some KPI's that will allow us to measure our overall system performance for average loads and peak loads.
 
 Measuring starting of process is very specific to the environment and testing tools. It's ideal to use load testing tools you know.
 
-Building models that isolate starts, e.g. only have start and end events, and potentially eliminate database activity can be a good approch to understand how much through put the system can handle.
+*Building models that isolate starts, e.g. only have start and end events, and potentially eliminate database activity can be a good approch to understand how much throughput the system can handle.*
 
 Once we establish base lines then we can tweak the environment to achieve the performance goals.
 
 Finally we can include real-world business process logic and start to measure the effects on throughput and start to detect and analyse latency issues.
 ====
 
+=== Latency Issues
 ====
-*Latency*
 
 Latency can generally be thought of as `how long is it taking to execute a certain number of steps in a Workflow, generally demarcated by transaction boundaries` or `the entire workflow`
 
 This leads to the question `what's happening while a Workflow is executing?` and `what's in this workflow?`
 
-To understand latency issues we can use different approaches to understand why potentially unacceptable latency exists in the process.
+To understand latency issues we can use different approaches to understand why potentially unacceptable latency exists in the process. Below is an approach with loggers that can help identify latency in workflow.
 
 It's important to clarify what is acceptable latency.
 ====
-
-NOTE: Tips to help debug latency issues will be marked with *__Latency__*. Tips to help debug throughput issues will be marked *__Throughput__*
-
-==== Using loggers to detect, isolate, and determine root cause
-
-TIP: The idea is to use the loggers to identify slow operations. The timestamps can be used to see how long a particular Command or Query, Job, etc ... took to execute.
 
 ==== Loggers for visiblity into job execution
     <logger name="org.camunda.bpm.engine.jobexecutor" level="debug" />
@@ -182,9 +192,8 @@ Logging Commands can help you debug what is particularly slow during execution o
     <logger name="org.camunda.bpm.engine.cmd" level="debug" />
     <logger name="org.camunda.bpm.engine.persistence" level="debug" />
 
+=== Latency in workflow execution
 ====
-*_Latency_* in workflow execution
-
 API Call -> Command Executes -> Starts a Transaction -> Running the Process (Business Logic) (Queries Camunda Tables e.g. ExecutionEntity) -> Database Flush (Modifying Tables) -> Transaction Committed (assuming everything is OK)
 
 image::../docs/images/camunda-command-model.png[Command Transaction Relation]
@@ -216,9 +225,9 @@ https://github.com/camunda/camunda-bpm-platform/tree/master/engine/src/main/reso
     <logger name="org.camunda.bpm.engine.impl.persistence.entity.TaskEntity" level="debug" />
 
     <logger name="org.camunda.bpm.engine.impl.persistence.entity.VariableInstanceEntity" level="debug" />
-====
-*_Latency_* in the database
 
+=== Latency in the database
+====
 As we start to narrow down where the latency occurs with the help of command loggers we can further isolate latency issues by using more specific Entity logging. Since we have an idea that the business logic is taking some time from the command logging we can now get a good idea of what entity logger to enable for debugging.
 
 image::../docs/images/logger-taskentity.png[Task Entity Logger]
@@ -228,14 +237,13 @@ Once the the logger is enabled we can then analyse the query. If we determine th
 image::../docs/images/logger-slow-query-taskentitiy.png[Slow Query Logged]
 ====
 
+=== Latency in third party code
 ====
-*_Latency_* in third party code
-
 Sometime it can appear that Camunda is running slow but in fact it is third party code. In these cases we must isolate the code or get visibility into the execution of the code to determine if and why the code is running slowly. This can be accomplished with logging, profiling, thread dumps etc.
 ====
 
 
-== **_more info and resources..._**
+== **_More info and resources..._**
 
 https://www.youtube.com/watch?v=qoT2SSnRoKk&feature=youtu.be[Thorben's Video on Fixing Performance Issues]
 
