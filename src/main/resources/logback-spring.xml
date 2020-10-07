@@ -12,5 +12,17 @@
   <root level="info">
     <appender-ref ref="STDOUT" />
   </root>
-  
+
+  <!-- performance loggers for visiblity into Commands -->
+  <!--  <logger name="org.camunda.bpm.engine.cmd" level="debug" />-->
+  <!--  <logger name="org.camunda.bpm.engine.persistence" level="debug" />-->
+
+  <!-- performance loggers for visiblity into job execution -->
+  <!--  <logger name="org.camunda.bpm.engine.jobexecutor" level="debug" />-->
+
+  <!-- performance loggers for Query -->
+  <!--  <logger name="org.camunda.bpm.engine.impl.persistence.entity.TaskEntity" level="debug" />-->
+
+
+
 </configuration>
