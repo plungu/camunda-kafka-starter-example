@@ -1,0 +1,75 @@
+## Use Case: Cockpit Sample New Plugin System with SpringBoot
+
+
+
+## Architecture
+==== Backend Integration
+This is similar to the old JAX-RS integration.
+
+* See the docs and examples.
+* Also it's possible to leverage Spring RestTemplates or other frameworks.
+
+==== Frontend Integration
+For this I also used the old plugin structure. Which allowed me to define a plugin resource which tells cockpit where to find the plugin script. This also ties the front-end and backend together neatly.
+
+NOTE: I didn't use the config.js and new plugin structure to configure the plugin. This does not effect the Camunda Javascript plugin framework as it only impacts the way the plugin is bootstrapped into the app and loaded into browser upon request. This example still uses the new ReactJS plugin framework at runtime. This is defined by the plugin api and isn't really affected by the plugin initialization method at compile and transpile time.
+
+NOTE: The new plugin loading structure works with the Tomcat distro due to the way the webapps deployment directory is layed out, it doesn't seem to work with Spring-Boot. This may change in the future as the Spring-boot webapp starter matures.
+
+==== Building and Deploying the Frontend
+
+=== The framework agnostic DOM based sample-plugin
+====
+For this I simple place the plugin.js in directly in the `plugin-webapp/sample-plugin/app` directory. Following the plugin API standards I simply define the the plugin object and export it.
+
+See the directory `plugin-webapp/sample-plugin/app` you will find the plugin.js
+
+====
+
+
+=== ReactJS Example react-sample-plugin
+====
+For the ReactJS we need to actually transpile the JSX code into EcmaScript. To do this we use Rollup.js to transpile the JSX, and place the built plugin.js into the target plugin directory `plugin-webapp/react-sample-plugin/app`.
+
+To do the Rollup step we simple run rollup -c at the command line
+
+ rollup -c
+
+TIP: You may need to install Rollup in your environment. Once you run the below command you'll see that the package.json has the Rollup deps.
+
+ npm install --save-dev rollup @babel/core @babel/preset-react @rollup/plugin-babel @rollup/plugin-commonjs @rollup/plugin-node-resolve @rollup/plugin-replace
+
+NOTE: this app has a self contained NodeJS install and you can use that to accomplish these steps or you can install NodeJS
+
+See the directory `plugin-webapp/react-sample-plugin/app` once you have built/transpiled the JSX you will find the plugin.js
+
+NOTE: The transpiled ReactJS plugin is checked into VCS but if you want to change things you need to follow the above steps.
+====
+
+=== Build the App
+====
+You will need to build the app.
+
+`mvn clean spring-boot:run`
+
+When you build the app (Java/MAVEN build) it will run a few steps
+
+ 1. initialize the cockpit plugin system
+ 2. which at runtime loads the plugins into the ReactJS plugin framework based on the request made to Camunda webapps.
+
+====
+
+
+*TODO:* build and deploy with webpack. Why?
+
+* another example of building the plugin
+* works with maven front-end plugin
+
+*TODO:* dig deeper on config.js and leverage the cockpitPlugins plugin loading structure rather than the old plugin loading structure.
+
+
+## Examples and Refrences
+* https://docs.camunda.org/manual/7.13/webapps/cockpit/extend/plugins/#cases-dashboard
+* https://github.com/camunda/camunda-bpm-examples/tree/master/cockpit/cockpit-greetings-plugin
+* https://github.com/camunda/camunda-bpm-examples/tree/master/cockpit
+* https://camunda.com/blog/2020/08/all-new-frontend-plugin-system-for-cockpit-starting-with-camunda-bpm-7-14/

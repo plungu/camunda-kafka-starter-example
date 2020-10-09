@@ -1,4 +1,4 @@
-## Use Case: Cockpit Sample Plugin for SpringBoot
+## Use Case: Cockpit Sample Old Plugin for SpringBoot
 
 **_more to come ..._**
 
