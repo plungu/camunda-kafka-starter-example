@@ -17,6 +17,7 @@ The purpose of this application is to have a starter for PoC and other less stru
 | link:/docs/technical-case-history-engine-plugin.adoc[Technical Case - History Engine Plugin] | History Configuration, History Event Handler, History Transaction Listener, Custom History Level
 | link:/docs/technical-case-camunda-generic-pros-hisrtory-config.adoc[Technical Case - Generic Properties] | History Configuration with Generic Properties
 | link:/docs/technical-case-performance-tuning.adoc[Technical Case - Particle Performance Tuning] | Particle Guide to Performance Tuning
+| link:/docs/technical-case-task-sot.adoc[Technical Case - Camunda as Task Source of Truth] | Example using Camunda as source of truth for task meta-data
 |===
 
 ### Get started in a PoC or other engagement
