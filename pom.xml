@@ -71,13 +71,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>      
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-stream-dependencies</artifactId>
-        <version>${spring-cloud.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
+<!--      <dependency>-->
+<!--        <groupId>org.springframework.cloud</groupId>-->
+<!--        <artifactId>spring-cloud-stream-dependencies</artifactId>-->
+<!--        <version>${spring-cloud.version}</version>-->
+<!--        <type>pom</type>-->
+<!--        <scope>import</scope>-->
+<!--      </dependency>-->
       
     </dependencies>
   </dependencyManagement>
@@ -85,24 +85,38 @@
   <dependencies>
 
 	<!-- Cmaunda Dependencies -->
-    <dependency>
-      <groupId>org.camunda.bpm.springboot</groupId>
-      <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
+<!--    <dependency>-->
+<!--      <groupId>org.camunda.bpm.springboot</groupId>-->
+<!--      <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>-->
       <!--
       Adjust if you want to use EE:
       <artifactId>camunda-bpm-spring-boot-starter-webapp-ee</artifactId>
       Make sure you also use an EE version of Camunda - see above
       -->
-       <version>${camundaSpringBoot.version}</version>
-    </dependency>
+<!--       <version>${camundaSpringBoot.version}</version>-->
+<!--    </dependency>-->
 
-    <dependency>
-      <groupId>org.camunda.bpm.springboot</groupId>
-      <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>
-      <version>${camundaSpringBoot.version}</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.camunda.bpm.springboot</groupId>-->
+<!--      <artifactId>camunda-bpm-spring-boot-starter-rest</artifactId>-->
+<!--      <version>${camundaSpringBoot.version}</version>-->
+<!--    </dependency>-->
 
-    <dependency>
+      <dependency>
+          <!-- process engine, in compile scope to include it in the war file -->
+          <groupId>org.camunda.bpm</groupId>
+          <artifactId>camunda-engine</artifactId>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.camunda.bpm</groupId>
+          <artifactId>camunda-engine-spring</artifactId>
+      </dependency>
+      <dependency>
+          <groupId>org.camunda.bpm.springboot</groupId>
+          <artifactId>camunda-bpm-spring-boot-starter</artifactId>
+      </dependency>
+      <dependency>
       <groupId>org.camunda.bpm.springboot</groupId>
       <artifactId>camunda-bpm-spring-boot-starter-test</artifactId>
       <version>${camundaSpringBoot.version}</version>
@@ -171,11 +185,11 @@
     </dependency>
 
     <!-- Add your own dependencies here, if in compile scope, they are added to the jar -->
-	<dependency>
-	    <groupId>org.postgresql</groupId>
-	    <artifactId>postgresql</artifactId>
-   		<version>${postgresql.version}</version><!--$NO-MVN-MAN-VER$-->
-	</dependency>
+<!--	<dependency>-->
+<!--	    <groupId>org.postgresql</groupId>-->
+<!--	    <artifactId>postgresql</artifactId>-->
+<!--   		<version>${postgresql.version}</version>&lt;!&ndash;$NO-MVN-MAN-VER$&ndash;&gt;-->
+<!--	</dependency>-->
 	
 	<dependency>
 	  <groupId>org.camunda.template-engines</groupId>
@@ -187,10 +201,10 @@
 <!--      <groupId>org.springframework.boot</groupId>-->
 <!--      <artifactId>spring-boot-starter-amqp</artifactId>-->
 <!--    </dependency>-->
-    <dependency>
-      <groupId>org.springframework.cloud</groupId>
-      <artifactId>spring-cloud-stream</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.cloud</groupId>-->
+<!--      <artifactId>spring-cloud-stream</artifactId>-->
+<!--    </dependency>-->
 <!--    <dependency>-->
 <!--      <groupId>org.springframework.cloud</groupId>-->
 <!--      <artifactId>spring-cloud-stream-binder-rabbit</artifactId>-->
@@ -202,21 +216,21 @@
 <!--    </dependency>-->
 	
 	<!-- CSV Processing -->
-	<dependency>
-	    <groupId>com.opencsv</groupId>
-	    <artifactId>opencsv</artifactId>
-	    <version>3.9</version>
-	</dependency>
+<!--	<dependency>-->
+<!--	    <groupId>com.opencsv</groupId>-->
+<!--	    <artifactId>opencsv</artifactId>-->
+<!--	    <version>3.9</version>-->
+<!--	</dependency>-->
 	
 	<!-- Spring Dependencies -->
- 	<dependency>
-	    <groupId>org.springframework.boot</groupId>
-	    <artifactId>spring-boot-starter-data-rest</artifactId>
-	</dependency>
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
+<!-- 	<dependency>-->
+<!--	    <groupId>org.springframework.boot</groupId>-->
+<!--	    <artifactId>spring-boot-starter-data-rest</artifactId>-->
+<!--	</dependency>-->
+<!--    <dependency>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-data-jpa</artifactId>-->
+<!--    </dependency>-->
 <!-- 
 	<dependency>
 		<groupId>org.springframework.boot</groupId>
@@ -242,50 +256,49 @@
       <artifactId>spring-boot-admin-starter-client</artifactId>
       <version>2.3.0</version>
     </dependency>
-
     <dependency>
       <groupId>de.codecentric</groupId>
       <artifactId>spring-boot-admin-starter-server</artifactId>
       <version>2.3.0</version>
     </dependency>
 
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-web</artifactId>
-    </dependency>
-	
-    <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-thymeleaf</artifactId>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.springframework.boot</groupId>-->
+<!--      <artifactId>spring-boot-starter-web</artifactId>-->
+<!--    </dependency>-->
+<!--	-->
+<!--    <dependency>-->
+<!--        <groupId>org.springframework.boot</groupId>-->
+<!--        <artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+<!--    </dependency>-->
 
 	<!-- HTTP Client Fluent -->
-	<dependency>
-	  <groupId>org.apache.httpcomponents</groupId>
-	  <artifactId>fluent-hc</artifactId>
-	</dependency>
+<!--	<dependency>-->
+<!--	  <groupId>org.apache.httpcomponents</groupId>-->
+<!--	  <artifactId>fluent-hc</artifactId>-->
+<!--	</dependency>-->
 	
 	<!-- JavaMail Simple Mail API -->
-	<dependency>
-		<groupId>org.simplejavamail</groupId>
-		<artifactId>simple-java-mail</artifactId>
-		<version>4.4.5</version>
-	</dependency>
+<!--	<dependency>-->
+<!--		<groupId>org.simplejavamail</groupId>-->
+<!--		<artifactId>simple-java-mail</artifactId>-->
+<!--		<version>4.4.5</version>-->
+<!--	</dependency>-->
 
 	<!-- Keycloak plugin for SSO and Authentication -->
 	<!-- Keycloak Identity Prover Plugin  -->
 	<!-- https://mvnrepository.com/artifact/org.camunda.bpm.extension/camunda-bpm-identity-keycloak -->
-	<dependency>
-	    <groupId>org.camunda.bpm.extension</groupId>
-	    <artifactId>camunda-bpm-identity-keycloak</artifactId>
-	    <version>1.2.0</version>
-	</dependency>
+<!--	<dependency>-->
+<!--	    <groupId>org.camunda.bpm.extension</groupId>-->
+<!--	    <artifactId>camunda-bpm-identity-keycloak</artifactId>-->
+<!--	    <version>1.2.0</version>-->
+<!--	</dependency>-->
 
     <!-- LDAP plugin -->
-      <dependency>
-          <groupId>org.camunda.bpm.identity</groupId>
-          <artifactId>camunda-identity-ldap</artifactId>
-      </dependency>
+<!--      <dependency>-->
+<!--          <groupId>org.camunda.bpm.identity</groupId>-->
+<!--          <artifactId>camunda-identity-ldap</artifactId>-->
+<!--      </dependency>-->
 
       <!-- Groovy as JSR-223 scripting engine -->
       <dependency>
@@ -296,11 +309,11 @@
       </dependency>
 
       <!-- added for transactional mail integration via SendGrid -->
-      <dependency>
-          <groupId>com.sendgrid</groupId>
-          <artifactId>sendgrid-java</artifactId>
-          <version>4.4.1</version>
-      </dependency>
+<!--      <dependency>-->
+<!--          <groupId>com.sendgrid</groupId>-->
+<!--          <artifactId>sendgrid-java</artifactId>-->
+<!--          <version>4.4.1</version>-->
+<!--      </dependency>-->
 
   </dependencies>
 
@@ -327,14 +340,14 @@
         <artifactId>spring-boot-maven-plugin</artifactId>
         <version>${springBoot.maven.plugin.version}</version>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>exec-maven-plugin</artifactId>
-        <version>1.6.0</version>
-        <configuration>
-          <mainClass>com.camunda.na.training.sbstarter.CamundaApplication</mainClass>
-        </configuration>
-      </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.codehaus.mojo</groupId>-->
+<!--        <artifactId>exec-maven-plugin</artifactId>-->
+<!--        <version>1.6.0</version>-->
+<!--        <configuration>-->
+<!--          <mainClass>com.camunda.na.training.sbstarter.CamundaApplication</mainClass>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
     </plugins>
   </build>
 
@@ -356,43 +369,43 @@
             </configuration>
           </plugin>
 
-          <plugin>
-				<groupId>com.github.eirslett</groupId>
-				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.2</version>
-				<configuration>
-					<installDirectory>target</installDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<id>install node and npm</id>
-						<goals>
-							<goal>install-node-and-npm</goal>
-						</goals>
-						<configuration>
-							<nodeVersion>v12.10.0</nodeVersion>
-							<npmVersion>6.11.3</npmVersion>
-						</configuration>
-					</execution>
+<!--          <plugin>-->
+<!--				<groupId>com.github.eirslett</groupId>-->
+<!--				<artifactId>frontend-maven-plugin</artifactId>-->
+<!--				<version>1.2</version>-->
+<!--				<configuration>-->
+<!--					<installDirectory>target</installDirectory>-->
+<!--				</configuration>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<id>install node and npm</id>-->
+<!--						<goals>-->
+<!--							<goal>install-node-and-npm</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<nodeVersion>v12.10.0</nodeVersion>-->
+<!--							<npmVersion>6.11.3</npmVersion>-->
+<!--						</configuration>-->
+<!--					</execution>-->
 
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>webpack build</id>
-						<goals>
-							<goal>webpack</goal>
-						</goals>
-					</execution>
+<!--					<execution>-->
+<!--						<id>npm install</id>-->
+<!--						<goals>-->
+<!--							<goal>npm</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<arguments>install</arguments>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--					<execution>-->
+<!--						<id>webpack build</id>-->
+<!--						<goals>-->
+<!--							<goal>webpack</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
 
-                </executions>
-			</plugin>
+<!--                </executions>-->
+<!--			</plugin>-->
 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
