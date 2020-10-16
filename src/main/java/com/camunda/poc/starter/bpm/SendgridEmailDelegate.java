@@ -19,10 +19,10 @@ public class SendgridEmailDelegate implements JavaDelegate {
     SGEmailService sendGridEmailService;
 
     Logger LOG = LoggerFactory.getLogger(SendgridEmailDelegate.class);
-    @Value("${email.username:camsendgrid}")
+    @Value("${email.username}")
     private String username;
 
-    @Value("${email.password:r5dm8xiTk3XG}")
+    @Value("${email.password}")
     private String password;
 
     public void execute(DelegateExecution execution) throws Exception {
