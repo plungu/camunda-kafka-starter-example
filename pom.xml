@@ -3,13 +3,6 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-<!--
-   <parent>
-    <groupId>org.camunda.bpm.extension</groupId>
-    <artifactId>camunda-bpm-identity-keycloak-root</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
-  </parent>
- -->
   <groupId>com.camunda.react.starter</groupId>
   <artifactId>camunda-poc-starter</artifactId>
   <version>0.0.1-SNAPSHOT</version>
@@ -55,15 +48,6 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
-<!--       
-	  <dependency>
-        <groupId>org.camunda.bpm.dmn</groupId>
-        <artifactId>camunda-engine-dmn-bom</artifactId>
-        <version>${camunda.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
- -->
        <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-dependencies</artifactId>
@@ -113,22 +97,11 @@
 		<groupId>com.h2database</groupId>
 		<artifactId>h2</artifactId>
 	</dependency>
-<!--    <dependency>-->
-<!--      <groupId>org.apache.tomcat</groupId>-->
-<!--      <artifactId>tomcat-jdbc</artifactId>-->
-<!--      <version>9.0.10</version>-->
-<!--    </dependency>-->
 
     <!-- required to use H2 as a file based database  (Otherwise it's In-Memory) -->
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-jdbc</artifactId>
-<!--        <exclusions>-->
-<!--            <exclusion>-->
-<!--                <groupId>com.zaxxer</groupId>-->
-<!--                <artifactId>HikariCP</artifactId>-->
-<!--            </exclusion>-->
-<!--        </exclusions>-->
     </dependency>
 
     <!-- Required to use Spin dataformat support -->
@@ -142,12 +115,6 @@
     </dependency>
 
 	<!-- Testing -->
-<!--    <dependency>-->
-<!--      <groupId>org.springframework.boot</groupId>-->
-<!--      <artifactId>spring-boot-starter-test</artifactId>-->
-<!--      <scope>test</scope>-->
-<!--    </dependency>-->
-
     <dependency>
       <groupId>org.camunda.bpm.extension</groupId>
       <artifactId>camunda-bpm-assert-scenario</artifactId>
@@ -171,11 +138,11 @@
     </dependency>
 
     <!-- Add your own dependencies here, if in compile scope, they are added to the jar -->
-	<dependency>
-	    <groupId>org.postgresql</groupId>
-	    <artifactId>postgresql</artifactId>
-   		<version>${postgresql.version}</version><!--$NO-MVN-MAN-VER$-->
-	</dependency>
+<!--	<dependency>-->
+<!--	    <groupId>org.postgresql</groupId>-->
+<!--	    <artifactId>postgresql</artifactId>-->
+<!--   		<version>${postgresql.version}</version>&lt;!&ndash;$NO-MVN-MAN-VER$&ndash;&gt;-->
+<!--	</dependency>-->
 	
 	<dependency>
 	  <groupId>org.camunda.template-engines</groupId>
@@ -200,14 +167,7 @@
 <!--      <artifactId>spring-cloud-stream-test-support</artifactId>-->
 <!--      <scope>test</scope>-->
 <!--    </dependency>-->
-	
-	<!-- CSV Processing -->
-	<dependency>
-	    <groupId>com.opencsv</groupId>
-	    <artifactId>opencsv</artifactId>
-	    <version>3.9</version>
-	</dependency>
-	
+
 	<!-- Spring Dependencies -->
  	<dependency>
 	    <groupId>org.springframework.boot</groupId>
@@ -216,37 +176,6 @@
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-data-jpa</artifactId>
-    </dependency>
-<!-- 
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-security</artifactId>
-	</dependency>
-	<dependency>
-		<groupId>org.springframework.security.oauth.boot</groupId>
-		<artifactId>spring-security-oauth2-autoconfigure</artifactId>
-		<version>${version.springSecurityOauth2}</version>
-	</dependency>
- -->
-	<!-- Dev tools is disabled due to bug in variable serialization -->
-<!--	<dependency>-->
-<!--		<groupId>org.springframework.boot</groupId>-->
-<!--		<artifactId>spring-boot-devtools</artifactId>-->
-<!--	</dependency>-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-actuator</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>de.codecentric</groupId>
-      <artifactId>spring-boot-admin-starter-client</artifactId>
-      <version>2.3.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>de.codecentric</groupId>
-      <artifactId>spring-boot-admin-starter-server</artifactId>
-      <version>2.3.0</version>
     </dependency>
 
     <dependency>
@@ -264,28 +193,6 @@
 	  <groupId>org.apache.httpcomponents</groupId>
 	  <artifactId>fluent-hc</artifactId>
 	</dependency>
-	
-	<!-- JavaMail Simple Mail API -->
-	<dependency>
-		<groupId>org.simplejavamail</groupId>
-		<artifactId>simple-java-mail</artifactId>
-		<version>4.4.5</version>
-	</dependency>
-
-	<!-- Keycloak plugin for SSO and Authentication -->
-	<!-- Keycloak Identity Prover Plugin  -->
-	<!-- https://mvnrepository.com/artifact/org.camunda.bpm.extension/camunda-bpm-identity-keycloak -->
-	<dependency>
-	    <groupId>org.camunda.bpm.extension</groupId>
-	    <artifactId>camunda-bpm-identity-keycloak</artifactId>
-	    <version>1.2.0</version>
-	</dependency>
-
-    <!-- LDAP plugin -->
-      <dependency>
-          <groupId>org.camunda.bpm.identity</groupId>
-          <artifactId>camunda-identity-ldap</artifactId>
-      </dependency>
 
       <!-- Groovy as JSR-223 scripting engine -->
       <dependency>
@@ -293,13 +200,6 @@
           <artifactId>groovy-all</artifactId>
           <version>2.4.5</version>
           <scope>provided</scope>
-      </dependency>
-
-      <!-- added for transactional mail integration via SendGrid -->
-      <dependency>
-          <groupId>com.sendgrid</groupId>
-          <artifactId>sendgrid-java</artifactId>
-          <version>4.4.1</version>
       </dependency>
 
   </dependencies>

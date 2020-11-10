@@ -2,7 +2,6 @@ package com.camunda.poc.starter.usecase.renewal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import com.opencsv.bean.CsvBindByName;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
