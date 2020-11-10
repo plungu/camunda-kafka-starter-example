@@ -107,14 +107,14 @@
 
 	var Main = __webpack_require__(279);
 	var RenewalMain = __webpack_require__(284);
-	var TenantMain = __webpack_require__(348);
-	var Import = __webpack_require__(353);
-	var RenewalDetail = __webpack_require__(338);
-	var TenantDetail = __webpack_require__(352);
-	var CannedMessageMain = __webpack_require__(360);
+	var TenantMain = __webpack_require__(351);
+	var Import = __webpack_require__(356);
+	var RenewalDetail = __webpack_require__(363);
+	var TenantDetail = __webpack_require__(370);
+	var CannedMessageMain = __webpack_require__(371);
 
 	// tag::styles[]
-	__webpack_require__(364);
+	__webpack_require__(375);
 	$(document).foundation();
 
 	//require('style!css!../../main/resources/static/app.css');
@@ -29459,12 +29459,12 @@
 	                        React.createElement(
 	                            IndexLink,
 	                            { to: '/', activeClassName: 'active', className: 'hollow button', activeStyle: { fontWeight: 'bold' } },
-	                            'Renewals'
+	                            'Service Request'
 	                        ),
 	                        React.createElement(
 	                            Link,
 	                            { to: '/tenants', activeClassName: 'active', className: 'hollow button', activeStyle: { fontWeight: 'bold' } },
-	                            'Tenants'
+	                            'Review Tasks'
 	                        ),
 	                        React.createElement(
 	                            Link,
@@ -29769,7 +29769,7 @@
 	              React.createElement(
 	                'li',
 	                { className: 'topbar-title' },
-	                'Camunda PoC'
+	                'Morgan Stanley - Camunda - PoC'
 	              )
 	            )
 	          )
@@ -29857,7 +29857,7 @@
 	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
 
 	var RenewalList = __webpack_require__(334);
-	var RenewalDetail = __webpack_require__(338);
+	var RenewalDetail = __webpack_require__(339);
 
 	var root = '/api';
 	// end::vars[]
@@ -35395,7 +35395,7 @@
 
 	var RenewalLine = __webpack_require__(335);
 
-	var FilterBar = __webpack_require__(281);
+	var FilterBar = __webpack_require__(338);
 
 	// tag::renewal-list[]
 
@@ -35760,17 +35760,272 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	var FilterBar = function (_React$Component) {
+	    _inherits(FilterBar, _React$Component);
+
+	    function FilterBar(props) {
+	        _classCallCheck(this, FilterBar);
+
+	        var _this = _possibleConstructorReturn(this, (FilterBar.__proto__ || Object.getPrototypeOf(FilterBar)).call(this, props));
+
+	        _this.state = {
+	            callUpdate: function callUpdate(pageSize, that) {
+	                that.props.onFilterAll(pageSize);
+	            }
+	        };
+	        _this.handleNavFirst = _this.handleNavFirst.bind(_this);
+	        _this.handleNavPrev = _this.handleNavPrev.bind(_this);
+	        _this.handleNavNext = _this.handleNavNext.bind(_this);
+	        _this.handleNavLast = _this.handleNavLast.bind(_this);
+	        _this.handleInput = _this.handleInput.bind(_this);
+	        _this.handlefilterState = _this.handlefilterState.bind(_this);
+	        _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
+	        _this.handleFilterAll = _this.handleFilterAll.bind(_this);
+	        _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
+	        _this.handleRefresh = _this.handleRefresh.bind(_this);
+	        return _this;
+	    }
+
+	    // tag::handle-page-size-updates[]
+
+
+	    _createClass(FilterBar, [{
+	        key: 'handleInput',
+	        value: function handleInput(e) {
+	            e.preventDefault();
+	            var pageSize = ReactDOM.findDOMNode(this.refs.pageSize).value;
+	            if (/^[0-9]+$/.test(pageSize)) {
+	                this.props.updatePageSize(pageSize);
+	            } else {
+	                ReactDOM.findDOMNode(this.refs.pageSize).value = pageSize.substring(0, pageSize.length - 1);
+	            }
+	        }
+	        // end::handle-page-size-updates[]
+
+	    }, {
+	        key: 'handleRefresh',
+	        value: function handleRefresh(e) {
+	            e.preventDefault();
+	            this.state.callUpdate(this.props.pageSize, this);
+	        }
+	    }, {
+	        key: 'handleFilterPriority',
+	        value: function handleFilterPriority(e) {
+	            e.preventDefault();
+	            this.props.onFilterPriority(this.props.pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.props.onFilterPriority(pageSize);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'handleFilterAll',
+	        value: function handleFilterAll(e) {
+	            e.preventDefault();
+	            this.props.onFilterAll(this.props.pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.props.onFilterAll(pageSize);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'handleFilterStarted',
+	        value: function handleFilterStarted(e) {
+	            e.preventDefault();
+	            this.props.onFilterStarted(this.props.pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.props.onFilterStarted(pageSize);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'handlefilterState',
+	        value: function handlefilterState(e) {
+	            e.preventDefault();
+	            this.props.onFilterState(this.props.pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.props.onFilterState(pageSize);
+	                }
+	            });
+	        }
+
+	        // tag::handle-nav[]
+
+	    }, {
+	        key: 'handleNavFirst',
+	        value: function handleNavFirst(e) {
+	            e.preventDefault();
+	            this.props.onNavigate(this.props.links.first.href);
+	        }
+	    }, {
+	        key: 'handleNavPrev',
+	        value: function handleNavPrev(e) {
+	            e.preventDefault();
+	            this.props.onNavigate(this.props.links.prev.href);
+	        }
+	    }, {
+	        key: 'handleNavNext',
+	        value: function handleNavNext(e) {
+	            e.preventDefault();
+	            this.props.onNavigate(this.props.links.next.href);
+	        }
+	    }, {
+	        key: 'handleNavLast',
+	        value: function handleNavLast(e) {
+	            e.preventDefault();
+	            this.props.onNavigate(this.props.links.last.href);
+	        }
+	        // end::handle-nav[]
+
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var navLinks = [];
+	            if ("first" in this.props.links) {
+	                navLinks.push(React.createElement(
+	                    'a',
+	                    { className: 'button', key: 'first', onClick: this.handleNavFirst },
+	                    '<<'
+	                ));
+	            }
+	            if ("prev" in this.props.links) {
+	                navLinks.push(React.createElement(
+	                    'a',
+	                    { className: 'button', key: 'prev', onClick: this.handleNavPrev },
+	                    '<'
+	                ));
+	            }
+	            if ("next" in this.props.links) {
+	                navLinks.push(React.createElement(
+	                    'a',
+	                    { className: 'button', key: 'next', onClick: this.handleNavNext },
+	                    '>'
+	                ));
+	            }
+	            if ("last" in this.props.links) {
+	                navLinks.push(React.createElement(
+	                    'a',
+	                    { className: 'button', key: 'last', onClick: this.handleNavLast },
+	                    '>>'
+	                ));
+	            }
+
+	            return React.createElement(
+	                'div',
+	                { className: 'top-bar' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-6 columns' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'expanded small button-group' },
+	                            React.createElement(
+	                                'a',
+	                                { className: 'button secondary hollow' },
+	                                this.props.title
+	                            ),
+	                            React.createElement(
+	                                'a',
+	                                { className: 'button secondary', onClick: this.handleFilterStarted },
+	                                'Started'
+	                            ),
+	                            React.createElement(
+	                                'a',
+	                                { className: 'button', onClick: this.handleFilterAll },
+	                                'All'
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-5 columns' },
+	                        React.createElement(
+	                            'ul',
+	                            { className: 'menu' },
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'input-group small' },
+	                                    React.createElement(
+	                                        'span',
+	                                        { className: 'input-group-label' },
+	                                        'Page Size'
+	                                    ),
+	                                    React.createElement('input', { style: { width: "70px" }, type: 'number', ref: 'pageSize',
+	                                        defaultValue: this.props.pageSize, onInput: this.handleInput })
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'tiny button-group' },
+	                                    navLinks
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-1 columns' },
+	                        React.createElement(
+	                            'a',
+	                            { className: 'button small', key: 'last', onClick: this.handleRefresh },
+	                            'Refresh'
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return FilterBar;
+	}(React.Component);
+
+	module.exports = FilterBar;
+
+/***/ }),
+/* 339 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 	// tag::vars[]
 	var React = __webpack_require__(8);
 	var ReactDOM = __webpack_require__(47);
-	var client = __webpack_require__(285);
-	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
+	var client = __webpack_require__(340);
+	var follow = __webpack_require__(341); // function to hop multiple links by "rel"
 
-	var MessageList = __webpack_require__(339);
-	var MessageDetail = __webpack_require__(343);
-	var RenewalForm = __webpack_require__(345);
-	var Tenant = __webpack_require__(346);
-	var RenewalInfo = __webpack_require__(347);
+	var MessageList = __webpack_require__(342);
+	var MessageDetail = __webpack_require__(346);
+	var RenewalForm = __webpack_require__(348);
+	var Tenant = __webpack_require__(349);
+	var RenewalInfo = __webpack_require__(350);
 	var RenewalLine = __webpack_require__(335);
 
 	// end::vars[]
@@ -36012,7 +36267,74 @@
 	module.exports = RenewalDetail;
 
 /***/ }),
-/* 339 */
+/* 340 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var rest = __webpack_require__(286);
+	var defaultRequest = __webpack_require__(314);
+	var mime = __webpack_require__(316);
+	var uriTemplateInterceptor = __webpack_require__(330);
+	var errorCode = __webpack_require__(331);
+	var baseRegistry = __webpack_require__(318);
+
+	var registry = baseRegistry.child();
+
+	registry.register('text/uri-list', __webpack_require__(332));
+	registry.register('application/hal+json', __webpack_require__(319));
+
+	module.exports = rest.wrap(mime, { registry: registry }).wrap(uriTemplateInterceptor).wrap(errorCode).wrap(defaultRequest, { headers: { 'Accept': 'application/hal+json' } });
+
+/***/ }),
+/* 341 */
+/***/ (function(module, exports) {
+
+	'use strict';
+
+	module.exports = function follow(api, rootPath, relArray) {
+		var root = api({
+			method: 'GET',
+			path: rootPath
+		});
+
+		return relArray.reduce(function (root, arrayItem) {
+			var rel = typeof arrayItem === 'string' ? arrayItem : arrayItem.rel;
+			return traverseNext(root, rel, arrayItem);
+		}, root);
+
+		function traverseNext(root, rel, arrayItem) {
+			return root.then(function (response) {
+				if (hasEmbeddedRel(response.entity, rel)) {
+					return response.entity._embedded[rel];
+				}
+
+				if (!response.entity._links) {
+					return [];
+				}
+
+				if (typeof arrayItem === 'string') {
+					return api({
+						method: 'GET',
+						path: response.entity._links[rel].href
+					});
+				} else {
+					return api({
+						method: 'GET',
+						path: response.entity._links[rel].href,
+						params: arrayItem.params
+					});
+				}
+			});
+		}
+
+		function hasEmbeddedRel(entity, rel) {
+			return entity._embedded && entity._embedded.hasOwnProperty(rel);
+		}
+	};
+
+/***/ }),
+/* 342 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36029,9 +36351,9 @@
 
 	var React = __webpack_require__(8);
 
-	var Message = __webpack_require__(340);
+	var Message = __webpack_require__(343);
 
-	var MessageFilterBar = __webpack_require__(342);
+	var MessageFilterBar = __webpack_require__(345);
 
 	// tag::message-list[]
 
@@ -36128,7 +36450,7 @@
 	module.exports = MessageList;
 
 /***/ }),
-/* 340 */
+/* 343 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36149,7 +36471,7 @@
 
 
 	var React = __webpack_require__(8);
-	var DisplayDate = __webpack_require__(341);
+	var DisplayDate = __webpack_require__(344);
 
 	// tag::message[]
 
@@ -36199,7 +36521,7 @@
 	module.exports = MessageLine;
 
 /***/ }),
-/* 341 */
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36230,7 +36552,7 @@
 	module.exports = DisplayDateTime;
 
 /***/ }),
-/* 342 */
+/* 345 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36310,7 +36632,7 @@
 	module.exports = MessageFilterBar;
 
 /***/ }),
-/* 343 */
+/* 346 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36326,7 +36648,7 @@
 	// tag::vars[]
 	var React = __webpack_require__(8);
 	var ReactDOM = __webpack_require__(47);
-	var IFrame = __webpack_require__(344);
+	var IFrame = __webpack_require__(347);
 
 	// end::vars[]
 
@@ -36481,7 +36803,7 @@
 	module.exports = MessageDetail;
 
 /***/ }),
-/* 344 */
+/* 347 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36514,7 +36836,7 @@
 	module.exports = IFrame;
 
 /***/ }),
-/* 345 */
+/* 348 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -36528,9 +36850,9 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(8);
-	var client = __webpack_require__(285);
+	var client = __webpack_require__(340);
 	var DisplayDate = __webpack_require__(336);
-	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
+	var follow = __webpack_require__(341); // function to hop multiple links by "rel"
 
 	var RenewalForm = function (_React$Component) {
 	  _inherits(RenewalForm, _React$Component);
@@ -36798,7 +37120,7 @@
 	module.exports = RenewalForm;
 
 /***/ }),
-/* 346 */
+/* 349 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -36867,7 +37189,7 @@
 	module.exports = Tenant;
 
 /***/ }),
-/* 347 */
+/* 350 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37205,7 +37527,7 @@
 	module.exports = RenewalInfo;
 
 /***/ }),
-/* 348 */
+/* 351 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37225,8 +37547,8 @@
 	var client = __webpack_require__(285);
 	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
 
-	var TenantList = __webpack_require__(349);
-	var TenantDetail = __webpack_require__(352);
+	var TenantList = __webpack_require__(352);
+	var TenantDetail = __webpack_require__(355);
 
 	var root = '/api';
 	// end::vars[]
@@ -37411,7 +37733,7 @@
 	module.exports = TenantMain;
 
 /***/ }),
-/* 349 */
+/* 352 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37428,9 +37750,9 @@
 
 	var React = __webpack_require__(8);
 
-	var Tenant = __webpack_require__(350);
+	var Tenant = __webpack_require__(353);
 
-	var FilterBar = __webpack_require__(351);
+	var FilterBar = __webpack_require__(354);
 
 	// tag::Tenant-list[]
 
@@ -37522,7 +37844,7 @@
 	module.exports = TenantList;
 
 /***/ }),
-/* 350 */
+/* 353 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37604,7 +37926,7 @@
 	module.exports = TenantLine;
 
 /***/ }),
-/* 351 */
+/* 354 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37840,7 +38162,7 @@
 	module.exports = TenantFilterBar;
 
 /***/ }),
-/* 352 */
+/* 355 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37910,7 +38232,7 @@
 	module.exports = TenantDetail;
 
 /***/ }),
-/* 353 */
+/* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37925,9 +38247,9 @@
 
 	var React = __webpack_require__(8);
 
-	var ImportRenewalMain = __webpack_require__(354);
-	var ImportTenantMain = __webpack_require__(356);
-	var ImportCannedMessageMain = __webpack_require__(358);
+	var ImportRenewalMain = __webpack_require__(357);
+	var ImportTenantMain = __webpack_require__(359);
+	var ImportCannedMessageMain = __webpack_require__(361);
 
 	var Import = function (_React$Component) {
 	  _inherits(Import, _React$Component);
@@ -37974,7 +38296,7 @@
 	module.exports = Import;
 
 /***/ }),
-/* 354 */
+/* 357 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -37989,7 +38311,7 @@
 
 	var React = __webpack_require__(8);
 
-	var ImportRenewalForm = __webpack_require__(355);
+	var ImportRenewalForm = __webpack_require__(358);
 
 	var ImportRenewalMain = function (_React$Component) {
 	  _inherits(ImportRenewalMain, _React$Component);
@@ -38140,13 +38462,13 @@
 	module.exports = ImportRenewalMain;
 
 /***/ }),
-/* 355 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var client = __webpack_require__(285);
+	var client = __webpack_require__(340);
 
 	var ImportRenewalForm = React.createClass({
 	  displayName: 'ImportRenewalForm',
@@ -38204,7 +38526,7 @@
 	module.exports = ImportRenewalForm;
 
 /***/ }),
-/* 356 */
+/* 359 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38219,7 +38541,7 @@
 
 	var React = __webpack_require__(8);
 
-	var ImportTenantForm = __webpack_require__(357);
+	var ImportTenantForm = __webpack_require__(360);
 
 	var ImportTenantMain = function (_React$Component) {
 	  _inherits(ImportTenantMain, _React$Component);
@@ -38325,13 +38647,13 @@
 	module.exports = ImportTenantMain;
 
 /***/ }),
-/* 357 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var client = __webpack_require__(285);
+	var client = __webpack_require__(340);
 
 	var ImportTenantForm = React.createClass({
 	  displayName: 'ImportTenantForm',
@@ -38389,7 +38711,7 @@
 	module.exports = ImportTenantForm;
 
 /***/ }),
-/* 358 */
+/* 361 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38404,7 +38726,7 @@
 
 	var React = __webpack_require__(8);
 
-	var ImportCannedMessageForm = __webpack_require__(359);
+	var ImportCannedMessageForm = __webpack_require__(362);
 
 	var ImportCannedMessageMain = function (_React$Component) {
 	  _inherits(ImportCannedMessageMain, _React$Component);
@@ -38491,13 +38813,13 @@
 	module.exports = ImportCannedMessageMain;
 
 /***/ }),
-/* 359 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
 	var React = __webpack_require__(8);
-	var client = __webpack_require__(285);
+	var client = __webpack_require__(340);
 
 	var ImportCannedMessageForm = React.createClass({
 	  displayName: 'ImportCannedMessageForm',
@@ -38555,7 +38877,1432 @@
 	module.exports = ImportCannedMessageForm;
 
 /***/ }),
-/* 360 */
+/* 363 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// tag::vars[]
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+	var client = __webpack_require__(285);
+	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
+
+	var MessageList = __webpack_require__(364);
+	var MessageDetail = __webpack_require__(365);
+	var RenewalForm = __webpack_require__(366);
+	var Tenant = __webpack_require__(367);
+	var RenewalInfo = __webpack_require__(368);
+	var RenewalLine = __webpack_require__(369);
+
+	// end::vars[]
+
+	var Detail = function (_React$Component) {
+	  _inherits(Detail, _React$Component);
+
+	  function Detail(props) {
+	    _classCallCheck(this, Detail);
+
+	    var _this = _possibleConstructorReturn(this, (Detail.__proto__ || Object.getPrototypeOf(Detail)).call(this, props));
+
+	    _this.state = {
+	      message: null,
+	      messages: [],
+	      attributes: [],
+	      pageSize: 2,
+	      links: {},
+	      displayDetail: "none",
+	      displayList: "block"
+	    };
+	    _this.updatePageSize = _this.updatePageSize.bind(_this);
+	    _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
+	    _this.handleBackClick = _this.handleBackClick.bind(_this);
+	    return _this;
+	  }
+
+	  // tag::update-page-size[]
+
+
+	  _createClass(Detail, [{
+	    key: 'updatePageSize',
+	    value: function updatePageSize(pageSize) {
+	      if (pageSize !== this.state.pageSize) {
+	        this.loadFromServer(pageSize);
+	      }
+	    }
+	    // end::update-page-size[]
+
+	  }, {
+	    key: 'handleSelectedItem',
+	    value: function handleSelectedItem(message) {
+	      this.setState({
+	        message: message,
+	        displayDetail: "block",
+	        displayList: "none"
+	      });
+	    }
+	  }, {
+	    key: 'handleBackClick',
+	    value: function handleBackClick(e) {
+	      this.setState({
+	        displayDetail: "none",
+	        displayList: "block"
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var item = "";
+	      if (this.state.message !== null) {
+	        item = React.createElement(MessageDetail, { message: this.state.message });
+	      }
+	      var displayForm = this.props.displayForm;
+	      var displayMessages = this.props.displayMessages;
+
+	      var tenants = this.props.renewal.tennants.map(function (tenant) {
+	        return React.createElement(Tenant, { key: tenant.email,
+	          tenant: tenant });
+	      });
+
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { style: { display: this.props.displayLine } },
+	          React.createElement(
+	            'div',
+	            { className: 'row' },
+	            React.createElement(
+	              'div',
+	              { className: 'small-12 columns' },
+	              React.createElement(
+	                'table',
+	                { className: 'hover stack' },
+	                React.createElement(
+	                  'thead',
+	                  null,
+	                  React.createElement(
+	                    'tr',
+	                    null,
+	                    React.createElement(
+	                      'th',
+	                      null,
+	                      'Property'
+	                    ),
+	                    React.createElement(
+	                      'th',
+	                      { width: '105' },
+	                      'End Date'
+	                    ),
+	                    React.createElement(
+	                      'th',
+	                      { width: '105' },
+	                      'Show Date'
+	                    ),
+	                    React.createElement(
+	                      'th',
+	                      null,
+	                      'Current Rent'
+	                    ),
+	                    React.createElement(
+	                      'th',
+	                      null,
+	                      '1 Year Offer'
+	                    ),
+	                    React.createElement(
+	                      'th',
+	                      null,
+	                      '2 Year Offer'
+	                    ),
+	                    React.createElement(
+	                      'th',
+	                      null,
+	                      'State'
+	                    ),
+	                    React.createElement(
+	                      'th',
+	                      null,
+	                      'Renewing'
+	                    ),
+	                    React.createElement(
+	                      'th',
+	                      null,
+	                      'Note'
+	                    )
+	                  )
+	                ),
+	                React.createElement(
+	                  'tbody',
+	                  null,
+	                  React.createElement(RenewalLine, { key: this.props.renewal._links.self.href,
+	                    renewal: this.props.renewal,
+	                    onUpdateNote: this.props.onUpdateNote,
+	                    onSelectItem: this.props.onSelectItem })
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { style: { display: this.props.displayInfo } },
+	          React.createElement(RenewalInfo, {
+	            tenants: tenants,
+	            renewal: this.props.renewal,
+	            onUpdateNote: this.props.onUpdateNote,
+	            onDelete: this.props.onDelete })
+	        ),
+	        React.createElement(
+	          'div',
+	          { style: { display: displayMessages } },
+	          React.createElement('hr', null),
+	          React.createElement(
+	            'div',
+	            { style: { display: this.state.displayList } },
+	            React.createElement(MessageList, { messages: this.props.messages,
+	              renewal: this.props.renewal,
+	              links: this.state.links,
+	              pageSize: this.state.pageSize,
+	              onNavigate: this.onNavigate,
+	              updatePageSize: this.updatePageSize,
+	              onSelectItem: this.handleSelectedItem,
+	              onRefreshMessages: this.props.onRefreshMessages })
+	          ),
+	          React.createElement(
+	            'div',
+	            { style: { display: this.state.displayDetail } },
+	            React.createElement(
+	              'div',
+	              { className: 'top-bar show-for-medium small-12 columns' },
+	              React.createElement(
+	                'div',
+	                { className: 'top-bar-left' },
+	                React.createElement(
+	                  'ul',
+	                  { className: 'menu' },
+	                  React.createElement(
+	                    'li',
+	                    { className: 'topbar-title' },
+	                    'Message Detail'
+	                  )
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'top-bar-right' },
+	                React.createElement(
+	                  'ul',
+	                  { className: 'menu' },
+	                  React.createElement(
+	                    'li',
+	                    { className: 'topbar-title' },
+	                    React.createElement(
+	                      'a',
+	                      { className: 'button', onClick: this.handleBackClick },
+	                      '<<<Back'
+	                    )
+	                  )
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'row' },
+	              React.createElement(
+	                'div',
+	                { className: 'small-12 columns' },
+	                item
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { style: { display: displayForm } },
+	          React.createElement('hr', null),
+	          React.createElement(RenewalForm, { renewal: this.props.renewal,
+	            cannedMessages: this.props.cannedMessages })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Detail;
+	}(React.Component);
+
+	module.exports = Detail;
+
+/***/ }),
+/* 364 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// tag::vars[]
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+
+	var Message = __webpack_require__(343);
+
+	var MessageFilterBar = __webpack_require__(345);
+
+	// tag::message-list[]
+
+	var MessageList = function (_React$Component) {
+	    _inherits(MessageList, _React$Component);
+
+	    function MessageList(props) {
+	        _classCallCheck(this, MessageList);
+
+	        return _possibleConstructorReturn(this, (MessageList.__proto__ || Object.getPrototypeOf(MessageList)).call(this, props));
+	    }
+
+	    _createClass(MessageList, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            var messages = "";
+	            if (this.props.messages) {
+	                messages = this.props.messages.map(function (message) {
+	                    return React.createElement(Message, { key: message._links.self.href,
+	                        message: message,
+	                        onSelectItem: _this2.props.onSelectItem });
+	                });
+	            }
+
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns' },
+	                        React.createElement(MessageFilterBar, {
+	                            renewal: this.props.renewal,
+	                            onRefreshMessages: this.props.onRefreshMessages })
+	                    )
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns', style: { overflow: "auto", heigth: "200px" } },
+	                        React.createElement(
+	                            'table',
+	                            { className: 'hover stack' },
+	                            React.createElement(
+	                                'thead',
+	                                null,
+	                                React.createElement(
+	                                    'tr',
+	                                    null,
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'To'
+	                                    ),
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'From'
+	                                    ),
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'Subject'
+	                                    ),
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'Created'
+	                                    )
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'tbody',
+	                                null,
+	                                messages
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return MessageList;
+	}(React.Component);
+	// end::message-list[]
+
+	module.exports = MessageList;
+
+/***/ }),
+/* 365 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// tag::vars[]
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+	var IFrame = __webpack_require__(347);
+
+	// end::vars[]
+
+	var MessageDetail = function (_React$Component) {
+	  _inherits(MessageDetail, _React$Component);
+
+	  function MessageDetail(props) {
+	    _classCallCheck(this, MessageDetail);
+
+	    return _possibleConstructorReturn(this, (MessageDetail.__proto__ || Object.getPrototypeOf(MessageDetail)).call(this, props));
+	  }
+
+	  _createClass(MessageDetail, [{
+	    key: 'render',
+	    value: function render() {
+	      var content = "";
+	      if (this.props.message.html) {
+	        content = this.props.message.html;
+	      } else if (this.props.message.text) {
+	        content = this.props.message.text;
+	      } else {
+	        content = "No Content in message body.";
+	      }
+
+	      var cdate = new Date(this.props.message.created);
+	      var createdDate = cdate.getDate() + "-" + (cdate.getMonth() + 1) + "-" + cdate.getFullYear();
+
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'To'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.message.recipient
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'From'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.message.sender
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Date'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      createdDate
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-12 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card' },
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'span',
+	                  { className: 'label' },
+	                  'Subject'
+	                ),
+	                '\xA0\xA0',
+	                this.props.message.subject
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-12 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'callout clearfix' },
+	              React.createElement(IFrame, { content: content })
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return MessageDetail;
+	}(React.Component);
+
+	module.exports = MessageDetail;
+
+/***/ }),
+/* 366 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+	var client = __webpack_require__(285);
+	var DisplayDate = __webpack_require__(336);
+	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
+
+	var Form = function (_React$Component) {
+	  _inherits(Form, _React$Component);
+
+	  function Form(props) {
+	    _classCallCheck(this, Form);
+
+	    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+	    _this.state = {
+	      signed: _this.props.renewal.signed,
+	      renewing: _this.props.renewal.renewing
+
+	    };
+	    _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
+	    _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.setMessage = _this.setMessage.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(Form, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      debugger;
+	      var message = {};
+	      message.text = this.refs.newMessage.value;
+	      message.subject = this.refs.cannedMessage.value;
+	      if (this.refs.gracePeriod.value) {
+	        message.gracePeriod = this.refs.gracePeriod.value;
+	      }
+	      message.confirm = false;
+	      if (this.refs.confirm.checked) {
+	        message.confirm = true;
+	      }
+	      //    message.signed = false;
+	      //    if (this.refs.signed.checked){
+	      //      message.signed = true;
+	      //    }
+	      //    message.renewing = false;
+	      //    if (this.refs.renewing.checked){
+	      //      message.renewing = true;
+	      //    }
+	      message.processId = this.props.renewal.businessKey;
+	      message.renewalId = this.props.renewal.id;
+	      this.onCreate(message);
+
+	      // clear out the dialog's inputs
+	      this.refs.newMessage.value = '';
+	    }
+	  }, {
+	    key: 'setMessage',
+	    value: function setMessage(e) {
+	      e.preventDefault();
+
+	      var sdate = new Date(this.props.renewal.showDate);
+	      var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
+
+	      this.refs.newMessage.value = "";
+	      var selection = this.refs.cannedMessage.value;
+	      if (selection !== "") {
+	        this.refs.newMessage.value = this.props.cannedMessages[selection].text;
+	      }
+	    }
+	  }, {
+	    key: 'onCreate',
+	    value: function onCreate(message) {
+	      client({
+	        method: 'POST',
+	        path: "/message",
+	        entity: message,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        alert("Message Sent");
+	      });
+	    }
+	  }, {
+	    key: 'handleSignedCheck',
+	    value: function handleSignedCheck(e) {
+	      e.preventDefault();
+	      var message = {};
+	      message.signed = false;
+	      if (this.refs.signed.checked) {
+	        message.signed = true;
+	      }
+	      message.processId = this.props.renewal.processId;
+	      message.renewalId = this.props.renewal.id;
+
+	      this.onUpdateSigned(message);
+	    }
+	  }, {
+	    key: 'onUpdateSigned',
+	    value: function onUpdateSigned(message) {
+	      var _this2 = this;
+
+	      client({
+	        method: 'POST',
+	        path: "/signed",
+	        entity: message,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        alert("Renewal Signed flag has been updated!");
+	        _this2.setState({
+	          signed: message.signed
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'handleRenewedCheck',
+	    value: function handleRenewedCheck(e) {
+	      e.preventDefault();
+	      var message = {};
+	      message.renewing = false;
+	      if (this.refs.renewing.checked) {
+	        message.renewing = true;
+	      }
+	      message.processId = this.props.renewal.processId;
+	      message.renewalId = this.props.renewal.id;
+
+	      this.onUpdateRenewing(message);
+	    }
+	  }, {
+	    key: 'onUpdateRenewing',
+	    value: function onUpdateRenewing(message) {
+	      var _this3 = this;
+
+	      client({
+	        method: 'POST',
+	        path: "/renewing",
+	        entity: message,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        alert("Renewal Renewing flag has been updated!");
+	        _this3.setState({
+	          renewing: message.renewing
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var i = 0;
+	      var options = this.props.cannedMessages.map(function (cannedMessage) {
+	        return React.createElement(
+	          'option',
+	          { key: cannedMessage._links.self.href, value: i++ },
+	          cannedMessage.subject
+	        );
+	      });
+
+	      return React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'small-12 columns' },
+	          React.createElement(
+	            'form',
+	            { onSubmit: this.handleSubmit },
+	            React.createElement(
+	              'select',
+	              { ref: 'cannedMessage', onChange: this.setMessage, defaultValue: '' },
+	              React.createElement(
+	                'option',
+	                { value: '' },
+	                'Choose a canned message'
+	              ),
+	              options
+	            ),
+	            React.createElement('textarea', { rows: '5', ref: 'newMessage', placeholder: 'Enter Message to tenants' }),
+	            React.createElement(
+	              'div',
+	              { className: 'row' },
+	              React.createElement(
+	                'div',
+	                { className: 'small-5 columns' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'input-group' },
+	                  React.createElement(
+	                    'span',
+	                    { className: 'input-group-label' },
+	                    'Grace Period'
+	                  ),
+	                  React.createElement(
+	                    'select',
+	                    { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
+	                    React.createElement(
+	                      'option',
+	                      { value: '' },
+	                      'Default'
+	                    ),
+	                    React.createElement(
+	                      'option',
+	                      { value: '1' },
+	                      '1 Day'
+	                    ),
+	                    React.createElement(
+	                      'option',
+	                      { value: '2' },
+	                      '2 Days'
+	                    ),
+	                    React.createElement(
+	                      'option',
+	                      { value: '3' },
+	                      '3 Days'
+	                    ),
+	                    React.createElement(
+	                      'option',
+	                      { value: '5' },
+	                      '5 Days'
+	                    )
+	                  )
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'small-3 columns' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'input-group' },
+	                  React.createElement(
+	                    'span',
+	                    { className: 'input-group-label' },
+	                    'Renewing'
+	                  ),
+	                  React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'renewing', checked: this.state.renewing, onChange: this.handleRenewedCheck })
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'small-3 columns' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'input-group' },
+	                  React.createElement(
+	                    'span',
+	                    { className: 'input-group-label' },
+	                    'Confirm'
+	                  ),
+	                  React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'confirm' })
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'small-1 columns' },
+	                React.createElement(
+	                  'label',
+	                  { htmlFor: 'sendMessage', className: 'button float-right' },
+	                  'Send'
+	                ),
+	                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Form;
+	}(React.Component);
+
+	module.exports = Form;
+
+/***/ }),
+/* 367 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// tag::vars[]
+	var React = __webpack_require__(8);
+	// end::vars[]
+
+	var Tenant = function (_React$Component) {
+	  _inherits(Tenant, _React$Component);
+
+	  function Tenant(props) {
+	    _classCallCheck(this, Tenant);
+
+	    return _possibleConstructorReturn(this, (Tenant.__proto__ || Object.getPrototypeOf(Tenant)).call(this, props));
+	  }
+
+	  _createClass(Tenant, [{
+	    key: "render",
+	    value: function render() {
+	      return React.createElement(
+	        "div",
+	        null,
+	        React.createElement(
+	          "div",
+	          null,
+	          React.createElement(
+	            "ul",
+	            null,
+	            React.createElement(
+	              "li",
+	              null,
+	              React.createElement(
+	                "span",
+	                { className: "label" },
+	                "Name"
+	              ),
+	              "\xA0",
+	              this.props.tenant.name,
+	              "\xA0\xA0",
+	              React.createElement(
+	                "span",
+	                { className: "label" },
+	                "EMail"
+	              ),
+	              "\xA0",
+	              this.props.tenant.email
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Tenant;
+	}(React.Component);
+
+	module.exports = Tenant;
+
+/***/ }),
+/* 368 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+	var DisplayDate = __webpack_require__(336);
+	var UpdateNoteDialog = __webpack_require__(337);
+
+	var Info = function (_React$Component) {
+	  _inherits(Info, _React$Component);
+
+	  function Info(props) {
+	    _classCallCheck(this, Info);
+
+	    var _this = _possibleConstructorReturn(this, (Info.__proto__ || Object.getPrototypeOf(Info)).call(this, props));
+
+	    _this.handleDelete = _this.handleDelete.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(Info, [{
+	    key: 'handleDelete',
+	    value: function handleDelete(e) {
+	      e.preventDefault;
+	      alert("Sure you want to delete this property? Press the [esc] button to cancel this action.");
+	      this.props.onDelete(this.props.renewal);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var status = "Not Started";
+	      if (this.props.renewal.renewalStarted) {
+	        status = "Renewal Started";
+	      }
+	      if (this.props.renewal.renewalCompleted) {
+	        status = "Renewal Completed";
+	      }
+
+	      var renewing = "";
+	      if (this.props.renewal.renewing) {
+	        renewing = "Yes";
+	      } else if (this.props.renewal.renewing === false && this.props.renewal.renewalCompleted) {
+	        renewing = "No";
+	      }
+
+	      var signed = "No";
+	      if (this.props.renewal.signed) {
+	        signed = "Yes";
+	      }
+
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-4 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-divider' },
+	                React.createElement(
+	                  'h4',
+	                  null,
+	                  'Property'
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    this.props.renewal.property
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'small-4 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "400px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-divider' },
+	                React.createElement(
+	                  'h4',
+	                  null,
+	                  'Tenants'
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                this.props.tenants
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'small-4 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'a',
+	                { className: 'button small float-right', key: 'last', onClick: this.handleDelete },
+	                'Delete'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-divider' },
+	                React.createElement(
+	                  'h4',
+	                  null,
+	                  'Status'
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Start Date'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      React.createElement(DisplayDate, { date: this.props.renewal.start })
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'End Date'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      React.createElement(DisplayDate, { date: this.props.renewal.end })
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Worflow State'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.renewal.workflowState
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Show Date'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      React.createElement(DisplayDate, { date: this.props.renewal.showDate })
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Renewing'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      renewing
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-divider' },
+	                React.createElement(
+	                  'h4',
+	                  null,
+	                  'Pricing'
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Current'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.renewal.currentRent
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      '1 Year'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.renewal.oneYearOffer
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      '2 Year'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.renewal.twoYearOffer
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-divider' },
+	                React.createElement(
+	                  'h4',
+	                  null,
+	                  'Note'
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(UpdateNoteDialog, { renewal: this.props.renewal,
+	                      onUpdateNote: this.props.onUpdateNote })
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Info;
+	}(React.Component);
+
+	module.exports = Info;
+
+/***/ }),
+/* 369 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	// tag::vars[]
+
+
+	var React = __webpack_require__(8);
+	var DisplayDate = __webpack_require__(336);
+	var UpdateNoteDialog = __webpack_require__(337);
+
+	// tag::renewal[]
+
+	var Line = function (_React$Component) {
+	  _inherits(Line, _React$Component);
+
+	  function Line(props) {
+	    _classCallCheck(this, Line);
+
+	    return _possibleConstructorReturn(this, (Line.__proto__ || Object.getPrototypeOf(Line)).call(this, props));
+	  }
+
+	  _createClass(Line, [{
+	    key: 'render',
+	    value: function render() {
+	      var status = "Not Started";
+	      if (this.props.renewal.renewalStarted) {
+	        status = "Renewal Started";
+	      }
+	      if (this.props.renewal.renewalCompleted) {
+	        status = "Renewal Completed";
+	      }
+	      var renewing = "";
+	      if (this.props.renewal.renewing) {
+	        renewing = "Yes";
+	      } else if (this.props.renewal.renewing === false && this.props.renewal.renewalCompleted) {
+	        renewing = "No";
+	      }
+
+	      return React.createElement(
+	        'tr',
+	        null,
+	        React.createElement(
+	          'td',
+	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	          this.props.renewal.property
+	        ),
+	        React.createElement(
+	          'td',
+	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	          React.createElement(DisplayDate, { date: this.props.renewal.end })
+	        ),
+	        React.createElement(
+	          'td',
+	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	          React.createElement(DisplayDate, { date: this.props.renewal.showDate })
+	        ),
+	        React.createElement(
+	          'td',
+	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	          this.props.renewal.currentRent
+	        ),
+	        React.createElement(
+	          'td',
+	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	          this.props.renewal.oneYearOffer
+	        ),
+	        React.createElement(
+	          'td',
+	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	          this.props.renewal.twoYearOffer
+	        ),
+	        React.createElement(
+	          'td',
+	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	          this.props.renewal.workflowState
+	        ),
+	        React.createElement(
+	          'td',
+	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	          renewing
+	        ),
+	        React.createElement(
+	          'td',
+	          null,
+	          React.createElement(UpdateNoteDialog, { renewal: this.props.renewal,
+	            onUpdateNote: this.props.onUpdateNote })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Line;
+	}(React.Component);
+	// end::renewal[]
+
+	module.exports = Line;
+
+/***/ }),
+/* 370 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// tag::vars[]
+	var React = __webpack_require__(8);
+	// end::vars[]
+
+	var TenantDetail = function (_React$Component) {
+	  _inherits(TenantDetail, _React$Component);
+
+	  function TenantDetail(props) {
+	    _classCallCheck(this, TenantDetail);
+
+	    return _possibleConstructorReturn(this, (TenantDetail.__proto__ || Object.getPrototypeOf(TenantDetail)).call(this, props));
+	  }
+
+	  _createClass(TenantDetail, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Tenant Detail'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'ul',
+	            null,
+	            React.createElement(
+	              'li',
+	              null,
+	              this.props.tenant.name
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              this.props.tenant.email
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              this.props.tenant.unitSlug
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TenantDetail;
+	}(React.Component);
+
+	module.exports = TenantDetail;
+
+/***/ }),
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38575,8 +40322,8 @@
 	var client = __webpack_require__(285);
 	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
 
-	var CannedMessageList = __webpack_require__(361);
-	var CannedMessageDetail = __webpack_require__(363);
+	var CannedMessageList = __webpack_require__(372);
+	var CannedMessageDetail = __webpack_require__(374);
 
 	var root = '/api';
 	// end::vars[]
@@ -38761,7 +40508,7 @@
 	module.exports = CannedMessageMain;
 
 /***/ }),
-/* 361 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38778,9 +40525,9 @@
 
 	var React = __webpack_require__(8);
 
-	var CannedMessage = __webpack_require__(362);
+	var CannedMessage = __webpack_require__(373);
 
-	var FilterBar = __webpack_require__(351);
+	var FilterBar = __webpack_require__(354);
 
 	// tag::CannedMessage-list[]
 
@@ -38872,7 +40619,7 @@
 	module.exports = CannedMessageList;
 
 /***/ }),
-/* 362 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -38954,7 +40701,7 @@
 	module.exports = CannedMessageLine;
 
 /***/ }),
-/* 363 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -39024,16 +40771,16 @@
 	module.exports = CannedMessageDetail;
 
 /***/ }),
-/* 364 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(365);
+	var content = __webpack_require__(376);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(367)(content, {});
+	var update = __webpack_require__(378)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -39050,10 +40797,10 @@
 	}
 
 /***/ }),
-/* 365 */
+/* 376 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(366)();
+	exports = module.exports = __webpack_require__(377)();
 	// imports
 
 
@@ -39064,7 +40811,7 @@
 
 
 /***/ }),
-/* 366 */
+/* 377 */
 /***/ (function(module, exports) {
 
 	/*
@@ -39120,7 +40867,7 @@
 
 
 /***/ }),
-/* 367 */
+/* 378 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
