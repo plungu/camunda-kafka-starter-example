@@ -1,6 +1,6 @@
 *.class
 *.db
-bundle.js
+#bundle.js*
 package-lock.json
 
 # Mobile Tools for Java (J2ME)
