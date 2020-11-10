@@ -113,7 +113,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"messageName\" : \"message-homeowner-poi\",\n  \"businessKey\" : \"{{loanNumber}}\"\n}"
+					"raw": "{\n  \"messageName\" : \"message-homeowner-poi\",\n  \"businessKey\" : \"{{loanNumber}}\"\n}",
+					"options": {
+						"raw": {}
+					}
 				},
 				"url": {
 					"raw": "http://localhost:8080/engine-rest/message",
@@ -297,6 +300,33 @@
 						"default",
 						"customer",
 						"e298351a-d254-418f-b112-003f2d1c4f9f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Contact Event Start Process",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Paul\", \"businessKey\": \"{{$guid}}\", \"primaryPhone\":\"333-443-4543\",\"secondaryPhone\":\"\",\"email\":\"\", \"disposition\": false} "
+				},
+				"url": {
+					"raw": "localhost:8080/contact",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"contact"
 					]
 				}
 			},
