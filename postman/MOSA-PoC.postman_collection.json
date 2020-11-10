@@ -1,0 +1,307 @@
+{
+	"info": {
+		"_postman_id": "621d1869-131a-4cd8-90be-e9194a7f2c1d",
+		"name": "MOSA-PoC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "start-service-request-process-instance",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "283dc32f-4d3d-4f8a-8d5a-f027cbfd0db6",
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"    var data = JSON.parse(responseBody);",
+							"",
+							"    //set the tasks into PM environment",
+							"    pm.environment.set(\"businessKey\", data.businessKey);",
+							"    console.log( \"Business Key: \"",
+							"                        +pm.environment.get(\"businessKey\") );",
+							"    ",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"businessKey\" : \"{{$guid}}\",\n    \"variables\": {\n        \"status\": {\n            \"value\": \"0\",\n            \"type\":\"Integer\"\n        },\n        \"error\": {\n            \"value\": false\n        }\n\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/process-definition/key/service-request/start",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"process-definition",
+						"key",
+						"service-request",
+						"start"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "message-corrolation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "58611c82-2b36-4181-a9db-142ddcdcd1f3",
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"     // assert that the status code is 200",
+							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
+							"     // assert that the response has a valid JSON body",
+							"     pm.response.to.be.withBody;",
+							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
+							"",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "9a85e8ab-45f1-4e3f-ae98-3d948227e1ef",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"messageName\" : \"message-homeowner-poi\",\n  \"businessKey\" : \"{{loanNumber}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/message",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"message"
+					]
+				},
+				"description": "Starts a process instance with the rest API"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fb214ddf-3731-4a59-8449-9c6aa57b7511",
+						"exec": [
+							"pm.test(\"test task exists\", function () { ",
+							"",
+							"    // var taskName = \"Task_0fgkskn\";",
+							"",
+							"    var tasks = JSON.parse(responseBody);",
+							"    ",
+							"    // var tasks = [];",
+							"    // data.forEach(function(obj, index) { ",
+							"    //     // console.log(obj.taskDefinitionKey);",
+							"    //     //expecting each extranl task to be of the same task        ",
+							"    //     if(obj.taskDefinitionKey === taskName){",
+							"    //         //buffer the tasks to a list for later use",
+							"    //         tasks.push(obj);",
+							"    //     }",
+							"    // });",
+							"    ",
+							"    //set the tasks into PM environment",
+							"    // pm.environment.set(\"tasks\", tasks);",
+							"    pm.environment.set(\"userTaskId\", tasks[0].id);",
+							"    console.log( \"Set: userTaskId=\"",
+							"                        +tasks[0].id );",
+							"    ",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/task",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"task"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Complete Task",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "20b4c527-42c7-459e-9481-8ed1862e594c",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"variables\": {\n        \"approved\": {\n            \"value\": true\n        }\n    },\n    \"withVariablesInReturn\": true\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/engine-rest/task/{{userTaskId}}/complete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"engine-rest",
+						"task",
+						"{{userTaskId}}",
+						"complete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "notfiy homeowner end point",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:9090/api/Insurance/notifyHomeOwner/mortgagenumber/${businessKey}/language/en/firstname/${firstName}/lastname/${lastName}/preference/email/phonenumber/6478026187/email/raj.gohil%40mcap.com",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"api",
+						"Insurance",
+						"notifyHomeOwner",
+						"mortgagenumber",
+						"${businessKey}",
+						"language",
+						"en",
+						"firstname",
+						"${firstName}",
+						"lastname",
+						"${lastName}",
+						"preference",
+						"email",
+						"phonenumber",
+						"6478026187",
+						"email",
+						"raj.gohil%40mcap.com"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get prefrences",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/customer/v1/default/customer/e298351a-d254-418f-b112-003f2d1c4f9f",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"customer",
+						"v1",
+						"default",
+						"customer",
+						"e298351a-d254-418f-b112-003f2d1c4f9f"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
