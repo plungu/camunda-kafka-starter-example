@@ -198,6 +198,13 @@
 	  <artifactId>fluent-hc</artifactId>
 	</dependency>
 
+      <!-- CSV Processing -->
+      <dependency>
+          <groupId>com.opencsv</groupId>
+          <artifactId>opencsv</artifactId>
+          <version>3.9</version>
+      </dependency>
+
       <!-- Groovy as JSR-223 scripting engine -->
       <dependency>
           <groupId>org.codehaus.groovy</groupId>
@@ -205,6 +212,12 @@
           <version>2.4.5</version>
           <scope>provided</scope>
       </dependency>
+
+      <!-- Dev tools is disabled due to bug in variable serialization -->
+      <dependency>
+  		<groupId>org.springframework.boot</groupId>
+  		<artifactId>spring-boot-devtools</artifactId>
+  	  </dependency>
 
   </dependencies>
 

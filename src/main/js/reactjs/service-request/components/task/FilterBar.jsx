@@ -110,36 +110,70 @@ class FilterBar extends React.Component{
       }
 
     return (
+    <div>
+
        <div className="top-bar">
-         <div className="row">
-          <div className="small-6 columns">
-             <div className="expanded small button-group">
-                  <a className="button secondary hollow">{this.props.title}</a>
-                  <a className="button secondary" onClick={this.handleFilterStarted}>Started</a>
-                  <a className="button" onClick={this.handleFilterAll}>All</a>
-             </div>
-          </div>
-            <div className="small-5 columns">
+         <div className="top-bar-left">
               <ul className="menu">
-                <li>
-                    <div className="input-group small">
-                        <span className="input-group-label">Page Size</span>
-                        <input style={{width: "70px"}} type="number" ref="pageSize"
-                          defaultValue={this.props.pageSize} onInput={this.handleInput}/>
-                    </div>
-                </li>
+                  <li className="menu-text">{this.props.title}</li>
+              </ul>
+         </div>
+         <div className="top-bar-left">
+             <ul className="menu">
                   <li>
-                      <div className="tiny button-group">
-                          {navLinks}
-                      </div>
+                        <label className="text-center">Filter</label>
+                        <select onClick={this.handleFilterAll}>
+                            <option selected>Select</option>
+                            <option>option 1</option>
+                            <option>option 2</option>
+                            <option>option 3</option>
+                        </select>
+                  </li>
+                  <li>
+                      <label className="text-center">Filter</label>
+                      <select onClick={this.handleFilterAll}>
+                          <option selected>Select</option>
+                          <option>option 1</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                      </select>
+                  </li>
+                  <li>
+                      <label className="text-center">Filter</label>
+                      <select onClick={this.handleFilterAll}>
+                          <option selected>Select</option>
+                          <option>option 1</option>
+                          <option>option 2</option>
+                          <option>option 3</option>
+                      </select>
                   </li>
               </ul>
-            </div>
-            <div className="small-1 columns">
-              <a className="button small" key="last" onClick={this.handleRefresh}>Refresh</a>
-            </div>
-        </div>
+         </div>
+
+         <div className="top-bar-right">
+          <ul className="menu">
+              <li>
+                  <div className="button-group small">
+                      {navLinks}
+                  </div>
+              </li>
+            <li>
+                <div className="input-group small">
+                    <span className="input-group-label">Page Size</span>
+                    <input style={{width: "70px"}} type="number" ref="pageSize"
+                      defaultValue={this.props.pageSize} onInput={this.handleInput}/>
+                </div>
+            </li>
+            <li>
+              <div className="button-group small">
+                  <a className="button secondary radius" key="last" onClick={this.handleRefresh}>Refresh</a>
+              </div>
+            </li>
+          </ul>
+         </div>
        </div>
+
+    </div>
     )
   }
 }

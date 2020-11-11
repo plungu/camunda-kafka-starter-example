@@ -1,6 +1,6 @@
 var React = require('react');
 const client = require('../client.jsx');
-const DisplayDate = require('src/main/js/reactjs/renewals/components/date/DisplayDate.jsx');
+const DisplayDate = require('src/main/js/reactjs/service-request/components/date/DisplayDate.jsx');
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 class Form extends React.Component {
@@ -138,57 +138,38 @@ class Form extends React.Component {
     );  
       
     return (
-      <div className="row">
-          <div className="small-12 columns">
-            <form onSubmit={this.handleSubmit}>
-              <select ref="cannedMessage" onChange={this.setMessage} defaultValue="">
-                <option value="">Choose a canned message</option>
-                {options}
-              </select>
-              <textarea rows="5" ref="newMessage" placeholder="Enter Message to tenants"/>
-                
-              <div className="row">
-                <div className="small-5 columns">
-                  <div className="input-group">
-                    <span className="input-group-label">Grace Period</span>
-                    <select className="input-group-field" ref="gracePeriod" defaultValue="">
-                      <option value="">Default</option>
-                      <option value="1">1 Day</option>
-                      <option value="2">2 Days</option>
-                      <option value="3">3 Days</option>
-                      <option value="5">5 Days</option>
-                    </select>
-                  </div>
-                </div>
-                <div className="small-3 columns">
-                  <div className="input-group">
-                    <span className="input-group-label">Renewing</span>
-                    <input className="input-group-field" type="checkbox" ref="renewing" checked={this.state.renewing} onChange={this.handleRenewedCheck}/>
-                  </div>
-                </div>
+      <div>
 
-{/*                <div className="small-2 columns">
-//                    <div className="input-group">
-//                      <span className="input-group-label">Signed</span>
-//                      <input className="input-group-field" type="checkbox" ref="signed" checked={this.state.signed} onChange={this.handleSignedCheck} />
-//                    </div>
-//                </div>
-*/}
-                <div className="small-3 columns">
-                  <div className="input-group">
-                    <span className="input-group-label">Confirm</span>
-                    <input className="input-group-field" type="checkbox" ref="confirm" />
+          <div className="row">
+              <div className="small-6 small-offset-6 columns">
+                <form onSubmit={this.handleSubmit}>
+
+                  <div className="row">
+
+                    <div className="small-3 columns">
+                      <div className="input-group">
+                        <span className="input-group-label">Reject</span>
+                        <input className="input-group-field" type="checkbox" ref="renewing" checked={this.state.renewing} onChange={this.handleRenewedCheck}/>
+                      </div>
+                    </div>
+                    <div className="small-3 columns">
+                      <div className="input-group">
+                        <span className="input-group-label">Approve</span>
+                        <input className="input-group-field" type="checkbox" ref="confirm" />
+                      </div>
+                    </div>
+                    <div className="small-2 columns">
+                      <label htmlFor="sendMessage" className="button float-right">Done</label>
+                      <input type="submit" id="sendMessage" className="show-for-sr" />
+                    </div>
+
                   </div>
-                </div>
-                <div className="small-1 columns">
-                  <label htmlFor="sendMessage" className="button float-right">Send</label>
-                  <input type="submit" id="sendMessage" className="show-for-sr" />
-                </div>
+
+                </form>
               </div>
-            </form>
           </div>
-      </div>
 
+      </div>
     );
   }
 }

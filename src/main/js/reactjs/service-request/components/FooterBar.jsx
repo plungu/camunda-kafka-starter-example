@@ -4,20 +4,17 @@ var {Link, IndexLink} = require('react-router');
 var FooterBar = React.createClass({
   render: function(){
     return (
-      <div className="row">
-        <div className="large-12 columns">
-          <div className="">
+      <div >
            <nav className="top-bar show-for-medium">
               <div className="top-bar-left">
                 <ul className="menu">
                   <li className="topbar-title">
-                    <small>@ cmaunda poc.</small>
+                    <small>@ Morgan Stanley - Camunda PoC.</small>
                   </li>
                 </ul>
               </div>
            </nav>
-         </div>
-       </div>
+
      </div>
     );
   }

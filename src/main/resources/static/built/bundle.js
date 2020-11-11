@@ -106,15 +106,16 @@
 	    hashHistory = _require.hashHistory;
 
 	var Main = __webpack_require__(279);
-	var RenewalMain = __webpack_require__(284);
-	var TenantMain = __webpack_require__(351);
-	var Import = __webpack_require__(356);
-	var RenewalDetail = __webpack_require__(363);
-	var TenantDetail = __webpack_require__(370);
-	var CannedMessageMain = __webpack_require__(371);
+	var Home = __webpack_require__(285);
+	var Task = __webpack_require__(342);
+	var TenantMain = __webpack_require__(356);
+	var ImportData = __webpack_require__(361);
+	var Detail = __webpack_require__(335);
+	var TenantDetail = __webpack_require__(369);
+	var CannedMessageMain = __webpack_require__(370);
 
 	// tag::styles[]
-	__webpack_require__(375);
+	__webpack_require__(374);
 	$(document).foundation();
 
 	//require('style!css!../../main/resources/static/app.css');
@@ -127,12 +128,14 @@
 	  React.createElement(
 	    Route,
 	    { path: '/', component: Main },
-	    React.createElement(IndexRoute, { component: RenewalMain }),
-	    React.createElement(Route, { path: 'renewal', component: RenewalDetail }),
+	    React.createElement(IndexRoute, { component: Home }),
+	    React.createElement(Route, { path: 'home', component: Detail }),
+	    React.createElement(Route, { path: 'service', component: Detail }),
+	    React.createElement(Route, { path: 'tasks', component: Task }),
 	    React.createElement(Route, { path: 'tenants', component: TenantMain }),
 	    React.createElement(Route, { path: 'tenant', component: TenantDetail }),
 	    React.createElement(Route, { path: 'cannedMessages', component: CannedMessageMain }),
-	    React.createElement(Route, { path: 'import', component: Import })
+	    React.createElement(Route, { path: 'import', component: ImportData })
 	  )
 	), document.getElementById('react'));
 	// end::render[]
@@ -29384,45 +29387,45 @@
 
 	var React = __webpack_require__(8);
 
-	var Nav = __webpack_require__(280);
-	var FilterBar = __webpack_require__(281);
-	var MarketingBar = __webpack_require__(282);
-	var FooterBar = __webpack_require__(283);
+	var FilterBar = __webpack_require__(280);
+	var MarketingBar = __webpack_require__(281);
+	var StatusBar = __webpack_require__(283);
+	var FooterBar = __webpack_require__(284);
 
 	// tag::renewal[]
 
 	var Main = function (_React$Component) {
-	    _inherits(Main, _React$Component);
+	  _inherits(Main, _React$Component);
 
-	    function Main() {
-	        _classCallCheck(this, Main);
+	  function Main() {
+	    _classCallCheck(this, Main);
 
-	        return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).apply(this, arguments));
+	  }
+
+	  _createClass(Main, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'div',
+	          { className: 'small-12 large-12 columns' },
+	          React.createElement(MarketingBar, null),
+	          React.createElement(StatusBar, null),
+	          React.createElement(
+	            'div',
+	            null,
+	            this.props.children
+	          ),
+	          React.createElement(FooterBar, null)
+	        )
+	      );
 	    }
+	  }]);
 
-	    _createClass(Main, [{
-	        key: 'render',
-	        value: function render() {
-	            return React.createElement(
-	                'div',
-	                null,
-	                React.createElement(MarketingBar, null),
-	                React.createElement(Nav, null),
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-12 columns' },
-	                        this.props.children
-	                    )
-	                ),
-	                React.createElement(FooterBar, null)
-	            );
-	        }
-	    }]);
-
-	    return Main;
+	  return Main;
 	}(React.Component);
 	// end::renewal[]
 
@@ -29430,58 +29433,6 @@
 
 /***/ }),
 /* 280 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(8);
-
-	var _require = __webpack_require__(194),
-	    Link = _require.Link,
-	    IndexLink = _require.IndexLink;
-
-	var Nav = React.createClass({
-	    displayName: 'Nav',
-
-	    render: function render() {
-	        return React.createElement(
-	            'div',
-	            { className: 'row' },
-	            React.createElement(
-	                'div',
-	                { className: 'small-12 columns' },
-	                React.createElement(
-	                    'div',
-	                    { className: 'top-bar show-for-medium' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'medium expanded button-group' },
-	                        React.createElement(
-	                            IndexLink,
-	                            { to: '/', activeClassName: 'active', className: 'hollow button', activeStyle: { fontWeight: 'bold' } },
-	                            'Service Request'
-	                        ),
-	                        React.createElement(
-	                            Link,
-	                            { to: '/tenants', activeClassName: 'active', className: 'hollow button', activeStyle: { fontWeight: 'bold' } },
-	                            'Review Tasks'
-	                        ),
-	                        React.createElement(
-	                            Link,
-	                            { to: '/import', activeClassName: 'active', className: 'hollow button', activeStyle: { fontWeight: 'bold' } },
-	                            'Import'
-	                        )
-	                    )
-	                )
-	            )
-	        );
-	    }
-	});
-
-	module.exports = Nav;
-
-/***/ }),
-/* 281 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29509,184 +29460,62 @@
 
 	        var _this = _possibleConstructorReturn(this, (FilterBar.__proto__ || Object.getPrototypeOf(FilterBar)).call(this, props));
 
-	        _this.state = {
-	            callUpdate: function callUpdate(pageSize, that) {
-	                that.props.onFilterAll(pageSize);
-	            }
-	        };
-	        _this.handleNavFirst = _this.handleNavFirst.bind(_this);
-	        _this.handleNavPrev = _this.handleNavPrev.bind(_this);
-	        _this.handleNavNext = _this.handleNavNext.bind(_this);
-	        _this.handleNavLast = _this.handleNavLast.bind(_this);
-	        _this.handleInput = _this.handleInput.bind(_this);
-	        _this.handlefilterState = _this.handlefilterState.bind(_this);
-	        _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
-	        _this.handleFilterAll = _this.handleFilterAll.bind(_this);
-	        _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
-	        _this.handleRefresh = _this.handleRefresh.bind(_this);
+	        _this.state = {};
+	        _this.handleToggleServiceForm = _this.handleToggleServiceForm.bind(_this);
+	        _this.handleToggleDetailForm = _this.handleToggleDetailForm.bind(_this);
+	        _this.handleToggleSupplierForm = _this.handleToggleSupplierForm.bind(_this);
 	        return _this;
 	    }
 
-	    // tag::handle-page-size-updates[]
-
-
 	    _createClass(FilterBar, [{
-	        key: 'handleInput',
-	        value: function handleInput(e) {
-	            e.preventDefault();
-	            var pageSize = ReactDOM.findDOMNode(this.refs.pageSize).value;
-	            if (/^[0-9]+$/.test(pageSize)) {
-	                this.props.updatePageSize(pageSize);
-	            } else {
-	                ReactDOM.findDOMNode(this.refs.pageSize).value = pageSize.substring(0, pageSize.length - 1);
-	            }
-	        }
-	        // end::handle-page-size-updates[]
-
-	    }, {
-	        key: 'handleRefresh',
-	        value: function handleRefresh(e) {
-	            e.preventDefault();
-	            this.state.callUpdate(this.props.pageSize, this);
+	        key: 'handleToggleServiceForm',
+	        value: function handleToggleServiceForm(e) {
+	            console.log("toggling service form");
+	            this.props.toggleForm("service");
 	        }
 	    }, {
-	        key: 'handleFilterPriority',
-	        value: function handleFilterPriority(e) {
-	            e.preventDefault();
-	            this.props.onFilterPriority(this.props.pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.props.onFilterPriority(pageSize);
-	                }
-	            });
+	        key: 'handleToggleDetailForm',
+	        value: function handleToggleDetailForm(e) {
+	            console.log("toggling detail form");
+	            this.props.toggleForm("detail");
 	        }
 	    }, {
-	        key: 'handleFilterAll',
-	        value: function handleFilterAll(e) {
-	            e.preventDefault();
-	            this.props.onFilterAll(this.props.pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.props.onFilterAll(pageSize);
-	                }
-	            });
+	        key: 'handleToggleSupplierForm',
+	        value: function handleToggleSupplierForm(e) {
+	            console.log("toggling supplier form");
+	            this.props.toggleForm("supplier");
 	        }
-	    }, {
-	        key: 'handleFilterStarted',
-	        value: function handleFilterStarted(e) {
-	            e.preventDefault();
-	            this.props.onFilterStarted(this.props.pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.props.onFilterStarted(pageSize);
-	                }
-	            });
-	        }
-	    }, {
-	        key: 'handlefilterState',
-	        value: function handlefilterState(e) {
-	            e.preventDefault();
-	            this.props.onFilterState(this.props.pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.props.onFilterState(pageSize);
-	                }
-	            });
-	        }
-
-	        // tag::handle-nav[]
-
-	    }, {
-	        key: 'handleNavFirst',
-	        value: function handleNavFirst(e) {
-	            e.preventDefault();
-	            this.props.onNavigate(this.props.links.first.href);
-	        }
-	    }, {
-	        key: 'handleNavPrev',
-	        value: function handleNavPrev(e) {
-	            e.preventDefault();
-	            this.props.onNavigate(this.props.links.prev.href);
-	        }
-	    }, {
-	        key: 'handleNavNext',
-	        value: function handleNavNext(e) {
-	            e.preventDefault();
-	            this.props.onNavigate(this.props.links.next.href);
-	        }
-	    }, {
-	        key: 'handleNavLast',
-	        value: function handleNavLast(e) {
-	            e.preventDefault();
-	            this.props.onNavigate(this.props.links.last.href);
-	        }
-	        // end::handle-nav[]
-
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var navLinks = [];
-	            if ("first" in this.props.links) {
-	                navLinks.push(React.createElement(
-	                    'a',
-	                    { className: 'button', key: 'first', onClick: this.handleNavFirst },
-	                    '<<'
-	                ));
-	            }
-	            if ("prev" in this.props.links) {
-	                navLinks.push(React.createElement(
-	                    'a',
-	                    { className: 'button', key: 'prev', onClick: this.handleNavPrev },
-	                    '<'
-	                ));
-	            }
-	            if ("next" in this.props.links) {
-	                navLinks.push(React.createElement(
-	                    'a',
-	                    { className: 'button', key: 'next', onClick: this.handleNavNext },
-	                    '>'
-	                ));
-	            }
-	            if ("last" in this.props.links) {
-	                navLinks.push(React.createElement(
-	                    'a',
-	                    { className: 'button', key: 'last', onClick: this.handleNavLast },
-	                    '>>'
-	                ));
-	            }
 
 	            return React.createElement(
 	                'div',
-	                { className: 'top-bar' },
+	                null,
 	                React.createElement(
 	                    'div',
-	                    { className: 'row' },
+	                    { className: 'top-bar' },
 	                    React.createElement(
 	                        'div',
-	                        { className: 'small-6 columns' },
+	                        { className: 'small-2 large-2 columns' },
 	                        React.createElement(
 	                            'div',
-	                            { className: 'expanded small button-group' },
+	                            { className: 'button-group small' },
 	                            React.createElement(
 	                                'a',
-	                                { className: 'button secondary hollow' },
-	                                this.props.title
+	                                { className: 'button secondary' },
+	                                'Back'
 	                            ),
 	                            React.createElement(
 	                                'a',
-	                                { className: 'button secondary', onClick: this.handleFilterStarted },
-	                                'Started'
-	                            ),
-	                            React.createElement(
-	                                'a',
-	                                { className: 'button', onClick: this.handleFilterAll },
-	                                'All'
+	                                { className: 'button small' },
+	                                'Next'
 	                            )
 	                        )
 	                    ),
 	                    React.createElement(
 	                        'div',
-	                        { className: 'small-5 columns' },
+	                        { className: 'top-bar-left' },
 	                        React.createElement(
 	                            'ul',
 	                            { className: 'menu' },
@@ -29694,35 +29523,39 @@
 	                                'li',
 	                                null,
 	                                React.createElement(
-	                                    'div',
-	                                    { className: 'input-group small' },
-	                                    React.createElement(
-	                                        'span',
-	                                        { className: 'input-group-label' },
-	                                        'Page Size'
-	                                    ),
-	                                    React.createElement('input', { style: { width: "70px" }, type: 'number', ref: 'pageSize',
-	                                        defaultValue: this.props.pageSize, onInput: this.handleInput })
+	                                    'a',
+	                                    { key: 'service', onClick: this.handleToggleServiceForm },
+	                                    'Service'
 	                                )
 	                            ),
 	                            React.createElement(
 	                                'li',
 	                                null,
+	                                '|'
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
 	                                React.createElement(
-	                                    'div',
-	                                    { className: 'tiny button-group' },
-	                                    navLinks
+	                                    'a',
+	                                    { key: 'detail', onClick: this.handleToggleDetailForm },
+	                                    'Details'
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                '|'
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'a',
+	                                    { key: 'supplier', onClick: this.handleToggleSupplierForm },
+	                                    'Supplier'
 	                                )
 	                            )
-	                        )
-	                    ),
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-1 columns' },
-	                        React.createElement(
-	                            'a',
-	                            { className: 'button small', key: 'last', onClick: this.handleRefresh },
-	                            'Refresh'
 	                        )
 	                    )
 	                )
@@ -29736,6 +29569,118 @@
 	module.exports = FilterBar;
 
 /***/ }),
+/* 281 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	var Nav = __webpack_require__(282);
+
+	var MarketingBar = React.createClass({
+	  displayName: 'MarketingBar',
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(
+	        'div',
+	        { className: 'title-bar', 'data-responsive-toggle': 'realEstateMenu', 'data-hide-for': 'small' },
+	        React.createElement('button', { className: 'menu-icon', type: 'button', 'data-toggle': true }),
+	        React.createElement(
+	          'div',
+	          { className: 'title-bar-title' },
+	          'Menu'
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'top-bar' },
+	        React.createElement(
+	          'div',
+	          { className: 'top-bar-left' },
+	          React.createElement(
+	            'ul',
+	            { className: 'menu' },
+	            React.createElement(
+	              'li',
+	              { className: 'menu-text' },
+	              React.createElement(
+	                'small',
+	                null,
+	                'Morgan Stanley - Camunda - PoC'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              { className: 'menu-text' },
+	              React.createElement(
+	                'medium',
+	                null,
+	                'VERA'
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'small-4 large-6 columns' },
+	          React.createElement(
+	            'div',
+	            { className: 'button-group' },
+	            React.createElement(
+	              IndexLink,
+	              { to: '/', activeClassName: 'active', className: 'button round secondary medium', activeStyle: { fontWeight: 'bold' } },
+	              'Questionnaire'
+	            ),
+	            React.createElement(
+	              Link,
+	              { to: '/tasks', activeClassName: 'active', className: 'button radius secondary medium', activeStyle: { fontWeight: 'bold' } },
+	              'Review Tasks'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'top-bar-right' },
+	          React.createElement(
+	            'ul',
+	            { className: 'menu' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'My Account'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { className: 'button' },
+	                'Login'
+	              )
+	            )
+	          )
+	        )
+	      ),
+	      React.createElement('div', { className: 'columns', style: { borderBottom: "1px solid white" } })
+	    );
+	  }
+	});
+
+	module.exports = MarketingBar;
+
+/***/ }),
 /* 282 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -29747,42 +29692,159 @@
 	    Link = _require.Link,
 	    IndexLink = _require.IndexLink;
 
-	var MarketingBar = React.createClass({
-	  displayName: 'MarketingBar',
+	var Nav = React.createClass({
+	    displayName: 'Nav',
 
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'large-12 columns' },
-	        React.createElement(
-	          'nav',
-	          { className: 'top-bar show-for-medium' },
-	          React.createElement(
+	    render: function render() {
+	        return React.createElement(
 	            'div',
-	            { className: 'top-bar-left' },
+	            { className: 'row' },
 	            React.createElement(
-	              'ul',
-	              { className: 'menu' },
-	              React.createElement(
-	                'li',
-	                { className: 'topbar-title' },
-	                'Morgan Stanley - Camunda - PoC'
-	              )
+	                'div',
+	                { className: 'small-offset-2 columns' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'top-bar show-for-medium' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small expanded button-group' },
+	                        React.createElement(
+	                            IndexLink,
+	                            { to: '/', activeClassName: 'active', className: 'button', activeStyle: { fontWeight: 'bold' } },
+	                            'Service Request'
+	                        ),
+	                        React.createElement(
+	                            Link,
+	                            { to: '/tenants', activeClassName: 'active', className: 'button', activeStyle: { fontWeight: 'bold' } },
+	                            'Review Tasks'
+	                        ),
+	                        React.createElement(
+	                            Link,
+	                            { to: '/import', activeClassName: 'active', className: 'button', activeStyle: { fontWeight: 'bold' } },
+	                            'Stuff Stuff'
+	                        )
+	                    )
+	                )
 	            )
-	          )
-	        )
-	      )
-	    );
-	  }
+	        );
+	    }
+	});
+
+	module.exports = Nav;
+
+/***/ }),
+/* 283 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	var Nav = __webpack_require__(282);
+
+	var MarketingBar = React.createClass({
+	    displayName: 'MarketingBar',
+
+	    render: function render() {
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(
+	                'div',
+	                { className: 'top-bar' },
+	                React.createElement(
+	                    'div',
+	                    { className: 'top-bar-left' },
+	                    React.createElement(
+	                        'ul',
+	                        { className: 'menu' },
+	                        React.createElement(
+	                            'li',
+	                            { className: 'menu-text' },
+	                            React.createElement(
+	                                'large',
+	                                null,
+	                                React.createElement(
+	                                    'span',
+	                                    { style: { color: "#2199e8" } },
+	                                    'Status'
+	                                )
+	                            )
+	                        )
+	                    )
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'top-bar-left' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'menu small-4 large-4 columns text-center', style: { borderBottom: "1px dashed" } },
+	                        React.createElement(
+	                            'large',
+	                            null,
+	                            '34'
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'menu small-4 large-4 columns text-center', style: { borderBottom: "1px dashed white" } },
+	                        React.createElement(
+	                            'large',
+	                            null,
+	                            '6'
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'menu small-4 large-4 columns text-center', style: { borderBottom: "1px dashed" } },
+	                        React.createElement(
+	                            'large',
+	                            null,
+	                            '12'
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'menu small-4 large-4 columns text-center' },
+	                        React.createElement(
+	                            'small',
+	                            null,
+	                            'Tasks'
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'menu small-4 large-4 columns text-center' },
+	                        React.createElement(
+	                            'small',
+	                            null,
+	                            'Overdue'
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'menu small-4 large-4 columns text-center' },
+	                        React.createElement(
+	                            'small',
+	                            null,
+	                            'Groups'
+	                        )
+	                    )
+	                )
+	            ),
+	            React.createElement('div', { className: 'columns', style: { borderBottom: "1px solid white" } })
+	        );
+	    }
 	});
 
 	module.exports = MarketingBar;
 
 /***/ }),
-/* 283 */
+/* 284 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29799,31 +29861,23 @@
 	  render: function render() {
 	    return React.createElement(
 	      'div',
-	      { className: 'row' },
+	      null,
 	      React.createElement(
-	        'div',
-	        { className: 'large-12 columns' },
+	        'nav',
+	        { className: 'top-bar show-for-medium' },
 	        React.createElement(
 	          'div',
-	          { className: '' },
+	          { className: 'top-bar-left' },
 	          React.createElement(
-	            'nav',
-	            { className: 'top-bar show-for-medium' },
+	            'ul',
+	            { className: 'menu' },
 	            React.createElement(
-	              'div',
-	              { className: 'top-bar-left' },
+	              'li',
+	              { className: 'topbar-title' },
 	              React.createElement(
-	                'ul',
-	                { className: 'menu' },
-	                React.createElement(
-	                  'li',
-	                  { className: 'topbar-title' },
-	                  React.createElement(
-	                    'small',
-	                    null,
-	                    '@ cmaunda poc.'
-	                  )
-	                )
+	                'small',
+	                null,
+	                '@ Morgan Stanley - Camunda PoC.'
 	              )
 	            )
 	          )
@@ -29836,7 +29890,7 @@
 	module.exports = FooterBar;
 
 /***/ }),
-/* 284 */
+/* 285 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29853,483 +29907,432 @@
 
 	var React = __webpack_require__(8);
 	var ReactDOM = __webpack_require__(47);
-	var client = __webpack_require__(285);
-	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
+	var client = __webpack_require__(286);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
 
-	var RenewalList = __webpack_require__(334);
-	var RenewalDetail = __webpack_require__(339);
+	var Detail = __webpack_require__(335);
 
-	var root = '/api';
+	var root = 'http://localhost:8080/api';
 	// end::vars[]
 
 	// tag::app[]
 
 	var RenewalMain = function (_React$Component) {
-	  _inherits(RenewalMain, _React$Component);
+	    _inherits(RenewalMain, _React$Component);
 
-	  function RenewalMain(props) {
-	    _classCallCheck(this, RenewalMain);
+	    function RenewalMain(props) {
+	        _classCallCheck(this, RenewalMain);
 
-	    var _this = _possibleConstructorReturn(this, (RenewalMain.__proto__ || Object.getPrototypeOf(RenewalMain)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (RenewalMain.__proto__ || Object.getPrototypeOf(RenewalMain)).call(this, props));
 
-	    _this.state = {
-	      renewal: null,
-	      renewals: [],
-	      attributes: [],
-	      pageSize: 2,
-	      links: {},
-	      displayDetail: "none",
-	      displayList: "block",
-	      displayInfo: "none",
-	      displayLine: "block",
-	      toggleDetailInfo: "off",
-	      callUpdate: function callUpdate(pageSize, that) {
-	        that.loadAllFromServer(pageSize);
-	      }
-	    };
-	    _this.updatePageSize = _this.updatePageSize.bind(_this);
-	    _this.onNavigate = _this.onNavigate.bind(_this);
-	    _this.onUpdateNote = _this.onUpdateNote.bind(_this);
-	    _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
-	    _this.handleBackClick = _this.handleBackClick.bind(_this);
-	    _this.handleToggleClick = _this.handleToggleClick.bind(_this);
-	    _this.handlefilterState = _this.handlefilterState.bind(_this);
-	    _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
-	    _this.handleFilterAll = _this.handleFilterAll.bind(_this);
-	    _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
-	    _this.handleRefreshMessages = _this.handleRefreshMessages.bind(_this);
-	    _this.onDelete = _this.onDelete.bind(_this);
-	    return _this;
-	  }
-
-	  // tag::update-page-size[]
-
-
-	  _createClass(RenewalMain, [{
-	    key: 'updatePageSize',
-	    value: function updatePageSize(pageSize) {
-	      if (pageSize !== this.state.pageSize) {
-	        this.state.callUpdate(pageSize, this);
-	      }
+	        _this.state = {
+	            renewal: null,
+	            renewals: [],
+	            attributes: [],
+	            pageSize: 2,
+	            links: {},
+	            displayDetail: "block",
+	            displayInfo: "none",
+	            displayLine: "block",
+	            toggleDetailInfo: "off",
+	            callUpdate: function callUpdate(pageSize, that) {
+	                that.loadAllFromServer(pageSize);
+	            }
+	        };
+	        _this.updatePageSize = _this.updatePageSize.bind(_this);
+	        _this.onNavigate = _this.onNavigate.bind(_this);
+	        _this.onUpdateNote = _this.onUpdateNote.bind(_this);
+	        _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
+	        _this.handleBackClick = _this.handleBackClick.bind(_this);
+	        _this.handleToggleClick = _this.handleToggleClick.bind(_this);
+	        _this.handlefilterState = _this.handlefilterState.bind(_this);
+	        _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
+	        _this.handleFilterAll = _this.handleFilterAll.bind(_this);
+	        _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
+	        _this.handleRefreshMessages = _this.handleRefreshMessages.bind(_this);
+	        _this.onDelete = _this.onDelete.bind(_this);
+	        return _this;
 	    }
-	    // end::update-page-size[]
 
-	    // tag::follow-1[]
+	    // tag::update-page-size[]
 
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.loadAllFromServer(this.state.pageSize);
-	      this.loadCannedMessageFromServer();
-	    }
-	    // end::follow-1[]
 
-	    // tag::navigate[]
-
-	  }, {
-	    key: 'onNavigate',
-	    value: function onNavigate(navUri) {
-	      var _this2 = this;
-
-	      client({ method: 'GET', path: navUri }).done(function (renewalCollection) {
-	        _this2.setState({
-	          renewals: renewalCollection.entity._embedded.renewals,
-	          attributes: _this2.state.attributes,
-	          pageSize: _this2.state.pageSize,
-	          links: renewalCollection.entity._links
-	        });
-	      });
-	    }
-	    // end::navigate[]
-
-	  }, {
-	    key: 'handleFilterPriority',
-	    value: function handleFilterPriority(pageSize) {
-	      this.loadPriorityFromServer(pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.loadPriorityFromServer(pageSize);
+	    _createClass(RenewalMain, [{
+	        key: 'updatePageSize',
+	        value: function updatePageSize(pageSize) {
+	            if (pageSize !== this.state.pageSize) {
+	                this.state.callUpdate(pageSize, this);
+	            }
 	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleFilterAll',
-	    value: function handleFilterAll(pageSize) {
-	      this.loadAllFromServer(pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.loadAllFromServer(pageSize);
+	        // end::update-page-size[]
+
+	        // tag::follow-1[]
+
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.loadAllFromServer(this.state.pageSize);
+	            this.loadCannedMessageFromServer();
 	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleFilterStarted',
-	    value: function handleFilterStarted(pageSize) {
-	      this.loadStartedFromServer(pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.loadStartedFromServer(pageSize);
+	        // end::follow-1[]
+
+	        // tag::navigate[]
+
+	    }, {
+	        key: 'onNavigate',
+	        value: function onNavigate(navUri) {
+	            var _this2 = this;
+
+	            client({ method: 'GET', path: navUri }).done(function (renewalCollection) {
+	                _this2.setState({
+	                    renewals: renewalCollection.entity._embedded.renewals,
+	                    attributes: _this2.state.attributes,
+	                    pageSize: _this2.state.pageSize,
+	                    links: renewalCollection.entity._links
+	                });
+	            });
 	        }
-	      });
-	    }
-	  }, {
-	    key: 'handlefilterState',
-	    value: function handlefilterState(pageSize) {
-	      this.loadStateFromServer(pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.loadStateFromServer(pageSize);
+	        // end::navigate[]
+
+	    }, {
+	        key: 'handleFilterPriority',
+	        value: function handleFilterPriority(pageSize) {
+	            this.loadPriorityFromServer(pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.loadPriorityFromServer(pageSize);
+	                }
+	            });
 	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleRefreshMessages',
-	    value: function handleRefreshMessages(renewal) {
-	      this.loadMessagesFromServer(renewal._links.messages.href);
-	    }
-
-	    // tag::follow-2[]
-
-	  }, {
-	    key: 'loadCannedMessageFromServer',
-	    value: function loadCannedMessageFromServer() {
-	      var _this3 = this;
-
-	      follow(client, root, [{ rel: 'cannedMessages' }]).then(function (cannedMessageCollection) {
-	        return client({
-	          method: 'GET',
-	          path: cannedMessageCollection.entity._links.profile.href,
-	          headers: { 'Accept': 'application/schema+json' }
-	        }).then(function (schema) {
-	          _this3.schema = schema.entity;
-	          return cannedMessageCollection;
-	        });
-	      }).done(function (cannedMessageCollection) {
-	        _this3.setState({
-	          cannedMessages: cannedMessageCollection.entity._embedded.cannedMessages,
-	          attributes: Object.keys(_this3.schema.properties),
-	          links: cannedMessageCollection.entity._links });
-	      });
-	    }
-	    // end::follow-2[]
-
-	  }, {
-	    key: 'loadPriorityFromServer',
-	    value: function loadPriorityFromServer(pageSize) {
-	      var _this4 = this;
-
-	      client({
-	        method: 'GET',
-	        path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedAndWorkflowStateOrderByShowDateAsc",
-	        params: { size: pageSize, renewalStarted: true, renewalCompleted: false, workflowState: "Confirm Renewal State" }
-	      }).done(function (response) {
-	        _this4.setState({
-	          renewals: response.entity._embedded.renewals,
-	          pageSize: pageSize,
-	          links: response.entity._links
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'loadStartedFromServer',
-	    value: function loadStartedFromServer(pageSize) {
-	      var _this5 = this;
-
-	      client({
-	        method: 'GET',
-	        path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByRenewalStartedAsc",
-	        params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
-	      }).done(function (response) {
-	        _this5.setState({
-	          renewals: response.entity._embedded.renewals,
-	          pageSize: pageSize,
-	          links: response.entity._links
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'loadStateFromServer',
-	    value: function loadStateFromServer(pageSize) {
-	      var _this6 = this;
-
-	      client({
-	        method: 'GET',
-	        path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
-	        params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
-	      }).done(function (response) {
-	        _this6.setState({
-	          renewals: response.entity._embedded.renewals,
-	          pageSize: pageSize,
-	          links: response.entity._links
-	        });
-	      });
-	    }
-
-	    // tag::follow-2[]
-
-	  }, {
-	    key: 'loadAllFromServer',
-	    value: function loadAllFromServer(pageSize) {
-	      var _this7 = this;
-
-	      follow(client, root, [{ rel: 'renewals', params: { size: pageSize } }]).then(function (renewalCollection) {
-	        return client({
-	          method: 'GET',
-	          path: renewalCollection.entity._links.profile.href,
-	          headers: { 'Accept': 'application/schema+json' }
-	        }).then(function (schema) {
-	          _this7.schema = schema.entity;
-	          return renewalCollection;
-	        });
-	      }).done(function (renewalCollection) {
-	        _this7.setState({
-	          renewals: renewalCollection.entity._embedded.renewals,
-	          attributes: Object.keys(_this7.schema.properties),
-	          pageSize: pageSize,
-	          links: renewalCollection.entity._links });
-	      });
-	    }
-	    // end::follow-2[]
-
-	    // tag::follow-3[]
-
-	  }, {
-	    key: 'loadMessagesFromServer',
-	    value: function loadMessagesFromServer(navUri) {
-	      var _this8 = this;
-
-	      client({ method: 'GET', path: navUri }).done(function (response) {
-	        _this8.setState({ messages: response.entity._embedded.messages });
-	      });
-	    }
-	    // end::follow-3[]
-
-	  }, {
-	    key: 'handleSelectedItem',
-	    value: function handleSelectedItem(renewal) {
-	      if (renewal.renewalStarted === true && renewal.renewalCompleted === false && renewal.workflowState === "Confirm Renewal State") {
-	        this.setState({
-	          displayForm: "block"
-	        });
-	      } else {
-	        this.setState({
-	          displayForm: "none"
-	        });
-	      }
-
-	      if (renewal.renewalStarted === true) {
-	        this.setState({
-	          displayMessages: "block"
-	        });
-	      } else {
-	        this.setState({
-	          displayMessages: "none"
-	        });
-	      }
-
-	      this.setState({
-	        renewal: renewal,
-	        displayDetail: "block",
-	        displayList: "none"
-	      });
-	      this.loadMessagesFromServer(renewal._links.messages.href);
-	    }
-	  }, {
-	    key: 'handleBackClick',
-	    value: function handleBackClick(e) {
-	      this.setState({
-	        displayDetail: "none",
-	        displayList: "block"
-	      });
-	    }
-	  }, {
-	    key: 'handleToggleClick',
-	    value: function handleToggleClick(e) {
-	      if (this.state.toggleDetailInfo === "off") {
-	        this.setState({
-	          toggleDetailInfo: "on",
-	          displayInfo: "block",
-	          displayLine: "none"
-	        });
-	      } else {
-	        this.setState({
-	          toggleDetailInfo: "off",
-	          displayInfo: "none",
-	          displayLine: "block"
-	        });
-	      }
-	    }
-	  }, {
-	    key: 'onUpdateNote',
-	    value: function onUpdateNote(renewal, updatedRenewal) {
-	      debugger;
-	      client({
-	        method: 'POST',
-	        path: "/updateNote",
-	        entity: updatedRenewal,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        if (response.status.code === 200) {
-	          alert('SUCCESS: Note Updated');
+	    }, {
+	        key: 'handleFilterAll',
+	        value: function handleFilterAll(pageSize) {
+	            this.loadAllFromServer(pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.loadAllFromServer(pageSize);
+	                }
+	            });
 	        }
-	        if (response.status.code === 412) {
-	          alert('DENIED: Unable to update ' + renewal._links.self.href + ' METHOD NOT ALLOWED');
+	    }, {
+	        key: 'handleFilterStarted',
+	        value: function handleFilterStarted(pageSize) {
+	            this.loadStartedFromServer(pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.loadStartedFromServer(pageSize);
+	                }
+	            });
 	        }
-	        if (response.status.code === 412) {
-	          alert('DENIED: Unable to update ' + renewal._links.self.href + '. Your copy is stale.');
+	    }, {
+	        key: 'handlefilterState',
+	        value: function handlefilterState(pageSize) {
+	            this.loadStateFromServer(pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.loadStateFromServer(pageSize);
+	                }
+	            });
 	        }
-	        if (response.status.code === 500) {
-	          alert('DENIED: Unable to update ' + renewal._links.self.href + '. Internal Server Error.');
+	    }, {
+	        key: 'handleRefreshMessages',
+	        value: function handleRefreshMessages(renewal) {
+	            this.loadMessagesFromServer(renewal._links.messages.href);
 	        }
-	      });
-	    }
 
-	    // tag::on-delete[]
+	        // tag::follow-2[]
 
-	  }, {
-	    key: 'onDelete',
-	    value: function onDelete(renewal) {
-	      client({ method: 'DELETE', path: renewal._links.self.href }).done(function (response) {
-	        /* let the websocket handle updating the UI */
-	        alert("You successfully deleted " + renewal.property + "Use the back button and refresh the Renewal list to view the changes");
-	      }, function (response) {
-	        if (response.error) {
-	          alert("Somthing went wrong " + reponse.error);
-	        } else if (response.status.code === 400) {
-	          alert('SERVER ERROR: You request was not completed ' + renewal._links.self.href);
-	        } else if (response.status.code === 403) {
-	          alert('ACCESS DENIED: You are not authorized to delete ' + renewal._links.self.href);
-	        } else {
-	          alert("Somthing went wrong " + reponse.error);
+	    }, {
+	        key: 'loadCannedMessageFromServer',
+	        value: function loadCannedMessageFromServer() {
+	            var _this3 = this;
+
+	            follow(client, root, [{ rel: 'cannedMessages' }]).then(function (cannedMessageCollection) {
+	                return client({
+	                    method: 'GET',
+	                    path: cannedMessageCollection.entity._links.profile.href,
+	                    headers: { 'Accept': 'application/schema+json' }
+	                }).then(function (schema) {
+	                    _this3.schema = schema.entity;
+	                    return cannedMessageCollection;
+	                });
+	            }).done(function (cannedMessageCollection) {
+	                _this3.setState({
+	                    cannedMessages: cannedMessageCollection.entity._embedded.cannedMessages,
+	                    attributes: Object.keys(_this3.schema.properties),
+	                    links: cannedMessageCollection.entity._links });
+	            });
 	        }
-	      });
-	    }
-	    // end::on-delete[]
+	        // end::follow-2[]
 
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var item = "";
-	      if (this.state.renewal !== null) {
-	        item = React.createElement(RenewalDetail, { renewal: this.state.renewal,
-	          messages: this.state.messages,
-	          cannedMessages: this.state.cannedMessages,
-	          onRefreshMessages: this.handleRefreshMessages,
-	          displayForm: this.state.displayForm,
-	          displayMessages: this.state.displayMessages,
-	          onUpdateNote: this.onUpdateNote,
-	          onSelectItem: this.handleSelectedItem,
-	          displayInfo: this.state.displayInfo,
-	          displayLine: this.state.displayLine,
-	          onDelete: this.onDelete });
-	      }
+	    }, {
+	        key: 'loadPriorityFromServer',
+	        value: function loadPriorityFromServer(pageSize) {
+	            var _this4 = this;
 
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { style: { display: this.state.displayList } },
-	          React.createElement(RenewalList, { renewals: this.state.renewals,
-	            links: this.state.links,
-	            pageSize: this.state.pageSize,
-	            onNavigate: this.onNavigate,
-	            onUpdateNote: this.onUpdateNote,
-	            updatePageSize: this.updatePageSize,
-	            onSelectItem: this.handleSelectedItem,
-	            onFilterPriority: this.handleFilterPriority,
-	            onFilterAll: this.handleFilterAll,
-	            onFilterStarted: this.handleFilterStarted,
-	            onFilterState: this.handlefilterState })
-	        ),
-	        React.createElement(
-	          'div',
-	          { style: { display: this.state.displayDetail } },
-	          React.createElement(
-	            'div',
-	            { className: 'top-bar show-for-medium small-12 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'top-bar-left' },
-	              React.createElement(
-	                'ul',
-	                { className: 'menu' },
+	            client({
+	                method: 'GET',
+	                path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedAndWorkflowStateOrderByShowDateAsc",
+	                params: { size: pageSize, renewalStarted: true, renewalCompleted: false, workflowState: "Confirm Renewal State" }
+	            }).done(function (response) {
+	                _this4.setState({
+	                    renewals: response.entity._embedded.renewals,
+	                    pageSize: pageSize,
+	                    links: response.entity._links
+	                });
+	            });
+	        }
+	    }, {
+	        key: 'loadStartedFromServer',
+	        value: function loadStartedFromServer(pageSize) {
+	            var _this5 = this;
+
+	            client({
+	                method: 'GET',
+	                path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByRenewalStartedAsc",
+	                params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
+	            }).done(function (response) {
+	                _this5.setState({
+	                    renewals: response.entity._embedded.renewals,
+	                    pageSize: pageSize,
+	                    links: response.entity._links
+	                });
+	            });
+	        }
+	    }, {
+	        key: 'loadStateFromServer',
+	        value: function loadStateFromServer(pageSize) {
+	            var _this6 = this;
+
+	            client({
+	                method: 'GET',
+	                path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
+	                params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
+	            }).done(function (response) {
+	                _this6.setState({
+	                    renewals: response.entity._embedded.renewals,
+	                    pageSize: pageSize,
+	                    links: response.entity._links
+	                });
+	            });
+	        }
+
+	        // tag::follow-2[]
+
+	    }, {
+	        key: 'loadAllFromServer',
+	        value: function loadAllFromServer(pageSize) {
+	            var _this7 = this;
+
+	            follow(client, root, [{ rel: 'renewals', params: { size: pageSize } }]).then(function (renewalCollection) {
+	                return client({
+	                    method: 'GET',
+	                    path: renewalCollection.entity._links.profile.href,
+	                    headers: { 'Accept': 'application/schema+json' }
+	                }).then(function (schema) {
+	                    _this7.schema = schema.entity;
+	                    return renewalCollection;
+	                });
+	            }).done(function (renewalCollection) {
+	                _this7.setState({
+	                    renewals: renewalCollection.entity._embedded.renewals,
+	                    attributes: Object.keys(_this7.schema.properties),
+	                    pageSize: pageSize,
+	                    links: renewalCollection.entity._links });
+	            });
+	        }
+	        // end::follow-2[]
+
+	        // tag::follow-3[]
+
+	    }, {
+	        key: 'loadMessagesFromServer',
+	        value: function loadMessagesFromServer(navUri) {
+	            var _this8 = this;
+
+	            client({ method: 'GET', path: navUri }).done(function (response) {
+	                _this8.setState({ messages: response.entity._embedded.messages });
+	            });
+	        }
+	        // end::follow-3[]
+
+	    }, {
+	        key: 'handleSelectedItem',
+	        value: function handleSelectedItem(renewal) {
+	            if (renewal.renewalStarted === true && renewal.renewalCompleted === false && renewal.workflowState === "Confirm Renewal State") {
+	                this.setState({
+	                    displayServiceForm: "block",
+	                    displayServiceDetailForm: "none",
+	                    displayServiceSupplierForm: "none"
+	                });
+	            } else {
+	                this.setState({
+	                    displayServiceForm: "block",
+	                    displayServiceDetailForm: "none",
+	                    displayServiceSupplierForm: "none"
+	                });
+	            }
+
+	            if (renewal.renewalStarted === true) {
+	                this.setState({
+	                    displayMessages: "block"
+	                });
+	            } else {
+	                this.setState({
+	                    displayMessages: "none"
+	                });
+	            }
+
+	            this.setState({
+	                renewal: renewal,
+	                displayDetail: "block"
+	            });
+	            this.loadMessagesFromServer(renewal._links.messages.href);
+	        }
+	    }, {
+	        key: 'handleBackClick',
+	        value: function handleBackClick(e) {
+	            this.setState({
+	                displayDetail: "none"
+	            });
+	        }
+	    }, {
+	        key: 'handleToggleClick',
+	        value: function handleToggleClick(e) {
+	            if (this.state.toggleDetailInfo === "off") {
+	                this.setState({
+	                    toggleDetailInfo: "on",
+	                    displayInfo: "block",
+	                    displayLine: "none"
+	                });
+	            } else {
+	                this.setState({
+	                    toggleDetailInfo: "off",
+	                    displayInfo: "none",
+	                    displayLine: "block"
+	                });
+	            }
+	        }
+	    }, {
+	        key: 'onUpdateNote',
+	        value: function onUpdateNote(renewal, updatedRenewal) {
+	            debugger;
+	            client({
+	                method: 'POST',
+	                path: "/updateNote",
+	                entity: updatedRenewal,
+	                headers: { 'Content-Type': 'multipart/form-data' }
+	            }).done(function (response) {
+	                if (response.status.code === 200) {
+	                    alert('SUCCESS: Note Updated');
+	                }
+	                if (response.status.code === 412) {
+	                    alert('DENIED: Unable to update ' + renewal._links.self.href + ' METHOD NOT ALLOWED');
+	                }
+	                if (response.status.code === 412) {
+	                    alert('DENIED: Unable to update ' + renewal._links.self.href + '. Your copy is stale.');
+	                }
+	                if (response.status.code === 500) {
+	                    alert('DENIED: Unable to update ' + renewal._links.self.href + '. Internal Server Error.');
+	                }
+	            });
+	        }
+
+	        // tag::on-delete[]
+
+	    }, {
+	        key: 'onDelete',
+	        value: function onDelete(renewal) {
+	            client({ method: 'DELETE', path: renewal._links.self.href }).done(function (response) {
+	                /* let the websocket handle updating the UI */
+	                alert("You successfully deleted " + renewal.property + "Use the back button and refresh the Renewal list to view the changes");
+	            }, function (response) {
+	                if (response.error) {
+	                    alert("Somthing went wrong " + reponse.error);
+	                } else if (response.status.code === 400) {
+	                    alert('SERVER ERROR: You request was not completed ' + renewal._links.self.href);
+	                } else if (response.status.code === 403) {
+	                    alert('ACCESS DENIED: You are not authorized to delete ' + renewal._links.self.href);
+	                } else {
+	                    alert("Somthing went wrong " + reponse.error);
+	                }
+	            });
+	        }
+	        // end::on-delete[]
+
+	    }, {
+	        key: 'render',
+	        value: function render() {
+
+	            return React.createElement(
+	                'div',
+	                null,
 	                React.createElement(
-	                  'li',
-	                  { className: 'topbar-title' },
-	                  'Renewal Detail'
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'top-bar-right' },
-	              React.createElement(
-	                'ul',
-	                { className: 'menu' },
-	                React.createElement(
-	                  'li',
-	                  { className: 'topbar-title' },
-	                  React.createElement(
-	                    'a',
-	                    { className: 'button small', onClick: this.handleToggleClick },
-	                    '<Details>'
-	                  )
+	                    'div',
+	                    { className: 'top-bar show-for-medium small-12 columns' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'top-bar-left' },
+	                        React.createElement(
+	                            'ul',
+	                            { className: 'menu' },
+	                            React.createElement(
+	                                'li',
+	                                { className: 'topbar-title' },
+	                                'Create New Service'
+	                            )
+	                        )
+	                    )
 	                ),
 	                React.createElement(
-	                  'li',
-	                  { className: 'topbar-title' },
-	                  React.createElement(
-	                    'a',
-	                    { className: 'button', onClick: this.handleBackClick },
-	                    '<<<Back'
-	                  )
+	                    'div',
+	                    null,
+	                    React.createElement(Detail, { renewal: this.state.renewal,
+	                        messages: this.state.messages,
+	                        cannedMessages: this.state.cannedMessages,
+	                        onRefreshMessages: this.handleRefreshMessages,
+	                        displayServiceForm: this.state.displayServiceForm,
+	                        displayServiceDetailForm: this.state.displayServiceDetailForm,
+	                        displayServiceSupplierForm: this.state.displayServiceSupplierForm,
+	                        displayMessages: this.state.displayMessages,
+	                        onUpdateNote: this.onUpdateNote,
+	                        onSelectItem: this.handleSelectedItem,
+	                        displayInfo: this.state.displayInfo,
+	                        displayLine: this.state.displayLine,
+	                        onDelete: this.onDelete })
 	                )
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'row' },
-	            React.createElement(
-	              'div',
-	              { className: 'small-12 columns' },
-	              item
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
+	            );
+	        }
+	    }]);
 
-	  return RenewalMain;
+	    return RenewalMain;
 	}(React.Component);
 	// end::app[]
 
 	module.exports = RenewalMain;
 
 /***/ }),
-/* 285 */
+/* 286 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
 
-	var rest = __webpack_require__(286);
-	var defaultRequest = __webpack_require__(314);
-	var mime = __webpack_require__(316);
-	var uriTemplateInterceptor = __webpack_require__(330);
-	var errorCode = __webpack_require__(331);
-	var baseRegistry = __webpack_require__(318);
+	var rest = __webpack_require__(287);
+	var defaultRequest = __webpack_require__(315);
+	var mime = __webpack_require__(317);
+	var uriTemplateInterceptor = __webpack_require__(331);
+	var errorCode = __webpack_require__(332);
+	var baseRegistry = __webpack_require__(319);
 
 	var registry = baseRegistry.child();
 
-	registry.register('text/uri-list', __webpack_require__(332));
-	registry.register('application/hal+json', __webpack_require__(319));
+	registry.register('text/uri-list', __webpack_require__(333));
+	registry.register('application/hal+json', __webpack_require__(320));
 
 	module.exports = rest.wrap(mime, { registry: registry }).wrap(uriTemplateInterceptor).wrap(errorCode).wrap(defaultRequest, { headers: { 'Accept': 'application/hal+json' } });
 
 /***/ }),
-/* 286 */
+/* 287 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -30344,8 +30347,8 @@
 
 		!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
-			var rest = __webpack_require__(287),
-			    browser = __webpack_require__(290);
+			var rest = __webpack_require__(288),
+			    browser = __webpack_require__(291);
 
 			rest.setPlatformDefaultClient(browser);
 
@@ -30354,13 +30357,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 287 */
+/* 288 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -30435,7 +30438,7 @@
 
 			var client, target, platformDefault;
 
-			client = __webpack_require__(288);
+			client = __webpack_require__(289);
 
 			/**
 			 * Make a request with the default client
@@ -30484,13 +30487,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 288 */
+/* 289 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -30554,20 +30557,20 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 289 */
+/* 290 */
 /***/ (function(module, exports) {
 
 	module.exports = function() { throw new Error("define cannot be used indirect"); };
 
 
 /***/ }),
-/* 290 */
+/* 291 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -30584,11 +30587,11 @@
 
 			var when, UrlBuilder, normalizeHeaderName, responsePromise, client, headerSplitRE;
 
-			when = __webpack_require__(291);
-			UrlBuilder = __webpack_require__(310);
-			normalizeHeaderName = __webpack_require__(312);
-			responsePromise = __webpack_require__(313);
-			client = __webpack_require__(288);
+			when = __webpack_require__(292);
+			UrlBuilder = __webpack_require__(311);
+			normalizeHeaderName = __webpack_require__(313);
+			responsePromise = __webpack_require__(314);
+			client = __webpack_require__(289);
 
 			// according to the spec, the line break is '\r\n', but doesn't hold true in practice
 			headerSplitRE = /[\r|\n]+/;
@@ -30740,14 +30743,14 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289),
+		__webpack_require__(290),
 		typeof window !== 'undefined' ? window : void 0
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 291 */
+/* 292 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -30761,24 +30764,24 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
-		var timed = __webpack_require__(292);
-		var array = __webpack_require__(296);
-		var flow = __webpack_require__(299);
-		var fold = __webpack_require__(300);
-		var inspect = __webpack_require__(301);
-		var generate = __webpack_require__(302);
-		var progress = __webpack_require__(303);
-		var withThis = __webpack_require__(304);
-		var unhandledRejection = __webpack_require__(305);
-		var TimeoutError = __webpack_require__(295);
+		var timed = __webpack_require__(293);
+		var array = __webpack_require__(297);
+		var flow = __webpack_require__(300);
+		var fold = __webpack_require__(301);
+		var inspect = __webpack_require__(302);
+		var generate = __webpack_require__(303);
+		var progress = __webpack_require__(304);
+		var withThis = __webpack_require__(305);
+		var unhandledRejection = __webpack_require__(306);
+		var TimeoutError = __webpack_require__(296);
 
 		var Promise = [array, flow, fold, generate, progress,
 			inspect, withThis, timed, unhandledRejection]
 			.reduce(function(Promise, feature) {
 				return feature(Promise);
-			}, __webpack_require__(307));
+			}, __webpack_require__(308));
 
-		var apply = __webpack_require__(298)(Promise);
+		var apply = __webpack_require__(299)(Promise);
 
 		// Public API
 
@@ -30977,11 +30980,11 @@
 
 		return when;
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	})(__webpack_require__(289));
+	})(__webpack_require__(290));
 
 
 /***/ }),
-/* 292 */
+/* 293 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -30991,8 +30994,8 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function(require) {
 
-		var env = __webpack_require__(293);
-		var TimeoutError = __webpack_require__(295);
+		var env = __webpack_require__(294);
+		var TimeoutError = __webpack_require__(296);
 
 		function setTimeout(f, ms, x, y) {
 			return env.setTimer(function() {
@@ -31061,11 +31064,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 293 */
+/* 294 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31099,7 +31102,7 @@
 
 		} else if (!capturedSetTimeout) { // vert.x
 			var vertxRequire = require;
-			var vertx = __webpack_require__(294);
+			var vertx = __webpack_require__(295);
 			setTimer = function (f, ms) { return vertx.setTimer(ms, f); };
 			clearTimer = vertx.cancelTimer;
 			asap = vertx.runOnLoop || vertx.runOnContext;
@@ -31140,18 +31143,18 @@
 			};
 		}
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
-/* 294 */
+/* 295 */
 /***/ (function(module, exports) {
 
 	/* (ignored) */
 
 /***/ }),
-/* 295 */
+/* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31180,10 +31183,10 @@
 
 		return TimeoutError;
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 /***/ }),
-/* 296 */
+/* 297 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31193,8 +31196,8 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function(require) {
 
-		var state = __webpack_require__(297);
-		var applier = __webpack_require__(298);
+		var state = __webpack_require__(298);
+		var applier = __webpack_require__(299);
 
 		return function array(Promise) {
 
@@ -31484,11 +31487,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 297 */
+/* 298 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31525,11 +31528,11 @@
 		}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 298 */
+/* 299 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31584,13 +31587,13 @@
 		}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 
 
 /***/ }),
-/* 299 */
+/* 300 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31752,11 +31755,11 @@
 		}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 300 */
+/* 301 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31785,11 +31788,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 301 */
+/* 302 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31799,7 +31802,7 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function(require) {
 
-		var inspect = __webpack_require__(297).inspect;
+		var inspect = __webpack_require__(298).inspect;
 
 		return function inspection(Promise) {
 
@@ -31811,11 +31814,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 302 */
+/* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31882,11 +31885,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 303 */
+/* 304 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31912,11 +31915,11 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 304 */
+/* 305 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31955,12 +31958,12 @@
 		};
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 
 /***/ }),
-/* 305 */
+/* 306 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -31970,8 +31973,8 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function(require) {
 
-		var setTimer = __webpack_require__(293).setTimer;
-		var format = __webpack_require__(306);
+		var setTimer = __webpack_require__(294).setTimer;
+		var format = __webpack_require__(307);
 
 		return function unhandledRejection(Promise) {
 
@@ -32048,11 +32051,11 @@
 		function noop() {}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 306 */
+/* 307 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -32110,11 +32113,11 @@
 		}
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 307 */
+/* 308 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -32124,20 +32127,20 @@
 	(function(define) { 'use strict';
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
-		var makePromise = __webpack_require__(308);
-		var Scheduler = __webpack_require__(309);
-		var async = __webpack_require__(293).asap;
+		var makePromise = __webpack_require__(309);
+		var Scheduler = __webpack_require__(310);
+		var async = __webpack_require__(294).asap;
 
 		return makePromise({
 			scheduler: new Scheduler(async)
 		});
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	})(__webpack_require__(289));
+	})(__webpack_require__(290));
 
 
 /***/ }),
-/* 308 */
+/* 309 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process) {/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -33094,12 +33097,12 @@
 			return Promise;
 		};
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(10)))
 
 /***/ }),
-/* 309 */
+/* 310 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/** @license MIT License (c) copyright 2010-2014 original author or authors */
@@ -33181,11 +33184,11 @@
 		return Scheduler;
 
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-	}(__webpack_require__(289)));
+	}(__webpack_require__(290)));
 
 
 /***/ }),
-/* 310 */
+/* 311 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -33204,7 +33207,7 @@
 
 			var mixin, origin, urlRE, absoluteUrlRE, fullyQualifiedUrlRE;
 
-			mixin = __webpack_require__(311);
+			mixin = __webpack_require__(312);
 
 			urlRE = /([a-z][a-z0-9\+\-\.]*:)\/\/([^@]+@)?(([^:\/]+)(:([0-9]+))?)?(\/[^?#]*)?(\?[^#]*)?(#\S*)?/i;
 			absoluteUrlRE = /^([a-z][a-z0-9\-\+\.]*:\/\/|\/)/i;
@@ -33413,14 +33416,14 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289),
+		__webpack_require__(290),
 		typeof window !== 'undefined' ? window.location : void 0
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 311 */
+/* 312 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -33468,13 +33471,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 312 */
+/* 313 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -33512,13 +33515,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 313 */
+/* 314 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -33533,8 +33536,8 @@
 
 		!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 
-			var when = __webpack_require__(291),
-				normalizeHeaderName = __webpack_require__(312);
+			var when = __webpack_require__(292),
+				normalizeHeaderName = __webpack_require__(313);
 
 			function property(promise, name) {
 				return promise.then(
@@ -33658,13 +33661,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 314 */
+/* 315 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -33681,8 +33684,8 @@
 
 			var interceptor, mixinUtil, defaulter;
 
-			interceptor = __webpack_require__(315);
-			mixinUtil = __webpack_require__(311);
+			interceptor = __webpack_require__(316);
+			mixinUtil = __webpack_require__(312);
 
 			defaulter = (function () {
 
@@ -33743,13 +33746,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 315 */
+/* 316 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -33766,11 +33769,11 @@
 
 			var defaultClient, mixin, responsePromise, client, when;
 
-			defaultClient = __webpack_require__(287);
-			mixin = __webpack_require__(311);
-			responsePromise = __webpack_require__(313);
-			client = __webpack_require__(288);
-			when = __webpack_require__(291);
+			defaultClient = __webpack_require__(288);
+			mixin = __webpack_require__(312);
+			responsePromise = __webpack_require__(314);
+			client = __webpack_require__(289);
+			when = __webpack_require__(292);
 
 			/**
 			 * Interceptors have the ability to intercept the request and/org response
@@ -33914,13 +33917,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 316 */
+/* 317 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -33937,10 +33940,10 @@
 
 			var interceptor, mime, registry, noopConverter, when;
 
-			interceptor = __webpack_require__(315);
-			mime = __webpack_require__(317);
-			registry = __webpack_require__(318);
-			when = __webpack_require__(291);
+			interceptor = __webpack_require__(316);
+			mime = __webpack_require__(318);
+			registry = __webpack_require__(319);
+			when = __webpack_require__(292);
 
 			noopConverter = {
 				read: function (obj) { return obj; },
@@ -34030,13 +34033,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 317 */
+/* 318 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -34089,13 +34092,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 318 */
+/* 319 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -34112,8 +34115,8 @@
 
 			var mime, when, registry;
 
-			mime = __webpack_require__(317);
-			when = __webpack_require__(291);
+			mime = __webpack_require__(318);
+			when = __webpack_require__(292);
 
 			function Registry(mimes) {
 
@@ -34197,11 +34200,11 @@
 			registry = new Registry({});
 
 			// include provided serializers
-			registry.register('application/hal', __webpack_require__(319));
-			registry.register('application/json', __webpack_require__(326));
-			registry.register('application/x-www-form-urlencoded', __webpack_require__(327));
-			registry.register('multipart/form-data', __webpack_require__(328));
-			registry.register('text/plain', __webpack_require__(329));
+			registry.register('application/hal', __webpack_require__(320));
+			registry.register('application/json', __webpack_require__(327));
+			registry.register('application/x-www-form-urlencoded', __webpack_require__(328));
+			registry.register('multipart/form-data', __webpack_require__(329));
+			registry.register('text/plain', __webpack_require__(330));
 
 			registry.register('+json', registry.delegate('application/json'));
 
@@ -34210,13 +34213,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 319 */
+/* 320 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -34233,12 +34236,12 @@
 
 			var pathPrefix, template, find, lazyPromise, responsePromise, when;
 
-			pathPrefix = __webpack_require__(320);
-			template = __webpack_require__(321);
-			find = __webpack_require__(324);
-			lazyPromise = __webpack_require__(325);
-			responsePromise = __webpack_require__(313);
-			when = __webpack_require__(291);
+			pathPrefix = __webpack_require__(321);
+			template = __webpack_require__(322);
+			find = __webpack_require__(325);
+			lazyPromise = __webpack_require__(326);
+			responsePromise = __webpack_require__(314);
+			when = __webpack_require__(292);
 
 			function defineProperty(obj, name, value) {
 				Object.defineProperty(obj, name, {
@@ -34355,13 +34358,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 320 */
+/* 321 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -34378,8 +34381,8 @@
 
 			var interceptor, UrlBuilder;
 
-			interceptor = __webpack_require__(315);
-			UrlBuilder = __webpack_require__(310);
+			interceptor = __webpack_require__(316);
+			UrlBuilder = __webpack_require__(311);
 
 			function startsWith(str, prefix) {
 				return str.indexOf(prefix) === 0;
@@ -34420,13 +34423,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 321 */
+/* 322 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -34443,9 +34446,9 @@
 
 			var interceptor, uriTemplate, mixin;
 
-			interceptor = __webpack_require__(315);
-			uriTemplate = __webpack_require__(322);
-			mixin = __webpack_require__(311);
+			interceptor = __webpack_require__(316);
+			uriTemplate = __webpack_require__(323);
+			mixin = __webpack_require__(312);
 
 			/**
 			 * Applies request params to the path as a URI Template
@@ -34482,13 +34485,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 322 */
+/* 323 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -34507,7 +34510,7 @@
 
 			var uriEncoder, operations, prefixRE;
 
-			uriEncoder = __webpack_require__(323);
+			uriEncoder = __webpack_require__(324);
 
 			prefixRE = /^([^:]*):([0-9]+)$/;
 			operations = {
@@ -34660,13 +34663,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 323 */
+/* 324 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -34846,13 +34849,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 324 */
+/* 325 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -34893,13 +34896,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 325 */
+/* 326 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -34916,7 +34919,7 @@
 
 			var when;
 
-			when = __webpack_require__(291);
+			when = __webpack_require__(292);
 
 			/**
 			 * Create a promise whose work is started only when a handler is registered.
@@ -34954,13 +34957,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 326 */
+/* 327 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -35007,13 +35010,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 327 */
+/* 328 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -35103,13 +35106,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 328 */
+/* 329 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -35182,13 +35185,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 329 */
+/* 330 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -35217,13 +35220,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 330 */
+/* 331 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
@@ -35231,7 +35234,7 @@
 	!(__WEBPACK_AMD_DEFINE_RESULT__ = function (require) {
 		'use strict';
 
-		var interceptor = __webpack_require__(315);
+		var interceptor = __webpack_require__(316);
 
 		return interceptor({
 			request: function request(_request /*, config, meta */) {
@@ -35247,7 +35250,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 331 */
+/* 332 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -35264,8 +35267,8 @@
 
 			var interceptor, when;
 
-			interceptor = __webpack_require__(315);
-			when = __webpack_require__(291);
+			interceptor = __webpack_require__(316);
+			when = __webpack_require__(292);
 
 			/**
 			 * Rejects the response promise based on the status code.
@@ -35294,13 +35297,13 @@
 		}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 	}(
-		__webpack_require__(289)
+		__webpack_require__(290)
 		// Boilerplate for AMD and Node
 	));
 
 
 /***/ }),
-/* 332 */
+/* 333 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;'use strict';
@@ -35329,7 +35332,7 @@
 	}.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 
 /***/ }),
-/* 333 */
+/* 334 */
 /***/ (function(module, exports) {
 
 	'use strict';
@@ -35376,151 +35379,6 @@
 	};
 
 /***/ }),
-/* 334 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	// tag::vars[]
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-
-	var RenewalLine = __webpack_require__(335);
-
-	var FilterBar = __webpack_require__(338);
-
-	// tag::renewal-list[]
-
-	var RenewalList = function (_React$Component) {
-	    _inherits(RenewalList, _React$Component);
-
-	    function RenewalList(props) {
-	        _classCallCheck(this, RenewalList);
-
-	        return _possibleConstructorReturn(this, (RenewalList.__proto__ || Object.getPrototypeOf(RenewalList)).call(this, props));
-	    }
-
-	    _createClass(RenewalList, [{
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
-
-	            var renewals = this.props.renewals.map(function (renewal) {
-	                return React.createElement(RenewalLine, { key: renewal._links.self.href,
-	                    renewal: renewal,
-	                    onUpdateNote: _this2.props.onUpdateNote,
-	                    onSelectItem: _this2.props.onSelectItem });
-	            });
-
-	            return React.createElement(
-	                'div',
-	                null,
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-12 columns' },
-	                        React.createElement(FilterBar, { links: this.props.links,
-	                            pageSize: this.props.pageSize,
-	                            onNavigate: this.props.onNavigate,
-	                            updatePageSize: this.props.updatePageSize,
-	                            onFilterPriority: this.props.onFilterPriority,
-	                            onFilterAll: this.props.onFilterAll,
-	                            onFilterStarted: this.props.onFilterStarted,
-	                            onFilterState: this.props.onFilterState,
-	                            title: 'Renewals' })
-	                    )
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-12 columns' },
-	                        React.createElement(
-	                            'table',
-	                            { className: 'hover stack' },
-	                            React.createElement(
-	                                'thead',
-	                                null,
-	                                React.createElement(
-	                                    'tr',
-	                                    null,
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Property'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        { width: '105' },
-	                                        'End Date'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        { width: '105' },
-	                                        'Show Date'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Current Rent'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        '1 Year Offer'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        '2 Year Offer'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Process'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Renewing'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Note'
-	                                    )
-	                                )
-	                            ),
-	                            React.createElement(
-	                                'tbody',
-	                                null,
-	                                renewals
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return RenewalList;
-	}(React.Component);
-	// end::renewal-list[]
-
-	module.exports = RenewalList;
-
-/***/ }),
 /* 335 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35534,106 +35392,402 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var _require = __webpack_require__(194),
-	    Link = _require.Link,
-	    IndexLink = _require.IndexLink;
-
 	// tag::vars[]
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+	var client = __webpack_require__(286);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
 
+	var ServiceForm = __webpack_require__(336);
+	var ServiceDetailForm = __webpack_require__(338);
+	var ServiceSupplierForm = __webpack_require__(339);
+	var Info = __webpack_require__(340);
+	var FilterBar = __webpack_require__(280);
+
+	// end::vars[]
+
+	var Detail = function (_React$Component) {
+	    _inherits(Detail, _React$Component);
+
+	    function Detail(props) {
+	        _classCallCheck(this, Detail);
+
+	        var _this = _possibleConstructorReturn(this, (Detail.__proto__ || Object.getPrototypeOf(Detail)).call(this, props));
+
+	        _this.state = {
+	            message: null,
+	            messages: [],
+	            attributes: [],
+	            pageSize: 2,
+	            links: {},
+	            displayDetail: "block",
+	            displayServiceForm: "block",
+	            displayServiceDetailForm: "none",
+	            displayServiceSupplierForm: "none"
+	        };
+	        _this.updatePageSize = _this.updatePageSize.bind(_this);
+	        _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
+	        _this.handleBackClick = _this.handleBackClick.bind(_this);
+	        _this.toggleForm = _this.toggleForm.bind(_this);
+	        return _this;
+	    }
+
+	    // tag::update-page-size[]
+
+
+	    _createClass(Detail, [{
+	        key: 'updatePageSize',
+	        value: function updatePageSize(pageSize) {
+	            if (pageSize !== this.state.pageSize) {
+	                this.loadFromServer(pageSize);
+	            }
+	        }
+	        // end::update-page-size[]
+
+	    }, {
+	        key: 'toggleForm',
+	        value: function toggleForm(form) {
+	            if (form == "service") {
+	                this.setState({
+	                    displayServiceForm: "block",
+	                    displayServiceDetailForm: "none",
+	                    displayServiceSupplierForm: "none"
+	                });
+	            } else if (form == "detail") {
+	                this.setState({
+	                    displayServiceForm: "none",
+	                    displayServiceDetailForm: "block",
+	                    displayServiceSupplierForm: "none"
+	                });
+	            } else if (form == "supplier") {
+	                this.setState({
+	                    displayServiceForm: "none",
+	                    displayServiceDetailForm: "none",
+	                    displayServiceSupplierForm: "block"
+	                });
+	            }
+	        }
+	    }, {
+	        key: 'handleSelectedItem',
+	        value: function handleSelectedItem(message) {
+	            this.setState({
+	                message: message,
+	                displayDetail: "block"
+	            });
+	        }
+	    }, {
+	        key: 'handleBackClick',
+	        value: function handleBackClick(e) {
+	            this.setState({
+	                displayDetail: "none"
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+
+	            var displayServiceForm = this.state.displayServiceForm;
+	            var displayServiceDetailForm = this.state.displayServiceDetailForm;
+	            var displayServiceSupplierForm = this.state.displayServiceSupplierForm;
+
+	            var info = "";
+	            if (this.state.renewal !== null) {
+	                info = React.createElement(
+	                    'div',
+	                    { style: { display: this.props.displayInfo } },
+	                    React.createElement(Info, {
+	                        renewal: this.props.renewal,
+	                        onUpdateNote: this.props.onUpdateNote,
+	                        onDelete: this.props.onDelete })
+	                );
+	            }
+
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement(FilterBar, { toggleForm: this.toggleForm,
+	                    title: '' }),
+	                React.createElement(
+	                    'div',
+	                    { className: 'small-12 columns', style: { display: displayServiceForm } },
+	                    React.createElement(ServiceForm, { renewal: this.props.renewal,
+	                        cannedMessages: this.props.cannedMessages })
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'small-12 columns', style: { display: displayServiceDetailForm } },
+	                    React.createElement(ServiceDetailForm, { renewal: this.props.renewal,
+	                        cannedMessages: this.props.cannedMessages })
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'small-12 columns', style: { display: displayServiceSupplierForm } },
+	                    React.createElement(ServiceSupplierForm, { renewal: this.props.renewal,
+	                        cannedMessages: this.props.cannedMessages })
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Detail;
+	}(React.Component);
+
+	module.exports = Detail;
+
+/***/ }),
+/* 336 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(8);
-	var DisplayDate = __webpack_require__(336);
-	var UpdateNoteDialog = __webpack_require__(337);
+	var client = __webpack_require__(286);
+	var DisplayDate = __webpack_require__(337);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
 
-	// tag::renewal[]
+	var ServiceForm = function (_React$Component) {
+	  _inherits(ServiceForm, _React$Component);
 
-	var RenewalLine = function (_React$Component) {
-	  _inherits(RenewalLine, _React$Component);
+	  function ServiceForm(props) {
+	    _classCallCheck(this, ServiceForm);
 
-	  function RenewalLine(props) {
-	    _classCallCheck(this, RenewalLine);
+	    var _this = _possibleConstructorReturn(this, (ServiceForm.__proto__ || Object.getPrototypeOf(ServiceForm)).call(this, props));
 
-	    return _possibleConstructorReturn(this, (RenewalLine.__proto__ || Object.getPrototypeOf(RenewalLine)).call(this, props));
+	    _this.state = {
+	      // signed: this.props.renewal.signed,
+	      // renewing: this.props.renewal.renewing
+
+	    };
+	    _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
+	    _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.setMessage = _this.setMessage.bind(_this);
+	    return _this;
 	  }
 
-	  _createClass(RenewalLine, [{
+	  _createClass(ServiceForm, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      debugger;
+	      var message = {};
+	      message.text = this.refs.newMessage.value;
+	      message.subject = this.refs.cannedMessage.value;
+	      if (this.refs.gracePeriod.value) {
+	        message.gracePeriod = this.refs.gracePeriod.value;
+	      }
+	      message.confirm = false;
+	      if (this.refs.confirm.checked) {
+	        message.confirm = true;
+	      }
+	      message.processId = this.props.renewal.businessKey;
+	      message.renewalId = this.props.renewal.id;
+	      this.onCreate(message);
+
+	      // clear out the dialog's inputs
+	      this.refs.newMessage.value = '';
+	    }
+	  }, {
+	    key: 'setMessage',
+	    value: function setMessage(e) {
+	      e.preventDefault();
+
+	      var sdate = new Date(this.props.renewal.showDate);
+	      var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
+
+	      this.refs.newMessage.value = "";
+	      var selection = this.refs.cannedMessage.value;
+	      if (selection !== "") {
+	        this.refs.newMessage.value = this.props.cannedMessages[selection].text;
+	      }
+	    }
+	  }, {
+	    key: 'onCreate',
+	    value: function onCreate(message) {
+	      client({
+	        method: 'POST',
+	        path: "/message",
+	        entity: message,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        alert("Message Sent");
+	      });
+	    }
+	  }, {
+	    key: 'handleSignedCheck',
+	    value: function handleSignedCheck(e) {
+	      e.preventDefault();
+	      var message = {};
+	      message.signed = false;
+	      if (this.refs.signed.checked) {
+	        message.signed = true;
+	      }
+	      message.processId = this.props.renewal.processId;
+	      message.renewalId = this.props.renewal.id;
+
+	      this.onUpdateSigned(message);
+	    }
+	  }, {
+	    key: 'onUpdateSigned',
+	    value: function onUpdateSigned(message) {
+	      var _this2 = this;
+
+	      client({
+	        method: 'POST',
+	        path: "/signed",
+	        entity: message,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        alert("Renewal Signed flag has been updated!");
+	        _this2.setState({
+	          signed: message.signed
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'handleRenewedCheck',
+	    value: function handleRenewedCheck(e) {
+	      e.preventDefault();
+	      var message = {};
+	      message.renewing = false;
+	      if (this.refs.renewing.checked) {
+	        message.renewing = true;
+	      }
+	      message.processId = this.props.renewal.processId;
+	      message.renewalId = this.props.renewal.id;
+
+	      this.onUpdateRenewing(message);
+	    }
+	  }, {
+	    key: 'onUpdateRenewing',
+	    value: function onUpdateRenewing(message) {
+	      var _this3 = this;
+
+	      client({
+	        method: 'POST',
+	        path: "/renewing",
+	        entity: message,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        alert("Renewal Renewing flag has been updated!");
+	        _this3.setState({
+	          renewing: message.renewing
+	        });
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var status = "Not Started";
-	      if (this.props.renewal.renewalStarted) {
-	        status = "Renewal Started";
-	      }
-	      if (this.props.renewal.renewalCompleted) {
-	        status = "Renewal Completed";
-	      }
-	      var renewing = "";
-	      if (this.props.renewal.renewing) {
-	        renewing = "Yes";
-	      } else if (this.props.renewal.renewing === false && this.props.renewal.renewalCompleted) {
-	        renewing = "No";
-	      }
+	      var i = 0;
+	      // var options = this.props.cannedMessages.map(cannedMessage =>
+	      //     <option key={cannedMessage._links.self.href} value={i++}>{cannedMessage.subject}</option>
+	      // );
 
 	      return React.createElement(
-	        'tr',
-	        null,
+	        'div',
+	        { className: 'row' },
 	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.property
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          React.createElement(DisplayDate, { date: this.props.renewal.end })
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          React.createElement(DisplayDate, { date: this.props.renewal.showDate })
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.currentRent
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.oneYearOffer
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.twoYearOffer
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.workflowState
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          renewing
-	        ),
-	        React.createElement(
-	          'td',
-	          null,
-	          React.createElement(UpdateNoteDialog, { renewal: this.props.renewal,
-	            onUpdateNote: this.props.onUpdateNote })
+	          'div',
+	          { className: 'small-12 columns' },
+	          React.createElement(
+	            'form',
+	            { onSubmit: this.handleSubmit },
+	            React.createElement(
+	              'div',
+	              { className: 'row' },
+	              React.createElement(
+	                'div',
+	                { className: 'small-5 columns' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'input-group' },
+	                  React.createElement(
+	                    'span',
+	                    { className: 'input-group-label' },
+	                    'Service Category'
+	                  ),
+	                  React.createElement(
+	                    'select',
+	                    { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
+	                    React.createElement(
+	                      'option',
+	                      { defaultValue: true },
+	                      'Please Select'
+	                    ),
+	                    React.createElement(
+	                      'option',
+	                      { value: '1' },
+	                      'Category 1 '
+	                    ),
+	                    React.createElement(
+	                      'option',
+	                      { value: '2' },
+	                      'Category 2 '
+	                    ),
+	                    React.createElement(
+	                      'option',
+	                      { value: '3' },
+	                      'Category 3 '
+	                    ),
+	                    React.createElement(
+	                      'option',
+	                      { value: '5' },
+	                      'Category 5 '
+	                    )
+	                  )
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'row' },
+	              React.createElement(
+	                'div',
+	                { className: 'small-5 columns' },
+	                React.createElement('textarea', { rows: '5', ref: 'newMessage', placeholder: 'Service Description' })
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'row' },
+	              React.createElement(
+	                'div',
+	                { className: 'small-4 small-offset-8 large-4 large-offset-8 columns button-group ' },
+	                React.createElement(
+	                  'label',
+	                  { htmlFor: 'sendMessage', className: 'button secondary float-right' },
+	                  'Back'
+	                ),
+	                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' }),
+	                React.createElement(
+	                  'label',
+	                  { htmlFor: 'sendMessage', className: 'button float-right' },
+	                  'Next'
+	                ),
+	                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
+	              )
+	            )
+	          )
 	        )
 	      );
 	    }
 	  }]);
 
-	  return RenewalLine;
+	  return ServiceForm;
 	}(React.Component);
-	// end::renewal[]
 
-	module.exports = RenewalLine;
+	module.exports = ServiceForm;
 
 /***/ }),
-/* 336 */
+/* 337 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -35664,89 +35818,6 @@
 	module.exports = DisplayDate;
 
 /***/ }),
-/* 337 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var ReactDOM = __webpack_require__(47);
-	var React = __webpack_require__(8);
-
-	var _require = __webpack_require__(194),
-	    Link = _require.Link,
-	    IndexLink = _require.IndexLink;
-
-	var UpdateNoteDialog = function (_React$Component) {
-	    _inherits(UpdateNoteDialog, _React$Component);
-
-	    function UpdateNoteDialog(props) {
-	        _classCallCheck(this, UpdateNoteDialog);
-
-	        var _this = _possibleConstructorReturn(this, (UpdateNoteDialog.__proto__ || Object.getPrototypeOf(UpdateNoteDialog)).call(this, props));
-
-	        _this.handleSubmit = _this.handleSubmit.bind(_this);
-	        return _this;
-	    }
-
-	    _createClass(UpdateNoteDialog, [{
-	        key: 'handleSubmit',
-	        value: function handleSubmit(e) {
-	            e.preventDefault();
-	            if (e.keyCode == 13) {
-	                var updatedRenewal = {};
-	                if (this.refs.note.value) {
-	                    updatedRenewal.note = this.refs.note.value;
-	                    updatedRenewal.renewalId = this.props.renewal.id;
-	                }
-	                this.props.onUpdateNote(this.props.renewal, updatedRenewal);
-	            }
-	        }
-	    }, {
-	        key: 'handleHover',
-	        value: function handleHover(e) {
-	            e.preventDefault();
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-
-	            return React.createElement(
-	                'div',
-	                null,
-	                React.createElement(
-	                    'a',
-	                    null,
-	                    React.createElement(
-	                        'form',
-	                        { onKeyUp: this.handleSubmit },
-	                        React.createElement('input', { type: 'text', ref: 'note', defaultValue: this.props.renewal.note })
-	                    )
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'note' },
-	                    this.props.renewal.note
-	                )
-	            );
-	        }
-	    }]);
-
-	    return UpdateNoteDialog;
-	}(React.Component);
-
-	;
-
-	module.exports = UpdateNoteDialog;
-
-/***/ }),
 /* 338 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -35761,234 +35832,304 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
+	var client = __webpack_require__(286);
+	var DisplayDate = __webpack_require__(337);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
 
-	var _require = __webpack_require__(194),
-	    Link = _require.Link,
-	    IndexLink = _require.IndexLink;
+	var Form = function (_React$Component) {
+	    _inherits(Form, _React$Component);
 
-	var FilterBar = function (_React$Component) {
-	    _inherits(FilterBar, _React$Component);
+	    function Form(props) {
+	        _classCallCheck(this, Form);
 
-	    function FilterBar(props) {
-	        _classCallCheck(this, FilterBar);
-
-	        var _this = _possibleConstructorReturn(this, (FilterBar.__proto__ || Object.getPrototypeOf(FilterBar)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
 
 	        _this.state = {
-	            callUpdate: function callUpdate(pageSize, that) {
-	                that.props.onFilterAll(pageSize);
-	            }
+	            // signed: this.props.renewal.signed,
+	            // renewing: this.props.renewal.renewing
+
 	        };
-	        _this.handleNavFirst = _this.handleNavFirst.bind(_this);
-	        _this.handleNavPrev = _this.handleNavPrev.bind(_this);
-	        _this.handleNavNext = _this.handleNavNext.bind(_this);
-	        _this.handleNavLast = _this.handleNavLast.bind(_this);
-	        _this.handleInput = _this.handleInput.bind(_this);
-	        _this.handlefilterState = _this.handlefilterState.bind(_this);
-	        _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
-	        _this.handleFilterAll = _this.handleFilterAll.bind(_this);
-	        _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
-	        _this.handleRefresh = _this.handleRefresh.bind(_this);
+	        _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
+	        _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
+	        _this.handleSubmit = _this.handleSubmit.bind(_this);
+	        _this.setMessage = _this.setMessage.bind(_this);
 	        return _this;
 	    }
 
-	    // tag::handle-page-size-updates[]
-
-
-	    _createClass(FilterBar, [{
-	        key: 'handleInput',
-	        value: function handleInput(e) {
+	    _createClass(Form, [{
+	        key: 'handleSubmit',
+	        value: function handleSubmit(e) {
 	            e.preventDefault();
-	            var pageSize = ReactDOM.findDOMNode(this.refs.pageSize).value;
-	            if (/^[0-9]+$/.test(pageSize)) {
-	                this.props.updatePageSize(pageSize);
-	            } else {
-	                ReactDOM.findDOMNode(this.refs.pageSize).value = pageSize.substring(0, pageSize.length - 1);
+	            debugger;
+	            var message = {};
+	            message.text = this.refs.newMessage.value;
+	            message.subject = this.refs.cannedMessage.value;
+	            if (this.refs.gracePeriod.value) {
+	                message.gracePeriod = this.refs.gracePeriod.value;
+	            }
+	            message.confirm = false;
+	            if (this.refs.confirm.checked) {
+	                message.confirm = true;
+	            }
+	            message.processId = this.props.renewal.businessKey;
+	            message.renewalId = this.props.renewal.id;
+	            this.onCreate(message);
+
+	            // clear out the dialog's inputs
+	            this.refs.newMessage.value = '';
+	        }
+	    }, {
+	        key: 'setMessage',
+	        value: function setMessage(e) {
+	            e.preventDefault();
+
+	            var sdate = new Date(this.props.renewal.showDate);
+	            var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
+
+	            this.refs.newMessage.value = "";
+	            var selection = this.refs.cannedMessage.value;
+	            if (selection !== "") {
+	                this.refs.newMessage.value = this.props.cannedMessages[selection].text;
 	            }
 	        }
-	        // end::handle-page-size-updates[]
-
 	    }, {
-	        key: 'handleRefresh',
-	        value: function handleRefresh(e) {
-	            e.preventDefault();
-	            this.state.callUpdate(this.props.pageSize, this);
-	        }
-	    }, {
-	        key: 'handleFilterPriority',
-	        value: function handleFilterPriority(e) {
-	            e.preventDefault();
-	            this.props.onFilterPriority(this.props.pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.props.onFilterPriority(pageSize);
-	                }
+	        key: 'onCreate',
+	        value: function onCreate(message) {
+	            client({
+	                method: 'POST',
+	                path: "/message",
+	                entity: message,
+	                headers: { 'Content-Type': 'multipart/form-data' }
+	            }).done(function (response) {
+	                alert("Message Sent");
 	            });
 	        }
 	    }, {
-	        key: 'handleFilterAll',
-	        value: function handleFilterAll(e) {
+	        key: 'handleSignedCheck',
+	        value: function handleSignedCheck(e) {
 	            e.preventDefault();
-	            this.props.onFilterAll(this.props.pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.props.onFilterAll(pageSize);
-	                }
+	            var message = {};
+	            message.signed = false;
+	            if (this.refs.signed.checked) {
+	                message.signed = true;
+	            }
+	            message.processId = this.props.renewal.processId;
+	            message.renewalId = this.props.renewal.id;
+
+	            this.onUpdateSigned(message);
+	        }
+	    }, {
+	        key: 'onUpdateSigned',
+	        value: function onUpdateSigned(message) {
+	            var _this2 = this;
+
+	            client({
+	                method: 'POST',
+	                path: "/signed",
+	                entity: message,
+	                headers: { 'Content-Type': 'multipart/form-data' }
+	            }).done(function (response) {
+	                alert("Renewal Signed flag has been updated!");
+	                _this2.setState({
+	                    signed: message.signed
+	                });
 	            });
 	        }
 	    }, {
-	        key: 'handleFilterStarted',
-	        value: function handleFilterStarted(e) {
+	        key: 'handleRenewedCheck',
+	        value: function handleRenewedCheck(e) {
 	            e.preventDefault();
-	            this.props.onFilterStarted(this.props.pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.props.onFilterStarted(pageSize);
-	                }
+	            var message = {};
+	            message.renewing = false;
+	            if (this.refs.renewing.checked) {
+	                message.renewing = true;
+	            }
+	            message.processId = this.props.renewal.processId;
+	            message.renewalId = this.props.renewal.id;
+
+	            this.onUpdateRenewing(message);
+	        }
+	    }, {
+	        key: 'onUpdateRenewing',
+	        value: function onUpdateRenewing(message) {
+	            var _this3 = this;
+
+	            client({
+	                method: 'POST',
+	                path: "/renewing",
+	                entity: message,
+	                headers: { 'Content-Type': 'multipart/form-data' }
+	            }).done(function (response) {
+	                alert("Renewal Renewing flag has been updated!");
+	                _this3.setState({
+	                    renewing: message.renewing
+	                });
 	            });
 	        }
-	    }, {
-	        key: 'handlefilterState',
-	        value: function handlefilterState(e) {
-	            e.preventDefault();
-	            this.props.onFilterState(this.props.pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.props.onFilterState(pageSize);
-	                }
-	            });
-	        }
-
-	        // tag::handle-nav[]
-
-	    }, {
-	        key: 'handleNavFirst',
-	        value: function handleNavFirst(e) {
-	            e.preventDefault();
-	            this.props.onNavigate(this.props.links.first.href);
-	        }
-	    }, {
-	        key: 'handleNavPrev',
-	        value: function handleNavPrev(e) {
-	            e.preventDefault();
-	            this.props.onNavigate(this.props.links.prev.href);
-	        }
-	    }, {
-	        key: 'handleNavNext',
-	        value: function handleNavNext(e) {
-	            e.preventDefault();
-	            this.props.onNavigate(this.props.links.next.href);
-	        }
-	    }, {
-	        key: 'handleNavLast',
-	        value: function handleNavLast(e) {
-	            e.preventDefault();
-	            this.props.onNavigate(this.props.links.last.href);
-	        }
-	        // end::handle-nav[]
-
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var navLinks = [];
-	            if ("first" in this.props.links) {
-	                navLinks.push(React.createElement(
-	                    'a',
-	                    { className: 'button', key: 'first', onClick: this.handleNavFirst },
-	                    '<<'
-	                ));
-	            }
-	            if ("prev" in this.props.links) {
-	                navLinks.push(React.createElement(
-	                    'a',
-	                    { className: 'button', key: 'prev', onClick: this.handleNavPrev },
-	                    '<'
-	                ));
-	            }
-	            if ("next" in this.props.links) {
-	                navLinks.push(React.createElement(
-	                    'a',
-	                    { className: 'button', key: 'next', onClick: this.handleNavNext },
-	                    '>'
-	                ));
-	            }
-	            if ("last" in this.props.links) {
-	                navLinks.push(React.createElement(
-	                    'a',
-	                    { className: 'button', key: 'last', onClick: this.handleNavLast },
-	                    '>>'
-	                ));
-	            }
+	            var i = 0;
+	            // var options = this.props.cannedMessages.map(cannedMessage =>
+	            //     <option key={cannedMessage._links.self.href} value={i++}>{cannedMessage.subject}</option>
+	            // );
 
 	            return React.createElement(
 	                'div',
-	                { className: 'top-bar' },
+	                { className: 'row' },
 	                React.createElement(
 	                    'div',
-	                    { className: 'row' },
+	                    { className: 'small-12 columns' },
 	                    React.createElement(
-	                        'div',
-	                        { className: 'small-6 columns' },
+	                        'form',
+	                        { onSubmit: this.handleSubmit },
 	                        React.createElement(
 	                            'div',
-	                            { className: 'expanded small button-group' },
+	                            { className: 'row' },
 	                            React.createElement(
-	                                'a',
-	                                { className: 'button secondary hollow' },
-	                                this.props.title
-	                            ),
-	                            React.createElement(
-	                                'a',
-	                                { className: 'button secondary', onClick: this.handleFilterStarted },
-	                                'Started'
-	                            ),
-	                            React.createElement(
-	                                'a',
-	                                { className: 'button', onClick: this.handleFilterAll },
-	                                'All'
-	                            )
-	                        )
-	                    ),
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-5 columns' },
-	                        React.createElement(
-	                            'ul',
-	                            { className: 'menu' },
-	                            React.createElement(
-	                                'li',
-	                                null,
+	                                'div',
+	                                { className: 'small-5 columns' },
 	                                React.createElement(
 	                                    'div',
-	                                    { className: 'input-group small' },
+	                                    { className: 'input-group' },
 	                                    React.createElement(
 	                                        'span',
 	                                        { className: 'input-group-label' },
-	                                        'Page Size'
+	                                        'Service Owner'
 	                                    ),
-	                                    React.createElement('input', { style: { width: "70px" }, type: 'number', ref: 'pageSize',
-	                                        defaultValue: this.props.pageSize, onInput: this.handleInput })
-	                                )
-	                            ),
-	                            React.createElement(
-	                                'li',
-	                                null,
-	                                React.createElement(
-	                                    'div',
-	                                    { className: 'tiny button-group' },
-	                                    navLinks
+	                                    React.createElement('input', { className: 'input-group-field', type: 'text', ref: 'renewing', onChange: this.handleRenewedCheck })
 	                                )
 	                            )
-	                        )
-	                    ),
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-1 columns' },
+	                        ),
 	                        React.createElement(
-	                            'a',
-	                            { className: 'button small', key: 'last', onClick: this.handleRefresh },
-	                            'Refresh'
+	                            'div',
+	                            { className: 'row' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'small-5 columns' },
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'input-group' },
+	                                    React.createElement(
+	                                        'span',
+	                                        { className: 'input-group-label' },
+	                                        'Sourcing Manager'
+	                                    ),
+	                                    React.createElement('input', { className: 'input-group-field', type: 'text', ref: 'renewing', onChange: this.handleRenewedCheck })
+	                                )
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            { className: 'row' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'small-5 columns' },
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'input-group' },
+	                                    React.createElement(
+	                                        'span',
+	                                        { className: 'input-group-label' },
+	                                        'Acquiring BU'
+	                                    ),
+	                                    React.createElement(
+	                                        'select',
+	                                        { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '' },
+	                                            'Please Select'
+	                                        ),
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '1' },
+	                                            'Category 1 '
+	                                        ),
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '2' },
+	                                            'Category 2 '
+	                                        ),
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '3' },
+	                                            'Category 3 '
+	                                        ),
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '5' },
+	                                            'Category 5 '
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            { className: 'row' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'small-5 columns' },
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'input-group' },
+	                                    React.createElement(
+	                                        'span',
+	                                        { className: 'input-group-label' },
+	                                        'Legal Entitiy'
+	                                    ),
+	                                    React.createElement(
+	                                        'select',
+	                                        { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '' },
+	                                            'Please Select'
+	                                        ),
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '1' },
+	                                            'Category 1 '
+	                                        ),
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '2' },
+	                                            'Category 2 '
+	                                        ),
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '3' },
+	                                            'Category 3 '
+	                                        ),
+	                                        React.createElement(
+	                                            'option',
+	                                            { value: '5' },
+	                                            'Category 5 '
+	                                        )
+	                                    )
+	                                )
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            { className: 'row' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'small-4 small-offset-8 large-4 large-offset-8 columns button-group ' },
+	                                React.createElement(
+	                                    'label',
+	                                    { htmlFor: 'sendMessage', className: 'button secondary float-right' },
+	                                    'Back'
+	                                ),
+	                                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' }),
+	                                React.createElement(
+	                                    'label',
+	                                    { htmlFor: 'sendMessage', className: 'button float-right' },
+	                                    'Next'
+	                                ),
+	                                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
+	                            )
 	                        )
 	                    )
 	                )
@@ -35996,10 +36137,10 @@
 	        }
 	    }]);
 
-	    return FilterBar;
+	    return Form;
 	}(React.Component);
 
-	module.exports = FilterBar;
+	module.exports = Form;
 
 /***/ }),
 /* 339 */
@@ -36015,256 +36156,202 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	// tag::vars[]
 	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
-	var client = __webpack_require__(340);
-	var follow = __webpack_require__(341); // function to hop multiple links by "rel"
+	var client = __webpack_require__(286);
+	var DisplayDate = __webpack_require__(337);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
 
-	var MessageList = __webpack_require__(342);
-	var MessageDetail = __webpack_require__(346);
-	var RenewalForm = __webpack_require__(348);
-	var Tenant = __webpack_require__(349);
-	var RenewalInfo = __webpack_require__(350);
-	var RenewalLine = __webpack_require__(335);
+	var ServiceForm = function (_React$Component) {
+	    _inherits(ServiceForm, _React$Component);
 
-	// end::vars[]
+	    function ServiceForm(props) {
+	        _classCallCheck(this, ServiceForm);
 
-	var RenewalDetail = function (_React$Component) {
-	  _inherits(RenewalDetail, _React$Component);
+	        var _this = _possibleConstructorReturn(this, (ServiceForm.__proto__ || Object.getPrototypeOf(ServiceForm)).call(this, props));
 
-	  function RenewalDetail(props) {
-	    _classCallCheck(this, RenewalDetail);
+	        _this.state = {
+	            // signed: this.props.renewal.signed,
+	            // renewing: this.props.renewal.renewing
 
-	    var _this = _possibleConstructorReturn(this, (RenewalDetail.__proto__ || Object.getPrototypeOf(RenewalDetail)).call(this, props));
-
-	    _this.state = {
-	      message: null,
-	      messages: [],
-	      attributes: [],
-	      pageSize: 2,
-	      links: {},
-	      displayDetail: "none",
-	      displayList: "block"
-	    };
-	    _this.updatePageSize = _this.updatePageSize.bind(_this);
-	    _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
-	    _this.handleBackClick = _this.handleBackClick.bind(_this);
-	    return _this;
-	  }
-
-	  // tag::update-page-size[]
-
-
-	  _createClass(RenewalDetail, [{
-	    key: 'updatePageSize',
-	    value: function updatePageSize(pageSize) {
-	      if (pageSize !== this.state.pageSize) {
-	        this.loadFromServer(pageSize);
-	      }
+	        };
+	        _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
+	        _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
+	        _this.handleSubmit = _this.handleSubmit.bind(_this);
+	        _this.setMessage = _this.setMessage.bind(_this);
+	        return _this;
 	    }
-	    // end::update-page-size[]
 
-	  }, {
-	    key: 'handleSelectedItem',
-	    value: function handleSelectedItem(message) {
-	      this.setState({
-	        message: message,
-	        displayDetail: "block",
-	        displayList: "none"
-	      });
-	    }
-	  }, {
-	    key: 'handleBackClick',
-	    value: function handleBackClick(e) {
-	      this.setState({
-	        displayDetail: "none",
-	        displayList: "block"
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var item = "";
-	      if (this.state.message !== null) {
-	        item = React.createElement(MessageDetail, { message: this.state.message });
-	      }
-	      var displayForm = this.props.displayForm;
-	      var displayMessages = this.props.displayMessages;
+	    _createClass(ServiceForm, [{
+	        key: 'handleSubmit',
+	        value: function handleSubmit(e) {
+	            e.preventDefault();
+	            debugger;
+	            var message = {};
+	            message.text = this.refs.newMessage.value;
+	            message.subject = this.refs.cannedMessage.value;
+	            if (this.refs.gracePeriod.value) {
+	                message.gracePeriod = this.refs.gracePeriod.value;
+	            }
+	            message.confirm = false;
+	            if (this.refs.confirm.checked) {
+	                message.confirm = true;
+	            }
+	            message.processId = this.props.renewal.businessKey;
+	            message.renewalId = this.props.renewal.id;
+	            this.onCreate(message);
 
-	      var tenants = this.props.renewal.tennants.map(function (tenant) {
-	        return React.createElement(Tenant, { key: tenant.email,
-	          tenant: tenant });
-	      });
+	            // clear out the dialog's inputs
+	            this.refs.newMessage.value = '';
+	        }
+	    }, {
+	        key: 'setMessage',
+	        value: function setMessage(e) {
+	            e.preventDefault();
 
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { style: { display: this.props.displayLine } },
-	          React.createElement(
-	            'div',
-	            { className: 'row' },
-	            React.createElement(
-	              'div',
-	              { className: 'small-12 columns' },
-	              React.createElement(
-	                'table',
-	                { className: 'hover stack' },
+	            var sdate = new Date(this.props.renewal.showDate);
+	            var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
+
+	            this.refs.newMessage.value = "";
+	            var selection = this.refs.cannedMessage.value;
+	            if (selection !== "") {
+	                this.refs.newMessage.value = this.props.cannedMessages[selection].text;
+	            }
+	        }
+	    }, {
+	        key: 'onCreate',
+	        value: function onCreate(message) {
+	            client({
+	                method: 'POST',
+	                path: "/message",
+	                entity: message,
+	                headers: { 'Content-Type': 'multipart/form-data' }
+	            }).done(function (response) {
+	                alert("Message Sent");
+	            });
+	        }
+	    }, {
+	        key: 'handleSignedCheck',
+	        value: function handleSignedCheck(e) {
+	            e.preventDefault();
+	            var message = {};
+	            message.signed = false;
+	            if (this.refs.signed.checked) {
+	                message.signed = true;
+	            }
+	            message.processId = this.props.renewal.processId;
+	            message.renewalId = this.props.renewal.id;
+
+	            this.onUpdateSigned(message);
+	        }
+	    }, {
+	        key: 'onUpdateSigned',
+	        value: function onUpdateSigned(message) {
+	            var _this2 = this;
+
+	            client({
+	                method: 'POST',
+	                path: "/signed",
+	                entity: message,
+	                headers: { 'Content-Type': 'multipart/form-data' }
+	            }).done(function (response) {
+	                alert("Renewal Signed flag has been updated!");
+	                _this2.setState({
+	                    signed: message.signed
+	                });
+	            });
+	        }
+	    }, {
+	        key: 'handleRenewedCheck',
+	        value: function handleRenewedCheck(e) {
+	            e.preventDefault();
+	            var message = {};
+	            message.renewing = false;
+	            if (this.refs.renewing.checked) {
+	                message.renewing = true;
+	            }
+	            message.processId = this.props.renewal.processId;
+	            message.renewalId = this.props.renewal.id;
+
+	            this.onUpdateRenewing(message);
+	        }
+	    }, {
+	        key: 'onUpdateRenewing',
+	        value: function onUpdateRenewing(message) {
+	            var _this3 = this;
+
+	            client({
+	                method: 'POST',
+	                path: "/renewing",
+	                entity: message,
+	                headers: { 'Content-Type': 'multipart/form-data' }
+	            }).done(function (response) {
+	                alert("Renewal Renewing flag has been updated!");
+	                _this3.setState({
+	                    renewing: message.renewing
+	                });
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+
+	            return React.createElement(
+	                'div',
+	                { className: 'row' },
 	                React.createElement(
-	                  'thead',
-	                  null,
-	                  React.createElement(
-	                    'tr',
-	                    null,
+	                    'div',
+	                    { className: 'small-12 columns' },
 	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'Property'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      { width: '105' },
-	                      'End Date'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      { width: '105' },
-	                      'Show Date'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'Current Rent'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      '1 Year Offer'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      '2 Year Offer'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'State'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'Renewing'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'Note'
+	                        'form',
+	                        { onSubmit: this.handleSubmit },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'row' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'small-5 columns' },
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'input-group' },
+	                                    React.createElement(
+	                                        'span',
+	                                        { className: 'input-group-label' },
+	                                        'Supplier'
+	                                    ),
+	                                    React.createElement('input', { className: 'input-group-field', type: 'text', ref: 'renewing', onChange: this.handleRenewedCheck })
+	                                )
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            { className: 'row' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'small-4 small-offset-8 large-4 large-offset-8 columns button-group ' },
+	                                React.createElement(
+	                                    'label',
+	                                    { htmlFor: 'sendMessage', className: 'button secondary float-right' },
+	                                    'Back'
+	                                ),
+	                                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' }),
+	                                React.createElement(
+	                                    'label',
+	                                    { htmlFor: 'sendMessage', className: 'button float-right' },
+	                                    'Next'
+	                                ),
+	                                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
+	                            )
+	                        )
 	                    )
-	                  )
-	                ),
-	                React.createElement(
-	                  'tbody',
-	                  null,
-	                  React.createElement(RenewalLine, { key: this.props.renewal._links.self.href,
-	                    renewal: this.props.renewal,
-	                    onUpdateNote: this.props.onUpdateNote,
-	                    onSelectItem: this.props.onSelectItem })
 	                )
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { style: { display: this.props.displayInfo } },
-	          React.createElement(RenewalInfo, {
-	            tenants: tenants,
-	            renewal: this.props.renewal,
-	            onUpdateNote: this.props.onUpdateNote,
-	            onDelete: this.props.onDelete })
-	        ),
-	        React.createElement(
-	          'div',
-	          { style: { display: displayMessages } },
-	          React.createElement('hr', null),
-	          React.createElement(
-	            'div',
-	            { style: { display: this.state.displayList } },
-	            React.createElement(MessageList, { messages: this.props.messages,
-	              renewal: this.props.renewal,
-	              links: this.state.links,
-	              pageSize: this.state.pageSize,
-	              onNavigate: this.onNavigate,
-	              updatePageSize: this.updatePageSize,
-	              onSelectItem: this.handleSelectedItem,
-	              onRefreshMessages: this.props.onRefreshMessages })
-	          ),
-	          React.createElement(
-	            'div',
-	            { style: { display: this.state.displayDetail } },
-	            React.createElement(
-	              'div',
-	              { className: 'top-bar show-for-medium small-12 columns' },
-	              React.createElement(
-	                'div',
-	                { className: 'top-bar-left' },
-	                React.createElement(
-	                  'ul',
-	                  { className: 'menu' },
-	                  React.createElement(
-	                    'li',
-	                    { className: 'topbar-title' },
-	                    'Message Detail'
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'top-bar-right' },
-	                React.createElement(
-	                  'ul',
-	                  { className: 'menu' },
-	                  React.createElement(
-	                    'li',
-	                    { className: 'topbar-title' },
-	                    React.createElement(
-	                      'a',
-	                      { className: 'button', onClick: this.handleBackClick },
-	                      '<<<Back'
-	                    )
-	                  )
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'row' },
-	              React.createElement(
-	                'div',
-	                { className: 'small-12 columns' },
-	                item
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { style: { display: displayForm } },
-	          React.createElement('hr', null),
-	          React.createElement(RenewalForm, { renewal: this.props.renewal,
-	            cannedMessages: this.props.cannedMessages })
-	        )
-	      );
-	    }
-	  }]);
+	            );
+	        }
+	    }]);
 
-	  return RenewalDetail;
+	    return ServiceForm;
 	}(React.Component);
 
-	module.exports = RenewalDetail;
+	module.exports = ServiceForm;
 
 /***/ }),
 /* 340 */
@@ -36272,75 +36359,6 @@
 
 	'use strict';
 
-	var rest = __webpack_require__(286);
-	var defaultRequest = __webpack_require__(314);
-	var mime = __webpack_require__(316);
-	var uriTemplateInterceptor = __webpack_require__(330);
-	var errorCode = __webpack_require__(331);
-	var baseRegistry = __webpack_require__(318);
-
-	var registry = baseRegistry.child();
-
-	registry.register('text/uri-list', __webpack_require__(332));
-	registry.register('application/hal+json', __webpack_require__(319));
-
-	module.exports = rest.wrap(mime, { registry: registry }).wrap(uriTemplateInterceptor).wrap(errorCode).wrap(defaultRequest, { headers: { 'Accept': 'application/hal+json' } });
-
-/***/ }),
-/* 341 */
-/***/ (function(module, exports) {
-
-	'use strict';
-
-	module.exports = function follow(api, rootPath, relArray) {
-		var root = api({
-			method: 'GET',
-			path: rootPath
-		});
-
-		return relArray.reduce(function (root, arrayItem) {
-			var rel = typeof arrayItem === 'string' ? arrayItem : arrayItem.rel;
-			return traverseNext(root, rel, arrayItem);
-		}, root);
-
-		function traverseNext(root, rel, arrayItem) {
-			return root.then(function (response) {
-				if (hasEmbeddedRel(response.entity, rel)) {
-					return response.entity._embedded[rel];
-				}
-
-				if (!response.entity._links) {
-					return [];
-				}
-
-				if (typeof arrayItem === 'string') {
-					return api({
-						method: 'GET',
-						path: response.entity._links[rel].href
-					});
-				} else {
-					return api({
-						method: 'GET',
-						path: response.entity._links[rel].href,
-						params: arrayItem.params
-					});
-				}
-			});
-		}
-
-		function hasEmbeddedRel(entity, rel) {
-			return entity._embedded && entity._embedded.hasOwnProperty(rel);
-		}
-	};
-
-/***/ }),
-/* 342 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	// tag::vars[]
-
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -36350,3454 +36368,8 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var React = __webpack_require__(8);
-
-	var Message = __webpack_require__(343);
-
-	var MessageFilterBar = __webpack_require__(345);
-
-	// tag::message-list[]
-
-	var MessageList = function (_React$Component) {
-	    _inherits(MessageList, _React$Component);
-
-	    function MessageList(props) {
-	        _classCallCheck(this, MessageList);
-
-	        return _possibleConstructorReturn(this, (MessageList.__proto__ || Object.getPrototypeOf(MessageList)).call(this, props));
-	    }
-
-	    _createClass(MessageList, [{
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
-
-	            var messages = "";
-	            if (this.props.messages) {
-	                messages = this.props.messages.map(function (message) {
-	                    return React.createElement(Message, { key: message._links.self.href,
-	                        message: message,
-	                        onSelectItem: _this2.props.onSelectItem });
-	                });
-	            }
-
-	            return React.createElement(
-	                'div',
-	                null,
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-12 columns' },
-	                        React.createElement(MessageFilterBar, {
-	                            renewal: this.props.renewal,
-	                            onRefreshMessages: this.props.onRefreshMessages })
-	                    )
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-12 columns', style: { overflow: "auto", heigth: "200px" } },
-	                        React.createElement(
-	                            'table',
-	                            { className: 'hover stack' },
-	                            React.createElement(
-	                                'thead',
-	                                null,
-	                                React.createElement(
-	                                    'tr',
-	                                    null,
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'To'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'From'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Subject'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Created'
-	                                    )
-	                                )
-	                            ),
-	                            React.createElement(
-	                                'tbody',
-	                                null,
-	                                messages
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return MessageList;
-	}(React.Component);
-	// end::message-list[]
-
-	module.exports = MessageList;
-
-/***/ }),
-/* 343 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _require = __webpack_require__(194),
-	    Link = _require.Link,
-	    IndexLink = _require.IndexLink;
-
-	// tag::vars[]
-
-
-	var React = __webpack_require__(8);
-	var DisplayDate = __webpack_require__(344);
-
-	// tag::message[]
-
-	var MessageLine = function (_React$Component) {
-	    _inherits(MessageLine, _React$Component);
-
-	    function MessageLine(props) {
-	        _classCallCheck(this, MessageLine);
-
-	        return _possibleConstructorReturn(this, (MessageLine.__proto__ || Object.getPrototypeOf(MessageLine)).call(this, props));
-	    }
-
-	    _createClass(MessageLine, [{
-	        key: 'render',
-	        value: function render() {
-	            return React.createElement(
-	                'tr',
-	                { onClick: this.props.onSelectItem.bind(null, this.props.message) },
-	                React.createElement(
-	                    'td',
-	                    null,
-	                    this.props.message.recipient
-	                ),
-	                React.createElement(
-	                    'td',
-	                    null,
-	                    this.props.message.sender
-	                ),
-	                React.createElement(
-	                    'td',
-	                    null,
-	                    this.props.message.subject
-	                ),
-	                React.createElement(
-	                    'td',
-	                    null,
-	                    React.createElement(DisplayDate, { date: this.props.message.created })
-	                )
-	            );
-	        }
-	    }]);
-
-	    return MessageLine;
-	}(React.Component);
-	// end::message[]
-
-	module.exports = MessageLine;
-
-/***/ }),
-/* 344 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
-
-	var DisplayDateTime = React.createClass({
-	  displayName: 'DisplayDateTime',
-
-
-	  render: function render() {
-	    var newDate = "";
-	    if (this.props.date !== null) {
-	      var sdate = new Date(this.props.date);
-	      newDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear() + "::" + sdate.getHours() + ":" + sdate.getMinutes();
-	    }
-
-	    return React.createElement(
-	      'span',
-	      null,
-	      newDate
-	    );
-	  }
-
-	});
-
-	module.exports = DisplayDateTime;
-
-/***/ }),
-/* 345 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
-
-	var _require = __webpack_require__(194),
-	    Link = _require.Link,
-	    IndexLink = _require.IndexLink;
-
-	var MessageFilterBar = function (_React$Component) {
-	  _inherits(MessageFilterBar, _React$Component);
-
-	  function MessageFilterBar(props) {
-	    _classCallCheck(this, MessageFilterBar);
-
-	    var _this = _possibleConstructorReturn(this, (MessageFilterBar.__proto__ || Object.getPrototypeOf(MessageFilterBar)).call(this, props));
-
-	    _this.handleRefresh = _this.handleRefresh.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(MessageFilterBar, [{
-	    key: 'handleRefresh',
-	    value: function handleRefresh(e) {
-	      e.preventDefault();
-	      this.props.onRefreshMessages(this.props.renewal);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return React.createElement(
-	        'div',
-	        { className: 'top-bar' },
-	        React.createElement(
-	          'div',
-	          { className: 'top-bar-left' },
-	          React.createElement(
-	            'ul',
-	            { className: 'menu' },
-	            React.createElement(
-	              'li',
-	              { className: 'menu-text' },
-	              'Messages'
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'top-bar-right' },
-	          React.createElement(
-	            'ul',
-	            { className: 'menu' },
-	            React.createElement(
-	              'a',
-	              { className: 'button small float-right', key: 'last', onClick: this.handleRefresh },
-	              'Refresh'
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return MessageFilterBar;
-	}(React.Component);
-
-	module.exports = MessageFilterBar;
-
-/***/ }),
-/* 346 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// tag::vars[]
-	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
-	var IFrame = __webpack_require__(347);
-
-	// end::vars[]
-
-	var MessageDetail = function (_React$Component) {
-	  _inherits(MessageDetail, _React$Component);
-
-	  function MessageDetail(props) {
-	    _classCallCheck(this, MessageDetail);
-
-	    return _possibleConstructorReturn(this, (MessageDetail.__proto__ || Object.getPrototypeOf(MessageDetail)).call(this, props));
-	  }
-
-	  _createClass(MessageDetail, [{
-	    key: 'render',
-	    value: function render() {
-	      var content = "";
-	      if (this.props.message.html) {
-	        content = this.props.message.html;
-	      } else if (this.props.message.text) {
-	        content = this.props.message.text;
-	      } else {
-	        content = "No Content in message body.";
-	      }
-
-	      var cdate = new Date(this.props.message.created);
-	      var createdDate = cdate.getDate() + "-" + (cdate.getMonth() + 1) + "-" + cdate.getFullYear();
-
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "300px" } },
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'ul',
-	                  null,
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'To'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      this.props.message.recipient
-	                    )
-	                  ),
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'From'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      this.props.message.sender
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "300px" } },
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'ul',
-	                  null,
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'Date'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      createdDate
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-12 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card' },
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'span',
-	                  { className: 'label' },
-	                  'Subject'
-	                ),
-	                '\xA0\xA0',
-	                this.props.message.subject
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-12 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'callout clearfix' },
-	              React.createElement(IFrame, { content: content })
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return MessageDetail;
-	}(React.Component);
-
-	module.exports = MessageDetail;
-
-/***/ }),
-/* 347 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
-
-	var IFrame = React.createClass({
-	  displayName: 'IFrame',
-	  updateIFrameContents: function updateIFrameContents() {
-	    var frameBody = ReactDOM.findDOMNode(this).contentDocument.body;
-	    frameBody.innerHTML = this.props.content;
-	  },
-
-
-	  componentDidMount: function componentDidMount() {
-	    this.updateIFrameContents();
-	  },
-
-	  componentDidUpdate: function componentDidUpdate() {
-	    this.updateIFrameContents();
-	  },
-
-	  render: function render() {
-	    return React.createElement('iframe', { style: { borderStyle: "none", width: "100%", height: "250px" } });
-	  }
-
-	});
-
-	module.exports = IFrame;
-
-/***/ }),
-/* 348 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-	var client = __webpack_require__(340);
-	var DisplayDate = __webpack_require__(336);
-	var follow = __webpack_require__(341); // function to hop multiple links by "rel"
-
-	var RenewalForm = function (_React$Component) {
-	  _inherits(RenewalForm, _React$Component);
-
-	  function RenewalForm(props) {
-	    _classCallCheck(this, RenewalForm);
-
-	    var _this = _possibleConstructorReturn(this, (RenewalForm.__proto__ || Object.getPrototypeOf(RenewalForm)).call(this, props));
-
-	    _this.state = {
-	      signed: _this.props.renewal.signed,
-	      renewing: _this.props.renewal.renewing
-
-	    };
-	    _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
-	    _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    _this.setMessage = _this.setMessage.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(RenewalForm, [{
-	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {
-	      e.preventDefault();
-	      debugger;
-	      var message = {};
-	      message.text = this.refs.newMessage.value;
-	      message.subject = this.refs.cannedMessage.value;
-	      if (this.refs.gracePeriod.value) {
-	        message.gracePeriod = this.refs.gracePeriod.value;
-	      }
-	      message.confirm = false;
-	      if (this.refs.confirm.checked) {
-	        message.confirm = true;
-	      }
-	      //    message.signed = false;
-	      //    if (this.refs.signed.checked){
-	      //      message.signed = true;
-	      //    }
-	      //    message.renewing = false;
-	      //    if (this.refs.renewing.checked){
-	      //      message.renewing = true;
-	      //    }
-	      message.processId = this.props.renewal.businessKey;
-	      message.renewalId = this.props.renewal.id;
-	      this.onCreate(message);
-
-	      // clear out the dialog's inputs
-	      this.refs.newMessage.value = '';
-	    }
-	  }, {
-	    key: 'setMessage',
-	    value: function setMessage(e) {
-	      e.preventDefault();
-
-	      var sdate = new Date(this.props.renewal.showDate);
-	      var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
-
-	      this.refs.newMessage.value = "";
-	      var selection = this.refs.cannedMessage.value;
-	      if (selection !== "") {
-	        this.refs.newMessage.value = this.props.cannedMessages[selection].text;
-	      }
-	    }
-	  }, {
-	    key: 'onCreate',
-	    value: function onCreate(message) {
-	      client({
-	        method: 'POST',
-	        path: "/message",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Message Sent");
-	      });
-	    }
-	  }, {
-	    key: 'handleSignedCheck',
-	    value: function handleSignedCheck(e) {
-	      e.preventDefault();
-	      var message = {};
-	      message.signed = false;
-	      if (this.refs.signed.checked) {
-	        message.signed = true;
-	      }
-	      message.processId = this.props.renewal.processId;
-	      message.renewalId = this.props.renewal.id;
-
-	      this.onUpdateSigned(message);
-	    }
-	  }, {
-	    key: 'onUpdateSigned',
-	    value: function onUpdateSigned(message) {
-	      var _this2 = this;
-
-	      client({
-	        method: 'POST',
-	        path: "/signed",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Renewal Signed flag has been updated!");
-	        _this2.setState({
-	          signed: message.signed
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'handleRenewedCheck',
-	    value: function handleRenewedCheck(e) {
-	      e.preventDefault();
-	      var message = {};
-	      message.renewing = false;
-	      if (this.refs.renewing.checked) {
-	        message.renewing = true;
-	      }
-	      message.processId = this.props.renewal.processId;
-	      message.renewalId = this.props.renewal.id;
-
-	      this.onUpdateRenewing(message);
-	    }
-	  }, {
-	    key: 'onUpdateRenewing',
-	    value: function onUpdateRenewing(message) {
-	      var _this3 = this;
-
-	      client({
-	        method: 'POST',
-	        path: "/renewing",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Renewal Renewing flag has been updated!");
-	        _this3.setState({
-	          renewing: message.renewing
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var i = 0;
-	      var options = this.props.cannedMessages.map(function (cannedMessage) {
-	        return React.createElement(
-	          'option',
-	          { key: cannedMessage._links.self.href, value: i++ },
-	          cannedMessage.subject
-	        );
-	      });
-
-	      return React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'div',
-	          { className: 'small-12 columns' },
-	          React.createElement(
-	            'form',
-	            { onSubmit: this.handleSubmit },
-	            React.createElement(
-	              'select',
-	              { ref: 'cannedMessage', onChange: this.setMessage, defaultValue: '' },
-	              React.createElement(
-	                'option',
-	                { value: '' },
-	                'Choose a canned message'
-	              ),
-	              options
-	            ),
-	            React.createElement('textarea', { rows: '5', ref: 'newMessage', placeholder: 'Enter Message to tenants' }),
-	            React.createElement(
-	              'div',
-	              { className: 'row' },
-	              React.createElement(
-	                'div',
-	                { className: 'small-5 columns' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'input-group' },
-	                  React.createElement(
-	                    'span',
-	                    { className: 'input-group-label' },
-	                    'Grace Period'
-	                  ),
-	                  React.createElement(
-	                    'select',
-	                    { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
-	                    React.createElement(
-	                      'option',
-	                      { value: '' },
-	                      'Default'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '1' },
-	                      '1 Day'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '2' },
-	                      '2 Days'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '3' },
-	                      '3 Days'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '5' },
-	                      '5 Days'
-	                    )
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'small-3 columns' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'input-group' },
-	                  React.createElement(
-	                    'span',
-	                    { className: 'input-group-label' },
-	                    'Renewing'
-	                  ),
-	                  React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'renewing', checked: this.state.renewing, onChange: this.handleRenewedCheck })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'small-3 columns' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'input-group' },
-	                  React.createElement(
-	                    'span',
-	                    { className: 'input-group-label' },
-	                    'Confirm'
-	                  ),
-	                  React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'confirm' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'small-1 columns' },
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'sendMessage', className: 'button float-right' },
-	                  'Send'
-	                ),
-	                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return RenewalForm;
-	}(React.Component);
-
-	module.exports = RenewalForm;
-
-/***/ }),
-/* 349 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// tag::vars[]
-	var React = __webpack_require__(8);
-	// end::vars[]
-
-	var Tenant = function (_React$Component) {
-	  _inherits(Tenant, _React$Component);
-
-	  function Tenant(props) {
-	    _classCallCheck(this, Tenant);
-
-	    return _possibleConstructorReturn(this, (Tenant.__proto__ || Object.getPrototypeOf(Tenant)).call(this, props));
-	  }
-
-	  _createClass(Tenant, [{
-	    key: "render",
-	    value: function render() {
-	      return React.createElement(
-	        "div",
-	        null,
-	        React.createElement(
-	          "div",
-	          null,
-	          React.createElement(
-	            "ul",
-	            null,
-	            React.createElement(
-	              "li",
-	              null,
-	              React.createElement(
-	                "span",
-	                { className: "label" },
-	                "Name"
-	              ),
-	              "\xA0",
-	              this.props.tenant.name,
-	              "\xA0\xA0",
-	              React.createElement(
-	                "span",
-	                { className: "label" },
-	                "EMail"
-	              ),
-	              "\xA0",
-	              this.props.tenant.email
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Tenant;
-	}(React.Component);
-
-	module.exports = Tenant;
-
-/***/ }),
-/* 350 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-	var DisplayDate = __webpack_require__(336);
-	var UpdateNoteDialog = __webpack_require__(337);
-
-	var RenewalInfo = function (_React$Component) {
-	  _inherits(RenewalInfo, _React$Component);
-
-	  function RenewalInfo(props) {
-	    _classCallCheck(this, RenewalInfo);
-
-	    var _this = _possibleConstructorReturn(this, (RenewalInfo.__proto__ || Object.getPrototypeOf(RenewalInfo)).call(this, props));
-
-	    _this.handleDelete = _this.handleDelete.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(RenewalInfo, [{
-	    key: 'handleDelete',
-	    value: function handleDelete(e) {
-	      e.preventDefault;
-	      alert("Sure you want to delete this property? Press the [esc] button to cancel this action.");
-	      this.props.onDelete(this.props.renewal);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var status = "Not Started";
-	      if (this.props.renewal.renewalStarted) {
-	        status = "Renewal Started";
-	      }
-	      if (this.props.renewal.renewalCompleted) {
-	        status = "Renewal Completed";
-	      }
-
-	      var renewing = "";
-	      if (this.props.renewal.renewing) {
-	        renewing = "Yes";
-	      } else if (this.props.renewal.renewing === false && this.props.renewal.renewalCompleted) {
-	        renewing = "No";
-	      }
-
-	      var signed = "No";
-	      if (this.props.renewal.signed) {
-	        signed = "Yes";
-	      }
-
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-4 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "300px" } },
-	              React.createElement(
-	                'div',
-	                { className: 'card-divider' },
-	                React.createElement(
-	                  'h4',
-	                  null,
-	                  'Property'
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'ul',
-	                  null,
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    this.props.renewal.property
-	                  )
-	                )
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'small-4 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "400px" } },
-	              React.createElement(
-	                'div',
-	                { className: 'card-divider' },
-	                React.createElement(
-	                  'h4',
-	                  null,
-	                  'Tenants'
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                this.props.tenants
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'small-4 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "300px" } },
-	              React.createElement(
-	                'a',
-	                { className: 'button small float-right', key: 'last', onClick: this.handleDelete },
-	                'Delete'
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "300px" } },
-	              React.createElement(
-	                'div',
-	                { className: 'card-divider' },
-	                React.createElement(
-	                  'h4',
-	                  null,
-	                  'Status'
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'ul',
-	                  null,
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'Start Date'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      React.createElement(DisplayDate, { date: this.props.renewal.start })
-	                    )
-	                  ),
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'End Date'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      React.createElement(DisplayDate, { date: this.props.renewal.end })
-	                    )
-	                  ),
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'Worflow State'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      this.props.renewal.workflowState
-	                    )
-	                  ),
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'Show Date'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      React.createElement(DisplayDate, { date: this.props.renewal.showDate })
-	                    )
-	                  ),
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'Renewing'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      renewing
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "300px" } },
-	              React.createElement(
-	                'div',
-	                { className: 'card-divider' },
-	                React.createElement(
-	                  'h4',
-	                  null,
-	                  'Pricing'
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'ul',
-	                  null,
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'Current'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      this.props.renewal.currentRent
-	                    )
-	                  ),
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      '1 Year'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      this.props.renewal.oneYearOffer
-	                    )
-	                  ),
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      '2 Year'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      this.props.renewal.twoYearOffer
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "300px" } },
-	              React.createElement(
-	                'div',
-	                { className: 'card-divider' },
-	                React.createElement(
-	                  'h4',
-	                  null,
-	                  'Note'
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'ul',
-	                  null,
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(UpdateNoteDialog, { renewal: this.props.renewal,
-	                      onUpdateNote: this.props.onUpdateNote })
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return RenewalInfo;
-	}(React.Component);
-
-	module.exports = RenewalInfo;
-
-/***/ }),
-/* 351 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	// tag::vars[]
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
-	var client = __webpack_require__(285);
-	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
-
-	var TenantList = __webpack_require__(352);
-	var TenantDetail = __webpack_require__(355);
-
-	var root = '/api';
-	// end::vars[]
-
-	// tag::app[]
-
-	var TenantMain = function (_React$Component) {
-	    _inherits(TenantMain, _React$Component);
-
-	    function TenantMain(props) {
-	        _classCallCheck(this, TenantMain);
-
-	        var _this = _possibleConstructorReturn(this, (TenantMain.__proto__ || Object.getPrototypeOf(TenantMain)).call(this, props));
-
-	        _this.state = {
-	            tenant: null,
-	            tenants: [],
-	            attributes: [],
-	            pageSize: 2,
-	            links: {},
-	            displayDetail: "none",
-	            displayList: "block"
-	        };
-	        _this.updatePageSize = _this.updatePageSize.bind(_this);
-	        _this.onNavigate = _this.onNavigate.bind(_this);
-	        _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
-	        _this.handleBackClick = _this.handleBackClick.bind(_this);
-	        _this.onDelete = _this.onDelete.bind(_this);
-	        return _this;
-	    }
-
-	    // tag::update-page-size[]
-
-
-	    _createClass(TenantMain, [{
-	        key: 'updatePageSize',
-	        value: function updatePageSize(pageSize) {
-	            if (pageSize !== this.state.pageSize) {
-	                this.loadFromServer(pageSize);
-	            }
-	        }
-	        // end::update-page-size[]
-
-	        // tag::follow-1[]
-
-	    }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	            this.loadFromServer(this.state.pageSize);
-	        }
-	        // end::follow-1[]
-
-	        // tag::navigate[]
-
-	    }, {
-	        key: 'onNavigate',
-	        value: function onNavigate(navUri) {
-	            var _this2 = this;
-
-	            client({ method: 'GET', path: navUri }).done(function (tenantCollection) {
-	                _this2.setState({
-	                    tenants: tenantCollection.entity._embedded.tenants,
-	                    attributes: _this2.state.attributes,
-	                    pageSize: _this2.state.pageSize,
-	                    links: tenantCollection.entity._links
-	                });
-	            });
-	        }
-	        // end::navigate[]
-
-	        // tag::follow-2[]
-
-	    }, {
-	        key: 'loadFromServer',
-	        value: function loadFromServer(pageSize) {
-	            var _this3 = this;
-
-	            follow(client, root, [{ rel: 'tenants', params: { size: pageSize } }]).then(function (tenantCollection) {
-	                return client({
-	                    method: 'GET',
-	                    path: tenantCollection.entity._links.profile.href,
-	                    headers: { 'Accept': 'application/schema+json' }
-	                }).then(function (schema) {
-	                    _this3.schema = schema.entity;
-	                    return tenantCollection;
-	                });
-	            }).done(function (tenantCollection) {
-	                _this3.setState({
-	                    tenants: tenantCollection.entity._embedded.tenants,
-	                    attributes: Object.keys(_this3.schema.properties),
-	                    pageSize: pageSize,
-	                    links: tenantCollection.entity._links });
-	            });
-	        }
-	        // end::follow-2[]
-
-	    }, {
-	        key: 'handleSelectedItem',
-	        value: function handleSelectedItem(tenant) {
-	            this.setState({
-	                tenant: tenant,
-	                displayDetail: "block",
-	                displayList: "none"
-	            });
-	        }
-	    }, {
-	        key: 'handleBackClick',
-	        value: function handleBackClick(e) {
-	            this.setState({
-	                displayDetail: "none",
-	                displayList: "block"
-	            });
-	        }
-	    }, {
-	        key: 'onDelete',
-	        value: function onDelete(tenant) {
-	            var _this4 = this;
-
-	            client({ method: 'DELETE', path: tenant._links.self.href }).done(function (response) {
-	                alert("Tenant Deleted Successfully ");
-	                _this4.loadFromServer(_this4.state.pageSize);
-	            }, function (response) {
-	                if (response.error) {
-	                    alert("Somthing went wrong " + reponse.error);
-	                } else if (response.status.code === 400) {
-	                    alert('Bad Request: The request was not successful');
-	                } else if (response.status.code === 403) {
-	                    alert('ACCESS DENIED: You are not authorized to delete');
-	                } else {
-	                    alert("Somthing went wrong " + reponse.error);
-	                }
-	            });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var item = "";
-	            if (this.state.tenant !== null) {
-	                item = React.createElement(TenantDetail, { tenant: this.state.tenant });
-	            }
-
-	            return React.createElement(
-	                'div',
-	                null,
-	                React.createElement(
-	                    'div',
-	                    { style: { display: this.state.displayList } },
-	                    React.createElement(TenantList, { tenants: this.state.tenants,
-	                        links: this.state.links,
-	                        pageSize: this.state.pageSize,
-	                        onNavigate: this.onNavigate,
-	                        updatePageSize: this.updatePageSize,
-	                        onSelectItem: this.handleSelectedItem,
-	                        onDelete: this.onDelete })
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { style: { display: this.state.displayDetail } },
-	                    React.createElement(
-	                        'a',
-	                        { className: 'button', onClick: this.handleBackClick },
-	                        '<<<Back'
-	                    ),
-	                    React.createElement(
-	                        'div',
-	                        { className: 'row' },
-	                        React.createElement(
-	                            'div',
-	                            { className: 'small-12 columns' },
-	                            item
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return TenantMain;
-	}(React.Component);
-	// end::app[]
-
-	module.exports = TenantMain;
-
-/***/ }),
-/* 352 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	// tag::vars[]
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-
-	var Tenant = __webpack_require__(353);
-
-	var FilterBar = __webpack_require__(354);
-
-	// tag::Tenant-list[]
-
-	var TenantList = function (_React$Component) {
-	    _inherits(TenantList, _React$Component);
-
-	    function TenantList(props) {
-	        _classCallCheck(this, TenantList);
-
-	        return _possibleConstructorReturn(this, (TenantList.__proto__ || Object.getPrototypeOf(TenantList)).call(this, props));
-	    }
-
-	    _createClass(TenantList, [{
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
-
-	            var tenants = this.props.tenants.map(function (tenant) {
-	                return React.createElement(Tenant, { key: tenant._links.self.href,
-	                    tenant: tenant,
-	                    onSelectItem: _this2.props.onSelectItem,
-	                    onDelete: _this2.props.onDelete });
-	            });
-
-	            return React.createElement(
-	                'div',
-	                null,
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-12 columns' },
-	                        React.createElement(FilterBar, { links: this.props.links,
-	                            pageSize: this.props.pageSize,
-	                            onNavigate: this.props.onNavigate,
-	                            updatePageSize: this.props.updatePageSize,
-	                            title: 'Tenants' })
-	                    )
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-12 columns' },
-	                        React.createElement(
-	                            'table',
-	                            { className: 'hover stack' },
-	                            React.createElement(
-	                                'thead',
-	                                null,
-	                                React.createElement(
-	                                    'tr',
-	                                    null,
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Name'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Email'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Unit Slug'
-	                                    )
-	                                )
-	                            ),
-	                            React.createElement(
-	                                'tbody',
-	                                null,
-	                                tenants
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return TenantList;
-	}(React.Component);
-	// end::Tenant-list[]
-
-	module.exports = TenantList;
-
-/***/ }),
-/* 353 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var _require = __webpack_require__(194),
-	    Link = _require.Link,
-	    IndexLink = _require.IndexLink;
-
-	// tag::vars[]
-
-
-	var React = __webpack_require__(8);
-
-	// tag::tenant[]
-
-	var TenantLine = function (_React$Component) {
-	    _inherits(TenantLine, _React$Component);
-
-	    function TenantLine(props) {
-	        _classCallCheck(this, TenantLine);
-
-	        var _this = _possibleConstructorReturn(this, (TenantLine.__proto__ || Object.getPrototypeOf(TenantLine)).call(this, props));
-
-	        _this.handleDelete = _this.handleDelete.bind(_this);
-	        return _this;
-	    }
-
-	    _createClass(TenantLine, [{
-	        key: 'handleDelete',
-	        value: function handleDelete() {
-	            this.props.onDelete(this.props.tenant);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            return React.createElement(
-	                'tr',
-	                null,
-	                React.createElement(
-	                    'td',
-	                    { onClick: this.props.onSelectItem.bind(null, this.props.tenant) },
-	                    this.props.tenant.name
-	                ),
-	                React.createElement(
-	                    'td',
-	                    { onClick: this.props.onSelectItem.bind(null, this.props.tenant) },
-	                    this.props.tenant.email
-	                ),
-	                React.createElement(
-	                    'td',
-	                    { onClick: this.props.onSelectItem.bind(null, this.props.tenant) },
-	                    this.props.tenant.unitSlug
-	                ),
-	                React.createElement(
-	                    'td',
-	                    null,
-	                    React.createElement(
-	                        'button',
-	                        { onClick: this.handleDelete },
-	                        'Delete'
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return TenantLine;
-	}(React.Component);
-	// end::tenant[]
-
-	module.exports = TenantLine;
-
-/***/ }),
-/* 354 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
-
-	var _require = __webpack_require__(194),
-	    Link = _require.Link,
-	    IndexLink = _require.IndexLink;
-
-	var TenantFilterBar = function (_React$Component) {
-	  _inherits(TenantFilterBar, _React$Component);
-
-	  function TenantFilterBar(props) {
-	    _classCallCheck(this, TenantFilterBar);
-
-	    var _this = _possibleConstructorReturn(this, (TenantFilterBar.__proto__ || Object.getPrototypeOf(TenantFilterBar)).call(this, props));
-
-	    _this.state = {
-	      callUpdate: function callUpdate(pageSize, that) {
-	        that.props.onFilterPriority(pageSize);
-	      }
-	    };
-	    _this.handleNavFirst = _this.handleNavFirst.bind(_this);
-	    _this.handleNavPrev = _this.handleNavPrev.bind(_this);
-	    _this.handleNavNext = _this.handleNavNext.bind(_this);
-	    _this.handleNavLast = _this.handleNavLast.bind(_this);
-	    _this.handleInput = _this.handleInput.bind(_this);
-	    _this.handlefilterState = _this.handlefilterState.bind(_this);
-	    _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
-	    _this.handleFilterAll = _this.handleFilterAll.bind(_this);
-	    _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
-	    _this.handleRefresh = _this.handleRefresh.bind(_this);
-	    return _this;
-	  }
-
-	  // tag::handle-page-size-updates[]
-
-
-	  _createClass(TenantFilterBar, [{
-	    key: 'handleInput',
-	    value: function handleInput(e) {
-	      e.preventDefault();
-	      var pageSize = ReactDOM.findDOMNode(this.refs.pageSize).value;
-	      if (/^[0-9]+$/.test(pageSize)) {
-	        this.props.updatePageSize(pageSize);
-	      } else {
-	        ReactDOM.findDOMNode(this.refs.pageSize).value = pageSize.substring(0, pageSize.length - 1);
-	      }
-	    }
-	    // end::handle-page-size-updates[]
-
-	  }, {
-	    key: 'handleRefresh',
-	    value: function handleRefresh(e) {
-	      e.preventDefault();
-	      this.state.callUpdate(this.props.pageSize, this);
-	    }
-	  }, {
-	    key: 'handleFilterPriority',
-	    value: function handleFilterPriority(e) {
-	      e.preventDefault();
-	      this.props.onFilterPriority(this.props.pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.props.onFilterPriority(pageSize);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleFilterAll',
-	    value: function handleFilterAll(e) {
-	      e.preventDefault();
-	      this.props.onFilterAll(this.props.pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.props.onFilterAll(pageSize);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleFilterStarted',
-	    value: function handleFilterStarted(e) {
-	      e.preventDefault();
-	      this.props.onFilterStarted(this.props.pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.props.onFilterStarted(pageSize);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'handlefilterState',
-	    value: function handlefilterState(e) {
-	      e.preventDefault();
-	      this.props.onFilterState(this.props.pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.props.onFilterState(pageSize);
-	        }
-	      });
-	    }
-
-	    // tag::handle-nav[]
-
-	  }, {
-	    key: 'handleNavFirst',
-	    value: function handleNavFirst(e) {
-	      e.preventDefault();
-	      this.props.onNavigate(this.props.links.first.href);
-	    }
-	  }, {
-	    key: 'handleNavPrev',
-	    value: function handleNavPrev(e) {
-	      e.preventDefault();
-	      this.props.onNavigate(this.props.links.prev.href);
-	    }
-	  }, {
-	    key: 'handleNavNext',
-	    value: function handleNavNext(e) {
-	      e.preventDefault();
-	      this.props.onNavigate(this.props.links.next.href);
-	    }
-	  }, {
-	    key: 'handleNavLast',
-	    value: function handleNavLast(e) {
-	      e.preventDefault();
-	      this.props.onNavigate(this.props.links.last.href);
-	    }
-	    // end::handle-nav[]
-
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var navLinks = [];
-	      if ("first" in this.props.links) {
-	        navLinks.push(React.createElement(
-	          'a',
-	          { className: 'button', key: 'first', onClick: this.handleNavFirst },
-	          '<<'
-	        ));
-	      }
-	      if ("prev" in this.props.links) {
-	        navLinks.push(React.createElement(
-	          'a',
-	          { className: 'button', key: 'prev', onClick: this.handleNavPrev },
-	          '<'
-	        ));
-	      }
-	      if ("next" in this.props.links) {
-	        navLinks.push(React.createElement(
-	          'a',
-	          { className: 'button', key: 'next', onClick: this.handleNavNext },
-	          '>'
-	        ));
-	      }
-	      if ("last" in this.props.links) {
-	        navLinks.push(React.createElement(
-	          'a',
-	          { className: 'button', key: 'last', onClick: this.handleNavLast },
-	          '>>'
-	        ));
-	      }
-
-	      return React.createElement(
-	        'div',
-	        { className: 'top-bar' },
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 columns' },
-	            React.createElement(
-	              'ul',
-	              { className: 'menu' },
-	              React.createElement(
-	                'li',
-	                { className: 'menu-text' },
-	                this.props.title
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 columns' },
-	            React.createElement(
-	              'ul',
-	              { className: 'menu' },
-	              React.createElement(
-	                'li',
-	                null,
-	                React.createElement(
-	                  'div',
-	                  { className: 'input-group small' },
-	                  React.createElement(
-	                    'span',
-	                    { className: 'input-group-label' },
-	                    'Page Size'
-	                  ),
-	                  React.createElement('input', { style: { width: "70px" }, type: 'number', ref: 'pageSize',
-	                    defaultValue: this.props.pageSize, onInput: this.handleInput })
-	                )
-	              ),
-	              React.createElement(
-	                'li',
-	                null,
-	                React.createElement(
-	                  'div',
-	                  { className: 'tiny button-group' },
-	                  navLinks
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return TenantFilterBar;
-	}(React.Component);
-
-	module.exports = TenantFilterBar;
-
-/***/ }),
-/* 355 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// tag::vars[]
-	var React = __webpack_require__(8);
-	// end::vars[]
-
-	var TenantDetail = function (_React$Component) {
-	  _inherits(TenantDetail, _React$Component);
-
-	  function TenantDetail(props) {
-	    _classCallCheck(this, TenantDetail);
-
-	    return _possibleConstructorReturn(this, (TenantDetail.__proto__ || Object.getPrototypeOf(TenantDetail)).call(this, props));
-	  }
-
-	  _createClass(TenantDetail, [{
-	    key: 'render',
-	    value: function render() {
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'h2',
-	          null,
-	          'Tenant Detail'
-	        ),
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement(
-	            'ul',
-	            null,
-	            React.createElement(
-	              'li',
-	              null,
-	              this.props.tenant.name
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              this.props.tenant.email
-	            ),
-	            React.createElement(
-	              'li',
-	              null,
-	              this.props.tenant.unitSlug
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return TenantDetail;
-	}(React.Component);
-
-	module.exports = TenantDetail;
-
-/***/ }),
-/* 356 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-
-	var ImportRenewalMain = __webpack_require__(357);
-	var ImportTenantMain = __webpack_require__(359);
-	var ImportCannedMessageMain = __webpack_require__(361);
-
-	var Import = function (_React$Component) {
-	  _inherits(Import, _React$Component);
-
-	  function Import() {
-	    _classCallCheck(this, Import);
-
-	    return _possibleConstructorReturn(this, (Import.__proto__ || Object.getPrototypeOf(Import)).apply(this, arguments));
-	  }
-
-	  _createClass(Import, [{
-	    key: 'render',
-	    value: function render() {
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'h3',
-	          null,
-	          'Formatting is important. Please follow the examples below to succesfully import CSV data.'
-	        ),
-	        React.createElement(
-	          'h3',
-	          null,
-	          'Headers are used to map the columns and should be printed exactly as shown.'
-	        ),
-	        React.createElement('br', null),
-	        React.createElement(ImportTenantMain, null),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement(ImportRenewalMain, null),
-	        React.createElement('br', null),
-	        React.createElement('br', null),
-	        React.createElement(ImportCannedMessageMain, null),
-	        React.createElement('br', null),
-	        React.createElement('br', null)
-	      );
-	    }
-	  }]);
-
-	  return Import;
-	}(React.Component);
-
-	module.exports = Import;
-
-/***/ }),
-/* 357 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-
-	var ImportRenewalForm = __webpack_require__(358);
-
-	var ImportRenewalMain = function (_React$Component) {
-	  _inherits(ImportRenewalMain, _React$Component);
-
-	  function ImportRenewalMain() {
-	    _classCallCheck(this, ImportRenewalMain);
-
-	    return _possibleConstructorReturn(this, (ImportRenewalMain.__proto__ || Object.getPrototypeOf(ImportRenewalMain)).apply(this, arguments));
-	  }
-
-	  _createClass(ImportRenewalMain, [{
-	    key: 'render',
-	    value: function render() {
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'h4',
-	          null,
-	          'Your CSV Should be formatted like the following example. * designates required field.'
-	        ),
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement(
-	            'table',
-	            null,
-	            React.createElement(
-	              'thead',
-	              null,
-	              React.createElement(
-	                'tr',
-	                null,
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'start'
-	                ),
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'end *'
-	                ),
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'propertySlug *'
-	                ),
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'currentRent'
-	                ),
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'oneYearOffer'
-	                ),
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'twoYearOffer'
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'tbody',
-	              null,
-	              React.createElement(
-	                'tr',
-	                null,
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '11/15/2016'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '11/15/2017'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '1180 Atlantis Ave Lafayette Colorado CO 80026'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '2200.00'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '1200'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '2400'
-	                )
-	              ),
-	              React.createElement(
-	                'tr',
-	                null,
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '11/15/2016'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '11/15/2017'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '1180 Atlantis Ave 3A Lafayette Colorado CO 80026'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '2200.00'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '2400.00'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '2400'
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(ImportRenewalForm, null)
-	      );
-	    }
-	  }]);
-
-	  return ImportRenewalMain;
-	}(React.Component);
-
-	module.exports = ImportRenewalMain;
-
-/***/ }),
-/* 358 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(8);
-	var client = __webpack_require__(340);
-
-	var ImportRenewalForm = React.createClass({
-	  displayName: 'ImportRenewalForm',
-	  handleSubmit: function handleSubmit(e) {
-	    e.preventDefault();
-	    var message = {};
-	    message.file = this.refs.file.files[0];
-	    this.onCreate(message);
-	  },
-	  onCreate: function onCreate(message) {
-	    client({
-	      method: 'POST',
-	      path: "/importrenewal",
-	      entity: message,
-	      headers: { 'Content-Type': 'multipart/form-data' }
-	    }).done(function (response) {
-	      alert("Renewals Uploaded Successfully");
-	    }, function (response) {
-	      if (response.error) {
-	        alert("Somthing went wrong " + reponse.error);
-	      } else if (response.status.code === 400) {
-	        alert('Bad Request: The request was not successful');
-	      } else if (response.status.code === 403) {
-	        alert('ACCESS DENIED: You are not authorized to create');
-	      } else {
-	        alert("Somthing went wrong " + reponse.error);
-	      }
-	    });
-	  },
-
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'small-12 columns' },
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.handleSubmit },
-	          React.createElement(
-	            'label',
-	            null,
-	            'Choose CSV:',
-	            React.createElement('input', { type: 'file', ref: 'file' })
-	          ),
-	          React.createElement('input', { type: 'submit', value: 'Upload' })
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = ImportRenewalForm;
-
-/***/ }),
-/* 359 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-
-	var ImportTenantForm = __webpack_require__(360);
-
-	var ImportTenantMain = function (_React$Component) {
-	  _inherits(ImportTenantMain, _React$Component);
-
-	  function ImportTenantMain() {
-	    _classCallCheck(this, ImportTenantMain);
-
-	    return _possibleConstructorReturn(this, (ImportTenantMain.__proto__ || Object.getPrototypeOf(ImportTenantMain)).apply(this, arguments));
-	  }
-
-	  _createClass(ImportTenantMain, [{
-	    key: 'render',
-	    value: function render() {
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'h4',
-	          null,
-	          'Your CSV Should be formatted like the following example. * designates required field'
-	        ),
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement(
-	            'table',
-	            null,
-	            React.createElement(
-	              'thead',
-	              null,
-	              React.createElement(
-	                'tr',
-	                null,
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'name'
-	                ),
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'email *'
-	                ),
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'propertySlug *'
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'tbody',
-	              null,
-	              React.createElement(
-	                'tr',
-	                null,
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  'Paul Lungu'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  'lungu77@gmail.com'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '1180 Atlantis Ave Lafayette Colorado CO 80026'
-	                )
-	              ),
-	              React.createElement(
-	                'tr',
-	                null,
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  'Paul Lungu'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  'paul@symathia.com'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  '1188 Atlantis Ave Lafayette Colorado CO 80026'
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(ImportTenantForm, null)
-	      );
-	    }
-	  }]);
-
-	  return ImportTenantMain;
-	}(React.Component);
-
-	module.exports = ImportTenantMain;
-
-/***/ }),
-/* 360 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(8);
-	var client = __webpack_require__(340);
-
-	var ImportTenantForm = React.createClass({
-	  displayName: 'ImportTenantForm',
-	  handleSubmit: function handleSubmit(e) {
-	    e.preventDefault();
-	    var message = {};
-	    message.file = this.refs.file.files[0];
-	    this.onCreate(message);
-	  },
-	  onCreate: function onCreate(message) {
-	    client({
-	      method: 'POST',
-	      path: "/importtenant",
-	      entity: message,
-	      headers: { 'Content-Type': 'multipart/form-data' }
-	    }).done(function (response) {
-	      alert("Tenants Uploaded Successfully");
-	    }, function (response) {
-	      if (response.error) {
-	        alert("Somthing went wrong " + reponse.error);
-	      } else if (response.status.code === 400) {
-	        alert('Bad Request: The request was not successful');
-	      } else if (response.status.code === 403) {
-	        alert('ACCESS DENIED: You are not authorized to create');
-	      } else {
-	        alert("Somthing went wrong " + reponse.error);
-	      }
-	    });
-	  },
-
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'small-12 columns' },
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.handleSubmit },
-	          React.createElement(
-	            'label',
-	            null,
-	            'Choose CSV:',
-	            React.createElement('input', { type: 'file', ref: 'file' })
-	          ),
-	          React.createElement('input', { type: 'submit', value: 'Upload' })
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = ImportTenantForm;
-
-/***/ }),
-/* 361 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-
-	var ImportCannedMessageForm = __webpack_require__(362);
-
-	var ImportCannedMessageMain = function (_React$Component) {
-	  _inherits(ImportCannedMessageMain, _React$Component);
-
-	  function ImportCannedMessageMain() {
-	    _classCallCheck(this, ImportCannedMessageMain);
-
-	    return _possibleConstructorReturn(this, (ImportCannedMessageMain.__proto__ || Object.getPrototypeOf(ImportCannedMessageMain)).apply(this, arguments));
-	  }
-
-	  _createClass(ImportCannedMessageMain, [{
-	    key: 'render',
-	    value: function render() {
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'h4',
-	          null,
-	          'Your CSV Should be formatted like the following example. * designates required field'
-	        ),
-	        React.createElement(
-	          'div',
-	          null,
-	          React.createElement(
-	            'table',
-	            null,
-	            React.createElement(
-	              'thead',
-	              null,
-	              React.createElement(
-	                'tr',
-	                null,
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'subject *'
-	                ),
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'text *'
-	                ),
-	                React.createElement(
-	                  'th',
-	                  null,
-	                  'html'
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'tbody',
-	              null,
-	              React.createElement(
-	                'tr',
-	                null,
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  'This is a message subject'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  'This is a message body'
-	                ),
-	                React.createElement(
-	                  'td',
-	                  null,
-	                  'This is some html'
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(ImportCannedMessageForm, null)
-	      );
-	    }
-	  }]);
-
-	  return ImportCannedMessageMain;
-	}(React.Component);
-
-	module.exports = ImportCannedMessageMain;
-
-/***/ }),
-/* 362 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var React = __webpack_require__(8);
-	var client = __webpack_require__(340);
-
-	var ImportCannedMessageForm = React.createClass({
-	  displayName: 'ImportCannedMessageForm',
-	  handleSubmit: function handleSubmit(e) {
-	    e.preventDefault();
-	    var message = {};
-	    message.file = this.refs.file.files[0];
-	    this.onCreate(message);
-	  },
-	  onCreate: function onCreate(message) {
-	    client({
-	      method: 'POST',
-	      path: "/importcannedmessage",
-	      entity: message,
-	      headers: { 'Content-Type': 'multipart/form-data' }
-	    }).done(function (response) {
-	      alert("Canned Messages Uploaded Successfully");
-	    }, function (response) {
-	      if (response.error) {
-	        alert("Somthing went wrong " + reponse.error);
-	      } else if (response.status.code === 400) {
-	        alert('Bad Request: The request was not successful');
-	      } else if (response.status.code === 403) {
-	        alert('ACCESS DENIED: You are not authorized to create');
-	      } else {
-	        alert("Somthing went wrong " + reponse.error);
-	      }
-	    });
-	  },
-
-
-	  render: function render() {
-	    return React.createElement(
-	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'small-12 columns' },
-	        React.createElement(
-	          'form',
-	          { onSubmit: this.handleSubmit },
-	          React.createElement(
-	            'label',
-	            null,
-	            'Choose CSV:',
-	            React.createElement('input', { type: 'file', ref: 'file' })
-	          ),
-	          React.createElement('input', { type: 'submit', value: 'Upload' })
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = ImportCannedMessageForm;
-
-/***/ }),
-/* 363 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// tag::vars[]
-	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
-	var client = __webpack_require__(285);
-	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
-
-	var MessageList = __webpack_require__(364);
-	var MessageDetail = __webpack_require__(365);
-	var RenewalForm = __webpack_require__(366);
-	var Tenant = __webpack_require__(367);
-	var RenewalInfo = __webpack_require__(368);
-	var RenewalLine = __webpack_require__(369);
-
-	// end::vars[]
-
-	var Detail = function (_React$Component) {
-	  _inherits(Detail, _React$Component);
-
-	  function Detail(props) {
-	    _classCallCheck(this, Detail);
-
-	    var _this = _possibleConstructorReturn(this, (Detail.__proto__ || Object.getPrototypeOf(Detail)).call(this, props));
-
-	    _this.state = {
-	      message: null,
-	      messages: [],
-	      attributes: [],
-	      pageSize: 2,
-	      links: {},
-	      displayDetail: "none",
-	      displayList: "block"
-	    };
-	    _this.updatePageSize = _this.updatePageSize.bind(_this);
-	    _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
-	    _this.handleBackClick = _this.handleBackClick.bind(_this);
-	    return _this;
-	  }
-
-	  // tag::update-page-size[]
-
-
-	  _createClass(Detail, [{
-	    key: 'updatePageSize',
-	    value: function updatePageSize(pageSize) {
-	      if (pageSize !== this.state.pageSize) {
-	        this.loadFromServer(pageSize);
-	      }
-	    }
-	    // end::update-page-size[]
-
-	  }, {
-	    key: 'handleSelectedItem',
-	    value: function handleSelectedItem(message) {
-	      this.setState({
-	        message: message,
-	        displayDetail: "block",
-	        displayList: "none"
-	      });
-	    }
-	  }, {
-	    key: 'handleBackClick',
-	    value: function handleBackClick(e) {
-	      this.setState({
-	        displayDetail: "none",
-	        displayList: "block"
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var item = "";
-	      if (this.state.message !== null) {
-	        item = React.createElement(MessageDetail, { message: this.state.message });
-	      }
-	      var displayForm = this.props.displayForm;
-	      var displayMessages = this.props.displayMessages;
-
-	      var tenants = this.props.renewal.tennants.map(function (tenant) {
-	        return React.createElement(Tenant, { key: tenant.email,
-	          tenant: tenant });
-	      });
-
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { style: { display: this.props.displayLine } },
-	          React.createElement(
-	            'div',
-	            { className: 'row' },
-	            React.createElement(
-	              'div',
-	              { className: 'small-12 columns' },
-	              React.createElement(
-	                'table',
-	                { className: 'hover stack' },
-	                React.createElement(
-	                  'thead',
-	                  null,
-	                  React.createElement(
-	                    'tr',
-	                    null,
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'Property'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      { width: '105' },
-	                      'End Date'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      { width: '105' },
-	                      'Show Date'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'Current Rent'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      '1 Year Offer'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      '2 Year Offer'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'State'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'Renewing'
-	                    ),
-	                    React.createElement(
-	                      'th',
-	                      null,
-	                      'Note'
-	                    )
-	                  )
-	                ),
-	                React.createElement(
-	                  'tbody',
-	                  null,
-	                  React.createElement(RenewalLine, { key: this.props.renewal._links.self.href,
-	                    renewal: this.props.renewal,
-	                    onUpdateNote: this.props.onUpdateNote,
-	                    onSelectItem: this.props.onSelectItem })
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { style: { display: this.props.displayInfo } },
-	          React.createElement(RenewalInfo, {
-	            tenants: tenants,
-	            renewal: this.props.renewal,
-	            onUpdateNote: this.props.onUpdateNote,
-	            onDelete: this.props.onDelete })
-	        ),
-	        React.createElement(
-	          'div',
-	          { style: { display: displayMessages } },
-	          React.createElement('hr', null),
-	          React.createElement(
-	            'div',
-	            { style: { display: this.state.displayList } },
-	            React.createElement(MessageList, { messages: this.props.messages,
-	              renewal: this.props.renewal,
-	              links: this.state.links,
-	              pageSize: this.state.pageSize,
-	              onNavigate: this.onNavigate,
-	              updatePageSize: this.updatePageSize,
-	              onSelectItem: this.handleSelectedItem,
-	              onRefreshMessages: this.props.onRefreshMessages })
-	          ),
-	          React.createElement(
-	            'div',
-	            { style: { display: this.state.displayDetail } },
-	            React.createElement(
-	              'div',
-	              { className: 'top-bar show-for-medium small-12 columns' },
-	              React.createElement(
-	                'div',
-	                { className: 'top-bar-left' },
-	                React.createElement(
-	                  'ul',
-	                  { className: 'menu' },
-	                  React.createElement(
-	                    'li',
-	                    { className: 'topbar-title' },
-	                    'Message Detail'
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'top-bar-right' },
-	                React.createElement(
-	                  'ul',
-	                  { className: 'menu' },
-	                  React.createElement(
-	                    'li',
-	                    { className: 'topbar-title' },
-	                    React.createElement(
-	                      'a',
-	                      { className: 'button', onClick: this.handleBackClick },
-	                      '<<<Back'
-	                    )
-	                  )
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'row' },
-	              React.createElement(
-	                'div',
-	                { className: 'small-12 columns' },
-	                item
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { style: { display: displayForm } },
-	          React.createElement('hr', null),
-	          React.createElement(RenewalForm, { renewal: this.props.renewal,
-	            cannedMessages: this.props.cannedMessages })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Detail;
-	}(React.Component);
-
-	module.exports = Detail;
-
-/***/ }),
-/* 364 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	// tag::vars[]
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-
-	var Message = __webpack_require__(343);
-
-	var MessageFilterBar = __webpack_require__(345);
-
-	// tag::message-list[]
-
-	var MessageList = function (_React$Component) {
-	    _inherits(MessageList, _React$Component);
-
-	    function MessageList(props) {
-	        _classCallCheck(this, MessageList);
-
-	        return _possibleConstructorReturn(this, (MessageList.__proto__ || Object.getPrototypeOf(MessageList)).call(this, props));
-	    }
-
-	    _createClass(MessageList, [{
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
-
-	            var messages = "";
-	            if (this.props.messages) {
-	                messages = this.props.messages.map(function (message) {
-	                    return React.createElement(Message, { key: message._links.self.href,
-	                        message: message,
-	                        onSelectItem: _this2.props.onSelectItem });
-	                });
-	            }
-
-	            return React.createElement(
-	                'div',
-	                null,
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-12 columns' },
-	                        React.createElement(MessageFilterBar, {
-	                            renewal: this.props.renewal,
-	                            onRefreshMessages: this.props.onRefreshMessages })
-	                    )
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'row' },
-	                    React.createElement(
-	                        'div',
-	                        { className: 'small-12 columns', style: { overflow: "auto", heigth: "200px" } },
-	                        React.createElement(
-	                            'table',
-	                            { className: 'hover stack' },
-	                            React.createElement(
-	                                'thead',
-	                                null,
-	                                React.createElement(
-	                                    'tr',
-	                                    null,
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'To'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'From'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Subject'
-	                                    ),
-	                                    React.createElement(
-	                                        'th',
-	                                        null,
-	                                        'Created'
-	                                    )
-	                                )
-	                            ),
-	                            React.createElement(
-	                                'tbody',
-	                                null,
-	                                messages
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-
-	    return MessageList;
-	}(React.Component);
-	// end::message-list[]
-
-	module.exports = MessageList;
-
-/***/ }),
-/* 365 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// tag::vars[]
-	var React = __webpack_require__(8);
-	var ReactDOM = __webpack_require__(47);
-	var IFrame = __webpack_require__(347);
-
-	// end::vars[]
-
-	var MessageDetail = function (_React$Component) {
-	  _inherits(MessageDetail, _React$Component);
-
-	  function MessageDetail(props) {
-	    _classCallCheck(this, MessageDetail);
-
-	    return _possibleConstructorReturn(this, (MessageDetail.__proto__ || Object.getPrototypeOf(MessageDetail)).call(this, props));
-	  }
-
-	  _createClass(MessageDetail, [{
-	    key: 'render',
-	    value: function render() {
-	      var content = "";
-	      if (this.props.message.html) {
-	        content = this.props.message.html;
-	      } else if (this.props.message.text) {
-	        content = this.props.message.text;
-	      } else {
-	        content = "No Content in message body.";
-	      }
-
-	      var cdate = new Date(this.props.message.created);
-	      var createdDate = cdate.getDate() + "-" + (cdate.getMonth() + 1) + "-" + cdate.getFullYear();
-
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "300px" } },
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'ul',
-	                  null,
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'To'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      this.props.message.recipient
-	                    )
-	                  ),
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'From'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      this.props.message.sender
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card', style: { width: "300px" } },
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'ul',
-	                  null,
-	                  React.createElement(
-	                    'li',
-	                    null,
-	                    React.createElement(
-	                      'span',
-	                      { className: 'label' },
-	                      'Date'
-	                    ),
-	                    React.createElement(
-	                      'span',
-	                      { className: 'data' },
-	                      createdDate
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-12 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'card' },
-	              React.createElement(
-	                'div',
-	                { className: 'card-section' },
-	                React.createElement(
-	                  'span',
-	                  { className: 'label' },
-	                  'Subject'
-	                ),
-	                '\xA0\xA0',
-	                this.props.message.subject
-	              )
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-12 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'callout clearfix' },
-	              React.createElement(IFrame, { content: content })
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return MessageDetail;
-	}(React.Component);
-
-	module.exports = MessageDetail;
-
-/***/ }),
-/* 366 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-	var client = __webpack_require__(285);
-	var DisplayDate = __webpack_require__(336);
-	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
-
-	var Form = function (_React$Component) {
-	  _inherits(Form, _React$Component);
-
-	  function Form(props) {
-	    _classCallCheck(this, Form);
-
-	    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
-
-	    _this.state = {
-	      signed: _this.props.renewal.signed,
-	      renewing: _this.props.renewal.renewing
-
-	    };
-	    _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
-	    _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    _this.setMessage = _this.setMessage.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(Form, [{
-	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {
-	      e.preventDefault();
-	      debugger;
-	      var message = {};
-	      message.text = this.refs.newMessage.value;
-	      message.subject = this.refs.cannedMessage.value;
-	      if (this.refs.gracePeriod.value) {
-	        message.gracePeriod = this.refs.gracePeriod.value;
-	      }
-	      message.confirm = false;
-	      if (this.refs.confirm.checked) {
-	        message.confirm = true;
-	      }
-	      //    message.signed = false;
-	      //    if (this.refs.signed.checked){
-	      //      message.signed = true;
-	      //    }
-	      //    message.renewing = false;
-	      //    if (this.refs.renewing.checked){
-	      //      message.renewing = true;
-	      //    }
-	      message.processId = this.props.renewal.businessKey;
-	      message.renewalId = this.props.renewal.id;
-	      this.onCreate(message);
-
-	      // clear out the dialog's inputs
-	      this.refs.newMessage.value = '';
-	    }
-	  }, {
-	    key: 'setMessage',
-	    value: function setMessage(e) {
-	      e.preventDefault();
-
-	      var sdate = new Date(this.props.renewal.showDate);
-	      var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
-
-	      this.refs.newMessage.value = "";
-	      var selection = this.refs.cannedMessage.value;
-	      if (selection !== "") {
-	        this.refs.newMessage.value = this.props.cannedMessages[selection].text;
-	      }
-	    }
-	  }, {
-	    key: 'onCreate',
-	    value: function onCreate(message) {
-	      client({
-	        method: 'POST',
-	        path: "/message",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Message Sent");
-	      });
-	    }
-	  }, {
-	    key: 'handleSignedCheck',
-	    value: function handleSignedCheck(e) {
-	      e.preventDefault();
-	      var message = {};
-	      message.signed = false;
-	      if (this.refs.signed.checked) {
-	        message.signed = true;
-	      }
-	      message.processId = this.props.renewal.processId;
-	      message.renewalId = this.props.renewal.id;
-
-	      this.onUpdateSigned(message);
-	    }
-	  }, {
-	    key: 'onUpdateSigned',
-	    value: function onUpdateSigned(message) {
-	      var _this2 = this;
-
-	      client({
-	        method: 'POST',
-	        path: "/signed",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Renewal Signed flag has been updated!");
-	        _this2.setState({
-	          signed: message.signed
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'handleRenewedCheck',
-	    value: function handleRenewedCheck(e) {
-	      e.preventDefault();
-	      var message = {};
-	      message.renewing = false;
-	      if (this.refs.renewing.checked) {
-	        message.renewing = true;
-	      }
-	      message.processId = this.props.renewal.processId;
-	      message.renewalId = this.props.renewal.id;
-
-	      this.onUpdateRenewing(message);
-	    }
-	  }, {
-	    key: 'onUpdateRenewing',
-	    value: function onUpdateRenewing(message) {
-	      var _this3 = this;
-
-	      client({
-	        method: 'POST',
-	        path: "/renewing",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Renewal Renewing flag has been updated!");
-	        _this3.setState({
-	          renewing: message.renewing
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var i = 0;
-	      var options = this.props.cannedMessages.map(function (cannedMessage) {
-	        return React.createElement(
-	          'option',
-	          { key: cannedMessage._links.self.href, value: i++ },
-	          cannedMessage.subject
-	        );
-	      });
-
-	      return React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'div',
-	          { className: 'small-12 columns' },
-	          React.createElement(
-	            'form',
-	            { onSubmit: this.handleSubmit },
-	            React.createElement(
-	              'select',
-	              { ref: 'cannedMessage', onChange: this.setMessage, defaultValue: '' },
-	              React.createElement(
-	                'option',
-	                { value: '' },
-	                'Choose a canned message'
-	              ),
-	              options
-	            ),
-	            React.createElement('textarea', { rows: '5', ref: 'newMessage', placeholder: 'Enter Message to tenants' }),
-	            React.createElement(
-	              'div',
-	              { className: 'row' },
-	              React.createElement(
-	                'div',
-	                { className: 'small-5 columns' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'input-group' },
-	                  React.createElement(
-	                    'span',
-	                    { className: 'input-group-label' },
-	                    'Grace Period'
-	                  ),
-	                  React.createElement(
-	                    'select',
-	                    { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
-	                    React.createElement(
-	                      'option',
-	                      { value: '' },
-	                      'Default'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '1' },
-	                      '1 Day'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '2' },
-	                      '2 Days'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '3' },
-	                      '3 Days'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '5' },
-	                      '5 Days'
-	                    )
-	                  )
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'small-3 columns' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'input-group' },
-	                  React.createElement(
-	                    'span',
-	                    { className: 'input-group-label' },
-	                    'Renewing'
-	                  ),
-	                  React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'renewing', checked: this.state.renewing, onChange: this.handleRenewedCheck })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'small-3 columns' },
-	                React.createElement(
-	                  'div',
-	                  { className: 'input-group' },
-	                  React.createElement(
-	                    'span',
-	                    { className: 'input-group-label' },
-	                    'Confirm'
-	                  ),
-	                  React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'confirm' })
-	                )
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'small-1 columns' },
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'sendMessage', className: 'button float-right' },
-	                  'Send'
-	                ),
-	                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Form;
-	}(React.Component);
-
-	module.exports = Form;
-
-/***/ }),
-/* 367 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	"use strict";
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// tag::vars[]
-	var React = __webpack_require__(8);
-	// end::vars[]
-
-	var Tenant = function (_React$Component) {
-	  _inherits(Tenant, _React$Component);
-
-	  function Tenant(props) {
-	    _classCallCheck(this, Tenant);
-
-	    return _possibleConstructorReturn(this, (Tenant.__proto__ || Object.getPrototypeOf(Tenant)).call(this, props));
-	  }
-
-	  _createClass(Tenant, [{
-	    key: "render",
-	    value: function render() {
-	      return React.createElement(
-	        "div",
-	        null,
-	        React.createElement(
-	          "div",
-	          null,
-	          React.createElement(
-	            "ul",
-	            null,
-	            React.createElement(
-	              "li",
-	              null,
-	              React.createElement(
-	                "span",
-	                { className: "label" },
-	                "Name"
-	              ),
-	              "\xA0",
-	              this.props.tenant.name,
-	              "\xA0\xA0",
-	              React.createElement(
-	                "span",
-	                { className: "label" },
-	                "EMail"
-	              ),
-	              "\xA0",
-	              this.props.tenant.email
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Tenant;
-	}(React.Component);
-
-	module.exports = Tenant;
-
-/***/ }),
-/* 368 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(8);
-	var DisplayDate = __webpack_require__(336);
-	var UpdateNoteDialog = __webpack_require__(337);
+	var DisplayDate = __webpack_require__(337);
+	var UpdateNoteDialog = __webpack_require__(341);
 
 	var Info = function (_React$Component) {
 	  _inherits(Info, _React$Component);
@@ -40120,7 +36692,678 @@
 	module.exports = Info;
 
 /***/ }),
-/* 369 */
+/* 341 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ReactDOM = __webpack_require__(47);
+	var React = __webpack_require__(8);
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	var UpdateNoteDialog = function (_React$Component) {
+	    _inherits(UpdateNoteDialog, _React$Component);
+
+	    function UpdateNoteDialog(props) {
+	        _classCallCheck(this, UpdateNoteDialog);
+
+	        var _this = _possibleConstructorReturn(this, (UpdateNoteDialog.__proto__ || Object.getPrototypeOf(UpdateNoteDialog)).call(this, props));
+
+	        _this.handleSubmit = _this.handleSubmit.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(UpdateNoteDialog, [{
+	        key: 'handleSubmit',
+	        value: function handleSubmit(e) {
+	            e.preventDefault();
+	            if (e.keyCode == 13) {
+	                var updatedRenewal = {};
+	                if (this.refs.note.value) {
+	                    updatedRenewal.note = this.refs.note.value;
+	                    updatedRenewal.renewalId = this.props.renewal.id;
+	                }
+	                this.props.onUpdateNote(this.props.renewal, updatedRenewal);
+	            }
+	        }
+	    }, {
+	        key: 'handleHover',
+	        value: function handleHover(e) {
+	            e.preventDefault();
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    'a',
+	                    null,
+	                    React.createElement(
+	                        'form',
+	                        { onKeyUp: this.handleSubmit },
+	                        React.createElement('input', { type: 'text', ref: 'note', defaultValue: this.props.renewal.note })
+	                    )
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'note' },
+	                    this.props.renewal.note
+	                )
+	            );
+	        }
+	    }]);
+
+	    return UpdateNoteDialog;
+	}(React.Component);
+
+	;
+
+	module.exports = UpdateNoteDialog;
+
+/***/ }),
+/* 342 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// tag::vars[]
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+	var client = __webpack_require__(286);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
+
+	var List = __webpack_require__(343);
+	var Detail = __webpack_require__(346);
+
+	var root = 'http://localhost:8080/api';
+	// end::vars[]
+
+	// tag::app[]
+
+	var RenewalMain = function (_React$Component) {
+	  _inherits(RenewalMain, _React$Component);
+
+	  function RenewalMain(props) {
+	    _classCallCheck(this, RenewalMain);
+
+	    var _this = _possibleConstructorReturn(this, (RenewalMain.__proto__ || Object.getPrototypeOf(RenewalMain)).call(this, props));
+
+	    _this.state = {
+	      renewal: null,
+	      renewals: [],
+	      attributes: [],
+	      pageSize: 2,
+	      links: {},
+	      displayDetail: "none",
+	      displayList: "block",
+	      displayInfo: "none",
+	      displayLine: "block",
+	      toggleDetailInfo: "off",
+	      callUpdate: function callUpdate(pageSize, that) {
+	        that.loadAllFromServer(pageSize);
+	      }
+	    };
+	    _this.updatePageSize = _this.updatePageSize.bind(_this);
+	    _this.onNavigate = _this.onNavigate.bind(_this);
+	    _this.onUpdateNote = _this.onUpdateNote.bind(_this);
+	    _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
+	    _this.handleBackClick = _this.handleBackClick.bind(_this);
+	    _this.handleToggleClick = _this.handleToggleClick.bind(_this);
+	    _this.handlefilterState = _this.handlefilterState.bind(_this);
+	    _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
+	    _this.handleFilterAll = _this.handleFilterAll.bind(_this);
+	    _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
+	    _this.handleRefreshMessages = _this.handleRefreshMessages.bind(_this);
+	    _this.onDelete = _this.onDelete.bind(_this);
+	    return _this;
+	  }
+
+	  // tag::update-page-size[]
+
+
+	  _createClass(RenewalMain, [{
+	    key: 'updatePageSize',
+	    value: function updatePageSize(pageSize) {
+	      if (pageSize !== this.state.pageSize) {
+	        this.state.callUpdate(pageSize, this);
+	      }
+	    }
+	    // end::update-page-size[]
+
+	    // tag::follow-1[]
+
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.loadAllFromServer(this.state.pageSize);
+	      this.loadCannedMessageFromServer();
+	    }
+	    // end::follow-1[]
+
+	    // tag::navigate[]
+
+	  }, {
+	    key: 'onNavigate',
+	    value: function onNavigate(navUri) {
+	      var _this2 = this;
+
+	      client({ method: 'GET', path: navUri }).done(function (renewalCollection) {
+	        _this2.setState({
+	          renewals: renewalCollection.entity._embedded.renewals,
+	          attributes: _this2.state.attributes,
+	          pageSize: _this2.state.pageSize,
+	          links: renewalCollection.entity._links
+	        });
+	      });
+	    }
+	    // end::navigate[]
+
+	  }, {
+	    key: 'handleFilterPriority',
+	    value: function handleFilterPriority(pageSize) {
+	      this.loadPriorityFromServer(pageSize);
+	      this.setState({
+	        callUpdate: function callUpdate(pageSize, that) {
+	          that.loadPriorityFromServer(pageSize);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handleFilterAll',
+	    value: function handleFilterAll(pageSize) {
+	      this.loadAllFromServer(pageSize);
+	      this.setState({
+	        callUpdate: function callUpdate(pageSize, that) {
+	          that.loadAllFromServer(pageSize);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handleFilterStarted',
+	    value: function handleFilterStarted(pageSize) {
+	      this.loadStartedFromServer(pageSize);
+	      this.setState({
+	        callUpdate: function callUpdate(pageSize, that) {
+	          that.loadStartedFromServer(pageSize);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handlefilterState',
+	    value: function handlefilterState(pageSize) {
+	      this.loadStateFromServer(pageSize);
+	      this.setState({
+	        callUpdate: function callUpdate(pageSize, that) {
+	          that.loadStateFromServer(pageSize);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handleRefreshMessages',
+	    value: function handleRefreshMessages(renewal) {
+	      this.loadMessagesFromServer(renewal._links.messages.href);
+	    }
+
+	    // tag::follow-2[]
+
+	  }, {
+	    key: 'loadCannedMessageFromServer',
+	    value: function loadCannedMessageFromServer() {
+	      var _this3 = this;
+
+	      follow(client, root, [{ rel: 'cannedMessages' }]).then(function (cannedMessageCollection) {
+	        return client({
+	          method: 'GET',
+	          path: cannedMessageCollection.entity._links.profile.href,
+	          headers: { 'Accept': 'application/schema+json' }
+	        }).then(function (schema) {
+	          _this3.schema = schema.entity;
+	          return cannedMessageCollection;
+	        });
+	      }).done(function (cannedMessageCollection) {
+	        _this3.setState({
+	          cannedMessages: cannedMessageCollection.entity._embedded.cannedMessages,
+	          attributes: Object.keys(_this3.schema.properties),
+	          links: cannedMessageCollection.entity._links });
+	      });
+	    }
+	    // end::follow-2[]
+
+	  }, {
+	    key: 'loadPriorityFromServer',
+	    value: function loadPriorityFromServer(pageSize) {
+	      var _this4 = this;
+
+	      client({
+	        method: 'GET',
+	        path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedAndWorkflowStateOrderByShowDateAsc",
+	        params: { size: pageSize, renewalStarted: true, renewalCompleted: false, workflowState: "Confirm Renewal State" }
+	      }).done(function (response) {
+	        _this4.setState({
+	          renewals: response.entity._embedded.renewals,
+	          pageSize: pageSize,
+	          links: response.entity._links
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'loadStartedFromServer',
+	    value: function loadStartedFromServer(pageSize) {
+	      var _this5 = this;
+
+	      client({
+	        method: 'GET',
+	        path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByRenewalStartedAsc",
+	        params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
+	      }).done(function (response) {
+	        _this5.setState({
+	          renewals: response.entity._embedded.renewals,
+	          pageSize: pageSize,
+	          links: response.entity._links
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'loadStateFromServer',
+	    value: function loadStateFromServer(pageSize) {
+	      var _this6 = this;
+
+	      client({
+	        method: 'GET',
+	        path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
+	        params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
+	      }).done(function (response) {
+	        _this6.setState({
+	          renewals: response.entity._embedded.renewals,
+	          pageSize: pageSize,
+	          links: response.entity._links
+	        });
+	      });
+	    }
+
+	    // tag::follow-2[]
+
+	  }, {
+	    key: 'loadAllFromServer',
+	    value: function loadAllFromServer(pageSize) {
+	      var _this7 = this;
+
+	      follow(client, root, [{ rel: 'renewals', params: { size: pageSize } }]).then(function (renewalCollection) {
+	        return client({
+	          method: 'GET',
+	          path: renewalCollection.entity._links.profile.href,
+	          headers: { 'Accept': 'application/schema+json' }
+	        }).then(function (schema) {
+	          _this7.schema = schema.entity;
+	          return renewalCollection;
+	        });
+	      }).done(function (renewalCollection) {
+	        _this7.setState({
+	          renewals: renewalCollection.entity._embedded.renewals,
+	          attributes: Object.keys(_this7.schema.properties),
+	          pageSize: pageSize,
+	          links: renewalCollection.entity._links });
+	      });
+	    }
+	    // end::follow-2[]
+
+	    // tag::follow-3[]
+
+	  }, {
+	    key: 'loadMessagesFromServer',
+	    value: function loadMessagesFromServer(navUri) {
+	      var _this8 = this;
+
+	      client({ method: 'GET', path: navUri }).done(function (response) {
+	        _this8.setState({ messages: response.entity._embedded.messages });
+	      });
+	    }
+	    // end::follow-3[]
+
+	  }, {
+	    key: 'handleSelectedItem',
+	    value: function handleSelectedItem(renewal) {
+	      if (renewal.renewalStarted === true && renewal.renewalCompleted === false && renewal.workflowState === "Confirm Renewal State") {
+	        this.setState({
+	          displayForm: "block"
+	        });
+	      } else {
+	        this.setState({
+	          displayForm: "none"
+	        });
+	      }
+
+	      if (renewal.renewalStarted === true) {
+	        this.setState({
+	          displayMessages: "block"
+	        });
+	      } else {
+	        this.setState({
+	          displayMessages: "none"
+	        });
+	      }
+
+	      this.setState({
+	        renewal: renewal,
+	        displayDetail: "block",
+	        displayList: "none"
+	      });
+	      this.loadMessagesFromServer(renewal._links.messages.href);
+	    }
+	  }, {
+	    key: 'handleBackClick',
+	    value: function handleBackClick(e) {
+	      this.setState({
+	        displayDetail: "none",
+	        displayList: "block"
+	      });
+	    }
+	  }, {
+	    key: 'handleToggleClick',
+	    value: function handleToggleClick(e) {
+	      if (this.state.toggleDetailInfo === "off") {
+	        this.setState({
+	          toggleDetailInfo: "on",
+	          displayInfo: "block",
+	          displayLine: "none"
+	        });
+	      } else {
+	        this.setState({
+	          toggleDetailInfo: "off",
+	          displayInfo: "none",
+	          displayLine: "block"
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'onUpdateNote',
+	    value: function onUpdateNote(renewal, updatedRenewal) {
+	      debugger;
+	      client({
+	        method: 'POST',
+	        path: "/updateNote",
+	        entity: updatedRenewal,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        if (response.status.code === 200) {
+	          alert('SUCCESS: Note Updated');
+	        }
+	        if (response.status.code === 412) {
+	          alert('DENIED: Unable to update ' + renewal._links.self.href + ' METHOD NOT ALLOWED');
+	        }
+	        if (response.status.code === 412) {
+	          alert('DENIED: Unable to update ' + renewal._links.self.href + '. Your copy is stale.');
+	        }
+	        if (response.status.code === 500) {
+	          alert('DENIED: Unable to update ' + renewal._links.self.href + '. Internal Server Error.');
+	        }
+	      });
+	    }
+
+	    // tag::on-delete[]
+
+	  }, {
+	    key: 'onDelete',
+	    value: function onDelete(renewal) {
+	      client({ method: 'DELETE', path: renewal._links.self.href }).done(function (response) {
+	        /* let the websocket handle updating the UI */
+	        alert("You successfully deleted " + renewal.property + "Use the back button and refresh the Renewal list to view the changes");
+	      }, function (response) {
+	        if (response.error) {
+	          alert("Somthing went wrong " + reponse.error);
+	        } else if (response.status.code === 400) {
+	          alert('SERVER ERROR: You request was not completed ' + renewal._links.self.href);
+	        } else if (response.status.code === 403) {
+	          alert('ACCESS DENIED: You are not authorized to delete ' + renewal._links.self.href);
+	        } else {
+	          alert("Somthing went wrong " + reponse.error);
+	        }
+	      });
+	    }
+	    // end::on-delete[]
+
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var item = "";
+	      if (this.state.renewal !== null) {
+	        item = React.createElement(Detail, { renewal: this.state.renewal,
+	          messages: this.state.messages,
+	          cannedMessages: this.state.cannedMessages,
+	          onRefreshMessages: this.handleRefreshMessages,
+	          displayForm: this.state.displayForm,
+	          displayMessages: this.state.displayMessages,
+	          onUpdateNote: this.onUpdateNote,
+	          onSelectItem: this.handleSelectedItem,
+	          displayInfo: this.state.displayInfo,
+	          displayLine: this.state.displayLine,
+	          onDelete: this.onDelete });
+	      }
+
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { style: { display: this.state.displayList } },
+	          React.createElement(List, { renewals: this.state.renewals,
+	            links: this.state.links,
+	            pageSize: this.state.pageSize,
+	            onNavigate: this.onNavigate,
+	            onUpdateNote: this.onUpdateNote,
+	            updatePageSize: this.updatePageSize,
+	            onSelectItem: this.handleSelectedItem,
+	            onFilterPriority: this.handleFilterPriority,
+	            onFilterAll: this.handleFilterAll,
+	            onFilterStarted: this.handleFilterStarted,
+	            onFilterState: this.handlefilterState })
+	        ),
+	        React.createElement(
+	          'div',
+	          { style: { display: this.state.displayDetail } },
+	          React.createElement(
+	            'div',
+	            { className: 'top-bar show-for-medium small-12 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'top-bar-left' },
+	              React.createElement(
+	                'ul',
+	                { className: 'menu' },
+	                React.createElement(
+	                  'li',
+	                  { className: 'topbar-title' },
+	                  'Task Detail'
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'div',
+	              { className: 'top-bar-right' },
+	              React.createElement(
+	                'ul',
+	                { className: 'menu' },
+	                React.createElement(
+	                  'li',
+	                  { className: 'topbar-title' },
+	                  React.createElement(
+	                    'a',
+	                    { className: 'button', onClick: this.handleBackClick },
+	                    'Back'
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            null,
+	            item
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return RenewalMain;
+	}(React.Component);
+	// end::app[]
+
+	module.exports = RenewalMain;
+
+/***/ }),
+/* 343 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// tag::vars[]
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+
+	var Line = __webpack_require__(344);
+
+	var FilterBar = __webpack_require__(345);
+
+	// tag::renewal-list[]
+
+	var List = function (_React$Component) {
+		_inherits(List, _React$Component);
+
+		function List(props) {
+			_classCallCheck(this, List);
+
+			return _possibleConstructorReturn(this, (List.__proto__ || Object.getPrototypeOf(List)).call(this, props));
+		}
+
+		_createClass(List, [{
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
+
+				var renewals = this.props.renewals.map(function (renewal) {
+					return React.createElement(Line, { key: renewal._links.self.href,
+						renewal: renewal,
+						onUpdateNote: _this2.props.onUpdateNote,
+						onSelectItem: _this2.props.onSelectItem });
+				});
+
+				return React.createElement(
+					'div',
+					null,
+					React.createElement(FilterBar, { links: this.props.links,
+						pageSize: this.props.pageSize,
+						onNavigate: this.props.onNavigate,
+						updatePageSize: this.props.updatePageSize,
+						onFilterPriority: this.props.onFilterPriority,
+						onFilterAll: this.props.onFilterAll,
+						onFilterStarted: this.props.onFilterStarted,
+						onFilterState: this.props.onFilterState,
+						title: 'Filter Tasks' }),
+					React.createElement(
+						'div',
+						null,
+						React.createElement(
+							'table',
+							{ className: 'hover stack' },
+							React.createElement(
+								'thead',
+								null,
+								React.createElement(
+									'tr',
+									null,
+									React.createElement(
+										'th',
+										null,
+										'Task Name'
+									),
+									React.createElement(
+										'th',
+										{ width: '105' },
+										'RAG Status'
+									),
+									React.createElement(
+										'th',
+										{ width: '105' },
+										'Assigned Date'
+									),
+									React.createElement(
+										'th',
+										null,
+										'Due Date'
+									),
+									React.createElement(
+										'th',
+										null,
+										'Task Id'
+									),
+									React.createElement(
+										'th',
+										null,
+										'Service Id'
+									),
+									React.createElement(
+										'th',
+										null,
+										'Service Name'
+									),
+									React.createElement(
+										'th',
+										null,
+										'Supplier Name'
+									)
+								)
+							),
+							React.createElement(
+								'tbody',
+								null,
+								renewals
+							)
+						)
+					)
+				);
+			}
+		}]);
+
+		return List;
+	}(React.Component);
+	// end::renewal-list[]
+
+	module.exports = List;
+
+/***/ }),
+/* 344 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40141,8 +37384,8 @@
 
 
 	var React = __webpack_require__(8);
-	var DisplayDate = __webpack_require__(336);
-	var UpdateNoteDialog = __webpack_require__(337);
+	var DisplayDate = __webpack_require__(337);
+	var UpdateNoteDialog = __webpack_require__(341);
 
 	// tag::renewal[]
 
@@ -40214,12 +37457,6 @@
 	          'td',
 	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
 	          renewing
-	        ),
-	        React.createElement(
-	          'td',
-	          null,
-	          React.createElement(UpdateNoteDialog, { renewal: this.props.renewal,
-	            onUpdateNote: this.props.onUpdateNote })
 	        )
 	      );
 	    }
@@ -40232,7 +37469,2209 @@
 	module.exports = Line;
 
 /***/ }),
-/* 370 */
+/* 345 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	var FilterBar = function (_React$Component) {
+	    _inherits(FilterBar, _React$Component);
+
+	    function FilterBar(props) {
+	        _classCallCheck(this, FilterBar);
+
+	        var _this = _possibleConstructorReturn(this, (FilterBar.__proto__ || Object.getPrototypeOf(FilterBar)).call(this, props));
+
+	        _this.state = {
+	            callUpdate: function callUpdate(pageSize, that) {
+	                that.props.onFilterAll(pageSize);
+	            }
+	        };
+	        _this.handleNavFirst = _this.handleNavFirst.bind(_this);
+	        _this.handleNavPrev = _this.handleNavPrev.bind(_this);
+	        _this.handleNavNext = _this.handleNavNext.bind(_this);
+	        _this.handleNavLast = _this.handleNavLast.bind(_this);
+	        _this.handleInput = _this.handleInput.bind(_this);
+	        _this.handlefilterState = _this.handlefilterState.bind(_this);
+	        _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
+	        _this.handleFilterAll = _this.handleFilterAll.bind(_this);
+	        _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
+	        _this.handleRefresh = _this.handleRefresh.bind(_this);
+	        return _this;
+	    }
+
+	    // tag::handle-page-size-updates[]
+
+
+	    _createClass(FilterBar, [{
+	        key: 'handleInput',
+	        value: function handleInput(e) {
+	            e.preventDefault();
+	            var pageSize = ReactDOM.findDOMNode(this.refs.pageSize).value;
+	            if (/^[0-9]+$/.test(pageSize)) {
+	                this.props.updatePageSize(pageSize);
+	            } else {
+	                ReactDOM.findDOMNode(this.refs.pageSize).value = pageSize.substring(0, pageSize.length - 1);
+	            }
+	        }
+	        // end::handle-page-size-updates[]
+
+	    }, {
+	        key: 'handleRefresh',
+	        value: function handleRefresh(e) {
+	            e.preventDefault();
+	            this.state.callUpdate(this.props.pageSize, this);
+	        }
+	    }, {
+	        key: 'handleFilterPriority',
+	        value: function handleFilterPriority(e) {
+	            e.preventDefault();
+	            this.props.onFilterPriority(this.props.pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.props.onFilterPriority(pageSize);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'handleFilterAll',
+	        value: function handleFilterAll(e) {
+	            e.preventDefault();
+	            this.props.onFilterAll(this.props.pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.props.onFilterAll(pageSize);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'handleFilterStarted',
+	        value: function handleFilterStarted(e) {
+	            e.preventDefault();
+	            this.props.onFilterStarted(this.props.pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.props.onFilterStarted(pageSize);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'handlefilterState',
+	        value: function handlefilterState(e) {
+	            e.preventDefault();
+	            this.props.onFilterState(this.props.pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.props.onFilterState(pageSize);
+	                }
+	            });
+	        }
+
+	        // tag::handle-nav[]
+
+	    }, {
+	        key: 'handleNavFirst',
+	        value: function handleNavFirst(e) {
+	            e.preventDefault();
+	            this.props.onNavigate(this.props.links.first.href);
+	        }
+	    }, {
+	        key: 'handleNavPrev',
+	        value: function handleNavPrev(e) {
+	            e.preventDefault();
+	            this.props.onNavigate(this.props.links.prev.href);
+	        }
+	    }, {
+	        key: 'handleNavNext',
+	        value: function handleNavNext(e) {
+	            e.preventDefault();
+	            this.props.onNavigate(this.props.links.next.href);
+	        }
+	    }, {
+	        key: 'handleNavLast',
+	        value: function handleNavLast(e) {
+	            e.preventDefault();
+	            this.props.onNavigate(this.props.links.last.href);
+	        }
+	        // end::handle-nav[]
+
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var navLinks = [];
+	            if ("first" in this.props.links) {
+	                navLinks.push(React.createElement(
+	                    'a',
+	                    { className: 'button', key: 'first', onClick: this.handleNavFirst },
+	                    '<<'
+	                ));
+	            }
+	            if ("prev" in this.props.links) {
+	                navLinks.push(React.createElement(
+	                    'a',
+	                    { className: 'button', key: 'prev', onClick: this.handleNavPrev },
+	                    '<'
+	                ));
+	            }
+	            if ("next" in this.props.links) {
+	                navLinks.push(React.createElement(
+	                    'a',
+	                    { className: 'button', key: 'next', onClick: this.handleNavNext },
+	                    '>'
+	                ));
+	            }
+	            if ("last" in this.props.links) {
+	                navLinks.push(React.createElement(
+	                    'a',
+	                    { className: 'button', key: 'last', onClick: this.handleNavLast },
+	                    '>>'
+	                ));
+	            }
+
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    'div',
+	                    { className: 'top-bar' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'top-bar-left' },
+	                        React.createElement(
+	                            'ul',
+	                            { className: 'menu' },
+	                            React.createElement(
+	                                'li',
+	                                { className: 'menu-text' },
+	                                this.props.title
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'top-bar-left' },
+	                        React.createElement(
+	                            'ul',
+	                            { className: 'menu' },
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'label',
+	                                    { className: 'text-center' },
+	                                    'Filter'
+	                                ),
+	                                React.createElement(
+	                                    'select',
+	                                    { onClick: this.handleFilterAll },
+	                                    React.createElement(
+	                                        'option',
+	                                        { selected: true },
+	                                        'Select'
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        null,
+	                                        'option 1'
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        null,
+	                                        'option 2'
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        null,
+	                                        'option 3'
+	                                    )
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'label',
+	                                    { className: 'text-center' },
+	                                    'Filter'
+	                                ),
+	                                React.createElement(
+	                                    'select',
+	                                    { onClick: this.handleFilterAll },
+	                                    React.createElement(
+	                                        'option',
+	                                        { selected: true },
+	                                        'Select'
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        null,
+	                                        'option 1'
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        null,
+	                                        'option 2'
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        null,
+	                                        'option 3'
+	                                    )
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'label',
+	                                    { className: 'text-center' },
+	                                    'Filter'
+	                                ),
+	                                React.createElement(
+	                                    'select',
+	                                    { onClick: this.handleFilterAll },
+	                                    React.createElement(
+	                                        'option',
+	                                        { selected: true },
+	                                        'Select'
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        null,
+	                                        'option 1'
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        null,
+	                                        'option 2'
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        null,
+	                                        'option 3'
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'top-bar-right' },
+	                        React.createElement(
+	                            'ul',
+	                            { className: 'menu' },
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'button-group small' },
+	                                    navLinks
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'input-group small' },
+	                                    React.createElement(
+	                                        'span',
+	                                        { className: 'input-group-label' },
+	                                        'Page Size'
+	                                    ),
+	                                    React.createElement('input', { style: { width: "70px" }, type: 'number', ref: 'pageSize',
+	                                        defaultValue: this.props.pageSize, onInput: this.handleInput })
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'li',
+	                                null,
+	                                React.createElement(
+	                                    'div',
+	                                    { className: 'button-group small' },
+	                                    React.createElement(
+	                                        'a',
+	                                        { className: 'button secondary radius', key: 'last', onClick: this.handleRefresh },
+	                                        'Refresh'
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return FilterBar;
+	}(React.Component);
+
+	module.exports = FilterBar;
+
+/***/ }),
+/* 346 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// tag::vars[]
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+	var client = __webpack_require__(286);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
+
+	var MessageList = __webpack_require__(347);
+	var MessageDetail = __webpack_require__(351);
+	var Form = __webpack_require__(353);
+	var Tenant = __webpack_require__(354);
+	var Info = __webpack_require__(355);
+	var Line = __webpack_require__(344);
+
+	// end::vars[]
+
+	var Detail = function (_React$Component) {
+	  _inherits(Detail, _React$Component);
+
+	  function Detail(props) {
+	    _classCallCheck(this, Detail);
+
+	    var _this = _possibleConstructorReturn(this, (Detail.__proto__ || Object.getPrototypeOf(Detail)).call(this, props));
+
+	    _this.state = {
+	      message: null,
+	      messages: [],
+	      attributes: [],
+	      pageSize: 2,
+	      links: {},
+	      displayDetail: "none",
+	      displayList: "block"
+	    };
+	    _this.updatePageSize = _this.updatePageSize.bind(_this);
+	    _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
+	    _this.handleBackClick = _this.handleBackClick.bind(_this);
+	    return _this;
+	  }
+
+	  // tag::update-page-size[]
+
+
+	  _createClass(Detail, [{
+	    key: 'updatePageSize',
+	    value: function updatePageSize(pageSize) {
+	      if (pageSize !== this.state.pageSize) {
+	        this.loadFromServer(pageSize);
+	      }
+	    }
+	    // end::update-page-size[]
+
+	  }, {
+	    key: 'handleSelectedItem',
+	    value: function handleSelectedItem(message) {
+	      this.setState({
+	        message: message,
+	        displayDetail: "block",
+	        displayList: "none"
+	      });
+	    }
+	  }, {
+	    key: 'handleBackClick',
+	    value: function handleBackClick(e) {
+	      this.setState({
+	        displayDetail: "none",
+	        displayList: "block"
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var item = "";
+	      if (this.state.message !== null) {
+	        item = React.createElement(MessageDetail, { message: this.state.message });
+	      }
+	      var displayForm = this.props.displayForm;
+	      var displayMessages = this.props.displayMessages;
+
+	      var tenants = this.props.renewal.tennants.map(function (tenant) {
+	        return React.createElement(Tenant, { key: tenant.email,
+	          tenant: tenant });
+	      });
+
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(Info, {
+	            tenants: tenants,
+	            renewal: this.props.renewal,
+	            onUpdateNote: this.props.onUpdateNote,
+	            onDelete: this.props.onDelete })
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement('hr', null),
+	          React.createElement(Form, { renewal: this.props.renewal,
+	            cannedMessages: this.props.cannedMessages })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Detail;
+	}(React.Component);
+
+	module.exports = Detail;
+
+/***/ }),
+/* 347 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// tag::vars[]
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+
+	var Message = __webpack_require__(348);
+
+	var MessageFilterBar = __webpack_require__(350);
+
+	// tag::message-list[]
+
+	var MessageList = function (_React$Component) {
+	    _inherits(MessageList, _React$Component);
+
+	    function MessageList(props) {
+	        _classCallCheck(this, MessageList);
+
+	        return _possibleConstructorReturn(this, (MessageList.__proto__ || Object.getPrototypeOf(MessageList)).call(this, props));
+	    }
+
+	    _createClass(MessageList, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            var messages = "";
+	            if (this.props.messages) {
+	                messages = this.props.messages.map(function (message) {
+	                    return React.createElement(Message, { key: message._links.self.href,
+	                        message: message,
+	                        onSelectItem: _this2.props.onSelectItem });
+	                });
+	            }
+
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns' },
+	                        React.createElement(MessageFilterBar, {
+	                            renewal: this.props.renewal,
+	                            onRefreshMessages: this.props.onRefreshMessages })
+	                    )
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns', style: { overflow: "auto", heigth: "200px" } },
+	                        React.createElement(
+	                            'table',
+	                            { className: 'hover stack' },
+	                            React.createElement(
+	                                'thead',
+	                                null,
+	                                React.createElement(
+	                                    'tr',
+	                                    null,
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'To'
+	                                    ),
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'From'
+	                                    ),
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'Subject'
+	                                    ),
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'Created'
+	                                    )
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'tbody',
+	                                null,
+	                                messages
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return MessageList;
+	}(React.Component);
+	// end::message-list[]
+
+	module.exports = MessageList;
+
+/***/ }),
+/* 348 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	// tag::vars[]
+
+
+	var React = __webpack_require__(8);
+	var DisplayDate = __webpack_require__(349);
+
+	// tag::message[]
+
+	var MessageLine = function (_React$Component) {
+	    _inherits(MessageLine, _React$Component);
+
+	    function MessageLine(props) {
+	        _classCallCheck(this, MessageLine);
+
+	        return _possibleConstructorReturn(this, (MessageLine.__proto__ || Object.getPrototypeOf(MessageLine)).call(this, props));
+	    }
+
+	    _createClass(MessageLine, [{
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement(
+	                'tr',
+	                { onClick: this.props.onSelectItem.bind(null, this.props.message) },
+	                React.createElement(
+	                    'td',
+	                    null,
+	                    this.props.message.recipient
+	                ),
+	                React.createElement(
+	                    'td',
+	                    null,
+	                    this.props.message.sender
+	                ),
+	                React.createElement(
+	                    'td',
+	                    null,
+	                    this.props.message.subject
+	                ),
+	                React.createElement(
+	                    'td',
+	                    null,
+	                    React.createElement(DisplayDate, { date: this.props.message.created })
+	                )
+	            );
+	        }
+	    }]);
+
+	    return MessageLine;
+	}(React.Component);
+	// end::message[]
+
+	module.exports = MessageLine;
+
+/***/ }),
+/* 349 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+
+	var DisplayDateTime = React.createClass({
+	  displayName: 'DisplayDateTime',
+
+
+	  render: function render() {
+	    var newDate = "";
+	    if (this.props.date !== null) {
+	      var sdate = new Date(this.props.date);
+	      newDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear() + "::" + sdate.getHours() + ":" + sdate.getMinutes();
+	    }
+
+	    return React.createElement(
+	      'span',
+	      null,
+	      newDate
+	    );
+	  }
+
+	});
+
+	module.exports = DisplayDateTime;
+
+/***/ }),
+/* 350 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	var MessageFilterBar = function (_React$Component) {
+	  _inherits(MessageFilterBar, _React$Component);
+
+	  function MessageFilterBar(props) {
+	    _classCallCheck(this, MessageFilterBar);
+
+	    var _this = _possibleConstructorReturn(this, (MessageFilterBar.__proto__ || Object.getPrototypeOf(MessageFilterBar)).call(this, props));
+
+	    _this.handleRefresh = _this.handleRefresh.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(MessageFilterBar, [{
+	    key: 'handleRefresh',
+	    value: function handleRefresh(e) {
+	      e.preventDefault();
+	      this.props.onRefreshMessages(this.props.renewal);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'div',
+	        { className: 'top-bar' },
+	        React.createElement(
+	          'div',
+	          { className: 'top-bar-left' },
+	          React.createElement(
+	            'ul',
+	            { className: 'menu' },
+	            React.createElement(
+	              'li',
+	              { className: 'menu-text' },
+	              'Messages'
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'top-bar-right' },
+	          React.createElement(
+	            'ul',
+	            { className: 'menu' },
+	            React.createElement(
+	              'a',
+	              { className: 'button small float-right', key: 'last', onClick: this.handleRefresh },
+	              'Refresh'
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return MessageFilterBar;
+	}(React.Component);
+
+	module.exports = MessageFilterBar;
+
+/***/ }),
+/* 351 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// tag::vars[]
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+	var IFrame = __webpack_require__(352);
+
+	// end::vars[]
+
+	var MessageDetail = function (_React$Component) {
+	  _inherits(MessageDetail, _React$Component);
+
+	  function MessageDetail(props) {
+	    _classCallCheck(this, MessageDetail);
+
+	    return _possibleConstructorReturn(this, (MessageDetail.__proto__ || Object.getPrototypeOf(MessageDetail)).call(this, props));
+	  }
+
+	  _createClass(MessageDetail, [{
+	    key: 'render',
+	    value: function render() {
+	      var content = "";
+	      if (this.props.message.html) {
+	        content = this.props.message.html;
+	      } else if (this.props.message.text) {
+	        content = this.props.message.text;
+	      } else {
+	        content = "No Content in message body.";
+	      }
+
+	      var cdate = new Date(this.props.message.created);
+	      var createdDate = cdate.getDate() + "-" + (cdate.getMonth() + 1) + "-" + cdate.getFullYear();
+
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'To'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.message.recipient
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'From'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.message.sender
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Date'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      createdDate
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-12 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card' },
+	              React.createElement(
+	                'div',
+	                { className: 'card-section' },
+	                React.createElement(
+	                  'span',
+	                  { className: 'label' },
+	                  'Subject'
+	                ),
+	                '\xA0\xA0',
+	                this.props.message.subject
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-12 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'callout clearfix' },
+	              React.createElement(IFrame, { content: content })
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return MessageDetail;
+	}(React.Component);
+
+	module.exports = MessageDetail;
+
+/***/ }),
+/* 352 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+
+	var IFrame = React.createClass({
+	  displayName: 'IFrame',
+	  updateIFrameContents: function updateIFrameContents() {
+	    var frameBody = ReactDOM.findDOMNode(this).contentDocument.body;
+	    frameBody.innerHTML = this.props.content;
+	  },
+
+
+	  componentDidMount: function componentDidMount() {
+	    this.updateIFrameContents();
+	  },
+
+	  componentDidUpdate: function componentDidUpdate() {
+	    this.updateIFrameContents();
+	  },
+
+	  render: function render() {
+	    return React.createElement('iframe', { style: { borderStyle: "none", width: "100%", height: "250px" } });
+	  }
+
+	});
+
+	module.exports = IFrame;
+
+/***/ }),
+/* 353 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+	var client = __webpack_require__(286);
+	var DisplayDate = __webpack_require__(337);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
+
+	var Form = function (_React$Component) {
+	  _inherits(Form, _React$Component);
+
+	  function Form(props) {
+	    _classCallCheck(this, Form);
+
+	    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+
+	    _this.state = {
+	      signed: _this.props.renewal.signed,
+	      renewing: _this.props.renewal.renewing
+
+	    };
+	    _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
+	    _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
+	    _this.handleSubmit = _this.handleSubmit.bind(_this);
+	    _this.setMessage = _this.setMessage.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(Form, [{
+	    key: 'handleSubmit',
+	    value: function handleSubmit(e) {
+	      e.preventDefault();
+	      debugger;
+	      var message = {};
+	      message.text = this.refs.newMessage.value;
+	      message.subject = this.refs.cannedMessage.value;
+	      if (this.refs.gracePeriod.value) {
+	        message.gracePeriod = this.refs.gracePeriod.value;
+	      }
+	      message.confirm = false;
+	      if (this.refs.confirm.checked) {
+	        message.confirm = true;
+	      }
+	      //    message.signed = false;
+	      //    if (this.refs.signed.checked){
+	      //      message.signed = true;
+	      //    }
+	      //    message.renewing = false;
+	      //    if (this.refs.renewing.checked){
+	      //      message.renewing = true;
+	      //    }
+	      message.processId = this.props.renewal.businessKey;
+	      message.renewalId = this.props.renewal.id;
+	      this.onCreate(message);
+
+	      // clear out the dialog's inputs
+	      this.refs.newMessage.value = '';
+	    }
+	  }, {
+	    key: 'setMessage',
+	    value: function setMessage(e) {
+	      e.preventDefault();
+
+	      var sdate = new Date(this.props.renewal.showDate);
+	      var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
+
+	      this.refs.newMessage.value = "";
+	      var selection = this.refs.cannedMessage.value;
+	      if (selection !== "") {
+	        this.refs.newMessage.value = this.props.cannedMessages[selection].text;
+	      }
+	    }
+	  }, {
+	    key: 'onCreate',
+	    value: function onCreate(message) {
+	      client({
+	        method: 'POST',
+	        path: "/message",
+	        entity: message,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        alert("Message Sent");
+	      });
+	    }
+	  }, {
+	    key: 'handleSignedCheck',
+	    value: function handleSignedCheck(e) {
+	      e.preventDefault();
+	      var message = {};
+	      message.signed = false;
+	      if (this.refs.signed.checked) {
+	        message.signed = true;
+	      }
+	      message.processId = this.props.renewal.processId;
+	      message.renewalId = this.props.renewal.id;
+
+	      this.onUpdateSigned(message);
+	    }
+	  }, {
+	    key: 'onUpdateSigned',
+	    value: function onUpdateSigned(message) {
+	      var _this2 = this;
+
+	      client({
+	        method: 'POST',
+	        path: "/signed",
+	        entity: message,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        alert("Renewal Signed flag has been updated!");
+	        _this2.setState({
+	          signed: message.signed
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'handleRenewedCheck',
+	    value: function handleRenewedCheck(e) {
+	      e.preventDefault();
+	      var message = {};
+	      message.renewing = false;
+	      if (this.refs.renewing.checked) {
+	        message.renewing = true;
+	      }
+	      message.processId = this.props.renewal.processId;
+	      message.renewalId = this.props.renewal.id;
+
+	      this.onUpdateRenewing(message);
+	    }
+	  }, {
+	    key: 'onUpdateRenewing',
+	    value: function onUpdateRenewing(message) {
+	      var _this3 = this;
+
+	      client({
+	        method: 'POST',
+	        path: "/renewing",
+	        entity: message,
+	        headers: { 'Content-Type': 'multipart/form-data' }
+	      }).done(function (response) {
+	        alert("Renewal Renewing flag has been updated!");
+	        _this3.setState({
+	          renewing: message.renewing
+	        });
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var i = 0;
+	      var options = this.props.cannedMessages.map(function (cannedMessage) {
+	        return React.createElement(
+	          'option',
+	          { key: cannedMessage._links.self.href, value: i++ },
+	          cannedMessage.subject
+	        );
+	      });
+
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 small-offset-6 columns' },
+	            React.createElement(
+	              'form',
+	              { onSubmit: this.handleSubmit },
+	              React.createElement(
+	                'div',
+	                { className: 'row' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'small-3 columns' },
+	                  React.createElement(
+	                    'div',
+	                    { className: 'input-group' },
+	                    React.createElement(
+	                      'span',
+	                      { className: 'input-group-label' },
+	                      'Reject'
+	                    ),
+	                    React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'renewing', checked: this.state.renewing, onChange: this.handleRenewedCheck })
+	                  )
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'small-3 columns' },
+	                  React.createElement(
+	                    'div',
+	                    { className: 'input-group' },
+	                    React.createElement(
+	                      'span',
+	                      { className: 'input-group-label' },
+	                      'Approve'
+	                    ),
+	                    React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'confirm' })
+	                  )
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'small-2 columns' },
+	                  React.createElement(
+	                    'label',
+	                    { htmlFor: 'sendMessage', className: 'button float-right' },
+	                    'Done'
+	                  ),
+	                  React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Form;
+	}(React.Component);
+
+	module.exports = Form;
+
+/***/ }),
+/* 354 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// tag::vars[]
+	var React = __webpack_require__(8);
+	// end::vars[]
+
+	var Tenant = function (_React$Component) {
+	  _inherits(Tenant, _React$Component);
+
+	  function Tenant(props) {
+	    _classCallCheck(this, Tenant);
+
+	    return _possibleConstructorReturn(this, (Tenant.__proto__ || Object.getPrototypeOf(Tenant)).call(this, props));
+	  }
+
+	  _createClass(Tenant, [{
+	    key: "render",
+	    value: function render() {
+	      return React.createElement(
+	        "div",
+	        null,
+	        React.createElement(
+	          "div",
+	          null,
+	          React.createElement(
+	            "ul",
+	            null,
+	            React.createElement(
+	              "li",
+	              null,
+	              React.createElement(
+	                "span",
+	                { className: "label" },
+	                "Name"
+	              ),
+	              "\xA0",
+	              this.props.tenant.name,
+	              "\xA0\xA0",
+	              React.createElement(
+	                "span",
+	                { className: "label" },
+	                "EMail"
+	              ),
+	              "\xA0",
+	              this.props.tenant.email
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Tenant;
+	}(React.Component);
+
+	module.exports = Tenant;
+
+/***/ }),
+/* 355 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+
+	var DisplayDate = __webpack_require__(337);
+	var UpdateNoteDialog = __webpack_require__(341);
+
+	var Info = function (_React$Component) {
+	  _inherits(Info, _React$Component);
+
+	  function Info(props) {
+	    _classCallCheck(this, Info);
+
+	    var _this = _possibleConstructorReturn(this, (Info.__proto__ || Object.getPrototypeOf(Info)).call(this, props));
+
+	    _this.handleDelete = _this.handleDelete.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(Info, [{
+	    key: 'handleDelete',
+	    value: function handleDelete(e) {
+	      e.preventDefault;
+	      alert("Sure you want to delete this property? Press the [esc] button to cancel this action.");
+	      this.props.onDelete(this.props.renewal);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var status = "Not Started";
+	      if (this.props.renewal.renewalStarted) {
+	        status = "Renewal Started";
+	      }
+	      if (this.props.renewal.renewalCompleted) {
+	        status = "Renewal Completed";
+	      }
+
+	      var renewing = "";
+	      if (this.props.renewal.renewing) {
+	        renewing = "Yes";
+	      } else if (this.props.renewal.renewing === false && this.props.renewal.renewalCompleted) {
+	        renewing = "No";
+	      }
+
+	      var signed = "No";
+	      if (this.props.renewal.signed) {
+	        signed = "Yes";
+	      }
+
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-4 small-offset-1 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-divider text-center' },
+	                React.createElement(
+	                  'h4',
+	                  null,
+	                  'Task Info'
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'card-section', style: { borderTop: "1px dashed #2199e8" } },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    this.props.renewal.property
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Task Id'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.renewal.workflowState
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 small-offset-1 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "400px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-divider text-center' },
+	                React.createElement(
+	                  'h4',
+	                  null,
+	                  'Service Owner'
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'card-section', style: { borderTop: "1px dashed #2199e8" } },
+	                this.props.tenants
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-4 small-offset-1 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "300px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-divider text-center' },
+	                React.createElement(
+	                  'h4',
+	                  null,
+	                  'Status'
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'card-section', style: { borderTop: "1px dashed #2199e8" } },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Assigned Date'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      React.createElement(DisplayDate, { date: this.props.renewal.end })
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Due Date'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      React.createElement(DisplayDate, { date: this.props.renewal.showDate })
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'RAG Status'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      renewing
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 small-offset-1 columns' },
+	            React.createElement(
+	              'div',
+	              { className: 'card', style: { width: "400px" } },
+	              React.createElement(
+	                'div',
+	                { className: 'card-divider text-center' },
+	                React.createElement(
+	                  'h4',
+	                  null,
+	                  'Service Info'
+	                )
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'card-section', style: { borderTop: "1px dashed #2199e8" } },
+	                React.createElement(
+	                  'ul',
+	                  null,
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Service ID'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.renewal.currentRent
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Service Name'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.renewal.oneYearOffer
+	                    )
+	                  ),
+	                  React.createElement(
+	                    'li',
+	                    null,
+	                    React.createElement(
+	                      'span',
+	                      { className: 'label' },
+	                      'Supplier Name'
+	                    ),
+	                    React.createElement(
+	                      'span',
+	                      { className: 'data' },
+	                      this.props.renewal.twoYearOffer
+	                    )
+	                  )
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Info;
+	}(React.Component);
+
+	module.exports = Info;
+
+/***/ }),
+/* 356 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// tag::vars[]
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+	var client = __webpack_require__(286);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
+
+	var TenantList = __webpack_require__(357);
+	var TenantDetail = __webpack_require__(360);
+
+	var root = '/api';
+	// end::vars[]
+
+	// tag::app[]
+
+	var TenantMain = function (_React$Component) {
+	    _inherits(TenantMain, _React$Component);
+
+	    function TenantMain(props) {
+	        _classCallCheck(this, TenantMain);
+
+	        var _this = _possibleConstructorReturn(this, (TenantMain.__proto__ || Object.getPrototypeOf(TenantMain)).call(this, props));
+
+	        _this.state = {
+	            tenant: null,
+	            tenants: [],
+	            attributes: [],
+	            pageSize: 2,
+	            links: {},
+	            displayDetail: "none",
+	            displayList: "block"
+	        };
+	        _this.updatePageSize = _this.updatePageSize.bind(_this);
+	        _this.onNavigate = _this.onNavigate.bind(_this);
+	        _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
+	        _this.handleBackClick = _this.handleBackClick.bind(_this);
+	        _this.onDelete = _this.onDelete.bind(_this);
+	        return _this;
+	    }
+
+	    // tag::update-page-size[]
+
+
+	    _createClass(TenantMain, [{
+	        key: 'updatePageSize',
+	        value: function updatePageSize(pageSize) {
+	            if (pageSize !== this.state.pageSize) {
+	                this.loadFromServer(pageSize);
+	            }
+	        }
+	        // end::update-page-size[]
+
+	        // tag::follow-1[]
+
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.loadFromServer(this.state.pageSize);
+	        }
+	        // end::follow-1[]
+
+	        // tag::navigate[]
+
+	    }, {
+	        key: 'onNavigate',
+	        value: function onNavigate(navUri) {
+	            var _this2 = this;
+
+	            client({ method: 'GET', path: navUri }).done(function (tenantCollection) {
+	                _this2.setState({
+	                    tenants: tenantCollection.entity._embedded.tenants,
+	                    attributes: _this2.state.attributes,
+	                    pageSize: _this2.state.pageSize,
+	                    links: tenantCollection.entity._links
+	                });
+	            });
+	        }
+	        // end::navigate[]
+
+	        // tag::follow-2[]
+
+	    }, {
+	        key: 'loadFromServer',
+	        value: function loadFromServer(pageSize) {
+	            var _this3 = this;
+
+	            follow(client, root, [{ rel: 'tenants', params: { size: pageSize } }]).then(function (tenantCollection) {
+	                return client({
+	                    method: 'GET',
+	                    path: tenantCollection.entity._links.profile.href,
+	                    headers: { 'Accept': 'application/schema+json' }
+	                }).then(function (schema) {
+	                    _this3.schema = schema.entity;
+	                    return tenantCollection;
+	                });
+	            }).done(function (tenantCollection) {
+	                _this3.setState({
+	                    tenants: tenantCollection.entity._embedded.tenants,
+	                    attributes: Object.keys(_this3.schema.properties),
+	                    pageSize: pageSize,
+	                    links: tenantCollection.entity._links });
+	            });
+	        }
+	        // end::follow-2[]
+
+	    }, {
+	        key: 'handleSelectedItem',
+	        value: function handleSelectedItem(tenant) {
+	            this.setState({
+	                tenant: tenant,
+	                displayDetail: "block",
+	                displayList: "none"
+	            });
+	        }
+	    }, {
+	        key: 'handleBackClick',
+	        value: function handleBackClick(e) {
+	            this.setState({
+	                displayDetail: "none",
+	                displayList: "block"
+	            });
+	        }
+	    }, {
+	        key: 'onDelete',
+	        value: function onDelete(tenant) {
+	            var _this4 = this;
+
+	            client({ method: 'DELETE', path: tenant._links.self.href }).done(function (response) {
+	                alert("Tenant Deleted Successfully ");
+	                _this4.loadFromServer(_this4.state.pageSize);
+	            }, function (response) {
+	                if (response.error) {
+	                    alert("Somthing went wrong " + reponse.error);
+	                } else if (response.status.code === 400) {
+	                    alert('Bad Request: The request was not successful');
+	                } else if (response.status.code === 403) {
+	                    alert('ACCESS DENIED: You are not authorized to delete');
+	                } else {
+	                    alert("Somthing went wrong " + reponse.error);
+	                }
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var item = "";
+	            if (this.state.tenant !== null) {
+	                item = React.createElement(TenantDetail, { tenant: this.state.tenant });
+	            }
+
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    'div',
+	                    { style: { display: this.state.displayList } },
+	                    React.createElement(TenantList, { tenants: this.state.tenants,
+	                        links: this.state.links,
+	                        pageSize: this.state.pageSize,
+	                        onNavigate: this.onNavigate,
+	                        updatePageSize: this.updatePageSize,
+	                        onSelectItem: this.handleSelectedItem,
+	                        onDelete: this.onDelete })
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { style: { display: this.state.displayDetail } },
+	                    React.createElement(
+	                        'a',
+	                        { className: 'button', onClick: this.handleBackClick },
+	                        '<<<Back'
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'row' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'small-12 columns' },
+	                            item
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return TenantMain;
+	}(React.Component);
+	// end::app[]
+
+	module.exports = TenantMain;
+
+/***/ }),
+/* 357 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	// tag::vars[]
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+
+	var Tenant = __webpack_require__(358);
+
+	var FilterBar = __webpack_require__(359);
+
+	// tag::Tenant-list[]
+
+	var TenantList = function (_React$Component) {
+	    _inherits(TenantList, _React$Component);
+
+	    function TenantList(props) {
+	        _classCallCheck(this, TenantList);
+
+	        return _possibleConstructorReturn(this, (TenantList.__proto__ || Object.getPrototypeOf(TenantList)).call(this, props));
+	    }
+
+	    _createClass(TenantList, [{
+	        key: 'render',
+	        value: function render() {
+	            var _this2 = this;
+
+	            var tenants = this.props.tenants.map(function (tenant) {
+	                return React.createElement(Tenant, { key: tenant._links.self.href,
+	                    tenant: tenant,
+	                    onSelectItem: _this2.props.onSelectItem,
+	                    onDelete: _this2.props.onDelete });
+	            });
+
+	            return React.createElement(
+	                'div',
+	                null,
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns' },
+	                        React.createElement(FilterBar, { links: this.props.links,
+	                            pageSize: this.props.pageSize,
+	                            onNavigate: this.props.onNavigate,
+	                            updatePageSize: this.props.updatePageSize,
+	                            title: 'Tenants' })
+	                    )
+	                ),
+	                React.createElement(
+	                    'div',
+	                    { className: 'row' },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns' },
+	                        React.createElement(
+	                            'table',
+	                            { className: 'hover stack' },
+	                            React.createElement(
+	                                'thead',
+	                                null,
+	                                React.createElement(
+	                                    'tr',
+	                                    null,
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'Name'
+	                                    ),
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'Email'
+	                                    ),
+	                                    React.createElement(
+	                                        'th',
+	                                        null,
+	                                        'Unit Slug'
+	                                    )
+	                                )
+	                            ),
+	                            React.createElement(
+	                                'tbody',
+	                                null,
+	                                tenants
+	                            )
+	                        )
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return TenantList;
+	}(React.Component);
+	// end::Tenant-list[]
+
+	module.exports = TenantList;
+
+/***/ }),
+/* 358 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	// tag::vars[]
+
+
+	var React = __webpack_require__(8);
+
+	// tag::tenant[]
+
+	var TenantLine = function (_React$Component) {
+	    _inherits(TenantLine, _React$Component);
+
+	    function TenantLine(props) {
+	        _classCallCheck(this, TenantLine);
+
+	        var _this = _possibleConstructorReturn(this, (TenantLine.__proto__ || Object.getPrototypeOf(TenantLine)).call(this, props));
+
+	        _this.handleDelete = _this.handleDelete.bind(_this);
+	        return _this;
+	    }
+
+	    _createClass(TenantLine, [{
+	        key: 'handleDelete',
+	        value: function handleDelete() {
+	            this.props.onDelete(this.props.tenant);
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            return React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.tenant) },
+	                    this.props.tenant.name
+	                ),
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.tenant) },
+	                    this.props.tenant.email
+	                ),
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.tenant) },
+	                    this.props.tenant.unitSlug
+	                ),
+	                React.createElement(
+	                    'td',
+	                    null,
+	                    React.createElement(
+	                        'button',
+	                        { onClick: this.handleDelete },
+	                        'Delete'
+	                    )
+	                )
+	            );
+	        }
+	    }]);
+
+	    return TenantLine;
+	}(React.Component);
+	// end::tenant[]
+
+	module.exports = TenantLine;
+
+/***/ }),
+/* 359 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+	var ReactDOM = __webpack_require__(47);
+
+	var _require = __webpack_require__(194),
+	    Link = _require.Link,
+	    IndexLink = _require.IndexLink;
+
+	var TenantFilterBar = function (_React$Component) {
+	  _inherits(TenantFilterBar, _React$Component);
+
+	  function TenantFilterBar(props) {
+	    _classCallCheck(this, TenantFilterBar);
+
+	    var _this = _possibleConstructorReturn(this, (TenantFilterBar.__proto__ || Object.getPrototypeOf(TenantFilterBar)).call(this, props));
+
+	    _this.state = {
+	      callUpdate: function callUpdate(pageSize, that) {
+	        that.props.onFilterPriority(pageSize);
+	      }
+	    };
+	    _this.handleNavFirst = _this.handleNavFirst.bind(_this);
+	    _this.handleNavPrev = _this.handleNavPrev.bind(_this);
+	    _this.handleNavNext = _this.handleNavNext.bind(_this);
+	    _this.handleNavLast = _this.handleNavLast.bind(_this);
+	    _this.handleInput = _this.handleInput.bind(_this);
+	    _this.handlefilterState = _this.handlefilterState.bind(_this);
+	    _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
+	    _this.handleFilterAll = _this.handleFilterAll.bind(_this);
+	    _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
+	    _this.handleRefresh = _this.handleRefresh.bind(_this);
+	    return _this;
+	  }
+
+	  // tag::handle-page-size-updates[]
+
+
+	  _createClass(TenantFilterBar, [{
+	    key: 'handleInput',
+	    value: function handleInput(e) {
+	      e.preventDefault();
+	      var pageSize = ReactDOM.findDOMNode(this.refs.pageSize).value;
+	      if (/^[0-9]+$/.test(pageSize)) {
+	        this.props.updatePageSize(pageSize);
+	      } else {
+	        ReactDOM.findDOMNode(this.refs.pageSize).value = pageSize.substring(0, pageSize.length - 1);
+	      }
+	    }
+	    // end::handle-page-size-updates[]
+
+	  }, {
+	    key: 'handleRefresh',
+	    value: function handleRefresh(e) {
+	      e.preventDefault();
+	      this.state.callUpdate(this.props.pageSize, this);
+	    }
+	  }, {
+	    key: 'handleFilterPriority',
+	    value: function handleFilterPriority(e) {
+	      e.preventDefault();
+	      this.props.onFilterPriority(this.props.pageSize);
+	      this.setState({
+	        callUpdate: function callUpdate(pageSize, that) {
+	          that.props.onFilterPriority(pageSize);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handleFilterAll',
+	    value: function handleFilterAll(e) {
+	      e.preventDefault();
+	      this.props.onFilterAll(this.props.pageSize);
+	      this.setState({
+	        callUpdate: function callUpdate(pageSize, that) {
+	          that.props.onFilterAll(pageSize);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handleFilterStarted',
+	    value: function handleFilterStarted(e) {
+	      e.preventDefault();
+	      this.props.onFilterStarted(this.props.pageSize);
+	      this.setState({
+	        callUpdate: function callUpdate(pageSize, that) {
+	          that.props.onFilterStarted(pageSize);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handlefilterState',
+	    value: function handlefilterState(e) {
+	      e.preventDefault();
+	      this.props.onFilterState(this.props.pageSize);
+	      this.setState({
+	        callUpdate: function callUpdate(pageSize, that) {
+	          that.props.onFilterState(pageSize);
+	        }
+	      });
+	    }
+
+	    // tag::handle-nav[]
+
+	  }, {
+	    key: 'handleNavFirst',
+	    value: function handleNavFirst(e) {
+	      e.preventDefault();
+	      this.props.onNavigate(this.props.links.first.href);
+	    }
+	  }, {
+	    key: 'handleNavPrev',
+	    value: function handleNavPrev(e) {
+	      e.preventDefault();
+	      this.props.onNavigate(this.props.links.prev.href);
+	    }
+	  }, {
+	    key: 'handleNavNext',
+	    value: function handleNavNext(e) {
+	      e.preventDefault();
+	      this.props.onNavigate(this.props.links.next.href);
+	    }
+	  }, {
+	    key: 'handleNavLast',
+	    value: function handleNavLast(e) {
+	      e.preventDefault();
+	      this.props.onNavigate(this.props.links.last.href);
+	    }
+	    // end::handle-nav[]
+
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var navLinks = [];
+	      if ("first" in this.props.links) {
+	        navLinks.push(React.createElement(
+	          'a',
+	          { className: 'button', key: 'first', onClick: this.handleNavFirst },
+	          '<<'
+	        ));
+	      }
+	      if ("prev" in this.props.links) {
+	        navLinks.push(React.createElement(
+	          'a',
+	          { className: 'button', key: 'prev', onClick: this.handleNavPrev },
+	          '<'
+	        ));
+	      }
+	      if ("next" in this.props.links) {
+	        navLinks.push(React.createElement(
+	          'a',
+	          { className: 'button', key: 'next', onClick: this.handleNavNext },
+	          '>'
+	        ));
+	      }
+	      if ("last" in this.props.links) {
+	        navLinks.push(React.createElement(
+	          'a',
+	          { className: 'button', key: 'last', onClick: this.handleNavLast },
+	          '>>'
+	        ));
+	      }
+
+	      return React.createElement(
+	        'div',
+	        { className: 'top-bar' },
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 columns' },
+	            React.createElement(
+	              'ul',
+	              { className: 'menu' },
+	              React.createElement(
+	                'li',
+	                { className: 'menu-text' },
+	                this.props.title
+	              )
+	            )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'small-6 columns' },
+	            React.createElement(
+	              'ul',
+	              { className: 'menu' },
+	              React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                  'div',
+	                  { className: 'input-group small' },
+	                  React.createElement(
+	                    'span',
+	                    { className: 'input-group-label' },
+	                    'Page Size'
+	                  ),
+	                  React.createElement('input', { style: { width: "70px" }, type: 'number', ref: 'pageSize',
+	                    defaultValue: this.props.pageSize, onInput: this.handleInput })
+	                )
+	              ),
+	              React.createElement(
+	                'li',
+	                null,
+	                React.createElement(
+	                  'div',
+	                  { className: 'tiny button-group' },
+	                  navLinks
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TenantFilterBar;
+	}(React.Component);
+
+	module.exports = TenantFilterBar;
+
+/***/ }),
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40302,7 +39741,742 @@
 	module.exports = TenantDetail;
 
 /***/ }),
-/* 371 */
+/* 361 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+
+	var ImportRenewalMain = __webpack_require__(362);
+	var ImportTenantMain = __webpack_require__(365);
+	var ImportCannedMessageMain = __webpack_require__(367);
+
+	var Import = function (_React$Component) {
+	  _inherits(Import, _React$Component);
+
+	  function Import() {
+	    _classCallCheck(this, Import);
+
+	    return _possibleConstructorReturn(this, (Import.__proto__ || Object.getPrototypeOf(Import)).apply(this, arguments));
+	  }
+
+	  _createClass(Import, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h3',
+	          null,
+	          'Formatting is important. Please follow the examples below to succesfully import CSV data.'
+	        ),
+	        React.createElement(
+	          'h3',
+	          null,
+	          'Headers are used to map the columns and should be printed exactly as shown.'
+	        ),
+	        React.createElement('br', null),
+	        React.createElement(ImportTenantMain, null),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(ImportRenewalMain, null),
+	        React.createElement('br', null),
+	        React.createElement('br', null),
+	        React.createElement(ImportCannedMessageMain, null),
+	        React.createElement('br', null),
+	        React.createElement('br', null)
+	      );
+	    }
+	  }]);
+
+	  return Import;
+	}(React.Component);
+
+	module.exports = Import;
+
+/***/ }),
+/* 362 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+
+	var ImportRenewalForm = __webpack_require__(363);
+
+	var ImportRenewalMain = function (_React$Component) {
+	  _inherits(ImportRenewalMain, _React$Component);
+
+	  function ImportRenewalMain() {
+	    _classCallCheck(this, ImportRenewalMain);
+
+	    return _possibleConstructorReturn(this, (ImportRenewalMain.__proto__ || Object.getPrototypeOf(ImportRenewalMain)).apply(this, arguments));
+	  }
+
+	  _createClass(ImportRenewalMain, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h4',
+	          null,
+	          'Your CSV Should be formatted like the following example. * designates required field.'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'table',
+	            null,
+	            React.createElement(
+	              'thead',
+	              null,
+	              React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'start'
+	                ),
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'end *'
+	                ),
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'propertySlug *'
+	                ),
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'currentRent'
+	                ),
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'oneYearOffer'
+	                ),
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'twoYearOffer'
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'tbody',
+	              null,
+	              React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '11/15/2016'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '11/15/2017'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '1180 Atlantis Ave Lafayette Colorado CO 80026'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '2200.00'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '1200'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '2400'
+	                )
+	              ),
+	              React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '11/15/2016'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '11/15/2017'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '1180 Atlantis Ave 3A Lafayette Colorado CO 80026'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '2200.00'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '2400.00'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '2400'
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(ImportRenewalForm, null)
+	      );
+	    }
+	  }]);
+
+	  return ImportRenewalMain;
+	}(React.Component);
+
+	module.exports = ImportRenewalMain;
+
+/***/ }),
+/* 363 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+	var client = __webpack_require__(364);
+
+	var ImportRenewalForm = React.createClass({
+	  displayName: 'ImportRenewalForm',
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var message = {};
+	    message.file = this.refs.file.files[0];
+	    this.onCreate(message);
+	  },
+	  onCreate: function onCreate(message) {
+	    client({
+	      method: 'POST',
+	      path: "/importrenewal",
+	      entity: message,
+	      headers: { 'Content-Type': 'multipart/form-data' }
+	    }).done(function (response) {
+	      alert("Renewals Uploaded Successfully");
+	    }, function (response) {
+	      if (response.error) {
+	        alert("Somthing went wrong " + reponse.error);
+	      } else if (response.status.code === 400) {
+	        alert('Bad Request: The request was not successful');
+	      } else if (response.status.code === 403) {
+	        alert('ACCESS DENIED: You are not authorized to create');
+	      } else {
+	        alert("Somthing went wrong " + reponse.error);
+	      }
+	    });
+	  },
+
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'small-12 columns' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'label',
+	            null,
+	            'Choose CSV:',
+	            React.createElement('input', { type: 'file', ref: 'file' })
+	          ),
+	          React.createElement('input', { type: 'submit', value: 'Upload' })
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = ImportRenewalForm;
+
+/***/ }),
+/* 364 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var rest = __webpack_require__(287);
+	var defaultRequest = __webpack_require__(315);
+	var mime = __webpack_require__(317);
+	var uriTemplateInterceptor = __webpack_require__(331);
+	var errorCode = __webpack_require__(332);
+	var baseRegistry = __webpack_require__(319);
+
+	var registry = baseRegistry.child();
+
+	registry.register('text/uri-list', __webpack_require__(333));
+	registry.register('application/hal+json', __webpack_require__(320));
+
+	module.exports = rest.wrap(mime, { registry: registry }).wrap(uriTemplateInterceptor).wrap(errorCode).wrap(defaultRequest, { headers: { 'Accept': 'application/hal+json' } });
+
+/***/ }),
+/* 365 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+
+	var ImportTenantForm = __webpack_require__(366);
+
+	var ImportTenantMain = function (_React$Component) {
+	  _inherits(ImportTenantMain, _React$Component);
+
+	  function ImportTenantMain() {
+	    _classCallCheck(this, ImportTenantMain);
+
+	    return _possibleConstructorReturn(this, (ImportTenantMain.__proto__ || Object.getPrototypeOf(ImportTenantMain)).apply(this, arguments));
+	  }
+
+	  _createClass(ImportTenantMain, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h4',
+	          null,
+	          'Your CSV Should be formatted like the following example. * designates required field'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'table',
+	            null,
+	            React.createElement(
+	              'thead',
+	              null,
+	              React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'name'
+	                ),
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'email *'
+	                ),
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'propertySlug *'
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'tbody',
+	              null,
+	              React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  'Paul Lungu'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  'lungu77@gmail.com'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '1180 Atlantis Ave Lafayette Colorado CO 80026'
+	                )
+	              ),
+	              React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  'Paul Lungu'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  'paul@symathia.com'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  '1188 Atlantis Ave Lafayette Colorado CO 80026'
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(ImportTenantForm, null)
+	      );
+	    }
+	  }]);
+
+	  return ImportTenantMain;
+	}(React.Component);
+
+	module.exports = ImportTenantMain;
+
+/***/ }),
+/* 366 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+	var client = __webpack_require__(364);
+
+	var ImportTenantForm = React.createClass({
+	  displayName: 'ImportTenantForm',
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var message = {};
+	    message.file = this.refs.file.files[0];
+	    this.onCreate(message);
+	  },
+	  onCreate: function onCreate(message) {
+	    client({
+	      method: 'POST',
+	      path: "/importtenant",
+	      entity: message,
+	      headers: { 'Content-Type': 'multipart/form-data' }
+	    }).done(function (response) {
+	      alert("Tenants Uploaded Successfully");
+	    }, function (response) {
+	      if (response.error) {
+	        alert("Somthing went wrong " + reponse.error);
+	      } else if (response.status.code === 400) {
+	        alert('Bad Request: The request was not successful');
+	      } else if (response.status.code === 403) {
+	        alert('ACCESS DENIED: You are not authorized to create');
+	      } else {
+	        alert("Somthing went wrong " + reponse.error);
+	      }
+	    });
+	  },
+
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'small-12 columns' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'label',
+	            null,
+	            'Choose CSV:',
+	            React.createElement('input', { type: 'file', ref: 'file' })
+	          ),
+	          React.createElement('input', { type: 'submit', value: 'Upload' })
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = ImportTenantForm;
+
+/***/ }),
+/* 367 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(8);
+
+	var ImportCannedMessageForm = __webpack_require__(368);
+
+	var ImportCannedMessageMain = function (_React$Component) {
+	  _inherits(ImportCannedMessageMain, _React$Component);
+
+	  function ImportCannedMessageMain() {
+	    _classCallCheck(this, ImportCannedMessageMain);
+
+	    return _possibleConstructorReturn(this, (ImportCannedMessageMain.__proto__ || Object.getPrototypeOf(ImportCannedMessageMain)).apply(this, arguments));
+	  }
+
+	  _createClass(ImportCannedMessageMain, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h4',
+	          null,
+	          'Your CSV Should be formatted like the following example. * designates required field'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'table',
+	            null,
+	            React.createElement(
+	              'thead',
+	              null,
+	              React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'subject *'
+	                ),
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'text *'
+	                ),
+	                React.createElement(
+	                  'th',
+	                  null,
+	                  'html'
+	                )
+	              )
+	            ),
+	            React.createElement(
+	              'tbody',
+	              null,
+	              React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  'This is a message subject'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  'This is a message body'
+	                ),
+	                React.createElement(
+	                  'td',
+	                  null,
+	                  'This is some html'
+	                )
+	              )
+	            )
+	          )
+	        ),
+	        React.createElement(ImportCannedMessageForm, null)
+	      );
+	    }
+	  }]);
+
+	  return ImportCannedMessageMain;
+	}(React.Component);
+
+	module.exports = ImportCannedMessageMain;
+
+/***/ }),
+/* 368 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var React = __webpack_require__(8);
+	var client = __webpack_require__(364);
+
+	var ImportCannedMessageForm = React.createClass({
+	  displayName: 'ImportCannedMessageForm',
+	  handleSubmit: function handleSubmit(e) {
+	    e.preventDefault();
+	    var message = {};
+	    message.file = this.refs.file.files[0];
+	    this.onCreate(message);
+	  },
+	  onCreate: function onCreate(message) {
+	    client({
+	      method: 'POST',
+	      path: "/importcannedmessage",
+	      entity: message,
+	      headers: { 'Content-Type': 'multipart/form-data' }
+	    }).done(function (response) {
+	      alert("Canned Messages Uploaded Successfully");
+	    }, function (response) {
+	      if (response.error) {
+	        alert("Somthing went wrong " + reponse.error);
+	      } else if (response.status.code === 400) {
+	        alert('Bad Request: The request was not successful');
+	      } else if (response.status.code === 403) {
+	        alert('ACCESS DENIED: You are not authorized to create');
+	      } else {
+	        alert("Somthing went wrong " + reponse.error);
+	      }
+	    });
+	  },
+
+
+	  render: function render() {
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(
+	        'div',
+	        { className: 'small-12 columns' },
+	        React.createElement(
+	          'form',
+	          { onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'label',
+	            null,
+	            'Choose CSV:',
+	            React.createElement('input', { type: 'file', ref: 'file' })
+	          ),
+	          React.createElement('input', { type: 'submit', value: 'Upload' })
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = ImportCannedMessageForm;
+
+/***/ }),
+/* 369 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	// tag::vars[]
+	var React = __webpack_require__(8);
+	// end::vars[]
+
+	var TenantDetail = function (_React$Component) {
+	  _inherits(TenantDetail, _React$Component);
+
+	  function TenantDetail(props) {
+	    _classCallCheck(this, TenantDetail);
+
+	    return _possibleConstructorReturn(this, (TenantDetail.__proto__ || Object.getPrototypeOf(TenantDetail)).call(this, props));
+	  }
+
+	  _createClass(TenantDetail, [{
+	    key: 'render',
+	    value: function render() {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(
+	          'h2',
+	          null,
+	          'Tenant Detail'
+	        ),
+	        React.createElement(
+	          'div',
+	          null,
+	          React.createElement(
+	            'ul',
+	            null,
+	            React.createElement(
+	              'li',
+	              null,
+	              this.props.tenant.name
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              this.props.tenant.email
+	            ),
+	            React.createElement(
+	              'li',
+	              null,
+	              this.props.tenant.unitSlug
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TenantDetail;
+	}(React.Component);
+
+	module.exports = TenantDetail;
+
+/***/ }),
+/* 370 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40319,11 +40493,11 @@
 
 	var React = __webpack_require__(8);
 	var ReactDOM = __webpack_require__(47);
-	var client = __webpack_require__(285);
-	var follow = __webpack_require__(333); // function to hop multiple links by "rel"
+	var client = __webpack_require__(286);
+	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
 
-	var CannedMessageList = __webpack_require__(372);
-	var CannedMessageDetail = __webpack_require__(374);
+	var CannedMessageList = __webpack_require__(371);
+	var CannedMessageDetail = __webpack_require__(373);
 
 	var root = '/api';
 	// end::vars[]
@@ -40508,7 +40682,7 @@
 	module.exports = CannedMessageMain;
 
 /***/ }),
-/* 372 */
+/* 371 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40525,9 +40699,9 @@
 
 	var React = __webpack_require__(8);
 
-	var CannedMessage = __webpack_require__(373);
+	var CannedMessage = __webpack_require__(372);
 
-	var FilterBar = __webpack_require__(354);
+	var FilterBar = __webpack_require__(359);
 
 	// tag::CannedMessage-list[]
 
@@ -40619,7 +40793,7 @@
 	module.exports = CannedMessageList;
 
 /***/ }),
-/* 373 */
+/* 372 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40701,7 +40875,7 @@
 	module.exports = CannedMessageLine;
 
 /***/ }),
-/* 374 */
+/* 373 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -40771,16 +40945,16 @@
 	module.exports = CannedMessageDetail;
 
 /***/ }),
-/* 375 */
+/* 374 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(376);
+	var content = __webpack_require__(375);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(378)(content, {});
+	var update = __webpack_require__(377)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -40797,10 +40971,10 @@
 	}
 
 /***/ }),
-/* 376 */
+/* 375 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(377)();
+	exports = module.exports = __webpack_require__(376)();
 	// imports
 
 
@@ -40811,7 +40985,7 @@
 
 
 /***/ }),
-/* 377 */
+/* 376 */
 /***/ (function(module, exports) {
 
 	/*
@@ -40867,7 +41041,7 @@
 
 
 /***/ }),
-/* 378 */
+/* 377 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*

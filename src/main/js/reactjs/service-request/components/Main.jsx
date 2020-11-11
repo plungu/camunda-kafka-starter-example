@@ -3,25 +3,25 @@
 // tag::vars[]
 const React = require('react');
 
-const Nav = require('Nav');
-const FilterBar = require('FilterBar');
+const FilterBar = require('src/main/js/reactjs/service-request/components/home/FilterBar');
 var MarketingBar = require('MarketingBar');
+var StatusBar = require('StatusBar');
 var FooterBar = require('FooterBar');
 
 // tag::renewal[]
 class Main extends React.Component{
     render() {
         return (
-           <div>
+         <div className="row">
+           <div className="small-12 large-12 columns">
             <MarketingBar/>
-            <Nav/>
-            <div className="row">
-              <div className="small-12 columns">
-                  {this.props.children}
-              </div>
+            <StatusBar/>
+            <div>
+              {this.props.children}
             </div>
             <FooterBar/>
           </div>
+         </div>
         )
     }
 }

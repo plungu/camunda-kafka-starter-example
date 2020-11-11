@@ -5,10 +5,11 @@ const React = require('react');
 const ReactDOM = require('react-dom')
 const {Route, Router, IndexRoute, hashHistory} = require('react-router');
 const Main = require('Main');
-const RenewalMain = require('./components/home/Home');
+const Home = require('./components/home/Home');
+const Task = require('./components/task/Home');
 const TenantMain = require('./components/tenant/TenantMain');
-const Import = require('./components/import/Import');
-const RenewalDetail = require('./components/home/Detail');
+const ImportData = require('./components/import/Import');
+const Detail = require('./components/home/Detail');
 const TenantDetail = require('./components/tenant/TenantDetail');
 const CannedMessageMain = require('./components/canned-message/CannedMessageMain');
 
@@ -23,12 +24,14 @@ $(document).foundation();
 ReactDOM.render(
       <Router history={hashHistory}>
         <Route path="/" component={Main}>
-          <IndexRoute component={RenewalMain}/>
-          <Route path="renewal" component={RenewalDetail}/>
+          <IndexRoute component={Home}/>
+          <Route path="home" component={Detail}/>
+          <Route path="service" component={Detail}/>
+          <Route path="tasks" component={Task}/>
           <Route path="tenants" component={TenantMain}/>
           <Route path="tenant" component={TenantDetail}/>
           <Route path="cannedMessages" component={CannedMessageMain}/>
-          <Route path="import" component={Import}/>
+          <Route path="import" component={ImportData}/>
         </Route>
       </Router>,
       document.getElementById('react')

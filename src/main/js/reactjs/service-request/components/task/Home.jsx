@@ -6,7 +6,8 @@ const ReactDOM = require('react-dom');
 const client = require('../client.jsx');
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
-const Detail = require('src/main/js/reactjs/service-request/components/home/Detail.jsx');
+const List = require('src/main/js/reactjs/service-request/components/task/List.jsx');
+const Detail = require('src/main/js/reactjs/service-request/components/task/Detail.jsx');
 
 const root = 'http://localhost:8080/api';
 // end::vars[]
@@ -22,7 +23,8 @@ class RenewalMain extends React.Component {
           attributes: [],
           pageSize: 2,
           links: {},
-          displayDetail: "block",
+          displayDetail: "none",
+          displayList: "block",
           displayInfo: "none",
           displayLine: "block",
           toggleDetailInfo: "off",
@@ -209,15 +211,11 @@ class RenewalMain extends React.Component {
               && renewal.workflowState === "Confirm Renewal State")
       {
           this.setState({
-              displayServiceForm: "block",
-              displayServiceDetailForm: "none",
-              displayServiceSupplierForm: "none"
+              displayForm: "block"
           });
       }else{
         this.setState({
-            displayServiceForm: "block",
-            displayServiceDetailForm: "none",
-            displayServiceSupplierForm: "none"
+            displayForm: "none"
         });
       }
 
@@ -234,6 +232,7 @@ class RenewalMain extends React.Component {
       this.setState({
         renewal: renewal,
         displayDetail: "block",
+        displayList: "none"
       });
       this.loadMessagesFromServer(renewal._links.messages.href);
     }
@@ -241,6 +240,7 @@ class RenewalMain extends React.Component {
     handleBackClick(e){ 
        this.setState({
            displayDetail: "none",
+           displayList: "block"
          });
     }
 
@@ -313,36 +313,62 @@ class RenewalMain extends React.Component {
     // end::on-delete[]
     
     render() {
-
+      var item = "";
+      if (this.state.renewal !== null) {
+        item = <Detail renewal={this.state.renewal}
+                    messages={this.state.messages}
+                    cannedMessages={this.state.cannedMessages}
+                    onRefreshMessages={this.handleRefreshMessages}
+                    displayForm={this.state.displayForm}
+                    displayMessages={this.state.displayMessages}
+                    onUpdateNote={this.onUpdateNote}
+                    onSelectItem={this.handleSelectedItem}
+                    displayInfo={this.state.displayInfo}
+                    displayLine={this.state.displayLine}
+                    onDelete={this.onDelete}/>           
+      }
 
       return (
           <div>
 
-                <div className="top-bar show-for-medium small-12 columns">
-                   <div className="top-bar-left">
-                     <ul className="menu">
-                       <li className="topbar-title">
-                         Create New Service
-                       </li>
-                     </ul>
-                   </div>
-                </div>
+            <div style={{display: this.state.displayList}}>
+              <List renewals={this.state.renewals}
+                links={this.state.links}
+                pageSize={this.state.pageSize}
+                onNavigate={this.onNavigate}
+                onUpdateNote={this.onUpdateNote}
+                updatePageSize={this.updatePageSize}
+                onSelectItem={this.handleSelectedItem}
+                onFilterPriority={this.handleFilterPriority}
+                onFilterAll={this.handleFilterAll}
+                onFilterStarted={this.handleFilterStarted}
+                onFilterState={this.handlefilterState}/>
+            </div>
 
-                <div>
-                  <Detail renewal={this.state.renewal}
-                          messages={this.state.messages}
-                          cannedMessages={this.state.cannedMessages}
-                          onRefreshMessages={this.handleRefreshMessages}
-                          displayServiceForm={this.state.displayServiceForm}
-                          displayServiceDetailForm={this.state.displayServiceDetailForm}
-                          displayServiceSupplierForm={this.state.displayServiceSupplierForm}
-                          displayMessages={this.state.displayMessages}
-                          onUpdateNote={this.onUpdateNote}
-                          onSelectItem={this.handleSelectedItem}
-                          displayInfo={this.state.displayInfo}
-                          displayLine={this.state.displayLine}
-                          onDelete={this.onDelete}/>
+            <div style={{display: this.state.displayDetail}}>
+              <div className="top-bar show-for-medium small-12 columns">
+               <div className="top-bar-left">
+                 <ul className="menu">
+                   <li className="topbar-title">
+                     Task Detail
+                   </li>
+                 </ul>
+               </div>
+               <div className="top-bar-right">
+                 <ul className="menu">
+                   {/*<li className="topbar-title">*/}
+                   {/*  <a className="button small" onClick={this.handleToggleClick}>&lt;Details&gt;</a>*/}
+                   {/*</li>                   */}
+                   <li className="topbar-title">
+                     <a className="button" onClick={this.handleBackClick}>Back</a>
+                   </li>
+                 </ul>
+               </div>
               </div>
+              <div>
+                  {item}
+              </div>
+            </div>
 
           </div>
       )

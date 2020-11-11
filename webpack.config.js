@@ -32,16 +32,27 @@ module.exports = {
             DisplayDate: 'src/main/js/reactjs/service-request/components/date/DisplayDate.jsx',
             DisplayDateTime: 'src/main/js/reactjs/service-request/components/date/DisplayDateTime.jsx',
 
-            FilterBar: 'src/main/js/reactjs/service-request/components/FilterBar.jsx',
             MarketingBar: 'src/main/js/reactjs/service-request/components/MarketingBar.jsx',
+            StatusBar: 'src/main/js/reactjs/service-request/components/StatusBar.jsx',
             FooterBar: 'src/main/js/reactjs/service-request/components/FooterBar.jsx',
 
             Home: 'src/main/js/reactjs/service-request/components/home/Home.jsx',
             Line: 'src/main/js/reactjs/service-request/components/home/Line.jsx',
             List: 'src/main/js/reactjs/service-request/components/home/List.jsx',
             Detail: 'src/main/js/reactjs/service-request/components/home/Detail.jsx',
-            Form: 'src/main/js/reactjs/service-request/components/home/Form.jsx',
+            ServiceForm: 'src/main/js/reactjs/service-request/components/home/ServiceForm.jsx',
+            ServiceDetailForm: 'src/main/js/reactjs/service-request/components/home/ServiceDetailForm.jsx',
+            ServiceSupplierForm: 'src/main/js/reactjs/service-request/components/home/ServiceSupplierForm.jsx',
             Info: 'src/main/js/reactjs/service-request/components/home/Info.jsx',
+            FilterBar: 'src/main/js/reactjs/service-request/components/home/FilterBar.jsx',
+
+            Task: 'src/main/js/reactjs/service-request/components/task/Home.jsx',
+            TaskLine: 'src/main/js/reactjs/service-request/components/task/Line.jsx',
+            TaskList: 'src/main/js/reactjs/service-request/components/task/List.jsx',
+            TaskDetail: 'src/main/js/reactjs/service-request/components/task/Detail.jsx',
+            TaskForm: 'src/main/js/reactjs/service-request/components/task/Form.jsx',
+            TaskInfo: 'src/main/js/reactjs/service-request/components/task/Info.jsx',
+            TaskFilterBar: 'src/main/js/reactjs/service-request/components/task/FilterBar.jsx',
 
             UpdateNoteDialog: 'src/main/js/reactjs/service-request/components/note/UpdateNoteDialog.jsx',
 

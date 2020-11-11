@@ -1,10 +1,21 @@
 debug: false
 #logging.level.com.camunda.*: INFO
 
+
+
 #server.port: 8080
+
 
 # See the docker-compose to use PostgreSQL
 spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+      exclude: static/**,public/**
+      additional-paths: static/built/**
+
   datasource:
     #shareable h2 database
     url: jdbc:h2:./camunda-db;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
@@ -20,10 +31,6 @@ spring:
 #Specify active profiles from YAML
 # WARNING: preferable to specify the profiles from the command line like ` -Dspring-boot.run.profiles=dev` or `-Dspring.profiles.active=jobs`
 #spring.profiles.active: ${profile:dev}
-
-
-#disable spring auto-configure
-#spring.autoconfigure.exclude: org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration, org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 
 camunda.bpm:
 #  job-execution:

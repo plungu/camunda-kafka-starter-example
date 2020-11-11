@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ServiceRequestController {
 
-	@RequestMapping(value = "/servicereq")
+	@RequestMapping(value = "/sr")
 	public String index() {
-		return "service-request-app";
+		return "app";
 	}
 
 }

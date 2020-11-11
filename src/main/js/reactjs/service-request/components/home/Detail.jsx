@@ -4,12 +4,11 @@ const ReactDOM = require('react-dom')
 const client = require('../client.jsx');
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
-const MessageList = require('src/main/js/reactjs/service-request/components/message/MessageList.jsx');
-const MessageDetail = require('src/main/js/reactjs/service-request/components/message/MessageDetail.jsx');
-const RenewalForm = require('src/main/js/reactjs/service-request/components/home/Form.jsx');
-const Tenant = require('src/main/js/reactjs/service-request/components/tenant/Tenant.jsx');
-const RenewalInfo = require('src/main/js/reactjs/service-request/components/home/Info.jsx');
-const RenewalLine = require('src/main/js/reactjs/service-request/components/home/Line.jsx');
+const ServiceForm = require('src/main/js/reactjs/service-request/components/home/ServiceForm.jsx');
+const ServiceDetailForm = require('src/main/js/reactjs/service-request/components/home/ServiceDetailForm.jsx');
+const ServiceSupplierForm = require('src/main/js/reactjs/service-request/components/home/ServiceSupplierForm.jsx');
+const Info = require('src/main/js/reactjs/service-request/components/home/Info.jsx');
+const FilterBar = require('src/main/js/reactjs/service-request/components/home/FilterBar.jsx');
 
 // end::vars[]
 
@@ -22,12 +21,15 @@ class Detail extends React.Component{
         attributes: [],
         pageSize: 2,
         links: {},
-        displayDetail: "none",
-        displayList: "block"
+        displayDetail: "block",
+        displayServiceForm: "block",
+        displayServiceDetailForm: "none",
+        displayServiceSupplierForm: "none"
       };
       this.updatePageSize = this.updatePageSize.bind(this);
       this.handleSelectedItem = this.handleSelectedItem.bind(this);
       this.handleBackClick = this.handleBackClick.bind(this);
+      this.toggleForm = this.toggleForm.bind(this)
   }
 
   // tag::update-page-size[]
@@ -38,116 +40,79 @@ class Detail extends React.Component{
   }
   // end::update-page-size[]
 
+  toggleForm(form){
+      if(form == "service") {
+          this.setState({
+              displayServiceForm: "block",
+              displayServiceDetailForm: "none",
+              displayServiceSupplierForm: "none"
+          });
+      }else if (form == "detail"){
+          this.setState({
+              displayServiceForm: "none",
+              displayServiceDetailForm: "block",
+              displayServiceSupplierForm: "none"
+          });
+      }else if (form == "supplier"){
+          this.setState({
+              displayServiceForm: "none",
+              displayServiceDetailForm: "none",
+              displayServiceSupplierForm: "block"
+          });
+      }
+  }
+
   handleSelectedItem(message){
     this.setState({
       message: message,
       displayDetail: "block",
-      displayList: "none"
     });
   }
 
   handleBackClick(e){
     this.setState({
       displayDetail: "none",
-      displayList: "block"
     });
   }
 
   render(){
-    var item = "";
-    if (this.state.message !== null) {
-      item = <MessageDetail message={this.state.message}/>
-    }
-    var displayForm = this.props.displayForm;
-    var displayMessages = this.props.displayMessages;
 
-    var tenants = this.props.renewal.tennants.map(tenant =>
-        <Tenant key={tenant.email}
-            tenant={tenant}/>
-    );
+      var displayServiceForm = this.state.displayServiceForm;
+      var displayServiceDetailForm = this.state.displayServiceDetailForm;
+      var displayServiceSupplierForm = this.state.displayServiceSupplierForm;
+
+      var info = "";
+      if (this.state.renewal !== null) {
+         info =  <div style={{display: this.props.displayInfo}}>
+                    <Info
+                        renewal={this.props.renewal}
+                        onUpdateNote={this.props.onUpdateNote}
+                        onDelete={this.props.onDelete}/>
+                    </div>
+      }
 
     return (
       <div>
 
-        <div style={{display: this.props.displayLine}}>
-            <div className="row">
-                <div className="small-12 columns">
-                    <table className="hover stack">
-                        <thead>
-                            <tr>
-                                <th>Property</th>
-                                <th width="105">End Date</th>
-                                <th width="105">Show Date</th>
-                                <th>Current Rent</th>
-                                <th>1 Year Offer</th>
-                                <th>2 Year Offer</th>
-                                {/*<th>Status</th>*/}
-                                <th>State</th>
-                                <th>Renewing</th>
-                                <th>Note</th>
-                             </tr>
-                        </thead>
-                        <tbody>
-                            <RenewalLine key={this.props.renewal._links.self.href}
-                                renewal={this.props.renewal}
-                                onUpdateNote={this.props.onUpdateNote}
-                                onSelectItem={this.props.onSelectItem}/>
-                        </tbody>
-                    </table>
-                </div>
-            </div>    
-        </div>
-                                
-        <div style={{display: this.props.displayInfo}}>
-            <RenewalInfo
-                tenants={tenants}
-                renewal={this.props.renewal}
-                onUpdateNote={this.props.onUpdateNote}
-                onDelete={this.props.onDelete}/>
-        </div>
-                            
-        <div style={{display: displayMessages}}>
-          <hr />
-          <div style={{display: this.state.displayList}}>
-              <MessageList messages={this.props.messages}
-                  renewal={this.props.renewal}
-                  links={this.state.links}
-                  pageSize={this.state.pageSize}
-                  onNavigate={this.onNavigate}
-                  updatePageSize={this.updatePageSize}
-                  onSelectItem={this.handleSelectedItem}
-                  onRefreshMessages={this.props.onRefreshMessages}/>
-          </div>
-          <div style={{display: this.state.displayDetail}}>
-            <div className="top-bar show-for-medium small-12 columns">
-             <div className="top-bar-left">
-               <ul className="menu">
-                 <li className="topbar-title">
-                   Message Detail
-                 </li>
-               </ul>
-             </div>
-             <div className="top-bar-right">
-               <ul className="menu">
-                 <li className="topbar-title">
-                   <a className="button" onClick={this.handleBackClick}>&lt;&lt;&lt;Back</a>
-                 </li>
-               </ul>
-             </div>
-            </div>
-            <div className="row">
-                <div className="small-12 columns">
-                  {item}
-                </div>
-            </div>
-          </div>
-        </div>
-                  
-        <div style={{display: displayForm}}>
-          <hr />
-          <RenewalForm renewal={this.props.renewal}
+        <FilterBar toggleForm={this.toggleForm}
+                     title=""/>
+
+        {/*{info}*/}
+
+        <div className="small-12 columns" style={{display: displayServiceForm}}>
+            <ServiceForm renewal={this.props.renewal}
                    cannedMessages={this.props.cannedMessages}/>
         </div>
+
+          <div className="small-12 columns" style={{display: displayServiceDetailForm}}>
+            <ServiceDetailForm renewal={this.props.renewal}
+                    cannedMessages={this.props.cannedMessages}/>
+          </div>
+
+          <div className="small-12 columns" style={{display: displayServiceSupplierForm}}>
+            <ServiceSupplierForm renewal={this.props.renewal}
+                    cannedMessages={this.props.cannedMessages}/>
+          </div>
 
       </div>
     )
