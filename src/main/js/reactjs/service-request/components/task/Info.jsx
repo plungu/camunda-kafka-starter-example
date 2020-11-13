@@ -47,8 +47,8 @@ class Info extends React.Component{
                   </div>
                   <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
                     <ul>
-                      <li>{this.props.renewal.property}</li>
-                      <li><span className="label">Task Id</span><span className="data">{this.props.renewal.workflowState}</span></li>
+                      <li>{this.props.renewal.taskId}</li>
+                      <li><span className="label">Task Id</span><span className="data">{this.props.renewal.taskName}</span></li>
                     </ul>
                   </div>
                 </div>
@@ -60,7 +60,7 @@ class Info extends React.Component{
                     <h4>Service Owner</h4>
                   </div>
                   <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
-                    {this.props.tenants}
+                    {this.props.renewal.serviceOwner}
                   </div>
                 </div>
               </div>
@@ -80,9 +80,9 @@ class Info extends React.Component{
                   </div>
                   <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
                     <ul>
-                      <li><span className="label">Assigned Date</span><span className="data"><DisplayDate date={this.props.renewal.end} /></span></li>
-                        <li><span className="label">Due Date</span><span className="data"><DisplayDate date={this.props.renewal.showDate} /></span></li>
-                      <li><span className="label">RAG Status</span><span className="data">{renewing}</span></li>
+                      <li><span className="label">Assigned Date</span><span className="data">{this.props.renewal.acquiringDivision} </span></li>
+                        <li><span className="label">Due Date</span><span className="data">{this.props.renewal.serviceDescription} </span></li>
+                      <li><span className="label">RAG Status</span><span className="data">{this.props.renewal.sourcingManager}</span></li>
                     </ul>
                   </div>
                 </div>
@@ -94,9 +94,9 @@ class Info extends React.Component{
                   </div>
                   <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
                     <ul>
-                      <li><span className="label">Service ID</span><span className="data">{this.props.renewal.currentRent}</span></li>
-                      <li><span className="label">Service Name</span><span className="data">{this.props.renewal.oneYearOffer}</span></li>
-                      <li><span className="label">Supplier Name</span><span className="data">{this.props.renewal.twoYearOffer}</span></li>
+                      <li><span className="label">Service ID</span><span className="data">{this.props.renewal.serviceId}</span></li>
+                      <li><span className="label">Service Category</span><span className="data">{this.props.renewal.serviceCategory}</span></li>
+                      <li><span className="label">Sourcing Comments</span><span className="data">{this.props.renewal.sourcingComments}</span></li>
                     </ul>
                   </div>
                 </div>

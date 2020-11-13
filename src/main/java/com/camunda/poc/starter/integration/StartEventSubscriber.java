@@ -23,7 +23,7 @@ public class StartEventSubscriber {
         System.out.println("Received: " + contact);
         Map<String, Object> variables = new HashMap();
         variables.put("contact", contact);
-        runtimeService.correlateMessage("start-message-integration-example",
+        runtimeService.correlateMessage("start-service-request",
                 contact.getBusinessKey(),
                 variables);
     }

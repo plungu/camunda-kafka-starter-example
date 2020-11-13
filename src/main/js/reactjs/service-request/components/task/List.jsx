@@ -17,7 +17,6 @@ class List extends React.Component{
 		var renewals = this.props.renewals.map(renewal =>
 			<Line key={renewal._links.self.href}
         renewal={renewal}
-		onUpdateNote={this.props.onUpdateNote}
         onSelectItem={this.props.onSelectItem}/>
 		);
 
@@ -38,13 +37,13 @@ class List extends React.Component{
 					  <thead>
 						<tr>
 							<th>Task Name</th>
-							<th width="105">RAG Status</th>
-							<th width="105">Assigned Date</th>
-							<th>Due Date</th>
 							<th>Task Id</th>
+							<th width="105">Sourcing Manager</th>
+							<th width="105">Service Description</th>
+							<th>Acquiring Division</th>
+							<th>Service Category</th>
+							<th>Sourcing Comments</th>
 							<th>Service Id</th>
-							<th>Service Name</th>
-							<th>Supplier Name</th>
                         </tr>
 					  </thead>
 					  <tbody>

@@ -1,30 +1,92 @@
 package com.camunda.poc.starter.usecase.servicerequest.entity;
 
-public class ServiceRequest {
-    private Integer serviceId;
+import com.camunda.poc.starter.usecase.servicerequest.kafka.integration.ServiceRequest;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+
+@Entity(name="service_request")
+public class ServiceRequestEntity extends ServiceRequest {
+
+    private static final long serialVersionUID = -209110232715280386L;
+
+    private @Version
+    @JsonIgnore
+    Long version;
+
+    public ServiceRequestEntity(){}
+
+    public ServiceRequestEntity(ServiceRequest sr){
+        this.serviceId = sr.getServiceId();
+        this.serviceCategory = sr.getServiceCategory();
+        this.acquiringDivision = sr.getAcquiringDivision();
+        this.additionalReviewer = sr.getAdditionalReviewer();
+        this.additionalReviewerNotes = sr.getAdditionalReviewerNotes();
+        this.additionalReviewerMSID = sr.getAdditionalReviewerMSID();
+        this.applicationName = sr.getApplicationName();
+        this.buContractingService = sr.getBuContractingService();
+        this.eonId = sr.getEonId();
+        this.estimatedAnnualSpend = sr.getEstimatedAnnualSpend();
+        this.leContractingServiceCode = sr.getLeContractingServiceCode();
+        this.serviceDescription = sr.getServiceDescription();
+        this.serviceDetailsComments = sr.getServiceDetailsComments();
+        this.serviceOwnerMSID = sr.getServiceOwnerMSID();
+        this.sourcingComments = sr.getSourcingComments();
+        this.sourcingManager = sr.getSourcingManager();
+    }
+
+
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    public long getId() {
+        return id;
+    }
+
+    @Column(nullable=false)
+    private String serviceId;
+    @Column(nullable=true)
     private String serviceCategory;
+    @Column(nullable=true)
     private String serviceDescription;
+    @Column(nullable=true)
     private String serviceOwner;
+    @Column(nullable=true)
     private String serviceOwnerMSID;
+    @Column(nullable=true)
     private String sourcingManager;
+    @Column(nullable=true)
     private String sourcingManagerMSID;
+    @Column(nullable=true)
     private String acquiringDivision;
+    @Column(nullable=true)
     private String buContractingService;
+    @Column(nullable=true)
     private String leContractingServiceCode;
+    @Column(nullable=true)
     private String additionalReviewer;
+    @Column(nullable=true)
     private String additionalReviewerMSID;
+    @Column(nullable=true)
     private String additionalReviewerNotes;
+    @Column(nullable=true)
     private String sourcingComments;
+    @Column(nullable=true)
     private String applicationName;
+    @Column(nullable=true)
     private Integer eonId;
+    @Column(nullable=true)
     private String estimatedAnnualSpend;
+    @Column(nullable=true)
     private String serviceDetailsComments;
 
-    public Integer getServiceId() {
+    public String getServiceId() {
         return serviceId;
     }
 
-    public void setServiceId(Integer serviceId) {
+    public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
     }
 

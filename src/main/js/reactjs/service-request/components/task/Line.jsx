@@ -31,14 +31,14 @@ class Line extends React.Component{
         
       return (
           <tr >
-            <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.property}</td>
-            <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}><DisplayDate date={this.props.renewal.end} /></td>
-            <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}><DisplayDate date={this.props.renewal.showDate} /></td>
-            <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.currentRent}</td>
-            <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.oneYearOffer}</td>
-            <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.twoYearOffer}</td>
-            <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.workflowState}</td>
-            <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{renewing}</td>
+              <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.serviceId}</td>
+              <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.serviceOwner}</td>
+              <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.sourcingManager}</td>
+              <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.serviceDescription}</td>
+              <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.acquiringDivision}</td>
+              <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.serviceCategory}</td>
+              <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.sourcingComments}</td>
+              <td onClick={this.props.onSelectItem.bind(null, this.props.renewal)}>{this.props.renewal.serviceId}</td>
           </tr>
       )
   }

@@ -29917,212 +29917,40 @@
 
 	// tag::app[]
 
-	var RenewalMain = function (_React$Component) {
-	    _inherits(RenewalMain, _React$Component);
+	var Home = function (_React$Component) {
+	    _inherits(Home, _React$Component);
 
-	    function RenewalMain(props) {
-	        _classCallCheck(this, RenewalMain);
+	    function Home(props) {
+	        _classCallCheck(this, Home);
 
-	        var _this = _possibleConstructorReturn(this, (RenewalMain.__proto__ || Object.getPrototypeOf(RenewalMain)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
 
 	        _this.state = {
-	            renewal: null,
-	            renewals: [],
-	            attributes: [],
-	            pageSize: 2,
-	            links: {},
 	            displayDetail: "block",
-	            displayInfo: "none",
-	            displayLine: "block",
-	            toggleDetailInfo: "off",
 	            callUpdate: function callUpdate(pageSize, that) {
 	                that.loadAllFromServer(pageSize);
 	            }
 	        };
-	        _this.updatePageSize = _this.updatePageSize.bind(_this);
-	        _this.onNavigate = _this.onNavigate.bind(_this);
-	        _this.onUpdateNote = _this.onUpdateNote.bind(_this);
-	        _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
-	        _this.handleBackClick = _this.handleBackClick.bind(_this);
-	        _this.handleToggleClick = _this.handleToggleClick.bind(_this);
-	        _this.handlefilterState = _this.handlefilterState.bind(_this);
-	        _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
-	        _this.handleFilterAll = _this.handleFilterAll.bind(_this);
-	        _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
-	        _this.handleRefreshMessages = _this.handleRefreshMessages.bind(_this);
-	        _this.onDelete = _this.onDelete.bind(_this);
 	        return _this;
 	    }
 
-	    // tag::update-page-size[]
+	    // tag::follow-1[]
 
 
-	    _createClass(RenewalMain, [{
-	        key: 'updatePageSize',
-	        value: function updatePageSize(pageSize) {
-	            if (pageSize !== this.state.pageSize) {
-	                this.state.callUpdate(pageSize, this);
-	            }
-	        }
-	        // end::update-page-size[]
-
-	        // tag::follow-1[]
-
-	    }, {
+	    _createClass(Home, [{
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.loadAllFromServer(this.state.pageSize);
-	            this.loadCannedMessageFromServer();
 	        }
 	        // end::follow-1[]
 
-	        // tag::navigate[]
-
-	    }, {
-	        key: 'onNavigate',
-	        value: function onNavigate(navUri) {
-	            var _this2 = this;
-
-	            client({ method: 'GET', path: navUri }).done(function (renewalCollection) {
-	                _this2.setState({
-	                    renewals: renewalCollection.entity._embedded.renewals,
-	                    attributes: _this2.state.attributes,
-	                    pageSize: _this2.state.pageSize,
-	                    links: renewalCollection.entity._links
-	                });
-	            });
-	        }
-	        // end::navigate[]
-
-	    }, {
-	        key: 'handleFilterPriority',
-	        value: function handleFilterPriority(pageSize) {
-	            this.loadPriorityFromServer(pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.loadPriorityFromServer(pageSize);
-	                }
-	            });
-	        }
-	    }, {
-	        key: 'handleFilterAll',
-	        value: function handleFilterAll(pageSize) {
-	            this.loadAllFromServer(pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.loadAllFromServer(pageSize);
-	                }
-	            });
-	        }
-	    }, {
-	        key: 'handleFilterStarted',
-	        value: function handleFilterStarted(pageSize) {
-	            this.loadStartedFromServer(pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.loadStartedFromServer(pageSize);
-	                }
-	            });
-	        }
-	    }, {
-	        key: 'handlefilterState',
-	        value: function handlefilterState(pageSize) {
-	            this.loadStateFromServer(pageSize);
-	            this.setState({
-	                callUpdate: function callUpdate(pageSize, that) {
-	                    that.loadStateFromServer(pageSize);
-	                }
-	            });
-	        }
-	    }, {
-	        key: 'handleRefreshMessages',
-	        value: function handleRefreshMessages(renewal) {
-	            this.loadMessagesFromServer(renewal._links.messages.href);
-	        }
-
-	        // tag::follow-2[]
-
-	    }, {
-	        key: 'loadCannedMessageFromServer',
-	        value: function loadCannedMessageFromServer() {
-	            var _this3 = this;
-
-	            follow(client, root, [{ rel: 'cannedMessages' }]).then(function (cannedMessageCollection) {
-	                return client({
-	                    method: 'GET',
-	                    path: cannedMessageCollection.entity._links.profile.href,
-	                    headers: { 'Accept': 'application/schema+json' }
-	                }).then(function (schema) {
-	                    _this3.schema = schema.entity;
-	                    return cannedMessageCollection;
-	                });
-	            }).done(function (cannedMessageCollection) {
-	                _this3.setState({
-	                    cannedMessages: cannedMessageCollection.entity._embedded.cannedMessages,
-	                    attributes: Object.keys(_this3.schema.properties),
-	                    links: cannedMessageCollection.entity._links });
-	            });
-	        }
-	        // end::follow-2[]
-
-	    }, {
-	        key: 'loadPriorityFromServer',
-	        value: function loadPriorityFromServer(pageSize) {
-	            var _this4 = this;
-
-	            client({
-	                method: 'GET',
-	                path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedAndWorkflowStateOrderByShowDateAsc",
-	                params: { size: pageSize, renewalStarted: true, renewalCompleted: false, workflowState: "Confirm Renewal State" }
-	            }).done(function (response) {
-	                _this4.setState({
-	                    renewals: response.entity._embedded.renewals,
-	                    pageSize: pageSize,
-	                    links: response.entity._links
-	                });
-	            });
-	        }
-	    }, {
-	        key: 'loadStartedFromServer',
-	        value: function loadStartedFromServer(pageSize) {
-	            var _this5 = this;
-
-	            client({
-	                method: 'GET',
-	                path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByRenewalStartedAsc",
-	                params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
-	            }).done(function (response) {
-	                _this5.setState({
-	                    renewals: response.entity._embedded.renewals,
-	                    pageSize: pageSize,
-	                    links: response.entity._links
-	                });
-	            });
-	        }
-	    }, {
-	        key: 'loadStateFromServer',
-	        value: function loadStateFromServer(pageSize) {
-	            var _this6 = this;
-
-	            client({
-	                method: 'GET',
-	                path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
-	                params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
-	            }).done(function (response) {
-	                _this6.setState({
-	                    renewals: response.entity._embedded.renewals,
-	                    pageSize: pageSize,
-	                    links: response.entity._links
-	                });
-	            });
-	        }
 
 	        // tag::follow-2[]
 
 	    }, {
 	        key: 'loadAllFromServer',
 	        value: function loadAllFromServer(pageSize) {
-	            var _this7 = this;
+	            var _this2 = this;
 
 	            follow(client, root, [{ rel: 'renewals', params: { size: pageSize } }]).then(function (renewalCollection) {
 	                return client({
@@ -30130,135 +29958,18 @@
 	                    path: renewalCollection.entity._links.profile.href,
 	                    headers: { 'Accept': 'application/schema+json' }
 	                }).then(function (schema) {
-	                    _this7.schema = schema.entity;
+	                    _this2.schema = schema.entity;
 	                    return renewalCollection;
 	                });
 	            }).done(function (renewalCollection) {
-	                _this7.setState({
+	                _this2.setState({
 	                    renewals: renewalCollection.entity._embedded.renewals,
-	                    attributes: Object.keys(_this7.schema.properties),
+	                    attributes: Object.keys(_this2.schema.properties),
 	                    pageSize: pageSize,
 	                    links: renewalCollection.entity._links });
 	            });
 	        }
 	        // end::follow-2[]
-
-	        // tag::follow-3[]
-
-	    }, {
-	        key: 'loadMessagesFromServer',
-	        value: function loadMessagesFromServer(navUri) {
-	            var _this8 = this;
-
-	            client({ method: 'GET', path: navUri }).done(function (response) {
-	                _this8.setState({ messages: response.entity._embedded.messages });
-	            });
-	        }
-	        // end::follow-3[]
-
-	    }, {
-	        key: 'handleSelectedItem',
-	        value: function handleSelectedItem(renewal) {
-	            if (renewal.renewalStarted === true && renewal.renewalCompleted === false && renewal.workflowState === "Confirm Renewal State") {
-	                this.setState({
-	                    displayServiceForm: "block",
-	                    displayServiceDetailForm: "none",
-	                    displayServiceSupplierForm: "none"
-	                });
-	            } else {
-	                this.setState({
-	                    displayServiceForm: "block",
-	                    displayServiceDetailForm: "none",
-	                    displayServiceSupplierForm: "none"
-	                });
-	            }
-
-	            if (renewal.renewalStarted === true) {
-	                this.setState({
-	                    displayMessages: "block"
-	                });
-	            } else {
-	                this.setState({
-	                    displayMessages: "none"
-	                });
-	            }
-
-	            this.setState({
-	                renewal: renewal,
-	                displayDetail: "block"
-	            });
-	            this.loadMessagesFromServer(renewal._links.messages.href);
-	        }
-	    }, {
-	        key: 'handleBackClick',
-	        value: function handleBackClick(e) {
-	            this.setState({
-	                displayDetail: "none"
-	            });
-	        }
-	    }, {
-	        key: 'handleToggleClick',
-	        value: function handleToggleClick(e) {
-	            if (this.state.toggleDetailInfo === "off") {
-	                this.setState({
-	                    toggleDetailInfo: "on",
-	                    displayInfo: "block",
-	                    displayLine: "none"
-	                });
-	            } else {
-	                this.setState({
-	                    toggleDetailInfo: "off",
-	                    displayInfo: "none",
-	                    displayLine: "block"
-	                });
-	            }
-	        }
-	    }, {
-	        key: 'onUpdateNote',
-	        value: function onUpdateNote(renewal, updatedRenewal) {
-	            debugger;
-	            client({
-	                method: 'POST',
-	                path: "/updateNote",
-	                entity: updatedRenewal,
-	                headers: { 'Content-Type': 'multipart/form-data' }
-	            }).done(function (response) {
-	                if (response.status.code === 200) {
-	                    alert('SUCCESS: Note Updated');
-	                }
-	                if (response.status.code === 412) {
-	                    alert('DENIED: Unable to update ' + renewal._links.self.href + ' METHOD NOT ALLOWED');
-	                }
-	                if (response.status.code === 412) {
-	                    alert('DENIED: Unable to update ' + renewal._links.self.href + '. Your copy is stale.');
-	                }
-	                if (response.status.code === 500) {
-	                    alert('DENIED: Unable to update ' + renewal._links.self.href + '. Internal Server Error.');
-	                }
-	            });
-	        }
-
-	        // tag::on-delete[]
-
-	    }, {
-	        key: 'onDelete',
-	        value: function onDelete(renewal) {
-	            client({ method: 'DELETE', path: renewal._links.self.href }).done(function (response) {
-	                /* let the websocket handle updating the UI */
-	                alert("You successfully deleted " + renewal.property + "Use the back button and refresh the Renewal list to view the changes");
-	            }, function (response) {
-	                if (response.error) {
-	                    alert("Somthing went wrong " + reponse.error);
-	                } else if (response.status.code === 400) {
-	                    alert('SERVER ERROR: You request was not completed ' + renewal._links.self.href);
-	                } else if (response.status.code === 403) {
-	                    alert('ACCESS DENIED: You are not authorized to delete ' + renewal._links.self.href);
-	                } else {
-	                    alert("Somthing went wrong " + reponse.error);
-	                }
-	            });
-	        }
-	        // end::on-delete[]
 
 	    }, {
 	        key: 'render',
@@ -30287,29 +29998,17 @@
 	                React.createElement(
 	                    'div',
 	                    null,
-	                    React.createElement(Detail, { renewal: this.state.renewal,
-	                        messages: this.state.messages,
-	                        cannedMessages: this.state.cannedMessages,
-	                        onRefreshMessages: this.handleRefreshMessages,
-	                        displayServiceForm: this.state.displayServiceForm,
-	                        displayServiceDetailForm: this.state.displayServiceDetailForm,
-	                        displayServiceSupplierForm: this.state.displayServiceSupplierForm,
-	                        displayMessages: this.state.displayMessages,
-	                        onUpdateNote: this.onUpdateNote,
-	                        onSelectItem: this.handleSelectedItem,
-	                        displayInfo: this.state.displayInfo,
-	                        displayLine: this.state.displayLine,
-	                        onDelete: this.onDelete })
+	                    React.createElement(Detail, null)
 	                )
 	            );
 	        }
 	    }]);
 
-	    return RenewalMain;
+	    return Home;
 	}(React.Component);
 	// end::app[]
 
-	module.exports = RenewalMain;
+	module.exports = Home;
 
 /***/ }),
 /* 286 */
@@ -35404,6 +35103,8 @@
 	var Info = __webpack_require__(340);
 	var FilterBar = __webpack_require__(280);
 
+	var root = 'http://localhost:8080/';
+
 	// end::vars[]
 
 	var Detail = function (_React$Component) {
@@ -35415,36 +35116,22 @@
 	        var _this = _possibleConstructorReturn(this, (Detail.__proto__ || Object.getPrototypeOf(Detail)).call(this, props));
 
 	        _this.state = {
-	            message: null,
-	            messages: [],
-	            attributes: [],
-	            pageSize: 2,
-	            links: {},
+	            serviceRequest: null,
 	            displayDetail: "block",
 	            displayServiceForm: "block",
 	            displayServiceDetailForm: "none",
 	            displayServiceSupplierForm: "none"
 	        };
-	        _this.updatePageSize = _this.updatePageSize.bind(_this);
-	        _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
-	        _this.handleBackClick = _this.handleBackClick.bind(_this);
 	        _this.toggleForm = _this.toggleForm.bind(_this);
+	        _this.uuidv4 = _this.uuidv4.bind(_this);
+	        _this.handleDone = _this.handleDone.bind(_this);
+	        _this.handleSave = _this.handleSave.bind(_this);
+	        _this.handleSubmit = _this.handleSubmit.bind(_this);
+	        _this.post = _this.post.bind(_this);
 	        return _this;
 	    }
 
-	    // tag::update-page-size[]
-
-
 	    _createClass(Detail, [{
-	        key: 'updatePageSize',
-	        value: function updatePageSize(pageSize) {
-	            if (pageSize !== this.state.pageSize) {
-	                this.loadFromServer(pageSize);
-	            }
-	        }
-	        // end::update-page-size[]
-
-	    }, {
 	        key: 'toggleForm',
 	        value: function toggleForm(form) {
 	            if (form == "service") {
@@ -35468,18 +35155,61 @@
 	            }
 	        }
 	    }, {
-	        key: 'handleSelectedItem',
-	        value: function handleSelectedItem(message) {
-	            this.setState({
-	                message: message,
-	                displayDetail: "block"
+	        key: 'uuidv4',
+	        value: function uuidv4() {
+	            return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, function (c) {
+	                return (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16);
 	            });
 	        }
 	    }, {
-	        key: 'handleBackClick',
-	        value: function handleBackClick(e) {
-	            this.setState({
-	                displayDetail: "none"
+	        key: 'handleSubmit',
+	        value: function handleSubmit(e) {
+	            e.preventDefault();
+
+	            var serviceRequest = { "serviceId": this.uuidv4(), "serviceCategory": 2, "serviceDescription": "Test", "serviceOwner": "Vipin Gupta", "serviceOwnerMSID": "guptvipi", "sourcingManager": "Narayan", "sourcingManagerMSID": "ramamoor", "acquiringDivision": "CFT", "buContractingService": "Gabba Gabba Wee", "leContractingServiceCode": 12345, "additionalReviewer": "", "additionalReviewerMSID": null, "additionalReviewerNotes": "Gabba Gabba Wee", "sourcingComments": "Gabba Gabba Wee", "applicationName": "Gabba Gabba Wee", "eonId": null, "estimatedAnnualSpend": null, "serviceDetailsComments": "" };
+
+	            console.log("HandleSubmit: " + serviceRequest);
+
+	            //post the object to the endpoint
+	            this.post(serviceRequest, "sr/start");
+	        }
+	    }, {
+	        key: 'handleSave',
+	        value: function handleSave(e) {
+	            e.preventDefault();
+
+	            var serviceRequest = { "serviceId": this.uuidv4(), "serviceCategory": 2, "serviceDescription": "Test", "serviceOwner": "Vipin Gupta", "serviceOwnerMSID": "guptvipi", "sourcingManager": "Narayan", "sourcingManagerMSID": "ramamoor", "acquiringDivision": "CFT", "buContractingService": "Gabba Gabba Wee", "leContractingServiceCode": 12345, "additionalReviewer": "", "additionalReviewerMSID": null, "additionalReviewerNotes": "Gabba Gabba Wee", "sourcingComments": "Gabba Gabba Wee", "applicationName": "Gabba Gabba Wee", "eonId": null, "estimatedAnnualSpend": null, "serviceDetailsComments": "" };
+
+	            console.log("HandleSave: " + serviceRequest);
+	            //post the object to the endpoint
+	            this.post(serviceRequest, "sr/save");
+	            // clear out the dialog's inputs
+	            this.refs.supplier.value = '';
+	        }
+	    }, {
+	        key: 'handleDone',
+	        value: function handleDone(e) {
+	            e.preventDefault();
+
+	            var serviceRequest = { "serviceId": this.uuidv4(), "serviceCategory": 2, "serviceDescription": "Test", "serviceOwner": "Vipin Gupta", "serviceOwnerMSID": "guptvipi", "sourcingManager": "Narayan", "sourcingManagerMSID": "ramamoor", "acquiringDivision": "CFT", "buContractingService": "Gabba Gabba Wee", "leContractingServiceCode": 12345, "additionalReviewer": "", "additionalReviewerMSID": null, "additionalReviewerNotes": "Gabba Gabba Wee", "sourcingComments": "Gabba Gabba Wee", "applicationName": "Gabba Gabba Wee", "eonId": null, "estimatedAnnualSpend": null, "serviceDetailsComments": "" };
+
+	            console.log("HandleDone: " + serviceRequest);
+	            //post the object to the endpoint
+	            this.post(serviceRequest, "sr/start");
+	            // clear out the dialog's inputs
+	            this.refs.supplier.value = '';
+	        }
+	    }, {
+	        key: 'post',
+	        value: function post(obj, context) {
+	            console.log("POST Started");
+	            client({
+	                method: 'POST',
+	                path: root + context,
+	                entity: obj,
+	                headers: { 'Content-Type': 'application/json' }
+	            }).done(function (response) {
+	                console.log("POST Request Complete");
 	            });
 	        }
 	    }, {
@@ -35491,14 +35221,12 @@
 	            var displayServiceSupplierForm = this.state.displayServiceSupplierForm;
 
 	            var info = "";
-	            if (this.state.renewal !== null) {
+	            if (this.state.serviceRequest !== null) {
 	                info = React.createElement(
 	                    'div',
 	                    { style: { display: this.props.displayInfo } },
 	                    React.createElement(Info, {
-	                        renewal: this.props.renewal,
-	                        onUpdateNote: this.props.onUpdateNote,
-	                        onDelete: this.props.onDelete })
+	                        renewal: this.props.serviceRequest })
 	                );
 	            }
 
@@ -35508,22 +35236,52 @@
 	                React.createElement(FilterBar, { toggleForm: this.toggleForm,
 	                    title: '' }),
 	                React.createElement(
-	                    'div',
-	                    { className: 'small-12 columns', style: { display: displayServiceForm } },
-	                    React.createElement(ServiceForm, { renewal: this.props.renewal,
-	                        cannedMessages: this.props.cannedMessages })
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'small-12 columns', style: { display: displayServiceDetailForm } },
-	                    React.createElement(ServiceDetailForm, { renewal: this.props.renewal,
-	                        cannedMessages: this.props.cannedMessages })
-	                ),
-	                React.createElement(
-	                    'div',
-	                    { className: 'small-12 columns', style: { display: displayServiceSupplierForm } },
-	                    React.createElement(ServiceSupplierForm, { renewal: this.props.renewal,
-	                        cannedMessages: this.props.cannedMessages })
+	                    'form',
+	                    { onSubmit: this.handleSubmit },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns', style: { display: displayServiceForm } },
+	                        React.createElement(ServiceForm, { serviceRequest: this.props.serviceRequest,
+	                            handleDone: this.state.handleDone,
+	                            handleSave: this.state.handleSave
+	                        })
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns', style: { display: displayServiceDetailForm } },
+	                        React.createElement(ServiceDetailForm, { serviceRequest: this.props.serviceRequest,
+	                            cannedMessages: this.props.cannedMessages })
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns', style: { display: displayServiceSupplierForm } },
+	                        React.createElement(ServiceSupplierForm, { renewal: this.props.serviceRequest,
+	                            cannedMessages: this.props.cannedMessages })
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'small-12 columns' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'small-4 small-offset-8 large-4 large-offset-0 columns button-group ' },
+	                            React.createElement(
+	                                'label',
+	                                { htmlFor: 'save', className: 'button ' },
+	                                'Save'
+	                            ),
+	                            React.createElement('input', { type: 'submit', id: 'save', className: 'show-for-sr' })
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            { className: 'small-1 small-offset-2 large-1 large-offset-2 columns' },
+	                            React.createElement(
+	                                'label',
+	                                { htmlFor: 'done', className: 'button ' },
+	                                'Done'
+	                            ),
+	                            React.createElement('input', { type: 'submit', id: 'done', className: 'show-for-sr' })
+	                        )
+	                    )
 	                )
 	            );
 	        }
@@ -35561,135 +35319,29 @@
 
 	    var _this = _possibleConstructorReturn(this, (ServiceForm.__proto__ || Object.getPrototypeOf(ServiceForm)).call(this, props));
 
-	    _this.state = {
-	      // signed: this.props.renewal.signed,
-	      // renewing: this.props.renewal.renewing
-
-	    };
-	    _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
-	    _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    _this.setMessage = _this.setMessage.bind(_this);
+	    _this.state = {};
+	    _this.handleDone = _this.handleDone.bind(_this);
+	    _this.handleSave = _this.handleSave.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(ServiceForm, [{
-	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {
-	      e.preventDefault();
-	      debugger;
-	      var message = {};
-	      message.text = this.refs.newMessage.value;
-	      message.subject = this.refs.cannedMessage.value;
-	      if (this.refs.gracePeriod.value) {
-	        message.gracePeriod = this.refs.gracePeriod.value;
-	      }
-	      message.confirm = false;
-	      if (this.refs.confirm.checked) {
-	        message.confirm = true;
-	      }
-	      message.processId = this.props.renewal.businessKey;
-	      message.renewalId = this.props.renewal.id;
-	      this.onCreate(message);
-
-	      // clear out the dialog's inputs
-	      this.refs.newMessage.value = '';
-	    }
-	  }, {
-	    key: 'setMessage',
-	    value: function setMessage(e) {
+	    key: 'handleSave',
+	    value: function handleSave(e) {
 	      e.preventDefault();
 
-	      var sdate = new Date(this.props.renewal.showDate);
-	      var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
-
-	      this.refs.newMessage.value = "";
-	      var selection = this.refs.cannedMessage.value;
-	      if (selection !== "") {
-	        this.refs.newMessage.value = this.props.cannedMessages[selection].text;
-	      }
+	      console.log("HandleSave: ");
 	    }
 	  }, {
-	    key: 'onCreate',
-	    value: function onCreate(message) {
-	      client({
-	        method: 'POST',
-	        path: "/message",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Message Sent");
-	      });
-	    }
-	  }, {
-	    key: 'handleSignedCheck',
-	    value: function handleSignedCheck(e) {
+	    key: 'handleDone',
+	    value: function handleDone(e) {
 	      e.preventDefault();
-	      var message = {};
-	      message.signed = false;
-	      if (this.refs.signed.checked) {
-	        message.signed = true;
-	      }
-	      message.processId = this.props.renewal.processId;
-	      message.renewalId = this.props.renewal.id;
 
-	      this.onUpdateSigned(message);
-	    }
-	  }, {
-	    key: 'onUpdateSigned',
-	    value: function onUpdateSigned(message) {
-	      var _this2 = this;
-
-	      client({
-	        method: 'POST',
-	        path: "/signed",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Renewal Signed flag has been updated!");
-	        _this2.setState({
-	          signed: message.signed
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'handleRenewedCheck',
-	    value: function handleRenewedCheck(e) {
-	      e.preventDefault();
-	      var message = {};
-	      message.renewing = false;
-	      if (this.refs.renewing.checked) {
-	        message.renewing = true;
-	      }
-	      message.processId = this.props.renewal.processId;
-	      message.renewalId = this.props.renewal.id;
-
-	      this.onUpdateRenewing(message);
-	    }
-	  }, {
-	    key: 'onUpdateRenewing',
-	    value: function onUpdateRenewing(message) {
-	      var _this3 = this;
-
-	      client({
-	        method: 'POST',
-	        path: "/renewing",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Renewal Renewing flag has been updated!");
-	        _this3.setState({
-	          renewing: message.renewing
-	        });
-	      });
+	      console.log("HandleDone: ");
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var i = 0;
-	      // var options = this.props.cannedMessages.map(cannedMessage =>
-	      //     <option key={cannedMessage._links.self.href} value={i++}>{cannedMessage.subject}</option>
-	      // );
 
 	      return React.createElement(
 	        'div',
@@ -35698,84 +35350,61 @@
 	          'div',
 	          { className: 'small-12 columns' },
 	          React.createElement(
-	            'form',
-	            { onSubmit: this.handleSubmit },
+	            'div',
+	            { className: 'row' },
 	            React.createElement(
 	              'div',
-	              { className: 'row' },
+	              { className: 'small-5 columns' },
 	              React.createElement(
 	                'div',
-	                { className: 'small-5 columns' },
+	                { className: 'input-group' },
 	                React.createElement(
-	                  'div',
-	                  { className: 'input-group' },
+	                  'span',
+	                  { className: 'input-group-label' },
+	                  'Service Category'
+	                ),
+	                React.createElement(
+	                  'select',
+	                  { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
 	                  React.createElement(
-	                    'span',
-	                    { className: 'input-group-label' },
-	                    'Service Category'
+	                    'option',
+	                    { defaultValue: true },
+	                    'Please Select'
 	                  ),
 	                  React.createElement(
-	                    'select',
-	                    { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
-	                    React.createElement(
-	                      'option',
-	                      { defaultValue: true },
-	                      'Please Select'
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '1' },
-	                      'Category 1 '
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '2' },
-	                      'Category 2 '
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '3' },
-	                      'Category 3 '
-	                    ),
-	                    React.createElement(
-	                      'option',
-	                      { value: '5' },
-	                      'Category 5 '
-	                    )
+	                    'option',
+	                    { value: '1' },
+	                    'Category 1 '
+	                  ),
+	                  React.createElement(
+	                    'option',
+	                    { value: '2' },
+	                    'Category 2 '
+	                  ),
+	                  React.createElement(
+	                    'option',
+	                    { value: '3' },
+	                    'Category 3 '
+	                  ),
+	                  React.createElement(
+	                    'option',
+	                    { value: '5' },
+	                    'Category 5 '
 	                  )
 	                )
 	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'row' },
-	              React.createElement(
-	                'div',
-	                { className: 'small-5 columns' },
-	                React.createElement('textarea', { rows: '5', ref: 'newMessage', placeholder: 'Service Description' })
-	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'row' },
-	              React.createElement(
-	                'div',
-	                { className: 'small-4 small-offset-8 large-4 large-offset-8 columns button-group ' },
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'sendMessage', className: 'button secondary float-right' },
-	                  'Back'
-	                ),
-	                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' }),
-	                React.createElement(
-	                  'label',
-	                  { htmlFor: 'sendMessage', className: 'button float-right' },
-	                  'Next'
-	                ),
-	                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
-	              )
 	            )
-	          )
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'row' },
+	            React.createElement(
+	              'div',
+	              { className: 'small-5 columns' },
+	              React.createElement('textarea', { rows: '5', ref: 'newMessage', placeholder: 'Service Description' })
+	            )
+	          ),
+	          React.createElement('div', { className: 'row' })
 	        )
 	      );
 	    }
@@ -35844,135 +35473,14 @@
 
 	        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
 
-	        _this.state = {
-	            // signed: this.props.renewal.signed,
-	            // renewing: this.props.renewal.renewing
-
-	        };
-	        _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
-	        _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
-	        _this.handleSubmit = _this.handleSubmit.bind(_this);
-	        _this.setMessage = _this.setMessage.bind(_this);
+	        _this.state = {};
 	        return _this;
 	    }
 
 	    _createClass(Form, [{
-	        key: 'handleSubmit',
-	        value: function handleSubmit(e) {
-	            e.preventDefault();
-	            debugger;
-	            var message = {};
-	            message.text = this.refs.newMessage.value;
-	            message.subject = this.refs.cannedMessage.value;
-	            if (this.refs.gracePeriod.value) {
-	                message.gracePeriod = this.refs.gracePeriod.value;
-	            }
-	            message.confirm = false;
-	            if (this.refs.confirm.checked) {
-	                message.confirm = true;
-	            }
-	            message.processId = this.props.renewal.businessKey;
-	            message.renewalId = this.props.renewal.id;
-	            this.onCreate(message);
-
-	            // clear out the dialog's inputs
-	            this.refs.newMessage.value = '';
-	        }
-	    }, {
-	        key: 'setMessage',
-	        value: function setMessage(e) {
-	            e.preventDefault();
-
-	            var sdate = new Date(this.props.renewal.showDate);
-	            var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
-
-	            this.refs.newMessage.value = "";
-	            var selection = this.refs.cannedMessage.value;
-	            if (selection !== "") {
-	                this.refs.newMessage.value = this.props.cannedMessages[selection].text;
-	            }
-	        }
-	    }, {
-	        key: 'onCreate',
-	        value: function onCreate(message) {
-	            client({
-	                method: 'POST',
-	                path: "/message",
-	                entity: message,
-	                headers: { 'Content-Type': 'multipart/form-data' }
-	            }).done(function (response) {
-	                alert("Message Sent");
-	            });
-	        }
-	    }, {
-	        key: 'handleSignedCheck',
-	        value: function handleSignedCheck(e) {
-	            e.preventDefault();
-	            var message = {};
-	            message.signed = false;
-	            if (this.refs.signed.checked) {
-	                message.signed = true;
-	            }
-	            message.processId = this.props.renewal.processId;
-	            message.renewalId = this.props.renewal.id;
-
-	            this.onUpdateSigned(message);
-	        }
-	    }, {
-	        key: 'onUpdateSigned',
-	        value: function onUpdateSigned(message) {
-	            var _this2 = this;
-
-	            client({
-	                method: 'POST',
-	                path: "/signed",
-	                entity: message,
-	                headers: { 'Content-Type': 'multipart/form-data' }
-	            }).done(function (response) {
-	                alert("Renewal Signed flag has been updated!");
-	                _this2.setState({
-	                    signed: message.signed
-	                });
-	            });
-	        }
-	    }, {
-	        key: 'handleRenewedCheck',
-	        value: function handleRenewedCheck(e) {
-	            e.preventDefault();
-	            var message = {};
-	            message.renewing = false;
-	            if (this.refs.renewing.checked) {
-	                message.renewing = true;
-	            }
-	            message.processId = this.props.renewal.processId;
-	            message.renewalId = this.props.renewal.id;
-
-	            this.onUpdateRenewing(message);
-	        }
-	    }, {
-	        key: 'onUpdateRenewing',
-	        value: function onUpdateRenewing(message) {
-	            var _this3 = this;
-
-	            client({
-	                method: 'POST',
-	                path: "/renewing",
-	                entity: message,
-	                headers: { 'Content-Type': 'multipart/form-data' }
-	            }).done(function (response) {
-	                alert("Renewal Renewing flag has been updated!");
-	                _this3.setState({
-	                    renewing: message.renewing
-	                });
-	            });
-	        }
-	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var i = 0;
-	            // var options = this.props.cannedMessages.map(cannedMessage =>
-	            //     <option key={cannedMessage._links.self.href} value={i++}>{cannedMessage.subject}</option>
-	            // );
 
 	            return React.createElement(
 	                'div',
@@ -35981,154 +35489,130 @@
 	                    'div',
 	                    { className: 'small-12 columns' },
 	                    React.createElement(
-	                        'form',
-	                        { onSubmit: this.handleSubmit },
+	                        'div',
+	                        { className: 'row' },
 	                        React.createElement(
 	                            'div',
-	                            { className: 'row' },
+	                            { className: 'small-5 columns' },
 	                            React.createElement(
 	                                'div',
-	                                { className: 'small-5 columns' },
+	                                { className: 'input-group' },
 	                                React.createElement(
-	                                    'div',
-	                                    { className: 'input-group' },
-	                                    React.createElement(
-	                                        'span',
-	                                        { className: 'input-group-label' },
-	                                        'Service Owner'
-	                                    ),
-	                                    React.createElement('input', { className: 'input-group-field', type: 'text', ref: 'renewing', onChange: this.handleRenewedCheck })
-	                                )
+	                                    'span',
+	                                    { className: 'input-group-label' },
+	                                    'Service Owner'
+	                                ),
+	                                React.createElement('input', { className: 'input-group-field', type: 'text', ref: 'renewing', onChange: this.handleRenewedCheck })
 	                            )
-	                        ),
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'row' },
 	                        React.createElement(
 	                            'div',
-	                            { className: 'row' },
+	                            { className: 'small-5 columns' },
 	                            React.createElement(
 	                                'div',
-	                                { className: 'small-5 columns' },
+	                                { className: 'input-group' },
 	                                React.createElement(
-	                                    'div',
-	                                    { className: 'input-group' },
-	                                    React.createElement(
-	                                        'span',
-	                                        { className: 'input-group-label' },
-	                                        'Sourcing Manager'
-	                                    ),
-	                                    React.createElement('input', { className: 'input-group-field', type: 'text', ref: 'renewing', onChange: this.handleRenewedCheck })
-	                                )
+	                                    'span',
+	                                    { className: 'input-group-label' },
+	                                    'Sourcing Manager'
+	                                ),
+	                                React.createElement('input', { className: 'input-group-field', type: 'text', ref: 'renewing', onChange: this.handleRenewedCheck })
 	                            )
-	                        ),
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'row' },
 	                        React.createElement(
 	                            'div',
-	                            { className: 'row' },
+	                            { className: 'small-5 columns' },
 	                            React.createElement(
 	                                'div',
-	                                { className: 'small-5 columns' },
+	                                { className: 'input-group' },
 	                                React.createElement(
-	                                    'div',
-	                                    { className: 'input-group' },
+	                                    'span',
+	                                    { className: 'input-group-label' },
+	                                    'Acquiring BU'
+	                                ),
+	                                React.createElement(
+	                                    'select',
+	                                    { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
 	                                    React.createElement(
-	                                        'span',
-	                                        { className: 'input-group-label' },
-	                                        'Acquiring BU'
+	                                        'option',
+	                                        { value: '' },
+	                                        'Please Select'
 	                                    ),
 	                                    React.createElement(
-	                                        'select',
-	                                        { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '' },
-	                                            'Please Select'
-	                                        ),
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '1' },
-	                                            'Category 1 '
-	                                        ),
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '2' },
-	                                            'Category 2 '
-	                                        ),
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '3' },
-	                                            'Category 3 '
-	                                        ),
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '5' },
-	                                            'Category 5 '
-	                                        )
+	                                        'option',
+	                                        { value: '1' },
+	                                        'Category 1 '
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        { value: '2' },
+	                                        'Category 2 '
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        { value: '3' },
+	                                        'Category 3 '
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        { value: '5' },
+	                                        'Category 5 '
 	                                    )
 	                                )
 	                            )
-	                        ),
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        { className: 'row' },
 	                        React.createElement(
 	                            'div',
-	                            { className: 'row' },
+	                            { className: 'small-5 columns' },
 	                            React.createElement(
 	                                'div',
-	                                { className: 'small-5 columns' },
+	                                { className: 'input-group' },
 	                                React.createElement(
-	                                    'div',
-	                                    { className: 'input-group' },
+	                                    'span',
+	                                    { className: 'input-group-label' },
+	                                    'Legal Entitiy'
+	                                ),
+	                                React.createElement(
+	                                    'select',
+	                                    { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
 	                                    React.createElement(
-	                                        'span',
-	                                        { className: 'input-group-label' },
-	                                        'Legal Entitiy'
+	                                        'option',
+	                                        { value: '' },
+	                                        'Please Select'
 	                                    ),
 	                                    React.createElement(
-	                                        'select',
-	                                        { className: 'input-group-field', ref: 'gracePeriod', defaultValue: '' },
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '' },
-	                                            'Please Select'
-	                                        ),
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '1' },
-	                                            'Category 1 '
-	                                        ),
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '2' },
-	                                            'Category 2 '
-	                                        ),
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '3' },
-	                                            'Category 3 '
-	                                        ),
-	                                        React.createElement(
-	                                            'option',
-	                                            { value: '5' },
-	                                            'Category 5 '
-	                                        )
+	                                        'option',
+	                                        { value: '1' },
+	                                        'Category 1 '
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        { value: '2' },
+	                                        'Category 2 '
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        { value: '3' },
+	                                        'Category 3 '
+	                                    ),
+	                                    React.createElement(
+	                                        'option',
+	                                        { value: '5' },
+	                                        'Category 5 '
 	                                    )
 	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            'div',
-	                            { className: 'row' },
-	                            React.createElement(
-	                                'div',
-	                                { className: 'small-4 small-offset-8 large-4 large-offset-8 columns button-group ' },
-	                                React.createElement(
-	                                    'label',
-	                                    { htmlFor: 'sendMessage', className: 'button secondary float-right' },
-	                                    'Back'
-	                                ),
-	                                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' }),
-	                                React.createElement(
-	                                    'label',
-	                                    { htmlFor: 'sendMessage', className: 'button float-right' },
-	                                    'Next'
-	                                ),
-	                                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
 	                            )
 	                        )
 	                    )
@@ -36169,127 +35653,25 @@
 
 	        var _this = _possibleConstructorReturn(this, (ServiceForm.__proto__ || Object.getPrototypeOf(ServiceForm)).call(this, props));
 
-	        _this.state = {
-	            // signed: this.props.renewal.signed,
-	            // renewing: this.props.renewal.renewing
-
-	        };
-	        _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
-	        _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
-	        _this.handleSubmit = _this.handleSubmit.bind(_this);
-	        _this.setMessage = _this.setMessage.bind(_this);
+	        _this.state = {};
+	        _this.handleDone = _this.handleDone.bind(_this);
+	        _this.handleSave = _this.handleSave.bind(_this);
 	        return _this;
 	    }
 
 	    _createClass(ServiceForm, [{
-	        key: 'handleSubmit',
-	        value: function handleSubmit(e) {
-	            e.preventDefault();
-	            debugger;
-	            var message = {};
-	            message.text = this.refs.newMessage.value;
-	            message.subject = this.refs.cannedMessage.value;
-	            if (this.refs.gracePeriod.value) {
-	                message.gracePeriod = this.refs.gracePeriod.value;
-	            }
-	            message.confirm = false;
-	            if (this.refs.confirm.checked) {
-	                message.confirm = true;
-	            }
-	            message.processId = this.props.renewal.businessKey;
-	            message.renewalId = this.props.renewal.id;
-	            this.onCreate(message);
-
-	            // clear out the dialog's inputs
-	            this.refs.newMessage.value = '';
-	        }
-	    }, {
-	        key: 'setMessage',
-	        value: function setMessage(e) {
+	        key: 'handleSave',
+	        value: function handleSave(e) {
 	            e.preventDefault();
 
-	            var sdate = new Date(this.props.renewal.showDate);
-	            var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
-
-	            this.refs.newMessage.value = "";
-	            var selection = this.refs.cannedMessage.value;
-	            if (selection !== "") {
-	                this.refs.newMessage.value = this.props.cannedMessages[selection].text;
-	            }
+	            console.log("HandleSave: ");
 	        }
 	    }, {
-	        key: 'onCreate',
-	        value: function onCreate(message) {
-	            client({
-	                method: 'POST',
-	                path: "/message",
-	                entity: message,
-	                headers: { 'Content-Type': 'multipart/form-data' }
-	            }).done(function (response) {
-	                alert("Message Sent");
-	            });
-	        }
-	    }, {
-	        key: 'handleSignedCheck',
-	        value: function handleSignedCheck(e) {
+	        key: 'handleDone',
+	        value: function handleDone(e) {
 	            e.preventDefault();
-	            var message = {};
-	            message.signed = false;
-	            if (this.refs.signed.checked) {
-	                message.signed = true;
-	            }
-	            message.processId = this.props.renewal.processId;
-	            message.renewalId = this.props.renewal.id;
 
-	            this.onUpdateSigned(message);
-	        }
-	    }, {
-	        key: 'onUpdateSigned',
-	        value: function onUpdateSigned(message) {
-	            var _this2 = this;
-
-	            client({
-	                method: 'POST',
-	                path: "/signed",
-	                entity: message,
-	                headers: { 'Content-Type': 'multipart/form-data' }
-	            }).done(function (response) {
-	                alert("Renewal Signed flag has been updated!");
-	                _this2.setState({
-	                    signed: message.signed
-	                });
-	            });
-	        }
-	    }, {
-	        key: 'handleRenewedCheck',
-	        value: function handleRenewedCheck(e) {
-	            e.preventDefault();
-	            var message = {};
-	            message.renewing = false;
-	            if (this.refs.renewing.checked) {
-	                message.renewing = true;
-	            }
-	            message.processId = this.props.renewal.processId;
-	            message.renewalId = this.props.renewal.id;
-
-	            this.onUpdateRenewing(message);
-	        }
-	    }, {
-	        key: 'onUpdateRenewing',
-	        value: function onUpdateRenewing(message) {
-	            var _this3 = this;
-
-	            client({
-	                method: 'POST',
-	                path: "/renewing",
-	                entity: message,
-	                headers: { 'Content-Type': 'multipart/form-data' }
-	            }).done(function (response) {
-	                alert("Renewal Renewing flag has been updated!");
-	                _this3.setState({
-	                    renewing: message.renewing
-	                });
-	            });
+	            console.log("HandleDone: ");
 	        }
 	    }, {
 	        key: 'render',
@@ -36302,44 +35684,20 @@
 	                    'div',
 	                    { className: 'small-12 columns' },
 	                    React.createElement(
-	                        'form',
-	                        { onSubmit: this.handleSubmit },
+	                        'div',
+	                        { className: 'row' },
 	                        React.createElement(
 	                            'div',
-	                            { className: 'row' },
+	                            { className: 'small-5 columns' },
 	                            React.createElement(
 	                                'div',
-	                                { className: 'small-5 columns' },
+	                                { className: 'input-group' },
 	                                React.createElement(
-	                                    'div',
-	                                    { className: 'input-group' },
-	                                    React.createElement(
-	                                        'span',
-	                                        { className: 'input-group-label' },
-	                                        'Supplier'
-	                                    ),
-	                                    React.createElement('input', { className: 'input-group-field', type: 'text', ref: 'renewing', onChange: this.handleRenewedCheck })
-	                                )
-	                            )
-	                        ),
-	                        React.createElement(
-	                            'div',
-	                            { className: 'row' },
-	                            React.createElement(
-	                                'div',
-	                                { className: 'small-4 small-offset-8 large-4 large-offset-8 columns button-group ' },
-	                                React.createElement(
-	                                    'label',
-	                                    { htmlFor: 'sendMessage', className: 'button secondary float-right' },
-	                                    'Back'
+	                                    'span',
+	                                    { className: 'input-group-label' },
+	                                    'Supplier'
 	                                ),
-	                                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' }),
-	                                React.createElement(
-	                                    'label',
-	                                    { htmlFor: 'sendMessage', className: 'button float-right' },
-	                                    'Next'
-	                                ),
-	                                React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
+	                                React.createElement('input', { className: 'input-group-field', type: 'text', ref: 'supplier' })
 	                            )
 	                        )
 	                    )
@@ -36803,436 +36161,424 @@
 
 	// tag::app[]
 
-	var RenewalMain = function (_React$Component) {
-	  _inherits(RenewalMain, _React$Component);
+	var home = function (_React$Component) {
+	    _inherits(home, _React$Component);
 
-	  function RenewalMain(props) {
-	    _classCallCheck(this, RenewalMain);
+	    function home(props) {
+	        _classCallCheck(this, home);
 
-	    var _this = _possibleConstructorReturn(this, (RenewalMain.__proto__ || Object.getPrototypeOf(RenewalMain)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (home.__proto__ || Object.getPrototypeOf(home)).call(this, props));
 
-	    _this.state = {
-	      renewal: null,
-	      renewals: [],
-	      attributes: [],
-	      pageSize: 2,
-	      links: {},
-	      displayDetail: "none",
-	      displayList: "block",
-	      displayInfo: "none",
-	      displayLine: "block",
-	      toggleDetailInfo: "off",
-	      callUpdate: function callUpdate(pageSize, that) {
-	        that.loadAllFromServer(pageSize);
-	      }
-	    };
-	    _this.updatePageSize = _this.updatePageSize.bind(_this);
-	    _this.onNavigate = _this.onNavigate.bind(_this);
-	    _this.onUpdateNote = _this.onUpdateNote.bind(_this);
-	    _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
-	    _this.handleBackClick = _this.handleBackClick.bind(_this);
-	    _this.handleToggleClick = _this.handleToggleClick.bind(_this);
-	    _this.handlefilterState = _this.handlefilterState.bind(_this);
-	    _this.handleFilterPriority = _this.handleFilterPriority.bind(_this);
-	    _this.handleFilterAll = _this.handleFilterAll.bind(_this);
-	    _this.handleFilterStarted = _this.handleFilterStarted.bind(_this);
-	    _this.handleRefreshMessages = _this.handleRefreshMessages.bind(_this);
-	    _this.onDelete = _this.onDelete.bind(_this);
-	    return _this;
-	  }
-
-	  // tag::update-page-size[]
-
-
-	  _createClass(RenewalMain, [{
-	    key: 'updatePageSize',
-	    value: function updatePageSize(pageSize) {
-	      if (pageSize !== this.state.pageSize) {
-	        this.state.callUpdate(pageSize, this);
-	      }
+	        _this.state = {
+	            renewal: null,
+	            renewals: [],
+	            attributes: [],
+	            pageSize: 10,
+	            links: {},
+	            displayDetail: "none",
+	            displayList: "block",
+	            displayInfo: "none",
+	            displayLine: "block",
+	            toggleDetailInfo: "off",
+	            callUpdate: function callUpdate(pageSize, that) {
+	                that.loadAllFromServer(pageSize);
+	            }
+	        };
+	        _this.updatePageSize = _this.updatePageSize.bind(_this);
+	        _this.onNavigate = _this.onNavigate.bind(_this);
+	        // this.onUpdateNote = this.onUpdateNote.bind(this);
+	        _this.handleSelectedItem = _this.handleSelectedItem.bind(_this);
+	        _this.handleBackClick = _this.handleBackClick.bind(_this);
+	        _this.handleToggleClick = _this.handleToggleClick.bind(_this);
+	        // this.handlefilterState = this.handlefilterState.bind(this);
+	        // this.handleFilterPriority = this.handleFilterPriority.bind(this);
+	        _this.handleFilterAll = _this.handleFilterAll.bind(_this);
+	        // this.handleFilterStarted = this.handleFilterStarted.bind(this);
+	        _this.handleRefreshMessages = _this.handleRefreshMessages.bind(_this);
+	        // this.onDelete = this.onDelete.bind(this);
+	        return _this;
 	    }
-	    // end::update-page-size[]
 
-	    // tag::follow-1[]
+	    // tag::update-page-size[]
 
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.loadAllFromServer(this.state.pageSize);
-	      this.loadCannedMessageFromServer();
-	    }
-	    // end::follow-1[]
 
-	    // tag::navigate[]
-
-	  }, {
-	    key: 'onNavigate',
-	    value: function onNavigate(navUri) {
-	      var _this2 = this;
-
-	      client({ method: 'GET', path: navUri }).done(function (renewalCollection) {
-	        _this2.setState({
-	          renewals: renewalCollection.entity._embedded.renewals,
-	          attributes: _this2.state.attributes,
-	          pageSize: _this2.state.pageSize,
-	          links: renewalCollection.entity._links
-	        });
-	      });
-	    }
-	    // end::navigate[]
-
-	  }, {
-	    key: 'handleFilterPriority',
-	    value: function handleFilterPriority(pageSize) {
-	      this.loadPriorityFromServer(pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.loadPriorityFromServer(pageSize);
+	    _createClass(home, [{
+	        key: 'updatePageSize',
+	        value: function updatePageSize(pageSize) {
+	            if (pageSize !== this.state.pageSize) {
+	                this.state.callUpdate(pageSize, this);
+	            }
 	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleFilterAll',
-	    value: function handleFilterAll(pageSize) {
-	      this.loadAllFromServer(pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.loadAllFromServer(pageSize);
+	        // end::update-page-size[]
+
+	        // tag::follow-1[]
+
+	    }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.loadAllFromServer(this.state.pageSize);
+	            console.log("Loaded Service Requests from server" + this.state.renewals);
+	            // this.loadCannedMessageFromServer();
 	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleFilterStarted',
-	    value: function handleFilterStarted(pageSize) {
-	      this.loadStartedFromServer(pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.loadStartedFromServer(pageSize);
+	        // end::follow-1[]
+
+
+	        // tag::follow-2[]
+
+	    }, {
+	        key: 'loadAllFromServer',
+	        value: function loadAllFromServer(pageSize) {
+	            var _this2 = this;
+
+	            follow(client, root, [{ rel: 'serviceRequestEntities', params: { size: pageSize } }]).then(function (renewalCollection) {
+	                return client({
+	                    method: 'GET',
+	                    path: renewalCollection.entity._links.profile.href,
+	                    headers: { 'Accept': 'application/schema+json' }
+	                }).then(function (schema) {
+	                    _this2.schema = schema.entity;
+	                    return renewalCollection;
+	                });
+	            }).done(function (renewalCollection) {
+	                _this2.setState({
+	                    renewals: renewalCollection.entity._embedded.serviceRequestEntities,
+	                    attributes: Object.keys(_this2.schema.properties),
+	                    pageSize: pageSize,
+	                    links: renewalCollection.entity._links });
+	            });
 	        }
-	      });
-	    }
-	  }, {
-	    key: 'handlefilterState',
-	    value: function handlefilterState(pageSize) {
-	      this.loadStateFromServer(pageSize);
-	      this.setState({
-	        callUpdate: function callUpdate(pageSize, that) {
-	          that.loadStateFromServer(pageSize);
+	        // end::follow-2[]
+
+
+	        // tag::navigate[]
+
+	    }, {
+	        key: 'onNavigate',
+	        value: function onNavigate(navUri) {
+	            var _this3 = this;
+
+	            client({ method: 'GET', path: navUri }).done(function (renewalCollection) {
+	                _this3.setState({
+	                    renewals: renewalCollection.entity._embedded.renewals,
+	                    attributes: _this3.state.attributes,
+	                    pageSize: _this3.state.pageSize,
+	                    links: renewalCollection.entity._links
+	                });
+	            });
 	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleRefreshMessages',
-	    value: function handleRefreshMessages(renewal) {
-	      this.loadMessagesFromServer(renewal._links.messages.href);
-	    }
+	        // end::navigate[]
 
-	    // tag::follow-2[]
+	        // handleFilterPriority(pageSize){
+	        //   this.loadPriorityFromServer(pageSize);
+	        //   this.setState({
+	        //     callUpdate: function (pageSize, that) {that.loadPriorityFromServer(pageSize)}
+	        //   });
+	        // }
 
-	  }, {
-	    key: 'loadCannedMessageFromServer',
-	    value: function loadCannedMessageFromServer() {
-	      var _this3 = this;
-
-	      follow(client, root, [{ rel: 'cannedMessages' }]).then(function (cannedMessageCollection) {
-	        return client({
-	          method: 'GET',
-	          path: cannedMessageCollection.entity._links.profile.href,
-	          headers: { 'Accept': 'application/schema+json' }
-	        }).then(function (schema) {
-	          _this3.schema = schema.entity;
-	          return cannedMessageCollection;
-	        });
-	      }).done(function (cannedMessageCollection) {
-	        _this3.setState({
-	          cannedMessages: cannedMessageCollection.entity._embedded.cannedMessages,
-	          attributes: Object.keys(_this3.schema.properties),
-	          links: cannedMessageCollection.entity._links });
-	      });
-	    }
-	    // end::follow-2[]
-
-	  }, {
-	    key: 'loadPriorityFromServer',
-	    value: function loadPriorityFromServer(pageSize) {
-	      var _this4 = this;
-
-	      client({
-	        method: 'GET',
-	        path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedAndWorkflowStateOrderByShowDateAsc",
-	        params: { size: pageSize, renewalStarted: true, renewalCompleted: false, workflowState: "Confirm Renewal State" }
-	      }).done(function (response) {
-	        _this4.setState({
-	          renewals: response.entity._embedded.renewals,
-	          pageSize: pageSize,
-	          links: response.entity._links
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'loadStartedFromServer',
-	    value: function loadStartedFromServer(pageSize) {
-	      var _this5 = this;
-
-	      client({
-	        method: 'GET',
-	        path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByRenewalStartedAsc",
-	        params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
-	      }).done(function (response) {
-	        _this5.setState({
-	          renewals: response.entity._embedded.renewals,
-	          pageSize: pageSize,
-	          links: response.entity._links
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'loadStateFromServer',
-	    value: function loadStateFromServer(pageSize) {
-	      var _this6 = this;
-
-	      client({
-	        method: 'GET',
-	        path: root + "/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
-	        params: { size: pageSize, renewalStarted: true, renewalCompleted: false }
-	      }).done(function (response) {
-	        _this6.setState({
-	          renewals: response.entity._embedded.renewals,
-	          pageSize: pageSize,
-	          links: response.entity._links
-	        });
-	      });
-	    }
-
-	    // tag::follow-2[]
-
-	  }, {
-	    key: 'loadAllFromServer',
-	    value: function loadAllFromServer(pageSize) {
-	      var _this7 = this;
-
-	      follow(client, root, [{ rel: 'renewals', params: { size: pageSize } }]).then(function (renewalCollection) {
-	        return client({
-	          method: 'GET',
-	          path: renewalCollection.entity._links.profile.href,
-	          headers: { 'Accept': 'application/schema+json' }
-	        }).then(function (schema) {
-	          _this7.schema = schema.entity;
-	          return renewalCollection;
-	        });
-	      }).done(function (renewalCollection) {
-	        _this7.setState({
-	          renewals: renewalCollection.entity._embedded.renewals,
-	          attributes: Object.keys(_this7.schema.properties),
-	          pageSize: pageSize,
-	          links: renewalCollection.entity._links });
-	      });
-	    }
-	    // end::follow-2[]
-
-	    // tag::follow-3[]
-
-	  }, {
-	    key: 'loadMessagesFromServer',
-	    value: function loadMessagesFromServer(navUri) {
-	      var _this8 = this;
-
-	      client({ method: 'GET', path: navUri }).done(function (response) {
-	        _this8.setState({ messages: response.entity._embedded.messages });
-	      });
-	    }
-	    // end::follow-3[]
-
-	  }, {
-	    key: 'handleSelectedItem',
-	    value: function handleSelectedItem(renewal) {
-	      if (renewal.renewalStarted === true && renewal.renewalCompleted === false && renewal.workflowState === "Confirm Renewal State") {
-	        this.setState({
-	          displayForm: "block"
-	        });
-	      } else {
-	        this.setState({
-	          displayForm: "none"
-	        });
-	      }
-
-	      if (renewal.renewalStarted === true) {
-	        this.setState({
-	          displayMessages: "block"
-	        });
-	      } else {
-	        this.setState({
-	          displayMessages: "none"
-	        });
-	      }
-
-	      this.setState({
-	        renewal: renewal,
-	        displayDetail: "block",
-	        displayList: "none"
-	      });
-	      this.loadMessagesFromServer(renewal._links.messages.href);
-	    }
-	  }, {
-	    key: 'handleBackClick',
-	    value: function handleBackClick(e) {
-	      this.setState({
-	        displayDetail: "none",
-	        displayList: "block"
-	      });
-	    }
-	  }, {
-	    key: 'handleToggleClick',
-	    value: function handleToggleClick(e) {
-	      if (this.state.toggleDetailInfo === "off") {
-	        this.setState({
-	          toggleDetailInfo: "on",
-	          displayInfo: "block",
-	          displayLine: "none"
-	        });
-	      } else {
-	        this.setState({
-	          toggleDetailInfo: "off",
-	          displayInfo: "none",
-	          displayLine: "block"
-	        });
-	      }
-	    }
-	  }, {
-	    key: 'onUpdateNote',
-	    value: function onUpdateNote(renewal, updatedRenewal) {
-	      debugger;
-	      client({
-	        method: 'POST',
-	        path: "/updateNote",
-	        entity: updatedRenewal,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        if (response.status.code === 200) {
-	          alert('SUCCESS: Note Updated');
+	    }, {
+	        key: 'handleFilterAll',
+	        value: function handleFilterAll(pageSize) {
+	            this.loadAllFromServer(pageSize);
+	            this.setState({
+	                callUpdate: function callUpdate(pageSize, that) {
+	                    that.loadAllFromServer(pageSize);
+	                }
+	            });
 	        }
-	        if (response.status.code === 412) {
-	          alert('DENIED: Unable to update ' + renewal._links.self.href + ' METHOD NOT ALLOWED');
-	        }
-	        if (response.status.code === 412) {
-	          alert('DENIED: Unable to update ' + renewal._links.self.href + '. Your copy is stale.');
-	        }
-	        if (response.status.code === 500) {
-	          alert('DENIED: Unable to update ' + renewal._links.self.href + '. Internal Server Error.');
-	        }
-	      });
-	    }
 
-	    // tag::on-delete[]
+	        // handleFilterStarted(pageSize){
+	        //   this.loadStartedFromServer(pageSize);
+	        //   this.setState({
+	        //     callUpdate: function (pageSize, that) {that.loadStartedFromServer(pageSize)}
+	        //   });
+	        // }
 
-	  }, {
-	    key: 'onDelete',
-	    value: function onDelete(renewal) {
-	      client({ method: 'DELETE', path: renewal._links.self.href }).done(function (response) {
-	        /* let the websocket handle updating the UI */
-	        alert("You successfully deleted " + renewal.property + "Use the back button and refresh the Renewal list to view the changes");
-	      }, function (response) {
-	        if (response.error) {
-	          alert("Somthing went wrong " + reponse.error);
-	        } else if (response.status.code === 400) {
-	          alert('SERVER ERROR: You request was not completed ' + renewal._links.self.href);
-	        } else if (response.status.code === 403) {
-	          alert('ACCESS DENIED: You are not authorized to delete ' + renewal._links.self.href);
-	        } else {
-	          alert("Somthing went wrong " + reponse.error);
+	        // handlefilterState(pageSize){
+	        //   this.loadStateFromServer(pageSize);
+	        //   this.setState({
+	        //     callUpdate: function (pageSize, that) {that.loadStateFromServer(pageSize)}
+	        //   });
+	        // }
+
+	    }, {
+	        key: 'handleRefreshMessages',
+	        value: function handleRefreshMessages(renewal) {
+	            this.loadMessagesFromServer(renewal._links.messages.href);
 	        }
-	      });
-	    }
-	    // end::on-delete[]
 
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var item = "";
-	      if (this.state.renewal !== null) {
-	        item = React.createElement(Detail, { renewal: this.state.renewal,
-	          messages: this.state.messages,
-	          cannedMessages: this.state.cannedMessages,
-	          onRefreshMessages: this.handleRefreshMessages,
-	          displayForm: this.state.displayForm,
-	          displayMessages: this.state.displayMessages,
-	          onUpdateNote: this.onUpdateNote,
-	          onSelectItem: this.handleSelectedItem,
-	          displayInfo: this.state.displayInfo,
-	          displayLine: this.state.displayLine,
-	          onDelete: this.onDelete });
-	      }
+	        // // tag::follow-2[]
+	        // loadCannedMessageFromServer() {
+	        //     follow(client, root, [
+	        //         {rel: 'cannedMessages'}]
+	        //     ).then(cannedMessageCollection => {
+	        //         return client({
+	        //             method: 'GET',
+	        //             path: cannedMessageCollection.entity._links.profile.href,
+	        //             headers: {'Accept': 'application/schema+json'}
+	        //         }).then(schema => {
+	        //             this.schema = schema.entity;
+	        //             return cannedMessageCollection;
+	        //         });
+	        //     }).done(cannedMessageCollection => {
+	        //         this.setState({
+	        //             cannedMessages: cannedMessageCollection.entity._embedded.cannedMessages,
+	        //             attributes: Object.keys(this.schema.properties),
+	        //             links: cannedMessageCollection.entity._links});
+	        //     });
+	        // }
+	        // end::follow-2[]
 
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { style: { display: this.state.displayList } },
-	          React.createElement(List, { renewals: this.state.renewals,
-	            links: this.state.links,
-	            pageSize: this.state.pageSize,
-	            onNavigate: this.onNavigate,
-	            onUpdateNote: this.onUpdateNote,
-	            updatePageSize: this.updatePageSize,
-	            onSelectItem: this.handleSelectedItem,
-	            onFilterPriority: this.handleFilterPriority,
-	            onFilterAll: this.handleFilterAll,
-	            onFilterStarted: this.handleFilterStarted,
-	            onFilterState: this.handlefilterState })
-	        ),
-	        React.createElement(
-	          'div',
-	          { style: { display: this.state.displayDetail } },
-	          React.createElement(
-	            'div',
-	            { className: 'top-bar show-for-medium small-12 columns' },
-	            React.createElement(
-	              'div',
-	              { className: 'top-bar-left' },
-	              React.createElement(
-	                'ul',
-	                { className: 'menu' },
+	        // loadPriorityFromServer(pageSize){
+	        //   client({
+	        //     method: 'GET',
+	        //     path: root+"/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedAndWorkflowStateOrderByShowDateAsc",
+	        //     params: {size: pageSize, renewalStarted: true, renewalCompleted: false, workflowState: "Confirm Renewal State"},
+	        //   }).done(response => {
+	        //       this.setState(
+	        //         {
+	        //           renewals: response.entity._embedded.renewals,
+	        //           pageSize: pageSize,
+	        //           links: response.entity._links
+	        //         }
+	        //       );
+	        //   });
+	        // }
+
+	        // loadStartedFromServer(pageSize){
+	        //   client({
+	        //     method: 'GET',
+	        //     path: root+"/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByRenewalStartedAsc",
+	        //     params: {size: pageSize, renewalStarted: true, renewalCompleted: false},
+	        //   }).done(response => {
+	        //       this.setState(
+	        //         {
+	        //           renewals: response.entity._embedded.renewals,
+	        //           pageSize: pageSize,
+	        //           links: response.entity._links
+	        //         }
+	        //       );
+	        //   });
+	        // }
+
+	        // loadStateFromServer(pageSize){
+	        //   client({
+	        //     method: 'GET',
+	        //     path: root+"/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
+	        //     params: {size: pageSize, renewalStarted: true, renewalCompleted: false},
+	        //   }).done(response => {
+	        //       this.setState(
+	        //         {
+	        //           renewals: response.entity._embedded.renewals,
+	        //           pageSize: pageSize,
+	        //           links: response.entity._links
+	        //         }
+	        //       );
+	        //   });
+	        // }
+
+	        // // tag::follow-3[]
+	        // loadMessagesFromServer(navUri) {
+	        //   client({method: 'GET', path: navUri}).done(response => {
+	        //       this.setState({messages: response.entity._embedded.messages});
+	        //   });
+	        // }
+	        // // end::follow-3[]
+
+	    }, {
+	        key: 'handleSelectedItem',
+	        value: function handleSelectedItem(renewal) {
+	            if (renewal.renewalStarted === true && renewal.renewalCompleted === false && renewal.workflowState === "Confirm Renewal State") {
+	                this.setState({
+	                    displayForm: "block"
+	                });
+	            } else {
+	                this.setState({
+	                    displayForm: "none"
+	                });
+	            }
+
+	            if (renewal.renewalStarted === true) {
+	                this.setState({
+	                    displayMessages: "block"
+	                });
+	            } else {
+	                this.setState({
+	                    displayMessages: "none"
+	                });
+	            }
+
+	            this.setState({
+	                renewal: renewal,
+	                displayDetail: "block",
+	                displayList: "none"
+	            });
+	            // this.loadMessagesFromServer(renewal._links.messages.href);
+	        }
+	    }, {
+	        key: 'handleBackClick',
+	        value: function handleBackClick(e) {
+	            this.setState({
+	                displayDetail: "none",
+	                displayList: "block"
+	            });
+	        }
+	    }, {
+	        key: 'handleToggleClick',
+	        value: function handleToggleClick(e) {
+	            if (this.state.toggleDetailInfo === "off") {
+	                this.setState({
+	                    toggleDetailInfo: "on",
+	                    displayInfo: "block",
+	                    displayLine: "none"
+	                });
+	            } else {
+	                this.setState({
+	                    toggleDetailInfo: "off",
+	                    displayInfo: "none",
+	                    displayLine: "block"
+	                });
+	            }
+	        }
+
+	        // onUpdateNote(renewal, updatedRenewal) {
+	        //     debugger
+	        //     client({
+	        //       method: 'POST',
+	        //       path: "/updateNote",
+	        //       entity: updatedRenewal,
+	        //       headers: {'Content-Type': 'multipart/form-data'}
+	        //     }).done(response => {
+	        //       if (response.status.code === 200) {
+	        //           alert('SUCCESS: Note Updated');
+	        //       }
+	        //       if (response.status.code === 412) {
+	        //           alert('DENIED: Unable to update ' +
+	        //               renewal._links.self.href + ' METHOD NOT ALLOWED');
+	        //       }
+	        //       if (response.status.code === 412) {
+	        //           alert('DENIED: Unable to update ' +
+	        //               renewal._links.self.href + '. Your copy is stale.');
+	        //       }
+	        //       if (response.status.code === 500) {
+	        //         alert('DENIED: Unable to update ' +
+	        //           renewal._links.self.href + '. Internal Server Error.');
+	        //       }
+	        //     });
+	        // }
+
+
+	        // // tag::on-delete[]
+	        // onDelete(renewal) {
+	        //     client(
+	        //        {method: 'DELETE', path: renewal._links.self.href}
+	        //     ).done(response => {
+	        //        /* let the websocket handle updating the UI */
+	        //        alert("You successfully deleted " +renewal.property+ "Use the back button and refresh the Renewal list to view the changes");
+	        //     },
+	        //     response => {
+	        //         if (response.error){
+	        //              alert("Somthing went wrong "+ reponse.error)
+	        //         }else if (response.status.code === 400) {
+	        //             alert('SERVER ERROR: You request was not completed ' +
+	        //                     renewal._links.self.href);
+	        //         }else if (response.status.code === 403) {
+	        //             alert('ACCESS DENIED: You are not authorized to delete ' +
+	        //                     renewal._links.self.href);
+	        //         }else{
+	        //             alert("Somthing went wrong "+ reponse.error)
+	        //         }
+	        //     });
+	        // }
+	        // // end::on-delete[]
+
+	    }, {
+	        key: 'render',
+	        value: function render() {
+	            var item = "";
+	            if (this.state.renewal !== null) {
+	                item = React.createElement(Detail, { renewal: this.state.renewal,
+	                    messages: this.state.messages,
+	                    cannedMessages: this.state.cannedMessages,
+	                    onRefreshMessages: this.handleRefreshMessages,
+	                    displayForm: this.state.displayForm,
+	                    displayMessages: this.state.displayMessages,
+	                    onUpdateNote: this.onUpdateNote,
+	                    onSelectItem: this.handleSelectedItem,
+	                    displayInfo: this.state.displayInfo,
+	                    displayLine: this.state.displayLine,
+	                    onDelete: this.onDelete });
+	            }
+
+	            return React.createElement(
+	                'div',
+	                null,
 	                React.createElement(
-	                  'li',
-	                  { className: 'topbar-title' },
-	                  'Task Detail'
-	                )
-	              )
-	            ),
-	            React.createElement(
-	              'div',
-	              { className: 'top-bar-right' },
-	              React.createElement(
-	                'ul',
-	                { className: 'menu' },
+	                    'div',
+	                    { style: { display: this.state.displayList } },
+	                    React.createElement(List, { renewals: this.state.renewals,
+	                        links: this.state.links,
+	                        pageSize: this.state.pageSize,
+	                        onNavigate: this.onNavigate,
+	                        onUpdateNote: this.onUpdateNote,
+	                        updatePageSize: this.updatePageSize,
+	                        onSelectItem: this.handleSelectedItem,
+	                        onFilterPriority: this.handleFilterPriority,
+	                        onFilterAll: this.handleFilterAll,
+	                        onFilterStarted: this.handleFilterStarted,
+	                        onFilterState: this.handlefilterState })
+	                ),
 	                React.createElement(
-	                  'li',
-	                  { className: 'topbar-title' },
-	                  React.createElement(
-	                    'a',
-	                    { className: 'button', onClick: this.handleBackClick },
-	                    'Back'
-	                  )
+	                    'div',
+	                    { style: { display: this.state.displayDetail } },
+	                    React.createElement(
+	                        'div',
+	                        { className: 'top-bar show-for-medium small-12 columns' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'top-bar-left' },
+	                            React.createElement(
+	                                'ul',
+	                                { className: 'menu' },
+	                                React.createElement(
+	                                    'li',
+	                                    { className: 'topbar-title' },
+	                                    'Task Detail'
+	                                )
+	                            )
+	                        ),
+	                        React.createElement(
+	                            'div',
+	                            { className: 'top-bar-right' },
+	                            React.createElement(
+	                                'ul',
+	                                { className: 'menu' },
+	                                React.createElement(
+	                                    'li',
+	                                    { className: 'topbar-title' },
+	                                    React.createElement(
+	                                        'a',
+	                                        { className: 'button', onClick: this.handleBackClick },
+	                                        'Back'
+	                                    )
+	                                )
+	                            )
+	                        )
+	                    ),
+	                    React.createElement(
+	                        'div',
+	                        null,
+	                        item
+	                    )
 	                )
-	              )
-	            )
-	          ),
-	          React.createElement(
-	            'div',
-	            null,
-	            item
-	          )
-	        )
-	      );
-	    }
-	  }]);
+	            );
+	        }
+	    }]);
 
-	  return RenewalMain;
+	    return home;
 	}(React.Component);
 	// end::app[]
 
-	module.exports = RenewalMain;
+	module.exports = home;
 
 /***/ }),
 /* 343 */
@@ -37275,7 +36621,6 @@
 				var renewals = this.props.renewals.map(function (renewal) {
 					return React.createElement(Line, { key: renewal._links.self.href,
 						renewal: renewal,
-						onUpdateNote: _this2.props.onUpdateNote,
 						onSelectItem: _this2.props.onSelectItem });
 				});
 
@@ -37310,38 +36655,38 @@
 									),
 									React.createElement(
 										'th',
-										{ width: '105' },
-										'RAG Status'
-									),
-									React.createElement(
-										'th',
-										{ width: '105' },
-										'Assigned Date'
-									),
-									React.createElement(
-										'th',
-										null,
-										'Due Date'
-									),
-									React.createElement(
-										'th',
 										null,
 										'Task Id'
 									),
 									React.createElement(
 										'th',
+										{ width: '105' },
+										'Sourcing Manager'
+									),
+									React.createElement(
+										'th',
+										{ width: '105' },
+										'Service Description'
+									),
+									React.createElement(
+										'th',
+										null,
+										'Acquiring Division'
+									),
+									React.createElement(
+										'th',
+										null,
+										'Service Category'
+									),
+									React.createElement(
+										'th',
+										null,
+										'Sourcing Comments'
+									),
+									React.createElement(
+										'th',
 										null,
 										'Service Id'
-									),
-									React.createElement(
-										'th',
-										null,
-										'Service Name'
-									),
-									React.createElement(
-										'th',
-										null,
-										'Supplier Name'
 									)
 								)
 							),
@@ -37390,79 +36735,79 @@
 	// tag::renewal[]
 
 	var Line = function (_React$Component) {
-	  _inherits(Line, _React$Component);
+	    _inherits(Line, _React$Component);
 
-	  function Line(props) {
-	    _classCallCheck(this, Line);
+	    function Line(props) {
+	        _classCallCheck(this, Line);
 
-	    return _possibleConstructorReturn(this, (Line.__proto__ || Object.getPrototypeOf(Line)).call(this, props));
-	  }
-
-	  _createClass(Line, [{
-	    key: 'render',
-	    value: function render() {
-	      var status = "Not Started";
-	      if (this.props.renewal.renewalStarted) {
-	        status = "Renewal Started";
-	      }
-	      if (this.props.renewal.renewalCompleted) {
-	        status = "Renewal Completed";
-	      }
-	      var renewing = "";
-	      if (this.props.renewal.renewing) {
-	        renewing = "Yes";
-	      } else if (this.props.renewal.renewing === false && this.props.renewal.renewalCompleted) {
-	        renewing = "No";
-	      }
-
-	      return React.createElement(
-	        'tr',
-	        null,
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.property
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          React.createElement(DisplayDate, { date: this.props.renewal.end })
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          React.createElement(DisplayDate, { date: this.props.renewal.showDate })
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.currentRent
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.oneYearOffer
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.twoYearOffer
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          this.props.renewal.workflowState
-	        ),
-	        React.createElement(
-	          'td',
-	          { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	          renewing
-	        )
-	      );
+	        return _possibleConstructorReturn(this, (Line.__proto__ || Object.getPrototypeOf(Line)).call(this, props));
 	    }
-	  }]);
 
-	  return Line;
+	    _createClass(Line, [{
+	        key: 'render',
+	        value: function render() {
+	            var status = "Not Started";
+	            if (this.props.renewal.renewalStarted) {
+	                status = "Renewal Started";
+	            }
+	            if (this.props.renewal.renewalCompleted) {
+	                status = "Renewal Completed";
+	            }
+	            var renewing = "";
+	            if (this.props.renewal.renewing) {
+	                renewing = "Yes";
+	            } else if (this.props.renewal.renewing === false && this.props.renewal.renewalCompleted) {
+	                renewing = "No";
+	            }
+
+	            return React.createElement(
+	                'tr',
+	                null,
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	                    this.props.renewal.serviceId
+	                ),
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	                    this.props.renewal.serviceOwner
+	                ),
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	                    this.props.renewal.sourcingManager
+	                ),
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	                    this.props.renewal.serviceDescription
+	                ),
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	                    this.props.renewal.acquiringDivision
+	                ),
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	                    this.props.renewal.serviceCategory
+	                ),
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	                    this.props.renewal.sourcingComments
+	                ),
+	                React.createElement(
+	                    'td',
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
+	                    this.props.renewal.serviceId
+	                )
+	            );
+	        }
+	    }]);
+
+	    return Line;
 	}(React.Component);
 	// end::renewal[]
 
@@ -37915,10 +37260,11 @@
 	      var displayForm = this.props.displayForm;
 	      var displayMessages = this.props.displayMessages;
 
-	      var tenants = this.props.renewal.tennants.map(function (tenant) {
-	        return React.createElement(Tenant, { key: tenant.email,
-	          tenant: tenant });
-	      });
+	      var tenants = [];
+	      // var tenants = this.props.renewal.tennants.map(tenant =>
+	      //     <Tenant key={tenant.email}
+	      //         tenant={tenant}/>
+	      // );
 
 	      return React.createElement(
 	        'div',
@@ -38610,14 +37956,10 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var i = 0;
-	      var options = this.props.cannedMessages.map(function (cannedMessage) {
-	        return React.createElement(
-	          'option',
-	          { key: cannedMessage._links.self.href, value: i++ },
-	          cannedMessage.subject
-	        );
-	      });
+	      // var i = 0;
+	      // var options = this.props.cannedMessages.map(cannedMessage =>
+	      //     <option key={cannedMessage._links.self.href} value={i++}>{cannedMessage.subject}</option>
+	      // );
 
 	      return React.createElement(
 	        'div',
@@ -38845,7 +38187,7 @@
 	                  React.createElement(
 	                    'li',
 	                    null,
-	                    this.props.renewal.property
+	                    this.props.renewal.taskId
 	                  ),
 	                  React.createElement(
 	                    'li',
@@ -38858,7 +38200,7 @@
 	                    React.createElement(
 	                      'span',
 	                      { className: 'data' },
-	                      this.props.renewal.workflowState
+	                      this.props.renewal.taskName
 	                    )
 	                  )
 	                )
@@ -38883,7 +38225,7 @@
 	              React.createElement(
 	                'div',
 	                { className: 'card-section', style: { borderTop: "1px dashed #2199e8" } },
-	                this.props.tenants
+	                this.props.renewal.serviceOwner
 	              )
 	            )
 	          )
@@ -38923,7 +38265,8 @@
 	                    React.createElement(
 	                      'span',
 	                      { className: 'data' },
-	                      React.createElement(DisplayDate, { date: this.props.renewal.end })
+	                      this.props.renewal.acquiringDivision,
+	                      ' '
 	                    )
 	                  ),
 	                  React.createElement(
@@ -38937,7 +38280,8 @@
 	                    React.createElement(
 	                      'span',
 	                      { className: 'data' },
-	                      React.createElement(DisplayDate, { date: this.props.renewal.showDate })
+	                      this.props.renewal.serviceDescription,
+	                      ' '
 	                    )
 	                  ),
 	                  React.createElement(
@@ -38951,7 +38295,7 @@
 	                    React.createElement(
 	                      'span',
 	                      { className: 'data' },
-	                      renewing
+	                      this.props.renewal.sourcingManager
 	                    )
 	                  )
 	                )
@@ -38990,7 +38334,7 @@
 	                    React.createElement(
 	                      'span',
 	                      { className: 'data' },
-	                      this.props.renewal.currentRent
+	                      this.props.renewal.serviceId
 	                    )
 	                  ),
 	                  React.createElement(
@@ -38999,12 +38343,12 @@
 	                    React.createElement(
 	                      'span',
 	                      { className: 'label' },
-	                      'Service Name'
+	                      'Service Category'
 	                    ),
 	                    React.createElement(
 	                      'span',
 	                      { className: 'data' },
-	                      this.props.renewal.oneYearOffer
+	                      this.props.renewal.serviceCategory
 	                    )
 	                  ),
 	                  React.createElement(
@@ -39013,12 +38357,12 @@
 	                    React.createElement(
 	                      'span',
 	                      { className: 'label' },
-	                      'Supplier Name'
+	                      'Sourcing Comments'
 	                    ),
 	                    React.createElement(
 	                      'span',
 	                      { className: 'data' },
-	                      this.props.renewal.twoYearOffer
+	                      this.props.renewal.sourcingComments
 	                    )
 	                  )
 	                )

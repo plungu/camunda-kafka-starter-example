@@ -61,10 +61,11 @@ class Detail extends React.Component{
     var displayForm = this.props.displayForm;
     var displayMessages = this.props.displayMessages;
 
-    var tenants = this.props.renewal.tennants.map(tenant =>
-        <Tenant key={tenant.email}
-            tenant={tenant}/>
-    );
+    var tenants = [];
+    // var tenants = this.props.renewal.tennants.map(tenant =>
+    //     <Tenant key={tenant.email}
+    //         tenant={tenant}/>
+    // );
 
     return (
       <div>

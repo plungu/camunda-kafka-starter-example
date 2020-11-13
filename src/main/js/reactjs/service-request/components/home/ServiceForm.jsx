@@ -4,140 +4,34 @@ const DisplayDate = require('src/main/js/reactjs/service-request/components/date
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 class ServiceForm extends React.Component {
-        
-  constructor(props) {
-    super(props);
-    this.state = {
-      // signed: this.props.renewal.signed,
-      // renewing: this.props.renewal.renewing
 
-    };
-    this.handleSignedCheck = this.handleSignedCheck.bind(this);
-    this.handleRenewedCheck = this.handleRenewedCheck.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.setMessage = this.setMessage.bind(this);
-  }  
-  
-  handleSubmit(e){
-    e.preventDefault();
-    debugger
-    var message = {};
-    message.text = this.refs.newMessage.value;
-    message.subject = this.refs.cannedMessage.value;
-    if(this.refs.gracePeriod.value){
-      message.gracePeriod = this.refs.gracePeriod.value;
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+        this.handleDone = this.handleDone.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
-    message.confirm = false;
-    if (this.refs.confirm.checked){
-      message.confirm = true;
+
+
+    handleSave(e){
+        e.preventDefault();
+
+        console.log("HandleSave: " )
     }
-    message.processId = this.props.renewal.businessKey;
-    message.renewalId = this.props.renewal.id;
-    this.onCreate(message);
 
-    // clear out the dialog's inputs
-    this.refs.newMessage.value = '';
-  }
+    handleDone(e){
+        e.preventDefault();
 
-  setMessage(e){
-    e.preventDefault();
-        
-    var sdate = new Date(this.props.renewal.showDate);
-    var showDate = (sdate.getMonth()+1) + "-" + sdate.getDate()  + "-" + sdate.getFullYear();
-
-    this.refs.newMessage.value = "";
-    var selection = this.refs.cannedMessage.value;
-    if (selection !== ""){
-        this.refs.newMessage.value = this.props.cannedMessages[selection].text;        
+        console.log("HandleDone: " )
     }
-  }  
 
-  onCreate(message) {
-      client({
-              method: 'POST',
-              path: "/message",
-              entity: message,
-              headers: {'Content-Type': 'multipart/form-data'}
-      }).done(response => {
-          alert("Message Sent");
-      });
-  }
-  
-  handleSignedCheck(e){
-    e.preventDefault();
-    var message = {};
-    message.signed = false;
-    if (this.refs.signed.checked){
-      message.signed = true;
-    }
-    message.processId = this.props.renewal.processId;
-    message.renewalId = this.props.renewal.id;
-    
-    this.onUpdateSigned(message);
-  }
-
-  onUpdateSigned(message) {
-       client({
-               method: 'POST',
-               path: "/signed",
-               entity: message,
-               headers: {'Content-Type': 'multipart/form-data'}
-       }).done(response => {
-           alert("Renewal Signed flag has been updated!");
-           this.setState({
-               signed: message.signed
-           });
-       });
-    }
-    
-
-
-  
-
-  handleRenewedCheck(e){
-    e.preventDefault();
-    var message = {};
-    message.renewing = false;
-    if (this.refs.renewing.checked){
-      message.renewing = true;
-    }
-    message.processId = this.props.renewal.processId;
-    message.renewalId = this.props.renewal.id;
-    
-    this.onUpdateRenewing(message);
-  }
-  
-  onUpdateRenewing(message) {
-      client({
-              method: 'POST',
-              path: "/renewing",
-              entity: message,
-              headers: {'Content-Type': 'multipart/form-data'}
-      }).done(response => {
-          alert("Renewal Renewing flag has been updated!");
-          this.setState({
-              renewing: message.renewing
-          });
-      });
-   }
-   
-
-  
   render() {
-    var i = 0;  
-    // var options = this.props.cannedMessages.map(cannedMessage =>
-    //     <option key={cannedMessage._links.self.href} value={i++}>{cannedMessage.subject}</option>
-    // );
 
     return (
       <div className="row">
           <div className="small-12 columns">
-            <form onSubmit={this.handleSubmit}>
-              {/*<select ref="cannedMessage" onChange={this.setMessage} defaultValue="">*/}
-              {/*  <option value="">Choose a canned message</option>*/}
-              {/*  {options}*/}
-              {/*</select>*/}
-
               <div className="row">
 
                 <div className="small-5 columns">
@@ -160,32 +54,9 @@ class ServiceForm extends React.Component {
                   <textarea rows="5" ref="newMessage" placeholder="Service Description"/>
                 </div>
                 </div>
-
-                {/*<div className="small-3 columns">*/}
-                {/*  <div className="input-group">*/}
-                {/*    <span className="input-group-label">Renewing</span>*/}
-                {/*    <input className="input-group-field" type="checkbox" ref="renewing" checked={this.state.renewing} onChange={this.handleRenewedCheck}/>*/}
-                {/*  </div>*/}
-                {/*</div>*/}
-
-                {/*<div className="small-3 columns">*/}
-                {/*  <div className="input-group">*/}
-                {/*    <span className="input-group-label">Confirm</span>*/}
-                {/*    <input className="input-group-field" type="checkbox" ref="confirm" />*/}
-                {/*  </div>*/}
-                {/*</div>*/}
                 <div className="row">
 
-                <div className="small-4 small-offset-8 large-4 large-offset-8 columns button-group ">
-                  <label htmlFor="sendMessage" className="button secondary float-right">Back</label>
-                  <input type="submit" id="sendMessage" className="show-for-sr" />
-
-                  <label htmlFor="sendMessage" className="button float-right">Next</label>
-                  <input type="submit" id="sendMessage" className="show-for-sr" />
-                </div>
-
               </div>
-            </form>
           </div>
       </div>
 

@@ -132,10 +132,10 @@ class Form extends React.Component {
 
   
   render() {
-    var i = 0;  
-    var options = this.props.cannedMessages.map(cannedMessage =>
-        <option key={cannedMessage._links.self.href} value={i++}>{cannedMessage.subject}</option>
-    );  
+    // var i = 0;
+    // var options = this.props.cannedMessages.map(cannedMessage =>
+    //     <option key={cannedMessage._links.self.href} value={i++}>{cannedMessage.subject}</option>
+    // );
       
     return (
       <div>
