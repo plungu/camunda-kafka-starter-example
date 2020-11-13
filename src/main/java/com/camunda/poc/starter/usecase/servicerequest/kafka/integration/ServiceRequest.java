@@ -22,6 +22,27 @@ public class ServiceRequest {
     private String estimatedAnnualSpend;
     private String serviceDetailsComments;
 
+    public ServiceRequest(){}
+
+    public ServiceRequest(ServiceRequestEntity entity){
+        this.serviceId = entity.getServiceId();
+        this.serviceCategory = entity.getServiceCategory();
+        this.acquiringDivision = entity.getAcquiringDivision();
+        this.additionalReviewer = entity.getAdditionalReviewer();
+        this.additionalReviewerNotes = entity.getAdditionalReviewerNotes();
+        this.additionalReviewerMSID = entity.getAdditionalReviewerMSID();
+        this.applicationName = entity.getApplicationName();
+        this.buContractingService = entity.getBuContractingService();
+        this.eonId = entity.getEonId();
+        this.estimatedAnnualSpend = entity.getEstimatedAnnualSpend();
+        this.leContractingServiceCode = entity.getLeContractingServiceCode();
+        this.serviceDescription = entity.getServiceDescription();
+        this.serviceDetailsComments = entity.getServiceDetailsComments();
+        this.serviceOwnerMSID = entity.getServiceOwnerMSID();
+        this.sourcingComments = entity.getSourcingComments();
+        this.sourcingManager = entity.getSourcingManager();
+    }
+
     public String getServiceId() {
         return serviceId;
     }

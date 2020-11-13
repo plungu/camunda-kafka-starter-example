@@ -88,7 +88,7 @@ If the supplier is not found then New supplier form is presented.</bpmn:text>
     <bpmn:intermediateThrowEvent id="Event_1ntkfmx" name="Publish: Q1 LA Review Completed" camunda:asyncBefore="true">
       <bpmn:incoming>SequenceFlow_1qz0kmk</bpmn:incoming>
       <bpmn:outgoing>Flow_0u2qwuq</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_19277j9" camunda:delegateExpression="${logger}" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_19277j9" camunda:delegateExpression="${updateEventPublishingDelegate}" />
     </bpmn:intermediateThrowEvent>
     <bpmn:exclusiveGateway id="ExclusiveGateway_11rs6zm" name="QA L1 Approved ?" default="SequenceFlow_09x1a3n">
       <bpmn:incoming>Flow_0u2qwuq</bpmn:incoming>
@@ -105,7 +105,7 @@ If the supplier is not found then New supplier form is presented.</bpmn:text>
       <bpmn:outgoing>SequenceFlow_11qlahm</bpmn:outgoing>
       <bpmn:outgoing>Flow_09tinb1</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:exclusiveGateway id="ExclusiveGateway_0kr6aii" name="Level 2 Review Approved ?">
+    <bpmn:exclusiveGateway id="ExclusiveGateway_0kr6aii" name="Level 2 Review Approved ?" default="Flow_0n7cvqq">
       <bpmn:incoming>SequenceFlow_106qja4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1h3c2jc</bpmn:outgoing>
       <bpmn:outgoing>Flow_0n7cvqq</bpmn:outgoing>
@@ -125,10 +125,10 @@ If the supplier is not found then New supplier form is presented.</bpmn:text>
     <bpmn:intermediateThrowEvent id="Event_0p585gn" name="Publish SPOC review completed">
       <bpmn:incoming>Flow_02pfo5i</bpmn:incoming>
       <bpmn:outgoing>Flow_0ep3ohu</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_17gbpag" camunda:delegateExpression="${logger}" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_17gbpag" camunda:delegateExpression="${updateEventPublishingDelegate}" />
     </bpmn:intermediateThrowEvent>
     <bpmn:intermediateThrowEvent id="Event_1t5bt1f" name="Publish QA Level 2  review Completed">
-      <bpmn:messageEventDefinition id="MessageEventDefinition_11xvmbk" camunda:delegateExpression="${logger}" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_11xvmbk" camunda:delegateExpression="${updateEventPublishingDelegate}" />
     </bpmn:intermediateThrowEvent>
     <bpmn:intermediateThrowEvent id="Event_1jjqw73" name="Publish: Assessments Calculations">
       <bpmn:incoming>SequenceFlow_1xruj4r</bpmn:incoming>
@@ -157,7 +157,7 @@ If the supplier is not found then New supplier form is presented.</bpmn:text>
       <bpmn:outgoing>Flow_1w8nob2</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:intermediateThrowEvent id="Event_0h3yau9" name="Publish Banking review completed">
-      <bpmn:messageEventDefinition id="MessageEventDefinition_0s8qbpu" camunda:delegateExpression="${logger}" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_0s8qbpu" camunda:delegateExpression="${updateEventPublishingDelegate}" />
     </bpmn:intermediateThrowEvent>
     <bpmn:userTask id="Task_00nml06" name="QA Level 2 Review">
       <bpmn:incoming>SequenceFlow_11qlahm</bpmn:incoming>
@@ -244,7 +244,7 @@ If the supplier is not found then New supplier form is presented.</bpmn:text>
         <bpmn:errorEventDefinition id="ErrorEventDefinition_12r0y3d" errorRef="Error_0uxnek2" />
       </bpmn:endEvent>
     </bpmn:subProcess>
-    <bpmn:sendTask id="Task_020ppql" name="Create Service Request" camunda:delegateExpression="${logger}">
+    <bpmn:sendTask id="Task_020ppql" name="Create Service Request" camunda:asyncBefore="true" camunda:delegateExpression="${createEventPublishingDelegate}">
       <bpmn:incoming>SequenceFlow_1ubc5vl</bpmn:incoming>
       <bpmn:outgoing>Flow_11aq28g</bpmn:outgoing>
     </bpmn:sendTask>
@@ -297,7 +297,7 @@ If the supplier is not found then New supplier form is presented.</bpmn:text>
     <bpmn:intermediateThrowEvent id="Event_0mca6pf" name="Publish: Service Owner Approval Completed" camunda:asyncBefore="true">
       <bpmn:incoming>SequenceFlow_0cy5qc7</bpmn:incoming>
       <bpmn:outgoing>Flow_1qcbvhy</bpmn:outgoing>
-      <bpmn:messageEventDefinition id="MessageEventDefinition_1gbhy6b" camunda:delegateExpression="${logger}" />
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1gbhy6b" camunda:delegateExpression="${updateEventPublishingDelegate}" />
     </bpmn:intermediateThrowEvent>
     <bpmn:intermediateCatchEvent id="Event_0ozjc0m" name="Confirm Service Requets Updates">
       <bpmn:incoming>SequenceFlow_17vvyvp</bpmn:incoming>
@@ -331,7 +331,7 @@ If the supplier is not found then New supplier form is presented.</bpmn:text>
     <bpmn:sequenceFlow id="Flow_0zglfx5" sourceRef="Event_1jjqw73" targetRef="ExclusiveGateway_07txzar" />
     <bpmn:sequenceFlow id="Flow_0ep3ohu" sourceRef="Event_0p585gn" targetRef="ExclusiveGateway_1oytdfs" />
     <bpmn:sequenceFlow id="Flow_150jsm0" sourceRef="ExclusiveGateway_0z5xnq8" targetRef="Task_18lkuxh">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0u2qwuq" sourceRef="Event_1ntkfmx" targetRef="ExclusiveGateway_11rs6zm" />
     <bpmn:sequenceFlow id="Flow_03uy0be" sourceRef="Event_02ied05" targetRef="Task_0fgkskn" />
@@ -342,19 +342,19 @@ If the supplier is not found then New supplier form is presented.</bpmn:text>
     <bpmn:sequenceFlow id="SequenceFlow_1qz0kmk" sourceRef="Task_18lkuxh" targetRef="Event_1ntkfmx" />
     <bpmn:sequenceFlow id="SequenceFlow_09x1a3n" name="Reject QA l1" sourceRef="ExclusiveGateway_11rs6zm" targetRef="Event_0sujqvo" />
     <bpmn:sequenceFlow id="SequenceFlow_1dm684d" name="Approve QA L1" sourceRef="ExclusiveGateway_11rs6zm" targetRef="Activity_1fqequ7">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1cdctr3" name="Approve" sourceRef="ExclusiveGateway_1yh62nu" targetRef="Task_07itnr5">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_17vvyvp" name="Reject" sourceRef="ExclusiveGateway_1yh62nu" targetRef="Event_0ozjc0m" />
     <bpmn:sequenceFlow id="SequenceFlow_11qlahm" name="Approve" sourceRef="ExclusiveGateway_1oytdfs" targetRef="Task_00nml06">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_106qja4" sourceRef="Task_00nml06" targetRef="ExclusiveGateway_0kr6aii" />
     <bpmn:sequenceFlow id="SequenceFlow_0tgkw86" name="Reject" sourceRef="Event_0z10579" targetRef="Task_0fgkskn" />
     <bpmn:sequenceFlow id="SequenceFlow_1h3c2jc" name="Approve" sourceRef="ExclusiveGateway_0kr6aii" targetRef="Task_05hg3lc">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1xruj4r" sourceRef="Task_05hg3lc" targetRef="Event_1jjqw73" />
     <bpmn:sequenceFlow id="SequenceFlow_1hicwr2" sourceRef="ExclusiveGateway_07txzar" targetRef="Task_1gdsxbl" />
@@ -485,7 +485,7 @@ System Failure</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:association id="Association_0owm21x" sourceRef="Activity_0akmjh4" targetRef="TextAnnotation_0tllk2d" />
   </bpmn:process>
-  <bpmn:message id="Message_1szapq0" name="Message_2i3vntb" />
+  <bpmn:message id="Message_1szapq0" name="service-owner-sr-rejection" />
   <bpmn:message id="Message_1s7rke7" name="Message_2btse98" />
   <bpmn:message id="Message_0lm89hw" name="Message_0jsd8se" />
   <bpmn:message id="Message_0d6zxst" name="Message_0g0ga9s" />

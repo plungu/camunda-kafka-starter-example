@@ -35,8 +35,6 @@ public class ServiceRequestEntity extends ServiceRequest {
         this.sourcingManager = sr.getSourcingManager();
     }
 
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;

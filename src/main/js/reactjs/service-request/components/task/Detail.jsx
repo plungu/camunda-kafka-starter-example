@@ -54,10 +54,6 @@ class Detail extends React.Component{
   }
 
   render(){
-    var item = "";
-    if (this.state.message !== null) {
-      item = <MessageDetail message={this.state.message}/>
-    }
     var displayForm = this.props.displayForm;
     var displayMessages = this.props.displayMessages;
 

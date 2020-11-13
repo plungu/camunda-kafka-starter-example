@@ -46,8 +46,6 @@ class Line extends React.Component{
       var task = this.state.task;
       var name = "";
       if (task !== null){
-          // console.log("TASK: ");
-          // console.log(task.name);
           name = task.name;
       }
 

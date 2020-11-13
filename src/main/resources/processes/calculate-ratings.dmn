@@ -3,8 +3,8 @@
   <decision id="calculate-ratings" name="Calculate Ratings">
     <decisionTable id="DecisionTable_15pr0ie">
       <input id="Input_1">
-        <inputExpression id="InputExpression_1" typeRef="string">
-          <text>status</text>
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text>approved</text>
         </inputExpression>
       </input>
       <output id="Output_1" label="someVar" name="someVar" typeRef="string" />

@@ -36755,8 +36755,6 @@
 	            var task = this.state.task;
 	            var name = "";
 	            if (task !== null) {
-	                // console.log("TASK: ");
-	                // console.log(task.name);
 	                name = task.name;
 	            }
 
@@ -37253,10 +37251,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var item = "";
-	      if (this.state.message !== null) {
-	        item = React.createElement(MessageDetail, { message: this.state.message });
-	      }
 	      var displayForm = this.props.displayForm;
 	      var displayMessages = this.props.displayMessages;
 
@@ -37815,214 +37809,106 @@
 	var DisplayDate = __webpack_require__(337);
 	var follow = __webpack_require__(334); // function to hop multiple links by "rel"
 
+	var root = 'http://localhost:8080/';
+
 	var Form = function (_React$Component) {
-	  _inherits(Form, _React$Component);
+	    _inherits(Form, _React$Component);
 
-	  function Form(props) {
-	    _classCallCheck(this, Form);
+	    function Form(props) {
+	        _classCallCheck(this, Form);
 
-	    var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Form.__proto__ || Object.getPrototypeOf(Form)).call(this, props));
 
-	    _this.state = {
-	      signed: _this.props.renewal.signed,
-	      renewing: _this.props.renewal.renewing
-
-	    };
-	    _this.handleSignedCheck = _this.handleSignedCheck.bind(_this);
-	    _this.handleRenewedCheck = _this.handleRenewedCheck.bind(_this);
-	    _this.handleSubmit = _this.handleSubmit.bind(_this);
-	    _this.setMessage = _this.setMessage.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(Form, [{
-	    key: 'handleSubmit',
-	    value: function handleSubmit(e) {
-	      e.preventDefault();
-	      debugger;
-	      var message = {};
-	      message.text = this.refs.newMessage.value;
-	      message.subject = this.refs.cannedMessage.value;
-	      if (this.refs.gracePeriod.value) {
-	        message.gracePeriod = this.refs.gracePeriod.value;
-	      }
-	      message.confirm = false;
-	      if (this.refs.confirm.checked) {
-	        message.confirm = true;
-	      }
-	      //    message.signed = false;
-	      //    if (this.refs.signed.checked){
-	      //      message.signed = true;
-	      //    }
-	      //    message.renewing = false;
-	      //    if (this.refs.renewing.checked){
-	      //      message.renewing = true;
-	      //    }
-	      message.processId = this.props.renewal.businessKey;
-	      message.renewalId = this.props.renewal.id;
-	      this.onCreate(message);
-
-	      // clear out the dialog's inputs
-	      this.refs.newMessage.value = '';
+	        _this.state = {};
+	        _this.handleApprove = _this.handleApprove.bind(_this);
+	        _this.handleReject = _this.handleReject.bind(_this);
+	        _this.post = _this.post.bind(_this);
+	        return _this;
 	    }
-	  }, {
-	    key: 'setMessage',
-	    value: function setMessage(e) {
-	      e.preventDefault();
 
-	      var sdate = new Date(this.props.renewal.showDate);
-	      var showDate = sdate.getMonth() + 1 + "-" + sdate.getDate() + "-" + sdate.getFullYear();
+	    _createClass(Form, [{
+	        key: 'handleApprove',
+	        value: function handleApprove(e) {
+	            e.preventDefault();
 
-	      this.refs.newMessage.value = "";
-	      var selection = this.refs.cannedMessage.value;
-	      if (selection !== "") {
-	        this.refs.newMessage.value = this.props.cannedMessages[selection].text;
-	      }
-	    }
-	  }, {
-	    key: 'onCreate',
-	    value: function onCreate(message) {
-	      client({
-	        method: 'POST',
-	        path: "/message",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Message Sent");
-	      });
-	    }
-	  }, {
-	    key: 'handleSignedCheck',
-	    value: function handleSignedCheck(e) {
-	      e.preventDefault();
-	      var message = {};
-	      message.signed = false;
-	      if (this.refs.signed.checked) {
-	        message.signed = true;
-	      }
-	      message.processId = this.props.renewal.processId;
-	      message.renewalId = this.props.renewal.id;
+	            var serviceRequest = this.props.renewal;
 
-	      this.onUpdateSigned(message);
-	    }
-	  }, {
-	    key: 'onUpdateSigned',
-	    value: function onUpdateSigned(message) {
-	      var _this2 = this;
+	            console.log("HandleSubmit: " + serviceRequest);
 
-	      client({
-	        method: 'POST',
-	        path: "/signed",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Renewal Signed flag has been updated!");
-	        _this2.setState({
-	          signed: message.signed
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'handleRenewedCheck',
-	    value: function handleRenewedCheck(e) {
-	      e.preventDefault();
-	      var message = {};
-	      message.renewing = false;
-	      if (this.refs.renewing.checked) {
-	        message.renewing = true;
-	      }
-	      message.processId = this.props.renewal.processId;
-	      message.renewalId = this.props.renewal.id;
+	            this.post(serviceRequest, "sr/task/approve");
+	            // clear out the dialog's inputs
+	            // this.post(serviceRequest, "sr/task/reject");
+	        }
+	    }, {
+	        key: 'handleReject',
+	        value: function handleReject(e) {
+	            e.preventDefault();
 
-	      this.onUpdateRenewing(message);
-	    }
-	  }, {
-	    key: 'onUpdateRenewing',
-	    value: function onUpdateRenewing(message) {
-	      var _this3 = this;
+	            var serviceRequest = this.props.renewal;
 
-	      client({
-	        method: 'POST',
-	        path: "/renewing",
-	        entity: message,
-	        headers: { 'Content-Type': 'multipart/form-data' }
-	      }).done(function (response) {
-	        alert("Renewal Renewing flag has been updated!");
-	        _this3.setState({
-	          renewing: message.renewing
-	        });
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      // var i = 0;
-	      // var options = this.props.cannedMessages.map(cannedMessage =>
-	      //     <option key={cannedMessage._links.self.href} value={i++}>{cannedMessage.subject}</option>
-	      // );
+	            console.log("HandleSubmit: " + serviceRequest);
 
-	      return React.createElement(
-	        'div',
-	        null,
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'div',
-	            { className: 'small-6 small-offset-6 columns' },
-	            React.createElement(
-	              'form',
-	              { onSubmit: this.handleSubmit },
-	              React.createElement(
+	            this.post(serviceRequest, "sr/task/reject");
+	            // clear out the dialog's inputs
+	            // this.post(serviceRequest, "sr/task/reject");
+	        }
+	    }, {
+	        key: 'post',
+	        value: function post(obj, context) {
+	            console.log("POST Started");
+	            client({
+	                method: 'POST',
+	                path: root + context,
+	                entity: obj,
+	                headers: { 'Content-Type': 'application/json' }
+	            }).done(function (response) {
+	                console.log("POST Request Complete");
+	            });
+	        }
+	    }, {
+	        key: 'render',
+	        value: function render() {
+
+	            return React.createElement(
 	                'div',
-	                { className: 'row' },
+	                null,
 	                React.createElement(
-	                  'div',
-	                  { className: 'small-3 columns' },
-	                  React.createElement(
 	                    'div',
-	                    { className: 'input-group' },
+	                    { className: 'row' },
 	                    React.createElement(
-	                      'span',
-	                      { className: 'input-group-label' },
-	                      'Reject'
-	                    ),
-	                    React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'renewing', checked: this.state.renewing, onChange: this.handleRenewedCheck })
-	                  )
-	                ),
-	                React.createElement(
-	                  'div',
-	                  { className: 'small-3 columns' },
-	                  React.createElement(
-	                    'div',
-	                    { className: 'input-group' },
-	                    React.createElement(
-	                      'span',
-	                      { className: 'input-group-label' },
-	                      'Approve'
-	                    ),
-	                    React.createElement('input', { className: 'input-group-field', type: 'checkbox', ref: 'confirm' })
-	                  )
-	                ),
-	                React.createElement(
-	                  'div',
-	                  { className: 'small-2 columns' },
-	                  React.createElement(
-	                    'label',
-	                    { htmlFor: 'sendMessage', className: 'button float-right' },
-	                    'Done'
-	                  ),
-	                  React.createElement('input', { type: 'submit', id: 'sendMessage', className: 'show-for-sr' })
+	                        'div',
+	                        { className: 'small-6 small-offset-6 columns' },
+	                        React.createElement(
+	                            'div',
+	                            { className: 'small-12 columns button-group ' },
+	                            React.createElement(
+	                                'div',
+	                                { className: 'small-2 large-2 columns ' },
+	                                React.createElement(
+	                                    'label',
+	                                    { htmlFor: 'reject', className: 'button' },
+	                                    'Reject'
+	                                ),
+	                                React.createElement('button', { type: 'submit', id: 'reject', className: 'show-for-sr', onClick: this.handleReject })
+	                            ),
+	                            React.createElement(
+	                                'div',
+	                                { className: 'small-2 large-2 columns' },
+	                                React.createElement(
+	                                    'label',
+	                                    { htmlFor: 'approve', className: 'button ' },
+	                                    'Approve'
+	                                ),
+	                                React.createElement('input', { type: 'submit', id: 'approve', className: 'show-for-sr', onClick: this.handleApprove })
+	                            )
+	                        )
+	                    )
 	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
+	            );
+	        }
+	    }]);
 
-	  return Form;
+	    return Form;
 	}(React.Component);
 
 	module.exports = Form;

@@ -7,7 +7,7 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 @Profile("mspoc")
-public interface MSStartEventChannels {
+public interface ServiceRequestEventChannels {
 
     @Output("publishServiceRequest")
     MessageChannel publish();
