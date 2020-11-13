@@ -36172,6 +36172,7 @@
 	        _this.state = {
 	            renewal: null,
 	            renewals: [],
+	            task: null,
 	            attributes: [],
 	            pageSize: 10,
 	            links: {},
@@ -36217,11 +36218,9 @@
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
 	            this.loadAllFromServer(this.state.pageSize);
-	            console.log("Loaded Service Requests from server" + this.state.renewals);
-	            // this.loadCannedMessageFromServer();
+	            // this.loadTaskFromServer(this.state.renewals.serviceId);
 	        }
 	        // end::follow-1[]
-
 
 	        // tag::follow-2[]
 
@@ -36248,7 +36247,6 @@
 	            });
 	        }
 	        // end::follow-2[]
-
 
 	        // tag::navigate[]
 
@@ -36306,6 +36304,21 @@
 	            this.loadMessagesFromServer(renewal._links.messages.href);
 	        }
 
+	        // loadTaskFromServer(businessKey){
+	        //   client({
+	        //     method: 'GET',
+	        //     path: root+"/engine-rest/task",
+	        //     params: {processInstanceBusinessKey: businessKey},
+	        //   }).done(task => {
+	        //       console.log(task);
+	        //       this.setState(
+	        //         {
+	        //           task: task,
+	        //         }
+	        //       );
+	        //   });
+	        // }
+
 	        // // tag::follow-2[]
 	        // loadCannedMessageFromServer() {
 	        //     follow(client, root, [
@@ -36360,59 +36373,16 @@
 	        //   });
 	        // }
 
-	        // loadStateFromServer(pageSize){
-	        //   client({
-	        //     method: 'GET',
-	        //     path: root+"/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
-	        //     params: {size: pageSize, renewalStarted: true, renewalCompleted: false},
-	        //   }).done(response => {
-	        //       this.setState(
-	        //         {
-	        //           renewals: response.entity._embedded.renewals,
-	        //           pageSize: pageSize,
-	        //           links: response.entity._links
-	        //         }
-	        //       );
-	        //   });
-	        // }
-
-	        // // tag::follow-3[]
-	        // loadMessagesFromServer(navUri) {
-	        //   client({method: 'GET', path: navUri}).done(response => {
-	        //       this.setState({messages: response.entity._embedded.messages});
-	        //   });
-	        // }
-	        // // end::follow-3[]
-
 	    }, {
 	        key: 'handleSelectedItem',
-	        value: function handleSelectedItem(renewal) {
-	            if (renewal.renewalStarted === true && renewal.renewalCompleted === false && renewal.workflowState === "Confirm Renewal State") {
-	                this.setState({
-	                    displayForm: "block"
-	                });
-	            } else {
-	                this.setState({
-	                    displayForm: "none"
-	                });
-	            }
-
-	            if (renewal.renewalStarted === true) {
-	                this.setState({
-	                    displayMessages: "block"
-	                });
-	            } else {
-	                this.setState({
-	                    displayMessages: "none"
-	                });
-	            }
+	        value: function handleSelectedItem(renewal, task) {
 
 	            this.setState({
 	                renewal: renewal,
+	                task: task,
 	                displayDetail: "block",
 	                displayList: "none"
 	            });
-	            // this.loadMessagesFromServer(renewal._links.messages.href);
 	        }
 	    }, {
 	        key: 'handleBackClick',
@@ -36497,6 +36467,7 @@
 	            var item = "";
 	            if (this.state.renewal !== null) {
 	                item = React.createElement(Detail, { renewal: this.state.renewal,
+	                    task: this.state.task,
 	                    messages: this.state.messages,
 	                    cannedMessages: this.state.cannedMessages,
 	                    onRefreshMessages: this.handleRefreshMessages,
@@ -36656,7 +36627,7 @@
 									React.createElement(
 										'th',
 										null,
-										'Task Id'
+										'Service Owner'
 									),
 									React.createElement(
 										'th',
@@ -36725,9 +36696,11 @@
 	    Link = _require.Link,
 	    IndexLink = _require.IndexLink;
 
+	var client = __webpack_require__(286);
+
+	var root = 'http://localhost:8080';
+
 	// tag::vars[]
-
-
 	var React = __webpack_require__(8);
 	var DisplayDate = __webpack_require__(337);
 	var UpdateNoteDialog = __webpack_require__(341);
@@ -36740,24 +36713,51 @@
 	    function Line(props) {
 	        _classCallCheck(this, Line);
 
-	        return _possibleConstructorReturn(this, (Line.__proto__ || Object.getPrototypeOf(Line)).call(this, props));
+	        var _this = _possibleConstructorReturn(this, (Line.__proto__ || Object.getPrototypeOf(Line)).call(this, props));
+
+	        _this.state = {
+	            task: null
+	        };
+	        _this.loadTaskFromServer = _this.loadTaskFromServer.bind(_this);
+	        return _this;
 	    }
 
+	    // tag::follow-1[]
+
+
 	    _createClass(Line, [{
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	            this.loadTaskFromServer(this.props.renewal.serviceId);
+	        }
+	        // end::follow-1[]
+
+	    }, {
+	        key: 'loadTaskFromServer',
+	        value: function loadTaskFromServer(businessKey) {
+	            var _this2 = this;
+
+	            client({
+	                method: 'GET',
+	                path: root + "/engine-rest/task",
+	                params: { processInstanceBusinessKey: businessKey },
+	                headers: { 'Accept': 'application/json' }
+	            }).done(function (response) {
+	                _this2.setState({
+	                    task: response.entity[0]
+	                });
+	            });
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var status = "Not Started";
-	            if (this.props.renewal.renewalStarted) {
-	                status = "Renewal Started";
-	            }
-	            if (this.props.renewal.renewalCompleted) {
-	                status = "Renewal Completed";
-	            }
-	            var renewing = "";
-	            if (this.props.renewal.renewing) {
-	                renewing = "Yes";
-	            } else if (this.props.renewal.renewing === false && this.props.renewal.renewalCompleted) {
-	                renewing = "No";
+
+	            var task = this.state.task;
+	            var name = "";
+	            if (task !== null) {
+	                // console.log("TASK: ");
+	                // console.log(task.name);
+	                name = task.name;
 	            }
 
 	            return React.createElement(
@@ -36765,8 +36765,8 @@
 	                null,
 	                React.createElement(
 	                    'td',
-	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal) },
-	                    this.props.renewal.serviceId
+	                    { onClick: this.props.onSelectItem.bind(null, this.props.renewal, this.state.task) },
+	                    name
 	                ),
 	                React.createElement(
 	                    'td',
@@ -37275,6 +37275,7 @@
 	          React.createElement(Info, {
 	            tenants: tenants,
 	            renewal: this.props.renewal,
+	            task: this.props.task,
 	            onUpdateNote: this.props.onUpdateNote,
 	            onDelete: this.props.onDelete })
 	        ),
@@ -37282,8 +37283,7 @@
 	          'div',
 	          null,
 	          React.createElement('hr', null),
-	          React.createElement(Form, { renewal: this.props.renewal,
-	            cannedMessages: this.props.cannedMessages })
+	          React.createElement(Form, { renewal: this.props.renewal })
 	        )
 	      );
 	    }
@@ -38137,26 +38137,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var status = "Not Started";
-	      if (this.props.renewal.renewalStarted) {
-	        status = "Renewal Started";
-	      }
-	      if (this.props.renewal.renewalCompleted) {
-	        status = "Renewal Completed";
-	      }
-
-	      var renewing = "";
-	      if (this.props.renewal.renewing) {
-	        renewing = "Yes";
-	      } else if (this.props.renewal.renewing === false && this.props.renewal.renewalCompleted) {
-	        renewing = "No";
-	      }
-
-	      var signed = "No";
-	      if (this.props.renewal.signed) {
-	        signed = "Yes";
-	      }
-
+	      console.log(this.props.task);
 	      return React.createElement(
 	        'div',
 	        null,
@@ -38187,7 +38168,7 @@
 	                  React.createElement(
 	                    'li',
 	                    null,
-	                    this.props.renewal.taskId
+	                    this.props.task.name
 	                  ),
 	                  React.createElement(
 	                    'li',
@@ -38200,7 +38181,7 @@
 	                    React.createElement(
 	                      'span',
 	                      { className: 'data' },
-	                      this.props.renewal.taskName
+	                      this.props.task.id
 	                    )
 	                  )
 	                )

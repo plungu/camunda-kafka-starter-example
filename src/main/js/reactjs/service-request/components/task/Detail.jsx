@@ -76,6 +76,7 @@ class Detail extends React.Component{
             <Info
                 tenants={tenants}
                 renewal={this.props.renewal}
+                task={this.props.task}
                 onUpdateNote={this.props.onUpdateNote}
                 onDelete={this.props.onDelete}/>
         </div>
@@ -84,8 +85,7 @@ class Detail extends React.Component{
                   
         <div >
           <hr />
-          <Form renewal={this.props.renewal}
-                   cannedMessages={this.props.cannedMessages}/>
+          <Form renewal={this.props.renewal} />
         </div>
 
       </div>

@@ -16,26 +16,7 @@ class Info extends React.Component{
   }
   
   render(){
-      var status = "Not Started";
-      if (this.props.renewal.renewalStarted){
-        status = "Renewal Started";
-      }
-      if (this.props.renewal.renewalCompleted){
-        status = "Renewal Completed"
-      }  
-      
-      var renewing = "";
-      if (this.props.renewal.renewing){
-          renewing = "Yes";
-      }else if(this.props.renewal.renewing === false && this.props.renewal.renewalCompleted){
-          renewing = "No";
-      }
-
-      var signed = "No";
-      if (this.props.renewal.signed){
-          signed = "Yes"
-      }
-          
+        console.log(this.props.task)
       return (   
        <div>   
             <div className="row">
@@ -47,8 +28,8 @@ class Info extends React.Component{
                   </div>
                   <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
                     <ul>
-                      <li>{this.props.renewal.taskId}</li>
-                      <li><span className="label">Task Id</span><span className="data">{this.props.renewal.taskName}</span></li>
+                      <li>{this.props.task.name}</li>
+                      <li><span className="label">Task Id</span><span className="data">{this.props.task.id}</span></li>
                     </ul>
                   </div>
                 </div>

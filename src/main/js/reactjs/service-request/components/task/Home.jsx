@@ -20,6 +20,7 @@ class home extends React.Component {
         this.state = {
           renewal: null,
           renewals: [],
+          task: null,
           attributes: [],
           pageSize: 10,
           links: {},
@@ -55,11 +56,9 @@ class home extends React.Component {
     // tag::follow-1[]
     componentDidMount() {
         this.loadAllFromServer(this.state.pageSize);
-        console.log("Loaded Service Requests from server"+this.state.renewals)
-        // this.loadCannedMessageFromServer();
+        // this.loadTaskFromServer(this.state.renewals.serviceId);
     }
     // end::follow-1[]
-
 
     // tag::follow-2[]
     loadAllFromServer(pageSize) {
@@ -83,9 +82,6 @@ class home extends React.Component {
         });
     }
     // end::follow-2[]
-
-
-
 
     // tag::navigate[]
     onNavigate(navUri) {
@@ -131,6 +127,21 @@ class home extends React.Component {
     handleRefreshMessages(renewal){
       this.loadMessagesFromServer(renewal._links.messages.href);
     }
+
+    // loadTaskFromServer(businessKey){
+    //   client({
+    //     method: 'GET',
+    //     path: root+"/engine-rest/task",
+    //     params: {processInstanceBusinessKey: businessKey},
+    //   }).done(task => {
+    //       console.log(task);
+    //       this.setState(
+    //         {
+    //           task: task,
+    //         }
+    //       );
+    //   });
+    // }
 
     // // tag::follow-2[]
     // loadCannedMessageFromServer() {
@@ -186,61 +197,16 @@ class home extends React.Component {
     //   });
     // }
 
-    // loadStateFromServer(pageSize){
-    //   client({
-    //     method: 'GET',
-    //     path: root+"/renewals/search/findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc",
-    //     params: {size: pageSize, renewalStarted: true, renewalCompleted: false},
-    //   }).done(response => {
-    //       this.setState(
-    //         {
-    //           renewals: response.entity._embedded.renewals,
-    //           pageSize: pageSize,
-    //           links: response.entity._links
-    //         }
-    //       );
-    //   });
-    // }
+    handleSelectedItem(renewal, task) {
 
-    // // tag::follow-3[]
-    // loadMessagesFromServer(navUri) {
-    //   client({method: 'GET', path: navUri}).done(response => {
-    //       this.setState({messages: response.entity._embedded.messages});
-    //   });
-    // }
-    // // end::follow-3[]
-
-    handleSelectedItem(renewal){
-      if(renewal.renewalStarted === true
-              && renewal.renewalCompleted === false
-              && renewal.workflowState === "Confirm Renewal State")
-      {
-          this.setState({
-              displayForm: "block"
-          });
-      }else{
         this.setState({
-            displayForm: "none"
+            renewal: renewal,
+            task: task,
+            displayDetail: "block",
+            displayList: "none"
         });
-      }
-
-      if(renewal.renewalStarted === true){
-          this.setState({
-            displayMessages: "block"
-         });
-      }else{
-        this.setState({
-            displayMessages: "none"
-        });
-      }
-
-      this.setState({
-        renewal: renewal,
-        displayDetail: "block",
-        displayList: "none"
-      });
-      // this.loadMessagesFromServer(renewal._links.messages.href);
     }
+
 
     handleBackClick(e){ 
        this.setState({
@@ -321,6 +287,7 @@ class home extends React.Component {
       var item = "";
       if (this.state.renewal !== null) {
         item = <Detail renewal={this.state.renewal}
+                       task={this.state.task}
                     messages={this.state.messages}
                     cannedMessages={this.state.cannedMessages}
                     onRefreshMessages={this.handleRefreshMessages}
