@@ -1,10 +1,11 @@
 debug: false
 #logging.level.com.camunda.*: INFO
 
-
-
 #server.port: 8080
 
+#Specify active profiles from YAML
+# WARNING: preferable to specify the profiles from the command line like ` -Dspring-boot.run.profiles=dev` or `-Dspring.profiles.active=jobs`
+#spring.profiles.active: ${profile:dev}
 
 # See the docker-compose to use PostgreSQL
 spring:
@@ -27,10 +28,6 @@ spring:
   jpa:
     generate-ddl: false
     hibernate.ddl-auto: none
-
-#Specify active profiles from YAML
-# WARNING: preferable to specify the profiles from the command line like ` -Dspring-boot.run.profiles=dev` or `-Dspring.profiles.active=jobs`
-#spring.profiles.active: ${profile:dev}
 
 camunda.bpm:
 #  job-execution:

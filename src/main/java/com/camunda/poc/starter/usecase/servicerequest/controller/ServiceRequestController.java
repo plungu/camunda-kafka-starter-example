@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@Profile("mspoc")
+@Profile("servicerequest")
 @RestController
 public class ServiceRequestController {
 

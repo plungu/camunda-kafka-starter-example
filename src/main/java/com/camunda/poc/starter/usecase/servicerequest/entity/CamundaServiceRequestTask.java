@@ -1,6 +1,6 @@
 package com.camunda.poc.starter.usecase.servicerequest.entity;
 
-import com.camunda.poc.starter.usecase.renewal.entity.CamundaTask;
+import com.camunda.poc.starter.entity.CamundaTask;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.CreationTimestamp;

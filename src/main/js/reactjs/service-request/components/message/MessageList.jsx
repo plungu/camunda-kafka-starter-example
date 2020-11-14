@@ -3,9 +3,9 @@
 // tag::vars[]
 const React = require('react');
 
-const Message = require('src/main/js/reactjs/renewals/components/message/MessageLine.jsx');
+const Message = require('src/main/js/reactjs/service-request/components/message/MessageLine.jsx');
 
-const MessageFilterBar = require('src/main/js/reactjs/renewals/components/message/MessageFilterBar.jsx');
+const MessageFilterBar = require('src/main/js/reactjs/service-request/components/message/MessageFilterBar.jsx');
 
 // tag::message-list[]
 class MessageList extends React.Component{

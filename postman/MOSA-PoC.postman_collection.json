@@ -1,83 +1,17 @@
 {
 	"info": {
-		"_postman_id": "09b4eb67-3370-467b-9b02-4609755ff6eb",
+		"_postman_id": "232c0a53-f710-41b8-a629-3df9a271d18b",
 		"name": "MOSA-PoC",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
-		{
-			"name": "start-service-request-process-instance",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "b27fe844-12da-4761-ae59-03bad5c7d558",
-						"exec": [
-							"pm.test(\"response must be valid and have a body\", function () {",
-							"     // assert that the status code is 200",
-							"     pm.response.to.be.ok; // info, success, redirection, clientError,  serverError, are other variants",
-							"     // assert that the response has a valid JSON body",
-							"     pm.response.to.be.withBody;",
-							"     pm.response.to.be.json; // this assertion also checks if a body  exists, so the above check is not needed",
-							"",
-							"    var data = JSON.parse(responseBody);",
-							"",
-							"    //set the tasks into PM environment",
-							"    pm.environment.set(\"businessKey\", data.businessKey);",
-							"    console.log( \"Business Key: \"",
-							"                        +pm.environment.get(\"businessKey\") );",
-							"    ",
-							"});",
-							"",
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"businessKey\" : \"{{$guid}}\",\n    \"variables\": {\n        \"status\": {\n            \"value\": \"0\",\n            \"type\":\"Integer\"\n        },\n        \"error\": {\n            \"value\": false\n        }\n\n    }\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/engine-rest/process-definition/key/service-request/start",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"engine-rest",
-						"process-definition",
-						"key",
-						"service-request",
-						"start"
-					]
-				},
-				"description": "Starts a process instance with the rest API"
-			},
-			"response": []
-		},
 		{
 			"name": "message-corrolation",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "6d6d009d-ec4b-4949-b2cd-0ca4112665c1",
+						"id": "9261dbd7-2337-4766-9cd3-7606327159e1",
 						"exec": [
 							"pm.test(\"response must be valid and have a body\", function () {",
 							"     // assert that the status code is 200",
@@ -95,7 +29,7 @@
 				{
 					"listen": "prerequest",
 					"script": {
-						"id": "f5741e52-b29a-42bc-8ee2-0a7c6a36292b",
+						"id": "b312984c-5b42-4a1c-bed5-58477be0806a",
 						"exec": [
 							""
 						],
@@ -113,7 +47,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"messageName\" : \"message-homeowner-poi\",\n  \"businessKey\" : \"{{loanNumber}}\"\n}",
+					"raw": "{\n  \"messageName\" : \"service-owner-sr-rejection\",\n  \"businessKey\" : \"{{businessKey}}\"\n}",
 					"options": {
 						"raw": {}
 					}
@@ -140,7 +74,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "7979a9da-0236-4bdf-8339-33bcac576c80",
+						"id": "14ff91a8-22e4-4e33-928a-75559e56243a",
 						"exec": [
 							"pm.test(\"test task exists\", function () { ",
 							"",
@@ -175,7 +109,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/engine-rest/task",
+					"raw": "http://localhost:8080/engine-rest/task?processInstanceBusinessKey={{businessKey}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -184,6 +118,12 @@
 					"path": [
 						"engine-rest",
 						"task"
+					],
+					"query": [
+						{
+							"key": "processInstanceBusinessKey",
+							"value": "{{businessKey}}"
+						}
 					]
 				}
 			},
@@ -195,7 +135,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "6620ecee-fb95-4413-9f3d-91e03dacd661",
+						"id": "0abc4b3b-4493-4165-b651-2cd3a13ab04a",
 						"exec": [
 							""
 						],
@@ -215,7 +155,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"variables\": {\n        \"approved\": {\n            \"value\": true\n        }\n    },\n    \"withVariablesInReturn\": true\n}",
+					"raw": "{\n    \"variables\": {\n        \"approved\": {\n            \"value\": false\n        }\n    },\n    \"withVariablesInReturn\": true\n}",
 					"options": {
 						"raw": {}
 					}
@@ -238,75 +178,21 @@
 			"response": []
 		},
 		{
-			"name": "notfiy homeowner end point",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:9090/api/Insurance/notifyHomeOwner/mortgagenumber/${businessKey}/language/en/firstname/${firstName}/lastname/${lastName}/preference/email/phonenumber/6478026187/email/raj.gohil%40mcap.com",
-					"host": [
-						"localhost"
-					],
-					"port": "9090",
-					"path": [
-						"api",
-						"Insurance",
-						"notifyHomeOwner",
-						"mortgagenumber",
-						"${businessKey}",
-						"language",
-						"en",
-						"firstname",
-						"${firstName}",
-						"lastname",
-						"${lastName}",
-						"preference",
-						"email",
-						"phonenumber",
-						"6478026187",
-						"email",
-						"raj.gohil%40mcap.com"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "get prefrences",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
+			"name": "start-service-request-process",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "06a72f33-d572-4b00-983f-d7f937ab1fca",
+						"exec": [
+							"var uuid = require('uuid');",
+							"var bizKey = uuid.v4();",
+							"pm.environment.set(\"businessKey\", bizKey);"
+						],
+						"type": "text/javascript"
 					}
-				},
-				"url": {
-					"raw": "localhost:9090/customer/v1/default/customer/e298351a-d254-418f-b112-003f2d1c4f9f",
-					"host": [
-						"localhost"
-					],
-					"port": "9090",
-					"path": [
-						"customer",
-						"v1",
-						"default",
-						"customer",
-						"e298351a-d254-418f-b112-003f2d1c4f9f"
-					]
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "New ServiceRequest Event Start Process",
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -317,16 +203,17 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"name\": \"Paul\", \"businessKey\": \"{{$guid}}\", \"primaryPhone\":\"333-443-4543\",\"secondaryPhone\":\"\",\"email\":\"\", \"disposition\": false} "
+					"raw": "{     \"serviceId\": \"{{businessKey}}\",     \"serviceCategory\": 2,     \"serviceDescription\": \"Test\",     \"serviceOwner\": \"Vipin Gupta\",     \"serviceOwnerMSID\": \"guptvipi\",     \"sourcingManager\": \"Narayan\",     \"sourcingManagerMSID\": \"ramamoor\",     \"acquiringDivision\": \"CFT\",     \"buContractingService\": null,     \"leContractingServiceCode\": null,     \"additionalReviewer\": null,     \"additionalReviewerMSID\": null,     \"additionalReviewerNotes\": null,     \"sourcingComments\": null,     \"applicationName\": null,     \"eonId\": null,     \"estimatedAnnualSpend\": null,     \"serviceDetailsComments\": null }"
 				},
 				"url": {
-					"raw": "localhost:8080/contact",
+					"raw": "localhost:8080/sr/start",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"contact"
+						"sr",
+						"start"
 					]
 				}
 			},

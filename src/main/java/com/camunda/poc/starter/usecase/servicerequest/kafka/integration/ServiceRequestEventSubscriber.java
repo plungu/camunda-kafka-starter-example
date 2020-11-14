@@ -10,7 +10,7 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.context.annotation.Profile;
 
-@Profile("mspoc")
+@Profile("servicerequest")
 @EnableBinding(ServiceRequestEventChannels.class)
 public class ServiceRequestEventSubscriber {
 

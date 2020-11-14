@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * illustrating how a Java Delegate can be used 
  * from within a BPMN 2.0 Service Task.
  */
-@Profile("mspoc")
+@Profile("servicerequest")
 @Component("updateEventPublishingDelegate")
 public class ServiceRequestUpdateEventPublishingDelegate implements JavaDelegate {
 

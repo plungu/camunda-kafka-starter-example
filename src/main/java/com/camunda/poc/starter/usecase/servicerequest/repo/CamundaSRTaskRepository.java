@@ -1,7 +1,6 @@
 package com.camunda.poc.starter.usecase.servicerequest.repo;
 
 
-import com.camunda.poc.starter.usecase.renewal.entity.CamundaRenewalTask;
 import com.camunda.poc.starter.usecase.servicerequest.entity.CamundaServiceRequestTask;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
