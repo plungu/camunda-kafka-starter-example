@@ -5,6 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
+<meta name="author" content="Doc Writer">
 <title>Business Case: Service Request with Multi-level Approval</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -436,61 +437,94 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-right">
 <div id="header">
+<h1>Business Case: Service Request with Multi-level Approval</h1>
+<div class="details">
+<span id="author" class="author">Doc Writer</span><br>
+<span id="email" class="email"><a href="mailto:paul.lungu@camunda.com">paul.lungu@camunda.com</a></span><br>
+<span id="revnumber">version 1.0,</span>
+<span id="revdate">2014-08-01</span>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel3">
+<li><a href="#_interesting_points_in_the_process">Interesting points in the process</a></li>
+<li><a href="#_running_the_use_case">Running the use-case</a>
+<ul class="sectlevel2">
+<li><a href="#_testing_with_postman">Testing with Postman</a></li>
+<li><a href="#_see_it_running">See it running</a></li>
+</ul>
+</li>
+<li><a href="#_architecture">Architecture</a>
+<ul class="sectlevel2">
+<li><a href="#_kafka_integration">Kafka Integration</a></li>
+<li><a href="#_reactjs_ui_integration">ReactJS UI Integration</a></li>
+<li><a href="#_handling_business_data_and_ui_integration">Handling Business Data and UI Integration</a></li>
+</ul>
+</li>
+<li><a href="#_developing_with_this_poc_starter_project">Developing with this PoC Starter Project</a>
+<ul class="sectlevel3">
+<li><a href="#_setting_up_react_for_dev">Setting up React for Dev</a></li>
+<li><a href="#_running_the_server_for_dev">Running the server for Dev</a></li>
+<li><a href="#_running_kafka">Running Kafka</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
-<div class="sect1 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-1">
-<h2 id="_business_case_service_request_with_multi_level_approval">Business Case: Service Request with Multi-level Approval</h2>
+<div id="preamble">
 <div class="sectionbody">
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-3">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-6">
 <p>Service Request use-case is focused on demonstrating the service request process through Web Based UI, Notifications and Camunda workflow. The service request process models several human review steps where a approval or rejection can happen. As well as system interactions through async over TCP communications with eventing system (Kafak) and synchronous communications through HTTP/REST in a point to point pattern.</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-5">
-<p><span class="image"><img src="./docs/images/service-request-workflow-model.png" alt="Service Request BPMN"></span></p>
-</div>
-<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-7">
-<h4 id="_some_interesting_points_in_the_process">Some interesting points in the process</h4>
 <div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-8">
+<p><span class="image"><img src="./docs/images/service-request-workflow-model.png" alt="Service Request BPMN"></span>
+This can server as an example for designing distributed systems with workflow engines as an orchestrator in a choreographed event oriented architecture.</p>
+</div>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-12">
+<h4 id="_interesting_points_in_the_process">Interesting points in the process</h4>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-13">
 <p><span class="image"><img src="./docs/images/service-request-approval-and-integration.png" alt="Service Request BPMN"></span></p>
 </div>
-<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-9">
+<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-14">
 <div class="content">
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-10">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-15">
 <p>This section of the process is particularly interesting and packed with functionality. At the workflow level we are orchestrating user tasks for the explicit multilevel review of service requests. After each review we send a Event to Kafaka potentially notifying other systems, like a UI, about the completion of the task and update of the service request.</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-12">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-17">
 <p>Notice on the rejection path no User Task is defined for Requester of the service request. This is intentional to signify that the Requestor can be notified in many ways about the rejection and the method of updating the service request is not important to the workflow itself. In technical terms this signifies a loose coupling for these events due to the workflow not orchestrating the interaction rather using a choreography approach. Essentially all the workflow cares about is the rejection is handled in some way but no idea how it happens.</p>
 </div>
 </div>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-16">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-21">
 <p><span class="image"><img src="./docs/images/service-request-error-handling.png" alt="Service Request BPMN"></span></p>
 </div>
-<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-17">
+<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-22">
 <div class="content">
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-18">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-23">
 <p>This section of the process demonstrates the capability to explicitly handle errors and potentially compensate or retry certain activities in the workflow.</p>
 </div>
 </div>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-20">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-25">
 <p><span class="image"><img src="./docs/images/service-request-biz-calcs.png" alt="Service Request BPMN"></span></p>
 </div>
-<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-21">
+<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-26">
 <div class="content">
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-22">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-27">
 <p>This section of the workflow demonstrates the possibility to use DMN and business rules to accomplish the assessment calculations.</p>
 </div>
 </div>
 </div>
 </div>
-</div>
-</div>
-<div class="sect1 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-25">
+<div class="sect1 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-30">
 <h2 id="_running_the_use_case">Running the use-case</h2>
 <div class="sectionbody">
-<div class="admonitionblock important has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-26">
+<div class="admonitionblock important has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-31">
 <table>
 <tr>
 <td class="icon">
@@ -502,71 +536,82 @@ Running the app once with no profile is necessary to initalize the Camunda datab
 </tr>
 </table>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-27">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-32">
 <div class="content">
 <pre class="CodeRay highlight"><code>mvn spring-boot:run</code></pre>
 </div>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-31">
-<p><strong>Profiles</strong> can be specified at the command line when the application starts. The notation is as follows. <code>-Dspring.profiles.active=servicerequest,integration,cors</code></p>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-36">
+<p>Then again with the profiles</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-33">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-37">
+<div class="content">
+<pre class="CodeRay highlight"><code>mvn spring-boot:run -Dspring.profiles.active=servicerequest,integration,cors</code></pre>
+</div>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-41">
+<p><strong>Profiles</strong> can be specified at the command line when the application starts. The notation is as follows.</p>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-43">
+<p><code>-Dspring.profiles.active=servicerequest,integration,cors</code></p>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-45">
 <p>Or you can use the application.properties file to specify the profile.</p>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-35">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-47">
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">spring.profiles.active</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">test,cors</span></span></code></pre>
+<pre class="CodeRay highlight"><code data-lang="yaml"><span style="color:#606">spring.profiles.active</span>: <span style="background-color:hsla(0,100%,50%,0.05)"><span style="color:#D20">servicerequest,integration,cors</span></span></code></pre>
 </div>
 </div>
-<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-39">
-<h3 id="_loading_test_data">Loading Test Data</h3>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-40">
-<p>TODO: Create REST end-point to parse csv and load service request data, start processes associating with a service id/business key</p>
-</div>
-</div>
-<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-43">
+<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-55">
 <h3 id="_testing_with_postman">Testing with Postman</h3>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-45">
-<p>Use the postman collection <code>MOSA-PoC.postman_collection.json</code> in the <code>postman</code> folder.</p>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-57">
+<p>Use the postman collection <code>Service-Request-PoC.postman_collection.json</code> in the <code>postman</code> folder.</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-47">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-59">
 <p>With post-man you can move through the processes simulating REST requests to the app.
 - starting the process with new service request
 - completing user tasks
 - correlating messages</p>
 </div>
 </div>
-<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-52">
+<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-64">
 <h3 id="_see_it_running">See it running</h3>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-53">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-65">
 <p><strong>Visit <code><a href="http://&lt;server&gt;:&lt;port&gt;/sr" class="bare">http://&lt;server&gt;:&lt;port&gt;/sr</a></code> to access the React app.</strong></p>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-56">
+<div class="sect1 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-68">
 <h2 id="_architecture">Architecture</h2>
 <div class="sectionbody">
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-58">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-70">
 <p><span class="image"><img src="./docs/images/service-request-architecture.png" alt="Service Request BPMN"></span></p>
 </div>
-<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-59">
+<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-71">
 <div class="content">
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-60">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-72">
 <p>The diagram above illustrates the interactions and logical components of the app. Note the app is all packed together into one artifact for easier development and PoC ing. But each component could be easily it&#8217;s own deployable artifact.</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-62">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-74">
 <p>The green bar signifies kafka. Events are published to Kafaka from the workflow Send Tasks. The Send tasks are implimented as java delegates. This pattern works well as we can utilize the Delegate and the Send task to control the execution of the workflow and potentially ack Kafaka  and handle incidents when Publishing fails.</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-64">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-76">
 <p>The orange boxes signify components that sub-scribe to Kafaka topinc and update other components based on the Events that they receive.</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-66">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-78">
 <p>The blue boxes signify components that do specific work and are updated by Events from the subscription components.</p>
 </div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-80">
+<p>Purple lines and events signify point-to-point synchronous HTTP/REST interactions with the workflow and other components.</p>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-82">
+<p>Orange lines and events signify pub/sub asynchronous interaction with the workflow and other components.</p>
 </div>
 </div>
-<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-69">
+</div>
+<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-85">
 <table>
 <tr>
 <td class="icon">
@@ -578,77 +623,184 @@ This is a typical pattern for micro-service architectures though the level of ab
 </tr>
 </table>
 </div>
-<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-71">
+<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-87">
 <h3 id="_kafka_integration">Kafka Integration</h3>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-72">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-88">
 <p>The spring-boot app is using spring cloud streams.</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-74">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-90">
 <p><a href="https://spring.io/projects/spring-cloud-stream" class="bare">https://spring.io/projects/spring-cloud-stream</a></p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-76">
+<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-92">
+<div class="content">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-93">
 <p>The app has a has a single publisher and a single subscriber for the service-request-events topic.</p>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-78">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-95">
 <div class="content">
 <pre class="CodeRay highlight"><code>spring.cloud.stream.bindings.publishServiceRequest.destination=service-request-events
 spring.cloud.stream.bindings.subscribeServiceRequest.destination=service-request-events</code></pre>
 </div>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-83">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-99">
 <p>See the <code>com.camunda.poc.starter.usecase.servicerequest.kafka.integration</code> package/folder for impl of publishers and subscribers.</p>
 </div>
-<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-84">
+</div>
+</div>
+<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-102">
 <div class="content">
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-85">
-<p>A single subsciber is implimented <code>ServiceRequestEventSubscriber.java</code>; it simply gets the message from the topic and serialized into memory. Then it saves/caches the Service Request into the local db based on the event type.</p>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-103">
+<p>A single subscriber is implemented <code>ServiceRequestEventSubscriber.java</code>; it simply gets the message from the topic and serialized into memory. Then it saves/caches the Service Request into the local db based on the event type.</p>
+</div>
+</div>
+</div>
+<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-106">
+<div class="content">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-107">
+<p>Two publishers are implemented, <code>ServiceRequestCreateEventPublishingDelegate.java</code> and <code>ServiceRequestUpdateEventPublishingDelegate.java</code>. These publishers are also JavaDelegtes and are wired into the bpmn model and are executed during the process execution. This is a powerful pattern as it lets us control the execution of the workflow and handle errors incidents and more.</p>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-109">
+<p>The publisher publishes a ServiceRequestEvent with event meta-data such as the Name and Type as well as parameters such as workflow state and business data. It also encapsulates a ServiceRequest. which is our primary business object.</p>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-111">
+<p>The Service Request Event meta-data helps other components understand what to do with the event.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-88">
+<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-114">
 <h3 id="_reactjs_ui_integration">ReactJS UI Integration</h3>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-90">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-116">
 <p>The Maven frontend-maven-plugin configured in pom.xml is used to build the ReactJS app. The plugin creates a bundle.js file which ends up in <code>src/main/resources/static/built/bundle.js</code>. The static directory makes static resources such as JS and HTML available to the java app.</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-92">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-118">
 <p>The Java application boot-straps the ReactJS App through Thymeleaf a java/spring frontend framework. The templates directory <code>src/main/resources/templates/app.html</code> has a HTML file app.html which calls the React app through a <code>&lt;script /&gt;</code> tag loading the HTML into the react div <code>&lt;div id="react"&gt;&lt;/div&gt;</code></p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-94">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-120">
 <p>Thymeleaf ties the Java frontend together using a Spring controller. <code>src/main/java/com/camunda/react/starter/controller/HomeController.java</code>. Mapping the app context to /home and calling the app.html.</p>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-96">
-<p>The React Components are organized under the <code>src\main\js\reactjs</code> folder into a use-case folder then subdivided by component. Webpack and package.json define the structure and dependencies for the React App that allow node to build the app into the bundle.js which is later placed in the static directory as explained previously.</p>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-122">
+<p>The React Components are organized under the <code>src\main\js\reactjs</code> folder into a use-case folder then subdivided by component.</p>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-124">
+<p>Webpack and package.json define the structure and dependencies for the React App that allow and build the app into the bundle.js which is later placed in the static directory as explained previously. Allowing our frontend to load the plain EcmaScript.</p>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-126">
+<p>Foundation CSS is used for styling <a href="https://get.foundation/sites/docs/index.html" class="bare">https://get.foundation/sites/docs/index.html</a></p>
+</div>
+</div>
+<div class="sect2 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-128">
+<h3 id="_handling_business_data_and_ui_integration">Handling Business Data and UI Integration</h3>
+<div class="admonitionblock tip has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-129">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+see the pattern described in the Camunda Best Practices <a href="https://camunda.com/best-practices/handling-data-in-processes/" class="bare">https://camunda.com/best-practices/handling-data-in-processes/</a> and <a href="https://camunda.com/best-practices/enhancing-tasklists-with-business-data/" class="bare">https://camunda.com/best-practices/enhancing-tasklists-with-business-data/</a>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-131">
+<p>Often and for numerous reasons we need to consolidate data from different sources. In this app I use JPA and Spring REST with some of springs features to build a custom API. Primarily for making integration with the UI easier. Here are few reasons why I take this approach.</p>
+</div>
+<div class="ulist has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-133">
+<ul>
+<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-133">
+<p>Reduce queries the UI does to the backend</p>
+</li>
+<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-134">
+<p>Make it easier to build UI components</p>
+</li>
+<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-135">
+<p>Create abstraction layer that can be used to integrate other technical and business requirements like reporting and security.</p>
+</li>
+<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-136">
+<p>Have a source of truth for process meta-data</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-138">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+Also keep in mind I want to keep every-thing self contained for PoC purposes. Think in logical terms and that these components could be another technology or several other technologies depending on the specific needs.
+</td>
+</tr>
+</table>
+</div>
+<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-140">
+<h4 id="_how_does_it_work">How does it work</h4>
+<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-141">
+<div class="content">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-142">
+<p>Spring REST controllers are used to post data to the workflow. Simple and concise API&#8217;s are defined for interaction with the process. See <code>ServiceRequestController.java</code> The API always takes a SerivceRequest object and returns and HTTP Status. The RESTful endpoint context mapping is associated to events that can happen in the system. Such as CREATE-SERVICE-REQUEST, UPDATE-SERVICE-REQUEST and are intended to work in a point-to-point(request/response) synchronous fashion.</p>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-144">
+<p>The controllers only POST/PUT data CREATING and UPDATING only.</p>
+</div>
+</div>
+</div>
+<div class="admonitionblock important has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-146">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Important</div>
+</td>
+<td class="content">
+The intention is to create a <a href="https://martinfowler.com/bliki/CQRS.html#:~:text=CQRS%20stands%20for%20Command%20Query,you%20use%20to%20read%20information">CQRS(Command Query Responsibility Segregation)</a> pattern for interaction. This can increase scalability while reducing complexity in distributed systems.
+</td>
+</tr>
+</table>
+</div>
+<div class="exampleblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-147">
+<div class="content">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-148">
+<p>A separate API and logically separate data-store is used to query ServiceRequest data. Updates to this data-store always happen in an asynchronous fashion. For example when a Approval task in the work flow completes the workflow publishes an UPDATE-SERVICE-REQUEST event. The subscriber reads the event and decides what to do. In certain cases it updates the ServiceRequest in the data-store. Other components can now read from the data-store such as the UI.</p>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-150">
+<p>We can guarantee the data is published to the data store with the workflow. See the section above on the JavaDelegates that implement the publishing functionality.</p>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-98">
+</div>
+</div>
+</div>
+<div class="sect1 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-153">
 <h2 id="_developing_with_this_poc_starter_project">Developing with this PoC Starter Project</h2>
 <div class="sectionbody">
-<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-99">
-<h4 id="_settign_up_react_for_dev">Settign up React for Dev</h4>
-<div class="ulist has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-100">
+<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-154">
+<h4 id="_setting_up_react_for_dev">Setting up React for Dev</h4>
+<div class="ulist has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-155">
 <ul>
-<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-100">
+<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-155">
 <p>run node and server.js by starting a node server in the home directory of the project. You may need to run <code>npm install</code> first.</p>
 </li>
 </ul>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-101">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-156">
 <div class="content">
 <pre class="CodeRay highlight"><code>nodemon server.js</code></pre>
 </div>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-104">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-159">
 <p>also run the web-pack watch in the project home so you can update the bundle as you build reactjs</p>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-105">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-160">
 <div class="content">
 <pre class="CodeRay highlight"><code>webpack -w</code></pre>
 </div>
 </div>
-<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-108">
+</div>
+<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-164">
+<h4 id="_running_the_server_for_dev">Running the server for Dev</h4>
+<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-165">
 <table>
 <tr>
 <td class="icon">
@@ -660,32 +812,72 @@ you need to run the cors profile when using nodemon
 </tr>
 </table>
 </div>
-<div class="ulist has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-110">
+<div class="ulist has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-167">
 <ul>
-<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-110">
+<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-167">
 <p>Also note you can use spring-dev-tools to build front and back-end component in dev mode providing faster restarts and live-reload.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-112">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-169">
 <p>for dev mode run the following with the appropriate profiles</p>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-113">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-170">
 <div class="content">
-<pre class="CodeRay highlight"><code>mvn spring-boot:run</code></pre>
+<pre class="CodeRay highlight"><code>mvn spring-boot:run mvn spring-boot:run -Dspring.profiles.active=servicerequest,integration,cors</code></pre>
 </div>
 </div>
-<div class="admonitionblock warning has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-117">
+<div class="admonitionblock warning has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-174">
 <table>
 <tr>
 <td class="icon">
 <div class="title">Warning</div>
 </td>
 <td class="content">
-spring-dev-tools affects the way serializes objects and will cause serialization errors in some cases. So it is commented out in pom.xml by default.
+spring-dev-tools affects the way Camunda serializes objects into process vars and will cause serialization errors in some cases. So it is commented out in pom.xml by default.
 </td>
 </tr>
 </table>
+</div>
+</div>
+<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-176">
+<h4 id="_running_kafka">Running Kafka</h4>
+<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-177">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+A simple Kafka congfig is packaged into docker-compose. See <code>docker-compose</code> directory in the project home folder. Also you can run docker compose as follows.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-178">
+<div class="content">
+<pre class="CodeRay highlight"><code> docker-compose up</code></pre>
+</div>
+</div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-182">
+<p>Use the downloaded Kafka Distro if you prefer. I have included the distro in the <code>kafaka</code> folder in the project home. See Kafaka docs to run it. <a href="https://hub.docker.com/r/bitnami/kafka/" class="bare">https://hub.docker.com/r/bitnami/kafka/</a></p>
+</div>
+<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-184">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+I use the consumer in the kafak distro during dev to see when messages are published.
+</td>
+</tr>
+</table>
+</div>
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-185">
+<div class="content">
+<pre class="CodeRay highlight"><code>./bin/kafka-console-consumer.sh --topic service-request-events --bootstrap-server localhost:9092</code></pre>
+</div>
 </div>
 </div>
 </div>
@@ -693,7 +885,8 @@ spring-dev-tools affects the way serializes objects and will cause serialization
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2020-11-13 17:10:56 -0700
+Version 1.0<br>
+Last updated 2020-11-14 11:44:28 -0700
 </div>
 </div>
 </body>

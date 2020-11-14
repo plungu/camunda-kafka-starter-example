@@ -151,7 +151,7 @@ We can guarantee the data is published to the data store with the workflow. See 
 ====
 
 ## Developing with this PoC Starter Project
-#### Settign up React for Dev
+#### Setting up React for Dev
 - run node and server.js by starting a node server in the home directory of the project. You may need to run `npm install` first.
 ```
 nodemon server.js
