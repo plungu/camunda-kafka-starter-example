@@ -65,6 +65,10 @@ The orange boxes signify components that sub-scribe to Kafaka topinc and update 
 
 The blue boxes signify components that do specific work and are updated by Events from the subscription components.
 
+Purple lines and events signify point-to-point synchronous HTTP/REST interactions with the workflow and other components.
+
+Orange lines and events signify pub/sub asynchronous interaction with the workflow and other components.
+
 ====
 NOTE: This is a typical pattern for micro-service architectures though the level of abstraction between components will vary from use-case to use-case.
 
