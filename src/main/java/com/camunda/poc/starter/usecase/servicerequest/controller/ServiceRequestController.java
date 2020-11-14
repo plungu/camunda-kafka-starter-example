@@ -69,16 +69,6 @@ public class ServiceRequestController {
 		return response;
 	}
 
-	@RequestMapping(value = "/sr/save", method = RequestMethod.POST, consumes = {"application/json"})
-	public ResponseEntity<HttpStatus> save(@RequestBody(required = false) ServiceRequest serviceRequest)
-	{
-
-		LOGGER.info("\n\n  Save Service Request"+ serviceRequest);
-
-		ResponseEntity<HttpStatus> response = new ResponseEntity<HttpStatus>(HttpStatus.OK);
-		return response;
-	}
-
 	@RequestMapping(value = "/sr/task/approve", method = RequestMethod.POST, consumes = {"application/json"})
 	public ResponseEntity<HttpStatus> approve(@RequestBody(required = false) ServiceRequest serviceRequest)
 	{
