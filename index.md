@@ -1,4 +1,4 @@
-= Business Case: Service Request with Multi-level Approval
+= Workflow Business Case: Service Request with Multi-level Approval
 Doc Writer <paul.lungu@camunda.com>
 v1.0, 2014-08-01
 :toc: right
