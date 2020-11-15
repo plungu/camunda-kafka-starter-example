@@ -766,41 +766,44 @@ The intention is to create a <a href="https://martinfowler.com/bliki/CQRS.html#:
 <div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-150">
 <p>We can guarantee the data is published to the data store with the workflow. See the section above on the JavaDelegates that implement the publishing functionality.</p>
 </div>
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-152">
+<p><a href="https://spring.io/blog/2011/02/10/getting-started-with-spring-data-jpa">Spring Data JPA</a> is the technology used for the ServiceRequest data. Spring Data allows for an easy way to create API&#8217;s that are easy for a UI to query. Also an easy way to combine data into a useful form for the UI to consume.</p>
 </div>
 </div>
 </div>
 </div>
 </div>
 </div>
-<div class="sect1 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-153">
+</div>
+<div class="sect1 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-155">
 <h2 id="_developing_with_this_poc_starter_project">Developing with this PoC Starter Project</h2>
 <div class="sectionbody">
-<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-154">
+<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-156">
 <h4 id="_setting_up_react_for_dev">Setting up React for Dev</h4>
-<div class="ulist has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-155">
+<div class="ulist has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-157">
 <ul>
-<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-155">
+<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-157">
 <p>run node and server.js by starting a node server in the home directory of the project. You may need to run <code>npm install</code> first.</p>
 </li>
 </ul>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-156">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-158">
 <div class="content">
 <pre class="CodeRay highlight"><code>nodemon server.js</code></pre>
 </div>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-159">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-161">
 <p>also run the web-pack watch in the project home so you can update the bundle as you build reactjs</p>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-160">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-162">
 <div class="content">
 <pre class="CodeRay highlight"><code>webpack -w</code></pre>
 </div>
 </div>
 </div>
-<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-164">
+<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-166">
 <h4 id="_running_the_server_for_dev">Running the server for Dev</h4>
-<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-165">
+<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-167">
 <table>
 <tr>
 <td class="icon">
@@ -812,22 +815,22 @@ you need to run the cors profile when using nodemon
 </tr>
 </table>
 </div>
-<div class="ulist has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-167">
+<div class="ulist has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-169">
 <ul>
-<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-167">
+<li class="has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-169">
 <p>Also note you can use spring-dev-tools to build front and back-end component in dev mode providing faster restarts and live-reload.</p>
 </li>
 </ul>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-169">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-171">
 <p>for dev mode run the following with the appropriate profiles</p>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-170">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-172">
 <div class="content">
 <pre class="CodeRay highlight"><code>mvn spring-boot:run mvn spring-boot:run -Dspring.profiles.active=servicerequest,integration,cors</code></pre>
 </div>
 </div>
-<div class="admonitionblock warning has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-174">
+<div class="admonitionblock warning has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-176">
 <table>
 <tr>
 <td class="icon">
@@ -840,9 +843,9 @@ spring-dev-tools affects the way Camunda serializes objects into process vars an
 </table>
 </div>
 </div>
-<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-176">
+<div class="sect3 has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-178">
 <h4 id="_running_kafka">Running Kafka</h4>
-<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-177">
+<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-179">
 <table>
 <tr>
 <td class="icon">
@@ -854,15 +857,15 @@ A simple Kafka congfig is packaged into docker-compose. See <code>docker-compose
 </tr>
 </table>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-178">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-180">
 <div class="content">
 <pre class="CodeRay highlight"><code> docker-compose up</code></pre>
 </div>
 </div>
-<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-182">
+<div class="paragraph has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-184">
 <p>Use the downloaded Kafka Distro if you prefer. I have included the distro in the <code>kafaka</code> folder in the project home. See Kafaka docs to run it. <a href="https://hub.docker.com/r/bitnami/kafka/" class="bare">https://hub.docker.com/r/bitnami/kafka/</a></p>
 </div>
-<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-184">
+<div class="admonitionblock note has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-186">
 <table>
 <tr>
 <td class="icon">
@@ -874,7 +877,7 @@ I use the consumer in the kafak distro during dev to see when messages are publi
 </tr>
 </table>
 </div>
-<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-185">
+<div class="listingblock has-source-line data-line-/home/plungu/projects/camunda/consulting/customer/mosa/camunda-ms-poc-starter/README.adoc-187">
 <div class="content">
 <pre class="CodeRay highlight"><code>./bin/kafka-console-consumer.sh --topic service-request-events --bootstrap-server localhost:9092</code></pre>
 </div>
@@ -886,7 +889,7 @@ I use the consumer in the kafak distro during dev to see when messages are publi
 <div id="footer">
 <div id="footer-text">
 Version 1.0<br>
-Last updated 2020-11-14 11:44:28 -0700
+Last updated 2020-11-14 18:13:38 -0700
 </div>
 </div>
 </body>
