@@ -9,7 +9,7 @@ var FooterBar = React.createClass({
               <div className="top-bar-left">
                 <ul className="menu">
                   <li className="topbar-title">
-                    <small>@ Morgan Stanley - Camunda PoC.</small>
+                    <small>@ Service Request - Camunda PoC.</small>
                   </li>
                 </ul>
               </div>

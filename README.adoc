@@ -148,6 +148,8 @@ IMPORTANT: The intention is to create a https://martinfowler.com/bliki/CQRS.html
 A separate API and logically separate data-store is used to query ServiceRequest data. Updates to this data-store always happen in an asynchronous fashion. For example when a Approval task in the work flow completes the workflow publishes an UPDATE-SERVICE-REQUEST event. The subscriber reads the event and decides what to do. In certain cases it updates the ServiceRequest in the data-store. Other components can now read from the data-store such as the UI.
 
 We can guarantee the data is published to the data store with the workflow. See the section above on the JavaDelegates that implement the publishing functionality.
+
+https://spring.io/blog/2011/02/10/getting-started-with-spring-data-jpa[Spring Data JPA] is the technology used for the ServiceRequest data. Spring Data allows for an easy way to create API's that are easy for a UI to query. Also an easy way to combine data into a useful form for the UI to consume.
 ====
 
 ## Developing with this PoC Starter Project
