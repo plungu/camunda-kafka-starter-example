@@ -154,7 +154,24 @@ https://spring.io/blog/2011/02/10/getting-started-with-spring-data-jpa[Spring Da
 
 ## Developing with this PoC Starter Project
 #### Setting up React for Dev
-- run node and server.js by starting a node server in the home directory of the project. You may need to run `npm install` first.
+- Configure the root api endpoint. This is the backend spring-boot sever where the react app gets data
+```
+Search the JSX files for root and api_root variables change them to match the spring-boot server
+
+for example change
+
+const root = '/';
+to
+const root = 'http://localhost:8080/';
+
+and
+
+const apiRoot = '/api';
+to
+const apiRoot = 'http://localhost:8080/api';
+
+```
+- Run node and server.js by starting a node server in the home directory of the project. You may need to run `npm install` first.
 ```
 nodemon server.js
 ```

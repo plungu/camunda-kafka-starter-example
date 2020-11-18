@@ -3,6 +3,7 @@ package com.camunda.poc.starter.usecase.servicerequest.kafka.integration;
 import com.camunda.poc.starter.usecase.servicerequest.entity.ServiceRequestEntity;
 
 public class ServiceRequest {
+    private long id;
     private String serviceId;
     private String serviceCategory;
     private String serviceDescription;
@@ -25,6 +26,7 @@ public class ServiceRequest {
     public ServiceRequest(){}
 
     public ServiceRequest(ServiceRequestEntity entity){
+        this.id = entity.getId();
         this.serviceId = entity.getServiceId();
         this.serviceCategory = entity.getServiceCategory();
         this.acquiringDivision = entity.getAcquiringDivision();
@@ -41,6 +43,14 @@ public class ServiceRequest {
         this.serviceOwnerMSID = entity.getServiceOwnerMSID();
         this.sourcingComments = entity.getSourcingComments();
         this.sourcingManager = entity.getSourcingManager();
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getServiceId() {

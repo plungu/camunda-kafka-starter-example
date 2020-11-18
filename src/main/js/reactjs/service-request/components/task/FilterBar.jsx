@@ -1,7 +1,17 @@
+/**
+ * @author Paul Lungu
+ * @type {{DOM, PropTypes, createElement, isValidElement, version, __spread, PureComponent, createMixin, createClass, Children, Component, createFactory, cloneElement}}
+ */
+
+'use strict';
+
+// tag::nodeModules[]
 const React = require('react');
 const ReactDOM = require('react-dom');
-
 const {Link, IndexLink} = require('react-router');
+
+// tag::vars[]
+
 
 class FilterBar extends React.Component{
 
@@ -123,7 +133,7 @@ class FilterBar extends React.Component{
                   <li>
                         <label className="text-center">Filter</label>
                         <select onClick={this.handleFilterAll}>
-                            <option selected>Select</option>
+                            <option defaultValue>Select</option>
                             <option>option 1</option>
                             <option>option 2</option>
                             <option>option 3</option>
@@ -132,7 +142,7 @@ class FilterBar extends React.Component{
                   <li>
                       <label className="text-center">Filter</label>
                       <select onClick={this.handleFilterAll}>
-                          <option selected>Select</option>
+                          <option defaultValue>Select</option>
                           <option>option 1</option>
                           <option>option 2</option>
                           <option>option 3</option>
@@ -141,7 +151,7 @@ class FilterBar extends React.Component{
                   <li>
                       <label className="text-center">Filter</label>
                       <select onClick={this.handleFilterAll}>
-                          <option selected>Select</option>
+                          <option defaultValue>Select</option>
                           <option>option 1</option>
                           <option>option 2</option>
                           <option>option 3</option>

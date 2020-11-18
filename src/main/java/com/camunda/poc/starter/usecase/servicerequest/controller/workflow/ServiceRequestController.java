@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.usecase.servicerequest.controller;
+package com.camunda.poc.starter.usecase.servicerequest.controller.workflow;
 
 import com.camunda.poc.starter.usecase.servicerequest.kafka.integration.ServiceRequest;
 import org.camunda.bpm.engine.RuntimeService;
@@ -35,22 +35,15 @@ public class ServiceRequestController {
 		this.taskService = taskService;
 	}
 
-	@RequestMapping(value = "/sr")
-	public String index() {
-		return "app";
-	}
-
-
-	@RequestMapping(value = "/sr/start", method = RequestMethod.POST, consumes = {"application/json"})
+	@RequestMapping(value = "/sr/start/workflow", method = RequestMethod.POST, consumes = {"application/json"})
 	public ResponseEntity<HttpStatus> start(@RequestBody(required = false) ServiceRequest serviceRequest)
 	{
 		LOGGER.info("\n\n Start Service Request"+ serviceRequest);
 
 		Map<String, Object> variables = new HashMap();
 		variables.put("approved", false);
-		variables.put("serviceRequest", serviceRequest);
 
-		runtimeService.correlateMessage("start-service-request", serviceRequest.getServiceId(),variables);
+		runtimeService.correlateMessage("start-service-request", serviceRequest.getServiceId(), variables);
 		ResponseEntity<HttpStatus> response = new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		return response;
 	}
@@ -58,13 +51,9 @@ public class ServiceRequestController {
 	@RequestMapping(value = "/sr/update/rejected", method = RequestMethod.POST, consumes = {"application/json"})
 	public ResponseEntity<HttpStatus> update(@RequestBody(required = false) ServiceRequest serviceRequest)
 	{
-		LOGGER.info("\n\n Update Rejected Service Request"+ serviceRequest);
+		LOGGER.info("\n\n Rejected Service Request Message Correlation"+ serviceRequest);
 
-		Map<String, Object> variables = new HashMap();
-		variables.put("approved", false);
-		variables.put("serviceRequest", serviceRequest);
-
-		runtimeService.correlateMessage("service-owner-sr-rejection", serviceRequest.getServiceId(),variables);
+		runtimeService.correlateMessage("service-owner-sr-rejection", serviceRequest.getServiceId());
 		ResponseEntity<HttpStatus> response = new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		return response;
 	}
@@ -99,7 +88,5 @@ public class ServiceRequestController {
 		ResponseEntity<HttpStatus> response = new ResponseEntity<HttpStatus>(HttpStatus.OK);
 		return response;
 	}
-
-
 
 }

@@ -24,6 +24,7 @@ ReactDOM.render(
           <Route path="home" component={Detail}/>
           <Route path="service" component={Detail}/>
           <Route path="tasks" component={Task}/>
+          <Route path="rejected" component={Detail}/>
         </Route>
       </Router>,
       document.getElementById('react')

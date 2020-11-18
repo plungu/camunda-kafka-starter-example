@@ -1,5 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
+var Dotenv = require('dotenv-webpack');
 
 module.exports = {
     entry: [
@@ -14,7 +15,8 @@ module.exports = {
 	  new webpack.ProvidePlugin({
 		  '$': 'jquery',
 		  'jQuery': 'jquery'
-	  })
+	  }),
+      new Dotenv()
     ],
     cache: false,
     debug: true,
@@ -40,6 +42,7 @@ module.exports = {
             Line: 'src/main/js/reactjs/service-request/components/home/Line.jsx',
             List: 'src/main/js/reactjs/service-request/components/home/List.jsx',
             Detail: 'src/main/js/reactjs/service-request/components/home/Detail.jsx',
+            ServiceStartForm: 'src/main/js/reactjs/service-request/components/home/ServiceStartForm.jsx',
             ServiceForm: 'src/main/js/reactjs/service-request/components/home/ServiceForm.jsx',
             ServiceDetailForm: 'src/main/js/reactjs/service-request/components/home/ServiceDetailForm.jsx',
             ServiceSupplierForm: 'src/main/js/reactjs/service-request/components/home/ServiceSupplierForm.jsx',

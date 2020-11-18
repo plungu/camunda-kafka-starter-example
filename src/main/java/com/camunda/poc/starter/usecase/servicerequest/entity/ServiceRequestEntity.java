@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity(name="service_request")
-public class ServiceRequestEntity extends ServiceRequest {
+public class ServiceRequestEntity {
 
     private static final long serialVersionUID = -209110232715280386L;
 
@@ -16,7 +16,7 @@ public class ServiceRequestEntity extends ServiceRequest {
 
     public ServiceRequestEntity(){}
 
-    public ServiceRequestEntity(ServiceRequest sr){
+    public ServiceRequestEntity setServiceRequest(ServiceRequest sr){
         this.serviceId = sr.getServiceId();
         this.serviceCategory = sr.getServiceCategory();
         this.acquiringDivision = sr.getAcquiringDivision();
@@ -31,8 +31,11 @@ public class ServiceRequestEntity extends ServiceRequest {
         this.serviceDescription = sr.getServiceDescription();
         this.serviceDetailsComments = sr.getServiceDetailsComments();
         this.serviceOwnerMSID = sr.getServiceOwnerMSID();
+        this.serviceOwner = sr.getServiceOwner();
         this.sourcingComments = sr.getSourcingComments();
         this.sourcingManager = sr.getSourcingManager();
+
+        return this;
     }
 
     @Id

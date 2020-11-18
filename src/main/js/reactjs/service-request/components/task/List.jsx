@@ -1,23 +1,30 @@
+/**
+ * @author Paul Lungu
+ * @type {{DOM, PropTypes, createElement, isValidElement, version, __spread, PureComponent, createMixin, createClass, Children, Component, createFactory, cloneElement}}
+ */
+
 'use strict';
 
-// tag::vars[]
+// tag::nodeModules[]
 const React = require('react');
 
+// tag::customComponents
 const Line = require('src/main/js/reactjs/service-request/components/task/Line.jsx');
-
 const FilterBar = require('src/main/js/reactjs/service-request/components/task/FilterBar.jsx');
 
-// tag::renewal-list[]
+// tag::vars[]
+
+// tag::task-list[]
 class List extends React.Component{
   constructor(props) {
       super(props);
   }
 
   render() {
-		var renewals = this.props.renewals.map(renewal =>
-			<Line key={renewal._links.self.href}
-        	renewal={renewal}
-        	onSelectItem={this.props.onSelectItem}/>
+		var tasks = this.props.tasks.map(task =>
+			<Line key={task._links.self.href}
+        		task={task}
+        		onSelectItem={this.props.onSelectItem}/>
 		);
 
 		return (
@@ -47,7 +54,7 @@ class List extends React.Component{
                         </tr>
 					  </thead>
 					  <tbody>
-                        {renewals}
+                        {tasks}
                       </tbody>
 					</table>
 				</div>
@@ -56,6 +63,6 @@ class List extends React.Component{
 		)
 	}
 }
-// end::renewal-list[]
+// end::task-list[]
 
 module.exports = List;

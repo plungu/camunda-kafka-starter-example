@@ -9,9 +9,15 @@ class FilterBar extends React.Component{
         super(props);
         this.state = {
         };
+        this.handleToggleStartForm = this.handleToggleStartForm.bind(this);
         this.handleToggleServiceForm = this.handleToggleServiceForm.bind(this);
         this.handleToggleDetailForm = this.handleToggleDetailForm.bind(this);
         this.handleToggleSupplierForm = this.handleToggleSupplierForm.bind(this);
+    }
+
+    handleToggleStartForm(e) {
+        console.log("toggling service form")
+        this.props.toggleForm("start")
     }
 
     handleToggleServiceForm(e) {
@@ -43,21 +49,27 @@ class FilterBar extends React.Component{
          </div>
          <div className="top-bar-left">
              <ul className="menu">
-                  <li>
-                      <a key="service" onClick={this.handleToggleServiceForm}>Service</a>
-                  </li>
-                  <li>
-                       |
-                  </li>
-                  <li>
-                      <a key="detail" onClick={this.handleToggleDetailForm}>Details</a>
-                  </li>
-                  <li>
-                       |
-                  </li>
-                  <li>
-                      <a key="supplier" onClick={this.handleToggleSupplierForm}>Supplier</a>
-                  </li>
+                <li>
+                 <a key="service" onClick={this.handleToggleStartForm}>Start</a>
+                </li>
+                <li>
+                 |
+                </li>
+                <li>
+                  <a key="service" onClick={this.handleToggleServiceForm}>Service</a>
+                </li>
+                <li>
+                   |
+                </li>
+                <li>
+                  <a key="detail" onClick={this.handleToggleDetailForm}>Details</a>
+                </li>
+                <li>
+                   |
+                </li>
+                <li>
+                  <a key="supplier" onClick={this.handleToggleSupplierForm}>Supplier</a>
+                </li>
               </ul>
          </div>
        </div>

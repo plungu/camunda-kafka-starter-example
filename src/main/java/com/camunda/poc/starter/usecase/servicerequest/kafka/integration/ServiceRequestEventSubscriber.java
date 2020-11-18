@@ -28,17 +28,24 @@ public class ServiceRequestEventSubscriber {
 	}
 
 	@StreamListener("subscribeServiceRequest")
-	public void handle(ServiceRequestEvent serviceRequestEvent) {
+	public void handle(ServiceRequestEvent serviceRequestEvent) throws Exception {
 		LOGGER.info("\n\n Subscriber received Service Request: " + serviceRequestEvent.getEventName());
 
 		ServiceRequest serviceRequest = serviceRequestEvent.getServiceRequest();
 
-		ServiceRequestEntity entity = new ServiceRequestEntity(serviceRequest);
-		LOGGER.info("\n\n  Service Request Entity Created" + entity);
-		if(serviceRequestEvent.getEventType().equalsIgnoreCase("CREATE"))
-			serviceRequestRepository.save( entity );
+		ServiceRequestEntity sre = serviceRequestRepository
+				.findServiceRequestByServiceId(serviceRequest.getServiceId());
 
-		LOGGER.info("\n\n  Service Request Entity Created" + entity);
+		if(sre != null) {
+			if (serviceRequestEvent.getEventType().equalsIgnoreCase("UPDATE")){
+				serviceRequestRepository.save(sre);
+				LOGGER.info("\n\n  Service Request Entity Updated" + sre);
+			}else if(serviceRequestEvent.getEventType().equalsIgnoreCase("CREATE")){
+				LOGGER.info("\n\n  Service Request  Created: " + sre );
+			}
+		}else{
+			throw new Exception("Error Updating Service Request");
+		}
 
 	}
 }

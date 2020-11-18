@@ -1,9 +1,21 @@
+/**
+ * @author Paul Lungu
+ * @type {{DOM, PropTypes, createElement, isValidElement, version, __spread, PureComponent, createMixin, createClass, Children, Component, createFactory, cloneElement}}
+ */
+
+'use strict';
+
+// tag::nodeModules[]
 var React = require('react');
 const client = require('../client.jsx');
+
+// tag::customComponents
 const DisplayDate = require('src/main/js/reactjs/service-request/components/date/DisplayDate.jsx');
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
-const root = 'http://localhost:8080/';
+// tag::vars[]
+// const root = 'http://localhost:8080/';
+const root = '/';
 
 class Form extends React.Component {
         
@@ -20,7 +32,7 @@ class Form extends React.Component {
     handleApprove(e){
         e.preventDefault();
 
-        var serviceRequest = this.props.renewal;
+        var serviceRequest = this.props.task.serviceRequest;
 
         console.log("HandleSubmit: " + serviceRequest)
 
@@ -32,7 +44,7 @@ class Form extends React.Component {
     handleReject(e){
         e.preventDefault();
 
-        var serviceRequest = this.props.renewal;
+        var serviceRequest = this.props.task.serviceRequest;
 
         console.log("HandleSubmit: " + serviceRequest)
 

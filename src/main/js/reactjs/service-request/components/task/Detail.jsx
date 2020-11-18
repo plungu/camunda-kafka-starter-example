@@ -1,9 +1,17 @@
-// tag::vars[]
+/**
+ * @author Paul Lungu
+ * @type {{DOM, PropTypes, createElement, isValidElement, version, __spread, PureComponent, createMixin, createClass, Children, Component, createFactory, cloneElement}}
+ */
+
+'use strict';
+
+// tag::nodeModules[]
 const React = require('react');
 const ReactDOM = require('react-dom')
 const client = require('../client.jsx');
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
+// tag::customComponents
 const MessageList = require('src/main/js/reactjs/service-request/components/message/MessageList.jsx');
 const MessageDetail = require('src/main/js/reactjs/service-request/components/message/MessageDetail.jsx');
 const Form = require('src/main/js/reactjs/service-request/components/task/Form.jsx');
@@ -11,80 +19,26 @@ const Tenant = require('src/main/js/reactjs/service-request/components/tenant/Te
 const Info = require('src/main/js/reactjs/service-request/components/task/Info.jsx');
 const Line = require('src/main/js/reactjs/service-request/components/task/Line.jsx');
 
+// tag::vars[]
 // end::vars[]
 
 class Detail extends React.Component{
   constructor(props) {
       super(props);
       this.state = {
-        message: null,
-        messages: [],
-        attributes: [],
-        pageSize: 2,
-        links: {},
-        displayDetail: "none",
-        displayList: "block"
       };
-      this.updatePageSize = this.updatePageSize.bind(this);
-      this.handleSelectedItem = this.handleSelectedItem.bind(this);
-      this.handleBackClick = this.handleBackClick.bind(this);
-  }
-
-  // tag::update-page-size[]
-  updatePageSize(pageSize) {
-      if (pageSize !== this.state.pageSize) {
-          this.loadFromServer(pageSize);
-      }
-  }
-  // end::update-page-size[]
-
-  handleSelectedItem(message){
-    this.setState({
-      message: message,
-      displayDetail: "block",
-      displayList: "none"
-    });
-  }
-
-  handleBackClick(e){
-    this.setState({
-      displayDetail: "none",
-      displayList: "block"
-    });
   }
 
   render(){
-    var displayForm = this.props.displayForm;
-    var displayMessages = this.props.displayMessages;
-
-    var tenants = [];
-    // var tenants = this.props.renewal.tennants.map(tenant =>
-    //     <Tenant key={tenant.email}
-    //         tenant={tenant}/>
-    // );
 
     return (
       <div>
 
+        <Info task={this.props.task}/>
+        <hr />
+        <Form task={this.props.task} />
 
-                                
-        <div>
-            <Info
-                tenants={tenants}
-                renewal={this.props.renewal}
-                task={this.props.task}
-                onUpdateNote={this.props.onUpdateNote}
-                onDelete={this.props.onDelete}/>
-        </div>
-                            
-
-                  
-        <div >
-          <hr />
-          <Form renewal={this.props.renewal} />
-        </div>
-
-      </div>
+    </div>
     )
   }
 }

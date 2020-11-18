@@ -10,34 +10,36 @@ class ServiceForm extends React.Component {
         this.state = {
 
         };
-        this.handleDone = this.handleDone.bind(this);
-        this.handleSave = this.handleSave.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
-
-    handleSave(e){
+    handleChange(e){
         e.preventDefault();
+        var serviceRequest = this.props.serviceRequest;
+        serviceRequest.serviceCategory = this.refs.serviceCategory.value;
+        serviceRequest.serviceDescription = this.refs.serviceDescription.value;
 
-        console.log("HandleSave: " )
+        console.log("handleChange: "+ JSON.stringify(serviceRequest));
+
+        this.props.onUpdateState(serviceRequest);
+
     }
 
-    handleDone(e){
-        e.preventDefault();
-
-        console.log("HandleDone: " )
-    }
-
-  render() {
+    render() {
 
     return (
       <div className="row">
           <div className="small-12 columns">
-              <div className="row">
 
+              <div className="row">
                 <div className="small-5 columns">
                   <div className="input-group">
                     <span className="input-group-label">Service Category</span>
-                    <select className="input-group-field" ref="gracePeriod" defaultValue="">
+                    <select className="input-group-field"
+                            ref="serviceCategory"
+                            onChange={this.handleChange}
+                            defaultValue={this.props.serviceCategory}>
+
                       <option defaultValue>Please Select</option>
                       <option value="1">Category 1 </option>
                       <option value="2">Category 2 </option>
@@ -50,10 +52,15 @@ class ServiceForm extends React.Component {
 
                 <div className="row">
                 <div className="small-5 columns">
+                  <textarea rows="5" ref="serviceDescription"
+                            placeholder="Service Description"
+                            onChange={this.handleChange}
+                            defaultValue={this.props.serviceDescription}
+                            value={this.props.serviceDescription}/>
 
-                  <textarea rows="5" ref="newMessage" placeholder="Service Description"/>
                 </div>
                 </div>
+
                 <div className="row">
 
               </div>

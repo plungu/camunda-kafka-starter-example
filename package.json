@@ -43,13 +43,14 @@
     "babel-preset-react": "^6.16.0",
     "babel-preset-stage-0": "^6.5.0",
     "css-loader": "0.23.1",
+    "dotenv-webpack": "^5.1.0",
+    "express": "^4.13.4",
     "foundation-sites": "6.2.0",
     "jquery": "2.2.1",
     "node-sass": "^4.13.0",
     "sass-loader": "^4.0.0",
     "script-loader": "0.6.1",
     "style-loader": "0.13.0",
-    "express": "^4.13.4",
     "webpack": "^1.12.13"
   }
 }

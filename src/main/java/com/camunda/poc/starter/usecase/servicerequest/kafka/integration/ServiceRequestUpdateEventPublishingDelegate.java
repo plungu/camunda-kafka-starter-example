@@ -1,5 +1,6 @@
 package com.camunda.poc.starter.usecase.servicerequest.kafka.integration;
 
+import com.camunda.poc.starter.usecase.servicerequest.entity.ServiceRequestEntity;
 import com.camunda.poc.starter.usecase.servicerequest.repo.ServiceRequestRepository;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -39,21 +40,18 @@ public class ServiceRequestUpdateEventPublishingDelegate implements JavaDelegate
       String businessKey = execution.getBusinessKey();
       Boolean approved = (Boolean) execution.getVariable("approved");
 
-//      ServiceRequestEntity srEntity = serviceRequestRepository.findServiceRequestByServiceId(businessKey);
-//      ServiceRequest serviceRequest = new ServiceRequest(srEntity);
-
-      ServiceRequest serviceRequest = (ServiceRequest)execution.getVariable("serviceRequest");
+      ServiceRequestEntity sre = serviceRequestRepository.findServiceRequestByServiceId(businessKey);
 
       Map eventParams = new HashMap();
       if (approved != null)
           eventParams.put("approved", approved);
 
-      ServiceRequestEvent sre = new ServiceRequestEvent(serviceRequest, eventParams);
+      ServiceRequestEvent event = new ServiceRequestEvent(new ServiceRequest(sre), eventParams);
 
-      sre.setEventName("UPDATE-SERVICE-REQUEST");
-      sre.setEventType("UPDATE");
+      event.setEventName("UPDATE-SERVICE-REQUEST");
+      event.setEventType("UPDATE");
 
-      channels.publish().send(MessageBuilder.withPayload(sre).build());
+      channels.publish().send(MessageBuilder.withPayload(event).build());
 
       LOGGER.info(" \n\n Service Request Payload Sent: "+sre);
 

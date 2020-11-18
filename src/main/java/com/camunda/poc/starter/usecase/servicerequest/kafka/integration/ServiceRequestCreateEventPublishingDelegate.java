@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.camunda.poc.starter.usecase.servicerequest.entity.ServiceRequestEntity;
 import com.camunda.poc.starter.usecase.servicerequest.repo.ServiceRequestRepository;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -39,10 +40,8 @@ public class ServiceRequestCreateEventPublishingDelegate implements JavaDelegate
       String businessKey = execution.getBusinessKey();
       Boolean approved = (Boolean) execution.getVariable("approved");
 
-//      ServiceRequestEntity srEntity = serviceRequestRepository.findServiceRequestByServiceId(businessKey);
-//      ServiceRequest serviceRequest = new ServiceRequest(srEntity);
-
-      ServiceRequest serviceRequest = (ServiceRequest)execution.getVariable("serviceRequest");
+      ServiceRequestEntity srEntity = serviceRequestRepository.findServiceRequestByServiceId(businessKey);
+      ServiceRequest serviceRequest = new ServiceRequest(srEntity);
 
       Map eventParams = new HashMap();
       if (approved != null)

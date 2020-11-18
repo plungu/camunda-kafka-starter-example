@@ -27,6 +27,7 @@ var MarketingBar = React.createClass({
               <div className="button-group">
                 <IndexLink to="/" activeClassName="active" className="button round secondary medium" activeStyle={{fontWeight: 'bold'}}>Questionnaire</IndexLink>
                 <Link to="/tasks" activeClassName="active" className="button radius secondary medium" activeStyle={{fontWeight: 'bold'}}>Review Tasks</Link>
+                <IndexLink to="/rejected" activeClassName="active" className="button round secondary medium" activeStyle={{fontWeight: 'bold'}}>Rejected</IndexLink>
               </div>
           </div>
 

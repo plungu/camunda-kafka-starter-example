@@ -10,21 +10,17 @@ class ServiceForm extends React.Component {
     this.state = {
 
     };
-    this.handleDone = this.handleDone.bind(this);
-    this.handleSave = this.handleSave.bind(this);
+      this.handleChange = this.handleChange.bind(this);
   }
 
-
-    handleSave(e){
+    handleChange(e){
         e.preventDefault();
+        var serviceRequest = this.props.serviceRequest;
+        console.log("handleChange: "+ serviceRequest)
+        serviceRequest.buContractingService = this.refs.buContractingService.value;
 
-        console.log("HandleSave: " )
-    }
+        this.props.onUpdateState(serviceRequest);
 
-    handleDone(e){
-        e.preventDefault();
-
-        console.log("HandleDone: " )
     }
 
   render() {
@@ -37,7 +33,9 @@ class ServiceForm extends React.Component {
                     <div className="small-5 columns">
                         <div className="input-group">
                             <span className="input-group-label">Supplier</span>
-                            <input className="input-group-field" type="text" ref="supplier"/>
+                            <input className="input-group-field" type="text" ref="buContractingService"
+                                   onChange={this.handleChange}
+                                   defaultValue={this.props.buContractingService} />
                         </div>
                     </div>
                 </div>

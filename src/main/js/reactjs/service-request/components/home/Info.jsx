@@ -11,30 +11,11 @@ class Info extends React.Component{
   handleDelete(e){
       e.preventDefault;
       alert("Sure you want to delete this property? Press the [esc] button to cancel this action.");
-      this.props.onDelete(this.props.renewal);
+      this.props.onDelete(this.props.item);
   }
   
   render(){
-      var status = "Not Started";
-      if (this.props.renewal.renewalStarted){
-        status = "Renewal Started";
-      }
-      if (this.props.renewal.renewalCompleted){
-        status = "Renewal Completed"
-      }  
-      
-      var renewing = "";
-      if (this.props.renewal.renewing){
-          renewing = "Yes";
-      }else if(this.props.renewal.renewing === false && this.props.renewal.renewalCompleted){
-          renewing = "No";
-      }
 
-      var signed = "No";
-      if (this.props.renewal.signed){
-          signed = "Yes"
-      }
-          
       return (   
        <div>   
             <div className="row">
@@ -45,7 +26,7 @@ class Info extends React.Component{
                   </div>
                   <div className="card-section">
                     <ul>
-                      <li>{this.props.renewal.property}</li>
+                      <li>{this.props.item.property}</li>
                     </ul>
                   </div>
                 </div>
@@ -75,11 +56,11 @@ class Info extends React.Component{
                   </div>
                   <div className="card-section">
                     <ul>
-                      <li><span className="label">Start Date</span><span className="data"><DisplayDate date={this.props.renewal.start} /></span></li>
-                      <li><span className="label">End Date</span><span className="data"><DisplayDate date={this.props.renewal.end} /></span></li>
+                      <li><span className="label">Start Date</span><span className="data"><DisplayDate date={this.props.item.start} /></span></li>
+                      <li><span className="label">End Date</span><span className="data"><DisplayDate date={this.props.item.end} /></span></li>
                       {/*<li><span className="label">Status</span><span className="data">{status}</span></li>*/}
-                      <li><span className="label">Worflow State</span><span className="data">{this.props.renewal.workflowState}</span></li>
-                      <li><span className="label">Show Date</span><span className="data"><DisplayDate date={this.props.renewal.showDate} /></span></li>
+                      <li><span className="label">Worflow State</span><span className="data">{this.props.item.workflowState}</span></li>
+                      <li><span className="label">Show Date</span><span className="data"><DisplayDate date={this.props.item.showDate} /></span></li>
                       <li><span className="label">Renewing</span><span className="data">{renewing}</span></li>
                       {/*<li><span className="label">Signed</span><span className="data">{signed}</span></li>*/}
                     </ul>
@@ -93,9 +74,9 @@ class Info extends React.Component{
                   </div>
                   <div className="card-section">
                     <ul>
-                      <li><span className="label">Current</span><span className="data">{this.props.renewal.currentRent}</span></li>
-                      <li><span className="label">1 Year</span><span className="data">{this.props.renewal.oneYearOffer}</span></li>
-                      <li><span className="label">2 Year</span><span className="data">{this.props.renewal.twoYearOffer}</span></li>
+                      <li><span className="label">Current</span><span className="data">{this.props.item.currentRent}</span></li>
+                      <li><span className="label">1 Year</span><span className="data">{this.props.item.oneYearOffer}</span></li>
+                      <li><span className="label">2 Year</span><span className="data">{this.props.item.twoYearOffer}</span></li>
                     </ul>
                   </div>
                 </div>
@@ -108,7 +89,7 @@ class Info extends React.Component{
                 <div className="card-section">
                   <ul>
                     <li>
-                      <UpdateNoteDialog renewal={this.props.renewal}
+                      <UpdateNoteDialog item={this.props.item}
                       onUpdateNote={this.props.onUpdateNote}/>
                     </li>
                   </ul>
