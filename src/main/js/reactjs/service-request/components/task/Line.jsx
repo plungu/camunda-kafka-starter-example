@@ -15,10 +15,10 @@ const DisplayDate = require('src/main/js/reactjs/service-request/components/date
 const UpdateNoteDialog = require('src/main/js/reactjs/service-request/components/note/UpdateNoteDialog.jsx');
 
 // tag::vars[]
-// const root = 'http://localhost:8080';
-const root = '/';
+const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiRoot = `${apiHost}${process.env.API_ROOT}`;
+// end::vars[]
 
-// tag::task[]
 class Line extends React.Component{
 
   constructor(props) {
@@ -38,7 +38,7 @@ class Line extends React.Component{
   loadTaskFromServer(businessKey){
     client({
         method: 'GET',
-        path: root+"engine-rest/task",
+        path: apiHost+"engine-rest/task",
         params: {processInstanceBusinessKey: businessKey},
         headers: {'Accept': 'application/json'}
     }).done(response => {
