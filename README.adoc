@@ -12,7 +12,7 @@ This can server as an example for designing distributed systems with workflow en
 #### Interesting points in the process
 image:./docs/images/service-request-approval-and-integration.png[Service Request BPMN]
 ====
-This section of the process is particularly interesting and packed with functionality. At the workflow level we are orchestrating user tasks for the explicit multilevel review of service requests. After each review we send a Event to Kafaka potentially notifying other systems, like a UI, about the completion of the task and update of the service request.
+This section of the process is particularly interesting and packed with functionality. At the workflow level we are orchestrating user tasks for the explicit multilevel review of service requests. After each review we send a Event to kafka potentially notifying other systems, like a UI, about the completion of the task and update of the service request.
 
 Notice on the rejection path no User Task is defined for Requester of the service request. This is intentional to signify that the Requestor can be notified in many ways about the rejection and the method of updating the service request is not important to the workflow itself. In technical terms this signifies a loose coupling for these events due to the workflow not orchestrating the interaction rather using a choreography approach. Essentially all the workflow cares about is the rejection is handled in some way but no idea how it happens.
 ====
@@ -71,9 +71,9 @@ image:./docs/images/service-request-architecture.png[Service Request BPMN]
 ====
 The diagram above illustrates the interactions and logical components of the app. Note the app is all packed together into one artifact for easier development and PoC ing. But each component could be easily it's own deployable artifact.
 
-The green bar signifies kafka. Events are published to Kafaka from the workflow Send Tasks. The Send tasks are implimented as java delegates. This pattern works well as we can utilize the Delegate and the Send task to control the execution of the workflow and potentially ack Kafaka  and handle incidents when Publishing fails.
+The green bar signifies kafka. Events are published to kafka from the workflow Send Tasks. The Send tasks are implemented as java delegates. This pattern works well as we can utilize the Delegate and the Send task to control the execution of the workflow and potentially ack kafka  and handle incidents when Publishing fails.
 
-The orange boxes signify components that sub-scribe to Kafaka topinc and update other components based on the Events that they receive.
+The orange boxes signify components that sub-scribe to kafka topinc and update other components based on the Events that they receive.
 
 The blue boxes signify components that do specific work and are updated by Events from the subscription components.
 
@@ -117,7 +117,7 @@ The Maven frontend-maven-plugin configured in pom.xml is used to build the React
 
 The Java application boot-straps the ReactJS App through Thymeleaf a java/spring frontend framework. The templates directory `src/main/resources/templates/app.html` has a HTML file app.html which calls the React app through a `<script />` tag loading the HTML into the react div `<div id="react"></div>`
 
-Thymeleaf ties the Java frontend together using a Spring controller. `src/main/java/com/camunda/react/starter/controller/HomeController.java`. Mapping the app context to /home and calling the app.html.
+Thymeleaf ties the Java frontend together using a Spring controller. `src/main/java/com/camunda/poc/starter/use-case/service.request/controller/ui/UIServicerequestController.java`. Mapping the app context to /sr and calling the app.html.
 
 The React Components are organized under the `src\main\js\reactjs` folder into a use-case folder then subdivided by component.
 
@@ -139,9 +139,9 @@ NOTE: Also keep in mind I want to keep every-thing self contained for PoC purpos
 
 #### How does it work
 ====
-Spring REST controllers are used to post data to the workflow. Simple and concise API's are defined for interaction with the process. See `ServiceRequestController.java` The API always takes a SerivceRequest object and returns and HTTP Status. The RESTful endpoint context mapping is associated to events that can happen in the system. Such as CREATE-SERVICE-REQUEST, UPDATE-SERVICE-REQUEST and are intended to work in a point-to-point(request/response) synchronous fashion.
+Spring REST controllers are used to post data to the workflow. Simple and concise API's are defined for interaction with the process. See `ServiceRequestController.java` The API always takes a SerivceRequest object and returns and HTTP Status. The RESTful endpoint context mapping is associated to Commands that can happen in the system. Such as CREATE, UPDATE and SAVE and intended to work in a point-to-point(request/response) synchronous fashion.
 
-The controllers only POST/PUT data CREATING and UPDATING only.
+The controllers only write POST/PUT data CREATING and UPDATING only.
 ====
 IMPORTANT: The intention is to create a https://martinfowler.com/bliki/CQRS.html#:~:text=CQRS%20stands%20for%20Command%20Query,you%20use%20to%20read%20information[CQRS(Command Query Responsibility Segregation)] pattern for interaction. This can increase scalability while reducing complexity in distributed systems.
 ====
@@ -197,10 +197,11 @@ NOTE: A simple Kafka congfig is packaged into docker-compose. See `docker-compos
 ```
  docker-compose up
 ```
+kafka image docs https://hub.docker.com/r/bitnami/kafka/
 
-Use the downloaded Kafka Distro if you prefer. I have included the distro in the `kafaka` folder in the project home. See Kafaka docs to run it. https://hub.docker.com/r/bitnami/kafka/
+Use the downloaded Kafka Distro if you prefer. I have included the distro in the `kafka` folder in the project home. See kafka docs to run it.
 
-NOTE: I use the consumer in the kafak distro during dev to see when messages are published.
+NOTE: I use the consumer in the kafka distro during dev to see when messages are published.
 ```
 ./bin/kafka-console-consumer.sh --topic service-request-events --bootstrap-server localhost:9092
 ```
