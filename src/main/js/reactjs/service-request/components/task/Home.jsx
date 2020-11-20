@@ -17,8 +17,8 @@ const Detail = require('src/main/js/reactjs/service-request/components/task/Deta
 // tag::customComponents
 
 // tag::vars[]
-// const root = 'http://localhost:8080/api';
-const root = '/api';
+const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
 // tag::app[]
@@ -64,7 +64,7 @@ class home extends React.Component {
 
     // tag::follow-2[]
     loadAllFromServer(pageSize) {
-        follow(client, root, [
+        follow(client, apiRoot, [
             {rel: 'serviceRequestEntities', params: {size: pageSize}}]
         ).then(taskCollection => {
             return client({

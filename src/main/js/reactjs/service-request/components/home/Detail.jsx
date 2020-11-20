@@ -20,11 +20,8 @@ const Info = require('src/main/js/reactjs/service-request/components/home/Info.j
 const FilterBar = require('src/main/js/reactjs/service-request/components/home/FilterBar.jsx');
 
 // tag::vars[]
-// const root = 'http://'+process.env.API_SERVER_HOST+':'+process.env.API_SERVER_PORT+'/api';
-// const root = 'http://localhost:8080/';
-// const apiRoot = 'http://localhost:8080/api';
-const root = '/';
-const apiRoot = '/api';
+const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
 class Detail extends React.Component{
@@ -201,7 +198,7 @@ class Detail extends React.Component{
         console.log("POST Started")
         client({
             method: 'POST',
-            path: root+context,
+            path: apiHost+context,
             entity: obj,
             headers: {'Content-Type': 'application/json'}
         }).done(response => {

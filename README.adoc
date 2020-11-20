@@ -154,21 +154,22 @@ https://spring.io/blog/2011/02/10/getting-started-with-spring-data-jpa[Spring Da
 
 ## Developing with this PoC Starter Project
 #### Setting up React for Dev
-- Configure the root api endpoint. This is the backend spring-boot sever where the react app gets data
+
+- Configure the api endpoint. This is the backend spring-boot server where the react app gets data
 ```
-Search the JSX files for root and api_root variables change them to match the spring-boot server
+In the .env file in the project home directory change the environment variables to match the spring-boot server context
 
-for example change
+* If running the react app as a standalalone configure the API_HOST and API_POST as follows inserting your host and port for the spring-boot server. Note, you will need to use the cors profile in this setup and potentially modify the cors config in the spring-boot app.
 
-const root = '/';
-to
-const root = 'http://localhost:8080/';
+    API_HOST=http://127.0.0.1
+    API_PORT=8080
+    API_ROOT=api
 
-and
+* leave the host and port empty if running the React App bootstraped by spring-boot
 
-const apiRoot = '/api';
-to
-const apiRoot = 'http://localhost:8080/api';
+    API_HOST=
+    API_PORT=
+    API_ROOT=api
 
 ```
 - Run node and server.js by starting a node server in the home directory of the project. You may need to run `npm install` first.

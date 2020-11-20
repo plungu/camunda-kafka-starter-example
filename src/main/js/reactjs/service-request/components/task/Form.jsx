@@ -14,8 +14,9 @@ const DisplayDate = require('src/main/js/reactjs/service-request/components/date
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 // tag::vars[]
-// const root = 'http://localhost:8080/';
-const root = '/';
+const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiRoot = `${apiHost}${process.env.API_ROOT}`;
+// end::vars[]
 
 class Form extends React.Component {
         
@@ -58,7 +59,7 @@ class Form extends React.Component {
         console.log("POST Started")
         client({
             method: 'POST',
-            path: root+context,
+            path: apiHost+context,
             entity: obj,
             headers: {'Content-Type': 'application/json'}
         }).done(response => {
