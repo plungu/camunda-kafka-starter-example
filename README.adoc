@@ -157,14 +157,17 @@ https://spring.io/blog/2011/02/10/getting-started-with-spring-data-jpa[Spring Da
 
 - Configure the api endpoint. This is the backend spring-boot server where the react app gets data
 ```
-In the .env file in the project home directory change the environment variables to match the spring-boot server context
+In the .env file in the project home directory change the environment variables to match the spring-boot server context.
 
-* If running the react app as a standalalone configure the API_HOST and API_POST as follows inserting your host and port for the spring-boot server. Note, you will need to use the cors profile in this setup and potentially modify the cors config in the spring-boot app.
+* Note you should only need to do this if you cannot access the spring-boot server on localhost and you plan to run the React App standalone.
+
+* If running the react app as a standalalone and not on localhost configure the API_HOST and API_POST environment vars as follows inserting your host and port for the spring-boot server.
 
     API_HOST=http://127.0.0.1
     API_PORT=8080
     API_ROOT=api
 
+* Note, you will need to use the cors profile in this setup and potentially modify the cors config in the spring-boot app.
 
 ```
 - Run node and server.js by starting a node server in the home directory of the project. You may need to run `npm install` first.
