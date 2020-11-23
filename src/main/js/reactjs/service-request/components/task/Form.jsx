@@ -35,7 +35,10 @@ class Form extends React.Component {
 
         var serviceRequest = this.props.task.serviceRequest;
 
-        console.log("HandleSubmit: " + serviceRequest)
+        serviceRequest.approved = true;
+        console.log("HandleApprove: " + JSON.stringify(serviceRequest));
+
+        this.post(serviceRequest, "sr/save");
 
         this.post(serviceRequest, "sr/task/approve");
         // clear out the dialog's inputs
@@ -47,7 +50,11 @@ class Form extends React.Component {
 
         var serviceRequest = this.props.task.serviceRequest;
 
-        console.log("HandleSubmit: " + serviceRequest)
+        serviceRequest.rejected = true;
+
+        console.log("HandleReject: " + JSON.stringify(serviceRequest));
+
+        this.post(serviceRequest, "sr/save");
 
         this.post(serviceRequest, "sr/task/reject");
         // clear out the dialog's inputs

@@ -10,10 +10,7 @@ const React = require('react');
 
 // tag::customComponents
 const DisplayDate = require('src/main/js/reactjs/service-request/components/date/DisplayDate.jsx');
-const UpdateNoteDialog = require('src/main/js/reactjs/service-request/components/note/UpdateNoteDialog.jsx');
-
 // tag::vars[]
-
 
 
 class Info extends React.Component{
@@ -29,7 +26,7 @@ class Info extends React.Component{
   }
   
   render(){
-        console.log("INFO: "+ this.props.task)
+        console.log("TASK INFO: "+ JSON.stringify(this.props.task))
       return (   
        <div>   
             <div className="row">

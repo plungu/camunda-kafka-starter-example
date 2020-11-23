@@ -107,13 +107,17 @@ class home extends React.Component {
 
     handleSelectedItem(serviceRequest, task) {
 
-        task.serviceRequest = serviceRequest;
-        console.log("Megred Task: "+ JSON.stringify(task));
-        this.setState({
-            task: task,
-            displayDetail: "block",
-            displayList: "none"
-        });
+        if (task == null){
+            alert("You don't have a task to complete. Please complete the service request first.");
+        }else {
+            task.serviceRequest = serviceRequest;
+            console.log("Megred Task: "+ JSON.stringify(task));
+            this.setState({
+                task: task,
+                displayDetail: "block",
+                displayList: "none"
+            });
+        }
     }
 
 

@@ -39,10 +39,13 @@ module.exports = {
             FooterBar: 'src/main/js/reactjs/service-request/components/FooterBar.jsx',
 
             Home: 'src/main/js/reactjs/service-request/components/home/Home.jsx',
+            RejectHome: 'src/main/js/reactjs/service-request/components/home/RejectHome.jsx',
             Line: 'src/main/js/reactjs/service-request/components/home/Line.jsx',
             List: 'src/main/js/reactjs/service-request/components/home/List.jsx',
             Detail: 'src/main/js/reactjs/service-request/components/home/Detail.jsx',
+            RejectDetail: 'src/main/js/reactjs/service-request/components/home/RejectDetail.jsx',
             ServiceStartForm: 'src/main/js/reactjs/service-request/components/home/ServiceStartForm.jsx',
+            ServiceSelectForm: 'src/main/js/reactjs/service-request/components/home/ServiceSelectForm.jsx',
             ServiceForm: 'src/main/js/reactjs/service-request/components/home/ServiceForm.jsx',
             ServiceDetailForm: 'src/main/js/reactjs/service-request/components/home/ServiceDetailForm.jsx',
             ServiceSupplierForm: 'src/main/js/reactjs/service-request/components/home/ServiceSupplierForm.jsx',

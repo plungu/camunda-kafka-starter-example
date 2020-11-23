@@ -27,44 +27,42 @@ class ServiceForm extends React.Component {
 
     render() {
 
-    return (
-      <div className="row">
-          <div className="small-12 columns">
+        console.log("Service Form: "+ JSON.stringify(this.props.serviceRequest));
 
-              <div className="row">
-                <div className="small-5 columns">
-                  <div className="input-group">
+    return (
+
+        <div >
+
+            <div className="small-7 large-7 columns">
+              <div className="input-group">
                     <span className="input-group-label">Service Category</span>
+
                     <select className="input-group-field"
                             ref="serviceCategory"
                             onChange={this.handleChange}
-                            defaultValue={this.props.serviceCategory}>
+                            value={this.props.serviceRequest.serviceCategory}>
 
-                      <option defaultValue>Please Select</option>
-                      <option value="1">Category 1 </option>
-                      <option value="2">Category 2 </option>
-                      <option value="3">Category 3 </option>
-                      <option value="5">Category 5 </option>
+                        <option defaultValue>Choose Category</option>
+                        <option value="1">Category 1 </option>
+                        <option value="2">Category 2 </option>
+                        <option value="3">Category 3 </option>
+                        <option value="5">Category 5 </option>
                     </select>
-                  </div>
-                </div>
-              </div>
 
-                <div className="row">
-                <div className="small-5 columns">
-                  <textarea rows="5" ref="serviceDescription"
+              </div>
+            </div>
+
+            <div className="row">
+                <div className="small-7 large-7 columns">
+                    <div className="input-group">
+                        <textarea rows="5" ref="serviceDescription"
                             placeholder="Service Description"
                             onChange={this.handleChange}
-                            defaultValue={this.props.serviceDescription}
-                            value={this.props.serviceDescription}/>
-
+                            value={this.props.serviceRequest.serviceDescription}/>
+                    </div>
                 </div>
-                </div>
+            </div>
 
-                <div className="row">
-
-              </div>
-          </div>
       </div>
 
     );

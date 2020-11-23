@@ -12,7 +12,7 @@ const client = require('../client.jsx');
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 // tag::customComponents
-const ServiceStartForm = require('src/main/js/reactjs/service-request/components/home/ServiceStartForm.jsx');
+const ServiceStartForm = require('src/main/js/reactjs/service-request/components/home/ServiceSelectForm.jsx');
 const ServiceForm = require('src/main/js/reactjs/service-request/components/home/ServiceForm.jsx');
 const ServiceDetailForm = require('src/main/js/reactjs/service-request/components/home/ServiceDetailForm.jsx');
 const ServiceSupplierForm = require('src/main/js/reactjs/service-request/components/home/ServiceSupplierForm.jsx');
@@ -32,43 +32,35 @@ class Detail extends React.Component{
         serviceRequests: null,
         displayDetail: "block",
         displayServiceStartForm: "block",
-        displayServiceForm: "none",
-        displayServiceDetailForm: "none",
-        displayServiceSupplierForm: "none",
+        displayServiceForm: "block",
+        displayServiceDetailForm: "block",
+        displayServiceSupplierForm: "block",
         // task: null,
         // tasks: [],
         attributes: [],
         pageSize: 10,
         links: {},
         callUpdateAll: function (pageSize, that) {
-            console.log("callUpdateAll");
-            that.loadAllFromServer(pageSize)
+            that.loadRejectedFromServer(pageSize)
         },
         callUpdateItem: function (serviceId, that) {
-            console.log("callUpdateItem"+ JSON.stringify(serviceId));
             that.loadItemFromServer(serviceId)
         }
       };
       this.toggleForm = this.toggleForm.bind(this)
       this.uuidv4 = this.uuidv4.bind(this);
-      this.handleStart = this.handleStart.bind(this);
       this.handleDone = this.handleDone.bind(this);
-      this.handleSave = this.handleSave.bind(this);
       this.handleUpdateState = this.handleUpdateState.bind(this);
       this.handleUpdateStartState = this.handleUpdateStartState.bind(this);
       this.post = this.post.bind(this);
   }
 
-    // tag::did-mount[]
+    // tag::follow-1[]
     componentDidMount() {
-        console.log("Detail Component Did Mount");
         this.state.callUpdateAll(this.state.pageSize, this);
     }
-    // end::did-mount[]
+    // end::follow-1[]
 
-    componentDidUpdate() {
-      console.log("Detail Component Did Update");
-    }
 
     toggleForm(form){
       if(form == "service") {
@@ -109,7 +101,7 @@ class Detail extends React.Component{
     }
 
     handleUpdateState(serviceRequest){
-        console.log("handleUpdateState service request: "+ JSON.stringify(serviceRequest))
+        console.log("handleUpdateState rejected: "+ JSON.stringify(serviceRequest))
 
         this.setState({
             serviceRequest: serviceRequest
@@ -118,37 +110,10 @@ class Detail extends React.Component{
     }
 
     handleUpdateStartState(serviceId){
-        console.log("handleUpdateState service request: "+ JSON.stringify(serviceId));
+        console.log("handleUpdateStartState rejected: "+ JSON.stringify(serviceId));
 
         this.state.callUpdateItem(serviceId, this);
 
-    }
-
-
-    handleStart(e){
-        e.preventDefault();
-
-        var serviceRequest = {
-            serviceId: this.uuidv4(),
-        }
-
-        console.log("Handle Start: " + JSON.stringify(serviceRequest));
-
-        //post the object to the endpoint to save the Service Request
-        this.post(serviceRequest, "sr/create");
-
-        this.setState({
-            serviceRequest: serviceRequest
-        });
-
-        this.state.callUpdateAll(this.state.pageSize, this);
-    }
-
-    handleSave(e){
-        e.preventDefault();
-        console.log("HandleSave: " + JSON.stringify(this.state.serviceRequest));
-        //post the object to the endpoint
-        this.post(this.state.serviceRequest, "sr/save");
     }
 
     handleDone(e){
@@ -156,25 +121,24 @@ class Detail extends React.Component{
 
         var serviceRequest = this.state.serviceRequest;
 
-        serviceRequest.started = true;
+        serviceRequest.rejected = false;
 
-        console.log("HandleDone: " + JSON.stringify(this.state.serviceRequest));
+        console.log("Rejected HandleDone: " + JSON.stringify(this.state.serviceRequest))
+
         //post the object to the endpoint to save the Service Request
         this.post(serviceRequest, "sr/save");
 
         //post the object to the endpoint to Start the workflow
-        this.post(serviceRequest, "sr/start/workflow");
+        this.post(serviceRequest, "sr/update/rejected");
 
-        // clear out the dialog's inputs
-        // this.refs.supplier.value = '';
     }
 
     // tag::follow-2[]
-    loadAllFromServer(pageSize) {
+    loadRejectedFromServer(pageSize) {
         follow(client, apiRoot, [
                 {rel: 'serviceRequestEntities', params: {size: pageSize}},
                 {rel: 'search'},
-                {rel: 'findServiceRequestEntitiesByApprovedAndStarted', params: {approved: false, started: false}}
+                {rel: 'findServiceRequestEntitiesByRejectedAndStarted', params: {rejected: true, started: true}}
             ]
         ).then(itemCollection => {
             return client({
@@ -186,7 +150,7 @@ class Detail extends React.Component{
                 return itemCollection;
             });
         }).done(itemCollection => {
-            console.log("loaded serviceRequestEntities: "
+            console.log("loaded rejectedServiceRequestEntities: "
                 +JSON.stringify(itemCollection.entity._embedded.serviceRequestEntities))
             this.setState({
                 serviceRequests: itemCollection.entity._embedded.serviceRequestEntities,
@@ -198,12 +162,13 @@ class Detail extends React.Component{
     // end::follow-2[]
 
     // tag::on-delete[]
+    // tag::on-delete[]
     loadItemFromServer(serviceId) {
         follow(client, apiRoot, [
-            {rel: 'serviceRequestEntities'},
-            {rel: 'search'},
-            {rel: 'findServiceRequestByServiceId', params: {serviceId: serviceId}}
-          ]
+                {rel: 'serviceRequestEntities'},
+                {rel: 'search'},
+                {rel: 'findServiceRequestByServiceId', params: {serviceId: serviceId}}
+            ]
         ).then(itemCollection => {
             return client({
                 method: 'GET',
@@ -224,6 +189,7 @@ class Detail extends React.Component{
         });
     }
 
+
     // end::on-delete[]
     post(obj, context) {
         console.log("POST Started")
@@ -234,7 +200,6 @@ class Detail extends React.Component{
             headers: {'Content-Type': 'application/json'}
         }).done(response => {
             console.log("POST Request Complete");
-            // this.state.callUpdateItem(this.state.serviceRequest.serviceId, this);
         });
     }
 
@@ -246,54 +211,55 @@ class Detail extends React.Component{
       var displayServiceSupplierForm = this.state.displayServiceSupplierForm;
 
       var info = "";
-
-      console.log("Detail Render: "+JSON.stringify(this.state.serviceRequest));
-
-      if (this.state.serviceRequest.serviceId != null) {
-         info =  <Info item={this.state.serviceRequest}/>
+      if (this.state.serviceRequest !== null) {
+         info =  <div style={{display: this.props.displayInfo}}>
+                    <Info
+                        item={this.state.serviceRequest}/>
+                    </div>
       }
 
     return (
       <div>
 
-        <FilterBar toggleForm={this.toggleForm} title=""/>
+        {/*<FilterBar toggleForm={this.toggleForm} title=""/>*/}
 
-        {info}
+        {/*{info}*/}
+
+        <div></div>
 
         <form >
             <div className="small-12 columns" style={{display: displayServiceStartForm}}>
                 <ServiceStartForm onUpdateStartState={this.handleUpdateStartState}
+                                  onUpdateState={this.handleUpdateState}
                                   onStart={this.handleStart}
                                   serviceRequests={this.state.serviceRequests}
-                                  serviceRequest={this.state.serviceRequest} />
+              onStart  />
             </div>
 
           <div className="small-12 columns" style={{display: displayServiceForm}}>
             <ServiceForm serviceRequest={this.state.serviceRequest}
-                         onUpdateState={this.handleUpdateState} />
+                         onUpdateState={this.handleUpdateState}
+            />
           </div>
 
           <div className="small-12 columns" style={{display: displayServiceDetailForm}}>
             <ServiceDetailForm serviceRequest={this.state.serviceRequest}
-                               onUpdateState={this.handleUpdateState} />
+                               onUpdateState={this.handleUpdateState}
+            />
           </div>
 
           <div className="small-12 columns" style={{display: displayServiceSupplierForm}}>
             <ServiceSupplierForm serviceRequest={this.state.serviceRequest}
-                                 onUpdateState={this.handleUpdateState} />
+                                 onUpdateState={this.handleUpdateState}
+            />
           </div>
 
         </form>
 
           <div className="small-12 columns">
               {/*  Buttons for handling save and starting the service request  */}
-              <div className="small-4 small-offset-8 large-4 large-offset-0 columns button-group ">
-                  <label htmlFor="save" className="button ">Save</label>
-                  <input type="submit" id="save" className="show-for-sr"
-                         onClick={this.handleSave}/>
-              </div>
 
-              <div className="small-1 small-offset-2 large-1 large-offset-2 columns">
+              <div className="small-1 large-1 columns">
                   <label htmlFor="done" className="button ">Done</label>
                   <input type="submit" id="done" className="show-for-sr"
                          onClick={this.handleDone} />

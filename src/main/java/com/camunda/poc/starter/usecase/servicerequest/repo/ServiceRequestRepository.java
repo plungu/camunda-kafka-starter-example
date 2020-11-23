@@ -4,6 +4,8 @@ import com.camunda.poc.starter.usecase.servicerequest.entity.ServiceRequestEntit
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ServiceRequestRepository extends PagingAndSortingRepository<ServiceRequestEntity, Long>{
 
 //	@Query("select l from renewal l where l.end <= ?1 and l.renewalStarted = false and l.renewalCompleted = false")
@@ -15,10 +17,12 @@ public interface ServiceRequestRepository extends PagingAndSortingRepository<Ser
 //	@Query("select l from renewal l where l.renewalStarted = true and l.renewalCompleted = false ORDER BY l.showDate DESC")
 //	public List<Renewal> findStarted();
 //
-//	public List<Renewal> findRenewalsByRenewalStartedAndRenewalCompletedOrderByRenewalStartedAsc(
-//            @Param("renewalStarted") Boolean renewalStarted,
-//            @Param("renewalCompleted") Boolean renewalCompleted);
-//
+	public List<ServiceRequestEntity> findServiceRequestEntitiesByApprovedAndStarted(
+            @Param("approved") Boolean approved, @Param("started") Boolean started);
+
+	public List<ServiceRequestEntity> findServiceRequestEntitiesByRejectedAndStarted(
+			@Param("rejected") Boolean rejected, @Param("started") Boolean started);
+
 //	public List<Renewal> findRenewalsByRenewalStartedAndRenewalCompletedOrderByWorkflowStateAsc(
 //            @Param("renewalStarted") Boolean renewalStarted,
 //            @Param("renewalCompleted") Boolean renewalCompleted);

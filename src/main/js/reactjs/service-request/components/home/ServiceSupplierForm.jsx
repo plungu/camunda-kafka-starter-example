@@ -26,23 +26,16 @@ class ServiceForm extends React.Component {
   render() {
 
     return (
-      <div className="row">
-          <div className="small-12 columns">
-
-                <div className="row">
-                    <div className="small-5 columns">
-                        <div className="input-group">
-                            <span className="input-group-label">Supplier</span>
-                            <input className="input-group-field" type="text" ref="buContractingService"
-                                   onChange={this.handleChange}
-                                   defaultValue={this.props.buContractingService} />
-                        </div>
-                    </div>
-                </div>
-
-          </div>
+      <div >
+        <div className="small-7 large-7 columns">
+            <div className="input-group">
+                <span className="input-group-label">Supplier</span>
+                <input className="input-group-field" type="text" ref="buContractingService"
+                       onChange={this.handleChange}
+                       value={this.props.serviceRequest.buContractingService} />
+            </div>
+        </div>
       </div>
-
     );
   }
 }

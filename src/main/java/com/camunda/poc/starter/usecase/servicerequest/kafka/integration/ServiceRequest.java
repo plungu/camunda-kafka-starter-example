@@ -22,6 +22,9 @@ public class ServiceRequest {
     private Integer eonId;
     private String estimatedAnnualSpend;
     private String serviceDetailsComments;
+    private boolean started;
+    private boolean approved;
+    private boolean rejected;
 
     public ServiceRequest(){}
 
@@ -43,6 +46,9 @@ public class ServiceRequest {
         this.serviceOwnerMSID = entity.getServiceOwnerMSID();
         this.sourcingComments = entity.getSourcingComments();
         this.sourcingManager = entity.getSourcingManager();
+        this.started = entity.getStarted();
+        this.approved = entity.isApproved();
+        this.rejected = entity.isRejected();
     }
 
     public long getId() {
@@ -59,6 +65,30 @@ public class ServiceRequest {
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public boolean getStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
     }
 
     public String getServiceCategory() {

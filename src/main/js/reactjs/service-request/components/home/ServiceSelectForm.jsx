@@ -13,23 +13,14 @@ class ServiceStartForm extends React.Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    componentDidMount() {
-        console.log("Start Form Component Did Mount");
-    }
-
-    componentDidUpdate() {
-        console.log("Start Form Component Did Update");
-    }
-
     handleChange(e){
         e.preventDefault();
 
-        var serviceId = this.refs.pid.value;
+        var serviceRequest = this.refs.pid.value;
 
+        console.log("Service Select Form handleChange: "+ JSON.stringify(serviceRequest));
 
-        console.log("Start Form handleChange: "+ JSON.stringify(serviceId));
-
-        this.props.onUpdateStartState(serviceId);
+        this.props.onUpdateStartState(serviceRequest);
     }
 
     render() {
@@ -51,21 +42,13 @@ class ServiceStartForm extends React.Component {
                       <span className="input-group-label">Select Existing Service Request</span>
                       <select className="input-group-field"
                             ref="pid"
-                            onChange={this.handleChange}
-                            value={this.props.serviceRequest.serviceId} >
+                            onChange={this.handleChange} >
 
                           <option defaultValue>Please Select</option>
                           {options}
                       </select>
                   </div>
                 </div>
-
-
-              <div className="small-5 large-5 columns">
-                  <label htmlFor="start" className="button large">Start New Service Request</label>
-                  <input type="submit" id="start" className="show-for-sr"
-                         onClick={this.props.onStart} />
-              </div>
 
             </div>
 

@@ -34,6 +34,9 @@ public class ServiceRequestEntity {
         this.serviceOwner = sr.getServiceOwner();
         this.sourcingComments = sr.getSourcingComments();
         this.sourcingManager = sr.getSourcingManager();
+        this.started = sr.getStarted();
+        this.approved = sr.isApproved();
+        this.rejected = sr.isRejected();
 
         return this;
     }
@@ -82,6 +85,12 @@ public class ServiceRequestEntity {
     private String estimatedAnnualSpend;
     @Column(nullable=true)
     private String serviceDetailsComments;
+    @Column(nullable=true)
+    private boolean started;
+    @Column(nullable=true)
+    private boolean approved;
+    @Column(nullable=true)
+    private boolean rejected;
 
     public String getServiceId() {
         return serviceId;
@@ -89,6 +98,30 @@ public class ServiceRequestEntity {
 
     public void setServiceId(String serviceId) {
         this.serviceId = serviceId;
+    }
+
+    public boolean getStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
+    }
+
+    public boolean isRejected() {
+        return rejected;
+    }
+
+    public void setRejected(boolean rejected) {
+        this.rejected = rejected;
     }
 
     public String getServiceCategory() {
