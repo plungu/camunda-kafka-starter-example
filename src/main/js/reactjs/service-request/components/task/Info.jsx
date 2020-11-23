@@ -16,18 +16,17 @@ const DisplayDate = require('src/main/js/reactjs/service-request/components/date
 class Info extends React.Component{
   constructor(props) {
       super(props);
-      this.handleDelete = this.handleDelete.bind(this);
+      // this.handleDelete = this.handleDelete.bind(this);
   }
 
-  handleDelete(e){
-      e.preventDefault;
-      alert("Sure you want to delete this property? Press the [esc] button to cancel this action.");
-      this.props.onDelete(this.props.task);
-  }
+  // handleDelete(e){
+  //     e.preventDefault;
+  //     alert("Sure you want to delete this property? Press the [esc] button to cancel this action.");
+  //     this.props.onDelete(this.props.task);
+  // }
   
   render(){
-        console.log("TASK INFO: "+ JSON.stringify(this.props.task))
-      return (   
+      return (
        <div>   
             <div className="row">
 

@@ -24,12 +24,17 @@ class Home extends React.Component {
           displayDetail: "block",
           callUpdate: function (pageSize, that) {that.loadAllFromServer(pageSize)}
         };
+        this.handleRedirect = this.handleRedirect.bind(this);
     }
 
     // tag::follow-1[]
     componentDidMount() {
     }
     // end::follow-1[]
+
+    handleRedirect(path){
+        this.props.history.push(path);
+    }
 
     render() {
 
@@ -48,7 +53,7 @@ class Home extends React.Component {
                 </div>
 
                 <div>
-                  <RejectDetail />
+                  <RejectDetail onRedirect={this.handleRedirect}/>
               </div>
 
           </div>

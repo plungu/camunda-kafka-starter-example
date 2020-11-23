@@ -131,6 +131,7 @@ class Detail extends React.Component{
         //post the object to the endpoint to Start the workflow
         this.post(serviceRequest, "sr/update/rejected");
 
+        this.props.onRedirect("/tasks")
     }
 
     // tag::follow-2[]

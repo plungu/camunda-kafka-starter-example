@@ -3,7 +3,7 @@
 // tag::vars[]
 const React = require('react');
 const ReactDOM = require('react-dom')
-const {Route, Router, IndexRoute, hashHistory} = require('react-router');
+const {Route, Router, IndexRoute, hashHistory, b} = require('react-router');
 const Main = require('Main');
 const Home = require('./components/home/Home');
 const RejectHome = require('./components/home/RejectHome');

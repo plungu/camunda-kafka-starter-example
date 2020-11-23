@@ -142,6 +142,9 @@ class Detail extends React.Component{
         });
 
         this.state.callUpdateAll(this.state.pageSize, this);
+
+        // this.props.history.push('/service');
+
     }
 
     handleSave(e){
@@ -165,8 +168,8 @@ class Detail extends React.Component{
         //post the object to the endpoint to Start the workflow
         this.post(serviceRequest, "sr/start/workflow");
 
-        // clear out the dialog's inputs
-        // this.refs.supplier.value = '';
+        this.props.onRedirect("/tasks")
+
     }
 
     // tag::follow-2[]

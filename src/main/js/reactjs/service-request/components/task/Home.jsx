@@ -46,6 +46,9 @@ class home extends React.Component {
         this.handleBackClick = this.handleBackClick.bind(this);
         this.handleToggleClick = this.handleToggleClick.bind(this);
         this.handleFilterAll = this.handleFilterAll.bind(this);
+        this.handleApprove = this.handleApprove.bind(this);
+        this.handleReject = this.handleReject.bind(this);
+        this.post = this.post.bind(this);
     }
 
     // tag::update-page-size[]
@@ -61,6 +64,57 @@ class home extends React.Component {
         this.loadAllFromServer(this.state.pageSize);
     }
     // end::follow-1[]
+
+    handleApprove(e){
+        e.preventDefault();
+
+        var serviceRequest = this.state.task.serviceRequest;
+
+        serviceRequest.approved = true;
+
+        console.log("HandleApprove: " + JSON.stringify(serviceRequest));
+
+        this.post(serviceRequest, "sr/save");
+
+        this.post(serviceRequest, "sr/task/approve");
+
+        this.props.history.push('/home');
+
+        this.state.callUpdate(this.state.pageSize, this);
+        this.handleBackClick();
+
+    }
+
+    handleReject(e){
+        e.preventDefault();
+
+        var serviceRequest = this.state.task.serviceRequest;
+
+        serviceRequest.rejected = true;
+
+        console.log("HandleReject: " + JSON.stringify(serviceRequest));
+
+        this.post(serviceRequest, "sr/save");
+
+        this.post(serviceRequest, "sr/task/reject");
+
+        this.props.history.push('/rejected');
+
+
+    }
+
+    post(obj, context) {
+        console.log("POST Started")
+        client({
+            method: 'POST',
+            path: apiHost+context,
+            entity: obj,
+            headers: {'Content-Type': 'application/json'}
+        }).done(response => {
+            console.log("POST Request Complete");
+        });
+    }
+
 
     // tag::follow-2[]
     loadAllFromServer(pageSize) {
@@ -121,7 +175,8 @@ class home extends React.Component {
     }
 
 
-    handleBackClick(e){ 
+    handleBackClick(e){
+       console.log("handleBackClick");
        this.setState({
            displayDetail: "none",
            displayList: "block"
@@ -151,7 +206,8 @@ class home extends React.Component {
         item = <Detail  task={this.state.task}
                         displayInfo={this.state.displayInfo}
                         displayLine={this.state.displayLine}
-                        />
+                        handleReject={this.handleReject}
+                        handleApprove={this.handleApprove} />
       }
 
       return (
@@ -165,8 +221,7 @@ class home extends React.Component {
                     onUpdateNote={this.onUpdateNote}
                     updatePageSize={this.updatePageSize}
                     onSelectItem={this.handleSelectedItem}
-                    onFilterAll={this.handleFilterAll}
-                    />
+                    onFilterAll={this.handleFilterAll} />
             </div>
 
             <div style={{display: this.state.displayDetail}}>
@@ -180,9 +235,6 @@ class home extends React.Component {
                </div>
                <div className="top-bar-right">
                  <ul className="menu">
-                   {/*<li className="topbar-title">*/}
-                   {/*  <a className="button small" onClick={this.handleToggleClick}>&lt;Details&gt;</a>*/}
-                   {/*</li>                   */}
                    <li className="topbar-title">
                      <a className="button" onClick={this.handleBackClick}>Back</a>
                    </li>

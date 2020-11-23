@@ -12,14 +12,12 @@ const client = require('../client.jsx');
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 // tag::customComponents
-const MessageList = require('src/main/js/reactjs/service-request/components/message/MessageList.jsx');
-const MessageDetail = require('src/main/js/reactjs/service-request/components/message/MessageDetail.jsx');
 const Form = require('src/main/js/reactjs/service-request/components/task/Form.jsx');
-const Tenant = require('src/main/js/reactjs/service-request/components/tenant/Tenant.jsx');
 const Info = require('src/main/js/reactjs/service-request/components/task/Info.jsx');
-const Line = require('src/main/js/reactjs/service-request/components/task/Line.jsx');
 
 // tag::vars[]
+const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
 class Detail extends React.Component{
@@ -34,11 +32,12 @@ class Detail extends React.Component{
     return (
       <div>
 
-        <Info task={this.props.task}/>
+        <Info task={this.props.task} />
         <hr />
-        <Form task={this.props.task} />
-
-    </div>
+        <Form task={this.props.task}
+              handleReject={this.props.handleReject}
+              handleApprove={this.props.handleApprove}/>
+      </div>
     )
   }
 }

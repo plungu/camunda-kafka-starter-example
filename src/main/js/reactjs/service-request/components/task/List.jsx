@@ -23,8 +23,8 @@ class List extends React.Component{
   render() {
 		var tasks = this.props.tasks.map(task =>
 			<Line key={task._links.self.href}
-        		task={task}
-        		onSelectItem={this.props.onSelectItem}/>
+				task={task}
+			  	onSelectItem={this.props.onSelectItem}/>
 		);
 
 		return (

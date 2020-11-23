@@ -25,56 +25,8 @@ class Form extends React.Component {
     this.state = {
 
     };
-      this.handleApprove = this.handleApprove.bind(this);
-      this.handleReject = this.handleReject.bind(this);
-      this.post = this.post.bind(this);
   }
 
-    handleApprove(e){
-        e.preventDefault();
-
-        var serviceRequest = this.props.task.serviceRequest;
-
-        serviceRequest.approved = true;
-        console.log("HandleApprove: " + JSON.stringify(serviceRequest));
-
-        this.post(serviceRequest, "sr/save");
-
-        this.post(serviceRequest, "sr/task/approve");
-        // clear out the dialog's inputs
-        // this.post(serviceRequest, "sr/task/reject");
-    }
-
-    handleReject(e){
-        e.preventDefault();
-
-        var serviceRequest = this.props.task.serviceRequest;
-
-        serviceRequest.rejected = true;
-
-        console.log("HandleReject: " + JSON.stringify(serviceRequest));
-
-        this.post(serviceRequest, "sr/save");
-
-        this.post(serviceRequest, "sr/task/reject");
-        // clear out the dialog's inputs
-        // this.post(serviceRequest, "sr/task/reject");
-
-    }
-
-    post(obj, context) {
-        console.log("POST Started")
-        client({
-            method: 'POST',
-            path: apiHost+context,
-            entity: obj,
-            headers: {'Content-Type': 'application/json'}
-        }).done(response => {
-            console.log("POST Request Complete");
-        });
-    }
-
-  
   render() {
 
     return (
@@ -88,12 +40,12 @@ class Form extends React.Component {
                         {/*  Buttons for handling save and starting the service request  */}
                         <div className="small-2 large-2 columns ">
                             <label htmlFor="reject" className="button" >Reject</label>
-                            <button type="submit" id="reject" className="show-for-sr" onClick={this.handleReject} />
+                            <button type="submit" id="reject" className="show-for-sr" onClick={this.props.handleReject} />
                         </div>
 
                         <div className="small-2 large-2 columns">
                             <label htmlFor="approve" className="button ">Approve</label>
-                            <input type="submit" id="approve" className="show-for-sr" onClick={this.handleApprove}  />
+                            <input type="submit" id="approve" className="show-for-sr" onClick={this.props.handleApprove}  />
                         </div>
                     </div>
 
