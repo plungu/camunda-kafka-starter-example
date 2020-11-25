@@ -9,13 +9,10 @@ const Home = require('./components/home/Home');
 const RejectHome = require('./components/home/RejectHome');
 const Task = require('./components/task/Home');
 const Detail = require('./components/home/Detail');
-// const RejectDetail = require('./components/home/RejectDetail');
 
 // tag::styles[]
 require('style!css!foundation-sites/dist/foundation.css');
 $(document).foundation();
-
-//require('style!css!../../main/resources/static/app.css');
 // end::styles[]
 
 // tag::render[]

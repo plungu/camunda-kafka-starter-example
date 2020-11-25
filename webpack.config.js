@@ -4,6 +4,7 @@ var Dotenv = require('dotenv-webpack');
 
 module.exports = {
     entry: [
+        'babel-polyfill',
 	    'script!jquery/dist/jquery.min.js',
 	    'script!foundation-sites/dist/foundation.min.js',
 	    './src/main/js/reactjs/service-request/app.jsx'
