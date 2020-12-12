@@ -48,6 +48,8 @@ Or you can use the application.properties file to specify the profile.
 spring.profiles.active: servicerequest,integration,cors
 ```
 
+IMPORTANT: Using Camunda Enterprise - it's necessary to request a Camunda Enterprise License.
+
 //### Loading Test Data
 //TODO: Create REST end-point to parse csv and load service request data, start processes associating with a service id/business key
 

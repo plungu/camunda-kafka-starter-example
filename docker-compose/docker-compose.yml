@@ -100,7 +100,7 @@ services:
 
 
 #########################################
-# Rabbit MQ Service
+# Kafaka Service
 #########################################
   zookeeper:
     image: 'bitnami/zookeeper:latest'
