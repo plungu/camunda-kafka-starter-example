@@ -27,7 +27,7 @@ class Info extends React.Component{
   
   render(){
       return (
-       <div>   
+          <div className="my-form">
             <div className="row">
 
               <div className="small-5 small-offset-1 columns">

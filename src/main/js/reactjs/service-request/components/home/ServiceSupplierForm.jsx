@@ -1,7 +1,8 @@
 var React = require('react');
 const client = require('../client.jsx');
-const DisplayDate = require('src/main/js/reactjs/service-request/components/date/DisplayDate.jsx');
 const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
+
+const ActionBar = require('ActionBar');
 
 class ServiceForm extends React.Component {
         
@@ -11,6 +12,7 @@ class ServiceForm extends React.Component {
 
     };
       this.handleChange = this.handleChange.bind(this);
+      this.toggleForm = this.toggleForm.bind(this);
   }
 
     handleChange(e){
@@ -23,11 +25,17 @@ class ServiceForm extends React.Component {
 
     }
 
+
+    toggleForm(){
+        this.props.toggleForm("supplier");
+    }
+
   render() {
 
     return (
-      <div >
-        <div className="small-7 large-7 columns">
+    <div>
+      <div className="my-form">
+        <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
             <div className="input-group">
                 <span className="input-group-label">Supplier</span>
                 <input className="input-group-field" type="text" ref="buContractingService"
@@ -36,6 +44,11 @@ class ServiceForm extends React.Component {
             </div>
         </div>
       </div>
+        <ActionBar serviceRequest={this.props.serviceRequest}
+                   post={this.props.post}
+                   toggleForm={this.toggleForm}
+                   onRedirect={this.props.onRedirect}/>
+    </div>
     );
   }
 }

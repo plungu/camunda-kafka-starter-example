@@ -47,8 +47,10 @@ class Detail extends React.Component{
             that.loadItemFromServer(serviceId)
         }
       };
-      this.toggleForm = this.toggleForm.bind(this)
-      this.uuidv4 = this.uuidv4.bind(this);
+      // this.toggleForm = this.toggleForm.bind(this)
+      // this.uuidv4 = this.uuidv4.bind(this);
+      this.handleChange = this.handleChange.bind(this);
+      this.handleInputChange = this.handleInputChange.bind(this)
       this.handleDone = this.handleDone.bind(this);
       this.handleUpdateState = this.handleUpdateState.bind(this);
       this.handleUpdateStartState = this.handleUpdateStartState.bind(this);
@@ -62,43 +64,43 @@ class Detail extends React.Component{
     // end::follow-1[]
 
 
-    toggleForm(form){
-      if(form == "service") {
-          this.setState({
-              displayServiceStartForm: "none",
-              displayServiceForm: "block",
-              displayServiceDetailForm: "none",
-              displayServiceSupplierForm: "none"
-          });
-      }else if (form == "detail"){
-          this.setState({
-              displayServiceStartForm: "none",
-              displayServiceForm: "none",
-              displayServiceDetailForm: "block",
-              displayServiceSupplierForm: "none"
-          });
-      }else if (form == "supplier"){
-          this.setState({
-              displayServiceStartForm: "none",
-              displayServiceForm: "none",
-              displayServiceDetailForm: "none",
-              displayServiceSupplierForm: "block"
-          });
-      }else if (form == "start"){
-          this.setState({
-              displayServiceStartForm: "block",
-              displayServiceForm: "none",
-              displayServiceDetailForm: "none",
-              displayServiceSupplierForm: "none"
-          });
-      }
-    }
+    // toggleForm(form){
+    //   if(form == "service") {
+    //       this.setState({
+    //           displayServiceStartForm: "none",
+    //           displayServiceForm: "block",
+    //           displayServiceDetailForm: "none",
+    //           displayServiceSupplierForm: "none"
+    //       });
+    //   }else if (form == "detail"){
+    //       this.setState({
+    //           displayServiceStartForm: "none",
+    //           displayServiceForm: "none",
+    //           displayServiceDetailForm: "block",
+    //           displayServiceSupplierForm: "none"
+    //       });
+    //   }else if (form == "supplier"){
+    //       this.setState({
+    //           displayServiceStartForm: "none",
+    //           displayServiceForm: "none",
+    //           displayServiceDetailForm: "none",
+    //           displayServiceSupplierForm: "block"
+    //       });
+    //   }else if (form == "start"){
+    //       this.setState({
+    //           displayServiceStartForm: "block",
+    //           displayServiceForm: "none",
+    //           displayServiceDetailForm: "none",
+    //           displayServiceSupplierForm: "none"
+    //       });
+    //   }
+    // }
 
-    uuidv4() {
-        return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
-            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
-        );
-    }
+    // uuidv4() {
+    //     return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+    //         (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    //     );
+    // }
 
     handleUpdateState(serviceRequest){
         console.log("handleUpdateState rejected: "+ JSON.stringify(serviceRequest))
@@ -114,6 +116,30 @@ class Detail extends React.Component{
 
         this.state.callUpdateItem(serviceId, this);
 
+    }
+
+    handleInputChange(e){
+        e.preventDefault();
+        var serviceRequest = this.props.serviceRequest;
+        serviceRequest.serviceOwner = this.refs.serviceOwner.value;
+        serviceRequest.sourcingManager = this.refs.sourcingManager.value;
+        serviceRequest.acquiringDivision = this.refs.acquiringDivision.value;
+        serviceRequest.sourcingComments = this.refs.sourcingComments.value;
+
+        this.handleUpdateState(serviceRequest);
+
+    }
+
+
+    handleChange(e){
+        e.preventDefault();
+
+        var serviceId = this.refs.pid.value;
+
+
+        console.log("Start Form handleChange: "+ JSON.stringify(serviceId));
+
+        this.handleUpdateStartState(serviceId);
     }
 
     handleDone(e){
@@ -151,7 +177,7 @@ class Detail extends React.Component{
                 return itemCollection;
             });
         }).done(itemCollection => {
-            console.log("loaded rejectedServiceRequestEntities: "
+            console.log("Rejected -> Detail -> rejectedServiceRequestEntities: "
                 +JSON.stringify(itemCollection.entity._embedded.serviceRequestEntities))
             this.setState({
                 serviceRequests: itemCollection.entity._embedded.serviceRequestEntities,
@@ -219,6 +245,14 @@ class Detail extends React.Component{
                     </div>
       }
 
+      if (this.state.serviceRequests !== null){
+          // console.log("Start FORM SR's: "+ JSON.stringify(this.props.serviceRequests));
+          var options = this.state.serviceRequests.map(serviceRequest =>
+              // console.log("Start FORM SR's: "+ JSON.stringify(serviceRequest) +" :: "+serviceRequest._links.self.href)
+              <option key={serviceRequest._links.self.href} value={serviceRequest.serviceId}>{serviceRequest.serviceId}</option>
+          );
+      }
+
     return (
       <div>
 
@@ -226,44 +260,117 @@ class Detail extends React.Component{
 
         {/*{info}*/}
 
-        <div></div>
+        {/*<div></div>*/}
 
-        <form >
-            <div className="small-12 columns" style={{display: displayServiceStartForm}}>
-                <ServiceStartForm onUpdateStartState={this.handleUpdateStartState}
-                                  onUpdateState={this.handleUpdateState}
-                                  onStart={this.handleStart}
-                                  serviceRequests={this.state.serviceRequests}
-              onStart  />
+          <div className="my-form">
+
+            <div className="row">
+            <form>
+                <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
+                    <div className="input-group">
+                        <select className="form-registration-input"
+                                ref="pid"
+                                onChange={this.handleChange}
+                                value={this.state.serviceRequest.serviceId} >
+
+                            <option defaultValue>Please Select</option>
+                            {options}
+                        </select>
+                    </div>
+                </div>
+
+              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
+                  <div className="input-group">
+                      <span className="input-group-label">Service Category</span>
+
+                      <select className="input-group-field"
+                              ref="serviceCategory"
+                              onChange={this.handleInputChange}
+                              value={this.state.serviceRequest.serviceCategory}>
+
+                          <option defaultValue>Choose Category</option>
+                          <option value="1">Category 1 </option>
+                          <option value="2">Category 2 </option>
+                          <option value="3">Category 3 </option>
+                          <option value="5">Category 5 </option>
+                      </select>
+
+                  </div>
+              </div>
+
+              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
+                  <div className="input-group">
+                        <textarea rows="5" ref="serviceDescription"
+                                  placeholder="Service Description"
+                                  onChange={this.handleInputChange}
+                                  value={this.state.serviceRequest.serviceDescription}/>
+                  </div>
+              </div>
+
+
+              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
+                  <div className="input-group">
+                      <span className="input-group-label">Service Owner</span>
+                      <input className="input-group-field" type="text"
+                             ref="serviceOwner" onChange={this.handleInputChange}
+                             value={this.state.serviceRequest.serviceOwner} />
+                  </div>
+              </div>
+
+              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
+                  <div className="input-group">
+                      <span className="input-group-label">Sourcing Manager</span>
+                      <input className="input-group-field" type="text"
+                             ref="sourcingManager" onChange={this.handleInputChange}
+                             value={this.state.serviceRequest.sourcingManager}/>
+                  </div>
+              </div>
+
+              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
+                  <div className="input-group">
+                      <span className="input-group-label">Acquiring Division</span>
+                      <select className="input-group-field" ref="acquiringDivision"
+                              value={this.state.serviceRequest.acquiringDivision}
+                              onChange={this.handleInputChange}>
+
+                          <option defaultValue>Choose Division</option>
+                          <option value="1">Division 1 </option>
+                          <option value="2">Division 2 </option>
+                          <option value="3">Division 3 </option>
+                          <option value="5">Division 4 </option>
+                      </select>
+                  </div>
+              </div>
+
+              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
+                  <textarea rows="5" ref="sourcingComments"
+                            placeholder="Sourcing Comments"
+                            onChange={this.handleInputChange}
+                            value={this.state.serviceRequest.sourcingComments}/>
+              </div>
+
+              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
+                  <div className="input-group">
+                      <span className="input-group-label">Supplier</span>
+                      <input className="input-group-field" type="text" ref="buContractingService"
+                             onChange={this.handleInputChange}
+                             value={this.state.serviceRequest.buContractingService} />
+                  </div>
+              </div>
+
+            </form>
             </div>
 
-          <div className="small-12 columns" style={{display: displayServiceForm}}>
-            <ServiceForm serviceRequest={this.state.serviceRequest}
-                         onUpdateState={this.handleUpdateState}
-            />
           </div>
 
-          <div className="small-12 columns" style={{display: displayServiceDetailForm}}>
-            <ServiceDetailForm serviceRequest={this.state.serviceRequest}
-                               onUpdateState={this.handleUpdateState}
-            />
-          </div>
 
-          <div className="small-12 columns" style={{display: displayServiceSupplierForm}}>
-            <ServiceSupplierForm serviceRequest={this.state.serviceRequest}
-                                 onUpdateState={this.handleUpdateState}
-            />
-          </div>
-
-        </form>
-
-          <div className="small-12 columns">
-              {/*  Buttons for handling save and starting the service request  */}
-
-              <div className="small-1 large-1 columns">
-                  <label htmlFor="done" className="button ">Done</label>
-                  <input type="submit" id="done" className="show-for-sr"
-                         onClick={this.handleDone} />
+          <div className="top-bar">
+              <div className="top-bar-right columns">
+                  <ul className="menu my-bar">
+                      <li>
+                          <a className="button small my-button" key="service" onClick={this.handleDone}>Complete</a>
+                      </li>
+                  </ul>
               </div>
           </div>
 

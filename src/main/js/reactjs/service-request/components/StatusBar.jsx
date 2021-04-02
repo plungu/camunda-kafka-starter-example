@@ -82,7 +82,7 @@ class StatusBar extends React.Component {
                   <div className="top-bar-left">
                       <ul className="menu">
                           <li className="menu-text">
-                              <large><span style={{color: "#2199e8"}}>Status</span></large>
+                              <large><span style={{color: "#22bb5b"}}>Status</span></large>
                           </li>
                       </ul>
                   </div>
@@ -92,7 +92,7 @@ class StatusBar extends React.Component {
                         <large>34</large>
                       </div>
                       <div className="menu small-4 large-4 columns text-center" style={{borderBottom: "1px dashed white"}}>
-                          <large><span style={{color: "#2199e8"}}>{numRejected}</span></large>
+                          <large><span style={{color: "#22bb5b"}}>{numRejected}</span></large>
                       </div>
                       <div className="menu small-4 large-4 columns text-center" style={{borderBottom: "1px dashed"}}>
                           <large>12</large>

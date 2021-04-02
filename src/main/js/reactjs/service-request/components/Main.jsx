@@ -12,7 +12,7 @@ var FooterBar = require('FooterBar');
 class Main extends React.Component{
     render() {
         return (
-         <div className="row">
+         <div className="row translucent-form-overlay">
            <div className="small-12 large-12 columns">
             <MarketingBar/>
             <StatusBar/>

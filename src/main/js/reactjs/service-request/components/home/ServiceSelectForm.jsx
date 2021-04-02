@@ -34,7 +34,7 @@ class ServiceStartForm extends React.Component {
         }
 
         return (
-            <div >
+            <div className="my-form">
 
                 <div className="small-7 large-7 columns">
                   <div className="input-group">

@@ -137,11 +137,11 @@
     </dependency>
 
     <!-- Add your own dependencies here, if in compile scope, they are added to the jar -->
-<!--	<dependency>-->
-<!--	    <groupId>org.postgresql</groupId>-->
-<!--	    <artifactId>postgresql</artifactId>-->
-<!--   		<version>${postgresql.version}</version>&lt;!&ndash;$NO-MVN-MAN-VER$&ndash;&gt;-->
-<!--	</dependency>-->
+	<dependency>
+	    <groupId>org.postgresql</groupId>
+	    <artifactId>postgresql</artifactId>
+   		<version>${postgresql.version}</version><!--$NO-MVN-MAN-VER$-->
+	</dependency>
 	
 	<dependency>
 	  <groupId>org.camunda.template-engines</groupId>
@@ -290,21 +290,22 @@
 						</configuration>
 					</execution>
 
-					<execution>
-						<id>npm install</id>
-						<goals>
-							<goal>npm</goal>
-						</goals>
-						<configuration>
-							<arguments>install</arguments>
-						</configuration>
-					</execution>
-					<execution>
-						<id>webpack build</id>
-						<goals>
-							<goal>webpack</goal>
-						</goals>
-					</execution>
+<!--                    TODO: fix the docker build so npm and webpack work during docker build. Comment out when using docker              -->
+<!--					<execution>-->
+<!--						<id>npm install</id>-->
+<!--						<goals>-->
+<!--							<goal>npm</goal>-->
+<!--						</goals>-->
+<!--						<configuration>-->
+<!--							<arguments>install</arguments>-->
+<!--						</configuration>-->
+<!--					</execution>-->
+<!--					<execution>-->
+<!--						<id>webpack build</id>-->
+<!--						<goals>-->
+<!--							<goal>webpack</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
 
                 </executions>
 			</plugin>

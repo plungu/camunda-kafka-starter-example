@@ -52,6 +52,7 @@ module.exports = {
             ServiceSupplierForm: 'src/main/js/reactjs/service-request/components/home/ServiceSupplierForm.jsx',
             Info: 'src/main/js/reactjs/service-request/components/home/Info.jsx',
             FilterBar: 'src/main/js/reactjs/service-request/components/home/FilterBar.jsx',
+            ActionBar: 'src/main/js/reactjs/service-request/components/home/ActionBar.jsx',
 
             Task: 'src/main/js/reactjs/service-request/components/task/Home.jsx',
             TaskLine: 'src/main/js/reactjs/service-request/components/task/Line.jsx',

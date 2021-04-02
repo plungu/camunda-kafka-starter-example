@@ -41,12 +41,12 @@ class FilterBar extends React.Component{
     <div>
 
        <div className="top-bar">
-         <div className="small-2 large-2 columns">
-           <div className="button-group small">
-              <a className="button secondary" >Back</a>
-              <a className="button small" >Next</a>
-           </div>
-         </div>
+         {/*<div className="small-2 large-2 columns">*/}
+         {/*  <div className="button-group small">*/}
+         {/*     <a className="button secondary" >Back</a>*/}
+         {/*     <a className="button small" >Next</a>*/}
+         {/*  </div>*/}
+         {/*</div>*/}
          <div className="top-bar-left">
              <ul className="menu">
                 <li>

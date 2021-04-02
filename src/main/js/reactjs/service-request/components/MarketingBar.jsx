@@ -7,35 +7,37 @@ var MarketingBar = React.createClass({
     return (
       <div>
         <div className="title-bar" data-responsive-toggle="realEstateMenu" data-hide-for="small">
-            <button className="menu-icon" type="button" data-toggle></button>
-            <div className="title-bar-title">Menu</div>
-        </div>
+            {/*<button className="menu-icon" type="button" data-toggle></button>*/}
+            {/*<div className="title-bar-title">Menu</div>*/}
 
-        <div className="top-bar">
-          <div className="top-bar-left">
-            <ul className="menu">
-              <li className="menu-text">
-                <small>Service Request - Camunda - PoC</small>
-              </li>
-              <li className="menu-text">
-                <medium>VERA</medium>
-              </li>
-            </ul>
+          <div className="title-bar-left">
+              <ul className="menu">
+                  <li className="menu-text">
+                      <button className="menu-icon" type="button" data-toggle></button>
+                      {/*<div className="title-bar-title">Insurance Application - Camunda - PoC</div>*/}
+                      <medium>VERA</medium>
+                  </li>
+                  <li className="menu-text">
+                      {/*<span className="title-bar-title"><img src="logo.png?text=MorganStanley"/></span>*/}
+                  </li>
+              </ul>
           </div>
 
-          <div className="small-4 large-6 columns">
-              <div className="button-group">
-                <IndexLink to="/" activeClassName="active" className="button round secondary medium" activeStyle={{fontWeight: 'bold'}}>Questionnaire</IndexLink>
-                <Link to="/tasks" activeClassName="active" className="button radius secondary medium" activeStyle={{fontWeight: 'bold'}}>Review Tasks</Link>
-                <IndexLink to="/rejected" activeClassName="active" className="button round secondary medium" activeStyle={{fontWeight: 'bold'}}>Rejected</IndexLink>
-              </div>
-          </div>
-
-          <div className="top-bar-right">
+          <div className="title-bar-right my-title-bar-right">
             <ul className="menu">
                 <li><a href="#">My Account</a></li>
                 <li><a className="button">Login</a></li>
             </ul>
+          </div>
+        </div>
+
+        <div className="top-bar" >
+          <div className="small-4 large-6 columns top-bar-right">
+              <div className="button-group">
+                <IndexLink to="/" activeClassName="active" className="button radius secondary small" activeStyle={{fontWeight: 'bold'}}>Questionnaire</IndexLink>
+                <Link to="/tasks" activeClassName="active" className="button radius secondary small" activeStyle={{fontWeight: 'bold'}}>Review Tasks</Link>
+                <IndexLink to="/rejected" activeClassName="active" className="button radius secondary small" activeStyle={{fontWeight: 'bold'}}>Rejected</IndexLink>
+              </div>
           </div>
         </div>
 

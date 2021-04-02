@@ -30,30 +30,21 @@ class Form extends React.Component {
   render() {
 
     return (
-      <div>
 
-          <div className="row">
-              <div className="small-6 small-offset-6 columns">
-                {/*<form onSubmit={this.handleSubmit}>*/}
 
-                    <div className="small-12 columns button-group ">
-                        {/*  Buttons for handling save and starting the service request  */}
-                        <div className="small-2 large-2 columns ">
-                            <label htmlFor="reject" className="button" >Reject</label>
-                            <button type="submit" id="reject" className="show-for-sr" onClick={this.props.handleReject} />
-                        </div>
-
-                        <div className="small-2 large-2 columns">
-                            <label htmlFor="approve" className="button ">Approve</label>
-                            <input type="submit" id="approve" className="show-for-sr" onClick={this.props.handleApprove}  />
-                        </div>
-                    </div>
-
-                {/*</form>*/}
-              </div>
+      <div className="top-bar">
+          <div className="top-bar-right columns">
+              <ul className="menu my-bar">
+                  <li>
+                      <a className="button small my-button" key="service" onClick={this.props.handleReject}>Reject</a>
+                  </li>
+                  <li>
+                      <a className="button small my-button" key="service" onClick={this.props.handleApprove}>Approve</a>
+                  </li>
+              </ul>
           </div>
-
       </div>
+
     );
   }
 }

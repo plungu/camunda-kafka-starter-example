@@ -33,7 +33,6 @@ class Detail extends React.Component{
       <div>
 
         <Info task={this.props.task} />
-        <hr />
         <Form task={this.props.task}
               handleReject={this.props.handleReject}
               handleApprove={this.props.handleApprove}/>

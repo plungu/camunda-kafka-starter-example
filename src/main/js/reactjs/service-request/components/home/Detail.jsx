@@ -52,8 +52,8 @@ class Detail extends React.Component{
       this.toggleForm = this.toggleForm.bind(this)
       this.uuidv4 = this.uuidv4.bind(this);
       this.handleStart = this.handleStart.bind(this);
-      this.handleDone = this.handleDone.bind(this);
-      this.handleSave = this.handleSave.bind(this);
+      // this.handleDone = this.handleDone.bind(this);
+      // this.handleSave = this.handleSave.bind(this);
       this.handleUpdateState = this.handleUpdateState.bind(this);
       this.handleUpdateStartState = this.handleUpdateStartState.bind(this);
       this.post = this.post.bind(this);
@@ -128,6 +128,7 @@ class Detail extends React.Component{
     handleStart(e){
         e.preventDefault();
 
+
         var serviceRequest = {
             serviceId: this.uuidv4(),
         }
@@ -137,40 +138,38 @@ class Detail extends React.Component{
         //post the object to the endpoint to save the Service Request
         this.post(serviceRequest, "sr/create");
 
-        this.setState({
-            serviceRequest: serviceRequest
-        });
+        // this.state.callUpdateAll(this.state.pageSize, this);
 
-        this.state.callUpdateAll(this.state.pageSize, this);
+        this.state.callUpdateItem(serviceRequest.serviceId, this);
 
-        // this.props.history.push('/service');
+        this.toggleForm("service");
 
     }
 
-    handleSave(e){
-        e.preventDefault();
-        console.log("HandleSave: " + JSON.stringify(this.state.serviceRequest));
-        //post the object to the endpoint
-        this.post(this.state.serviceRequest, "sr/save");
-    }
+    // handleSave(e){
+    //     e.preventDefault();
+    //     console.log("HandleSave: " + JSON.stringify(this.state.serviceRequest));
+    //     //post the object to the endpoint
+    //     this.post(this.state.serviceRequest, "sr/save");
+    // }
 
-    handleDone(e){
-        e.preventDefault();
-
-        var serviceRequest = this.state.serviceRequest;
-
-        serviceRequest.started = true;
-
-        console.log("HandleDone: " + JSON.stringify(this.state.serviceRequest));
-        //post the object to the endpoint to save the Service Request
-        this.post(serviceRequest, "sr/save");
-
-        //post the object to the endpoint to Start the workflow
-        this.post(serviceRequest, "sr/start/workflow");
-
-        this.props.onRedirect("/tasks")
-
-    }
+    // handleDone(e){
+    //     e.preventDefault();
+    //
+    //     var serviceRequest = this.state.serviceRequest;
+    //
+    //     serviceRequest.started = true;
+    //
+    //     console.log("HandleDone: " + JSON.stringify(this.state.serviceRequest));
+    //     //post the object to the endpoint to save the Service Request
+    //     this.post(serviceRequest, "sr/save");
+    //
+    //     //post the object to the endpoint to Start the workflow
+    //     this.post(serviceRequest, "sr/start/workflow");
+    //
+    //     this.props.onRedirect("/tasks")
+    //
+    // }
 
     // tag::follow-2[]
     loadAllFromServer(pageSize) {
@@ -268,40 +267,52 @@ class Detail extends React.Component{
                 <ServiceStartForm onUpdateStartState={this.handleUpdateStartState}
                                   onStart={this.handleStart}
                                   serviceRequests={this.state.serviceRequests}
-                                  serviceRequest={this.state.serviceRequest} />
+                                  serviceRequest={this.state.serviceRequest}
+                                  post={this.post}
+                                  onRedirect={this.props.onRedirect}
+                                  toggleForm={this.toggleForm}/>
             </div>
 
           <div className="small-12 columns" style={{display: displayServiceForm}}>
             <ServiceForm serviceRequest={this.state.serviceRequest}
-                         onUpdateState={this.handleUpdateState} />
+                         onUpdateState={this.handleUpdateState}
+                         post={this.post}
+                         onRedirect={this.props.onRedirect}
+                         toggleForm={this.toggleForm}/>
           </div>
 
           <div className="small-12 columns" style={{display: displayServiceDetailForm}}>
             <ServiceDetailForm serviceRequest={this.state.serviceRequest}
-                               onUpdateState={this.handleUpdateState} />
+                               onUpdateState={this.handleUpdateState}
+                               post={this.post}
+                               onRedirect={this.props.onRedirect}
+                               toggleForm={this.toggleForm}/>
           </div>
 
           <div className="small-12 columns" style={{display: displayServiceSupplierForm}}>
             <ServiceSupplierForm serviceRequest={this.state.serviceRequest}
-                                 onUpdateState={this.handleUpdateState} />
+                                 onUpdateState={this.handleUpdateState}
+                                 post={this.post}
+                                 onRedirect={this.props.onRedirect}
+                                 toggleForm={this.toggleForm}/>
           </div>
 
         </form>
 
-          <div className="small-12 columns">
-              {/*  Buttons for handling save and starting the service request  */}
-              <div className="small-4 small-offset-8 large-4 large-offset-0 columns button-group ">
-                  <label htmlFor="save" className="button ">Save</label>
-                  <input type="submit" id="save" className="show-for-sr"
-                         onClick={this.handleSave}/>
-              </div>
+          {/*<div className="small-12 columns">*/}
+          {/*    /!*  Buttons for handling save and starting the service request  *!/*/}
+          {/*    <div className="small-4 small-offset-8 large-4 large-offset-0 columns button-group ">*/}
+          {/*        <label htmlFor="save" className="button ">Save</label>*/}
+          {/*        <input type="submit" id="save" className="show-for-sr"*/}
+          {/*               onClick={this.handleSave}/>*/}
+          {/*    </div>*/}
 
-              <div className="small-1 small-offset-2 large-1 large-offset-2 columns">
-                  <label htmlFor="done" className="button ">Done</label>
-                  <input type="submit" id="done" className="show-for-sr"
-                         onClick={this.handleDone} />
-              </div>
-          </div>
+          {/*    <div className="small-1 small-offset-2 large-1 large-offset-2 columns">*/}
+          {/*        <label htmlFor="done" className="button ">Done</label>*/}
+          {/*        <input type="submit" id="done" className="show-for-sr"*/}
+          {/*               onClick={this.handleDone} />*/}
+          {/*    </div>*/}
+          {/*</div>*/}
 
       </div>
     )

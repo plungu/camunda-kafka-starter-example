@@ -128,45 +128,45 @@ class FilterBar extends React.Component{
                   <li className="menu-text">{this.props.title}</li>
               </ul>
          </div>
-         <div className="top-bar-left">
-             <ul className="menu">
-                  <li>
-                        <label className="text-center">Filter</label>
-                        <select onClick={this.handleFilterAll}>
-                            <option defaultValue>Select</option>
-                            <option>option 1</option>
-                            <option>option 2</option>
-                            <option>option 3</option>
-                        </select>
-                  </li>
-                  <li>
-                      <label className="text-center">Filter</label>
-                      <select onClick={this.handleFilterAll}>
-                          <option defaultValue>Select</option>
-                          <option>option 1</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                      </select>
-                  </li>
-                  <li>
-                      <label className="text-center">Filter</label>
-                      <select onClick={this.handleFilterAll}>
-                          <option defaultValue>Select</option>
-                          <option>option 1</option>
-                          <option>option 2</option>
-                          <option>option 3</option>
-                      </select>
-                  </li>
-              </ul>
-         </div>
+         {/*<div className="top-bar-left">*/}
+         {/*    <ul className="menu">*/}
+         {/*         <li>*/}
+         {/*               <label className="text-center">Filter</label>*/}
+         {/*               <select onClick={this.handleFilterAll}>*/}
+         {/*                   <option defaultValue>Select</option>*/}
+         {/*                   <option>option 1</option>*/}
+         {/*                   <option>option 2</option>*/}
+         {/*                   <option>option 3</option>*/}
+         {/*               </select>*/}
+         {/*         </li>*/}
+         {/*         <li>*/}
+         {/*             <label className="text-center">Filter</label>*/}
+         {/*             <select onClick={this.handleFilterAll}>*/}
+         {/*                 <option defaultValue>Select</option>*/}
+         {/*                 <option>option 1</option>*/}
+         {/*                 <option>option 2</option>*/}
+         {/*                 <option>option 3</option>*/}
+         {/*             </select>*/}
+         {/*         </li>*/}
+         {/*         <li>*/}
+         {/*             <label className="text-center">Filter</label>*/}
+         {/*             <select onClick={this.handleFilterAll}>*/}
+         {/*                 <option defaultValue>Select</option>*/}
+         {/*                 <option>option 1</option>*/}
+         {/*                 <option>option 2</option>*/}
+         {/*                 <option>option 3</option>*/}
+         {/*             </select>*/}
+         {/*         </li>*/}
+         {/*     </ul>*/}
+         {/*</div>*/}
 
          <div className="top-bar-right">
           <ul className="menu">
-              <li>
-                  <div className="button-group small">
-                      {navLinks}
-                  </div>
-              </li>
+              {/*<li>*/}
+              {/*    <div className="button-group small">*/}
+              {/*        {navLinks}*/}
+              {/*    </div>*/}
+              {/*</li>*/}
             <li>
                 <div className="input-group small">
                     <span className="input-group-label">Page Size</span>

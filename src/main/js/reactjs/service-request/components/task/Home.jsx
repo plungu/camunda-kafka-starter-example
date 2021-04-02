@@ -78,7 +78,7 @@ class home extends React.Component {
 
         this.post(serviceRequest, "sr/task/approve");
 
-        this.props.history.push('/home');
+        this.props.history.push('/tasks#');
 
         this.state.callUpdate(this.state.pageSize, this);
         this.handleBackClick();

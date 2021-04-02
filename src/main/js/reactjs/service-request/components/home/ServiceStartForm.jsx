@@ -30,6 +30,7 @@ class ServiceStartForm extends React.Component {
         console.log("Start Form handleChange: "+ JSON.stringify(serviceId));
 
         this.props.onUpdateStartState(serviceId);
+        this.props.toggleForm("service");
     }
 
     render() {
@@ -43,29 +44,28 @@ class ServiceStartForm extends React.Component {
         }
 
         return (
-            <div >
+            <div className="my-form">
 
-                <div className="small-7 large-7 columns">
-                  <div className="input-group">
+                <div className="small-8 small-offset-2 large-8 large-offset-2 columns">
+                    <div className="form-registration-group">
 
-                      <span className="input-group-label">Select Existing Service Request</span>
-                      <select className="input-group-field"
-                            ref="pid"
-                            onChange={this.handleChange}
-                            value={this.props.serviceRequest.serviceId} >
+                        <a className="form-registration-social-button" href="#" onClick={this.props.onStart}>
+                            <i className="fa fa-facebook-official" aria-hidden="true"></i>Start Service Request</a>
+
+                        <select className="form-registration-input"
+                                ref="pid"
+                                onChange={this.handleChange}
+                                value={this.props.serviceRequest.serviceId} >
 
                           <option defaultValue>Please Select</option>
                           {options}
-                      </select>
-                  </div>
+                        </select>
+
+                        <p className="form-registration-member-signin">Already a member? <a href="#">Sign in</a></p>
+                        <p className="form-registration-terms"><a href="#">Terms &amp; Conditions</a>|<a
+                            href="#">Privacy</a></p>
+                    </div>
                 </div>
-
-
-              <div className="small-5 large-5 columns">
-                  <label htmlFor="start" className="button large">Start New Service Request</label>
-                  <input type="submit" id="start" className="show-for-sr"
-                         onClick={this.props.onStart} />
-              </div>
 
             </div>
 
