@@ -1,7 +1,10 @@
 package com.camunda.poc.starter.usecase.servicerequest.kafka.integration;
 
+import org.springframework.context.annotation.Profile;
+
 import java.util.Map;
 
+@Profile("integration")
 public class ServiceRequestEvent {
 
     private ServiceRequest serviceRequest;

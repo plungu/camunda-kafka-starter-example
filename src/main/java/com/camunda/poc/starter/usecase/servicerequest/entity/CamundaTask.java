@@ -1,4 +1,4 @@
-package com.camunda.poc.starter.entity;
+package com.camunda.poc.starter.usecase.servicerequest.entity;
 
 import org.hibernate.annotations.CreationTimestamp;
 

@@ -20,8 +20,11 @@ hs_err_pid*
 .classpath
 /.bpmn/
 /node_modules/
+/node
 application-dev.properties
 /local-test/
 /.idea/
 *.iml
 /angular-starter/
+*/.DS_Store
+/.DS_Store

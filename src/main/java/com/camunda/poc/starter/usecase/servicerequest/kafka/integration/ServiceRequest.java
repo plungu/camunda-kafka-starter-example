@@ -1,7 +1,9 @@
 package com.camunda.poc.starter.usecase.servicerequest.kafka.integration;
 
 import com.camunda.poc.starter.usecase.servicerequest.entity.ServiceRequestEntity;
+import org.springframework.context.annotation.Profile;
 
+@Profile("integration")
 public class ServiceRequest {
     private long id;
     private String serviceId;

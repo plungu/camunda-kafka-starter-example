@@ -49,47 +49,47 @@ public class ServiceRequestEntity {
         return id;
     }
 
-    @Column(nullable=false)
+    @Column(name="service_id", nullable=false)
     private String serviceId;
-    @Column(nullable=true)
+    @Column(name="service_category", nullable=true)
     private String serviceCategory;
-    @Column(nullable=true)
+    @Column(name="service_description", nullable=true)
     private String serviceDescription;
-    @Column(nullable=true)
+    @Column(name="service_owner", nullable=true)
     private String serviceOwner;
-    @Column(nullable=true)
+    @Column(name="service_owner_msid", nullable=true)
     private String serviceOwnerMSID;
-    @Column(nullable=true)
+    @Column(name="sourcing_manager", nullable=true)
     private String sourcingManager;
-    @Column(nullable=true)
+    @Column(name="sourcing_manager_msid", nullable=true)
     private String sourcingManagerMSID;
-    @Column(nullable=true)
+    @Column(name="acquiring_division", nullable=true)
     private String acquiringDivision;
-    @Column(nullable=true)
+    @Column(name="bu_contracting_service", nullable=true)
     private String buContractingService;
-    @Column(nullable=true)
+    @Column(name="le_contracting_service_code", nullable=true)
     private String leContractingServiceCode;
-    @Column(nullable=true)
+    @Column(name="additional_reviewer", nullable=true)
     private String additionalReviewer;
-    @Column(nullable=true)
+    @Column(name="additional_reviewer_msid", nullable=true)
     private String additionalReviewerMSID;
-    @Column(nullable=true)
+    @Column(name="additional_reviewer_notes", nullable=true)
     private String additionalReviewerNotes;
-    @Column(nullable=true)
+    @Column(name="sourcing_comments", nullable=true)
     private String sourcingComments;
-    @Column(nullable=true)
+    @Column(name="application_name", nullable=true)
     private String applicationName;
-    @Column(nullable=true)
+    @Column(name="eon_id", nullable=true)
     private Integer eonId;
-    @Column(nullable=true)
+    @Column(name="estimated_annual_spend", nullable=true)
     private String estimatedAnnualSpend;
-    @Column(nullable=true)
+    @Column(name="service_details_comments", nullable=true)
     private String serviceDetailsComments;
-    @Column(nullable=true)
+    @Column(name="started", nullable=true)
     private boolean started;
-    @Column(nullable=true)
+    @Column(name="approved", nullable=true)
     private boolean approved;
-    @Column(nullable=true)
+    @Column(name="rejected", nullable=true)
     private boolean rejected;
 
     public String getServiceId() {

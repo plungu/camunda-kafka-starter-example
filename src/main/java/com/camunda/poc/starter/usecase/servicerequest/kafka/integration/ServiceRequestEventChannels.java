@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
-@Profile("servicerequest")
+@Profile("integration")
 public interface ServiceRequestEventChannels {
 
     @Output("publishServiceRequest")

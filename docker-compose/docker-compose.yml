@@ -1,33 +1,31 @@
 version: "3.3"
 
 services:
-
 ########################################
 # Camunda Service
 ########################################
-#
-#  camunda-node-1:
-#    build:
-#      context: ../
-#    links:
-#      - db
-#    ports:
-#      - "8080:8080"
-#    environment:
-#      DATABASE_URL: jdbc:postgresql://db:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
-#      DATABASE_DRIVER: org.postgresql.Driver
-#      SERVER_PORT: 8080
-#      MAX_POOL_SIZE: 3
-##      RABBITMQ_HOST: rabbitmq-mgmt
-##      ADMIN_CLIENT_URL: http://camunda-node-1:8080
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '2'
-#          memory: 1000M
-#        reservations:
-#          cpus: '2'
-#          memory: 1000M
+  camunda-node-1:
+    build:
+      context: ../
+    links:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/camunda?user=camunda&password=camunda&characterEncoding=UTF-8&reWriteBatchedInserts=true
+      DATABASE_DRIVER: org.postgresql.Driver
+      SERVER_PORT: 8080
+      MAX_POOL_SIZE: 3
+#      RABBITMQ_HOST: rabbitmq-mgmt
+#      ADMIN_CLIENT_URL: http://camunda-node-1:8080
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1000M
+        reservations:
+          cpus: '2'
+          memory: 1000M
 
 ########################################
 # Postgres Service
@@ -45,24 +43,23 @@ services:
 #  initialSize: 5
 #  removeAbandoned: true
 ########################################
-#
-#  db:
-#    image: library/postgres:12.2
-#    restart: always
-#    environment:
-#      POSTGRES_USER: camunda
-#      POSTGRES_PASSWORD: camunda
-#      POSTGRES_DB: camunda
-#    ports:
-#      - "5432:5432"
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '3'
-#          memory: 5000M
-#        reservations:
-#          cpus: '3'
-#          memory: 2000M
+  db:
+    image: library/postgres:12.2
+    restart: always
+    environment:
+      POSTGRES_USER: camunda
+      POSTGRES_PASSWORD: camunda
+      POSTGRES_DB: camunda
+    ports:
+      - "5432:5432"
+    deploy:
+      resources:
+        limits:
+          cpus: '3'
+          memory: 5000M
+        reservations:
+          cpus: '3'
+          memory: 2000M
 
 #########################################
 # Camunda Optimize
@@ -108,6 +105,7 @@ services:
       - '2181:2181'
     environment:
       - ALLOW_ANONYMOUS_LOGIN=yes
+
   kafka:
     image: 'bitnami/kafka:latest'
     ports:
@@ -116,7 +114,7 @@ services:
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_LISTENERS=PLAINTEXT://:9092
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://127.0.0.1:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://:9092
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - ALLOW_PLAINTEXT_LISTENER=yes
 #      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT

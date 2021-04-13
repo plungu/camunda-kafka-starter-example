@@ -262,11 +262,11 @@ class Detail extends React.Component{
 
         {/*<div></div>*/}
 
-          <div className="my-form">
+        <div className="row">
 
-            <div className="row">
+          <div className="my-form small-10 small-offset-1 large-10 large-offset-1 columns">
+
             <form>
-                <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
                     <div className="input-group">
                         <select className="form-registration-input"
                                 ref="pid"
@@ -277,9 +277,7 @@ class Detail extends React.Component{
                             {options}
                         </select>
                     </div>
-                </div>
 
-              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
                   <div className="input-group">
                       <span className="input-group-label">Service Category</span>
 
@@ -296,37 +294,28 @@ class Detail extends React.Component{
                       </select>
 
                   </div>
-              </div>
 
-              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
                   <div className="input-group">
                         <textarea rows="5" ref="serviceDescription"
                                   placeholder="Service Description"
                                   onChange={this.handleInputChange}
                                   value={this.state.serviceRequest.serviceDescription}/>
                   </div>
-              </div>
 
-
-              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
                   <div className="input-group">
                       <span className="input-group-label">Service Owner</span>
                       <input className="input-group-field" type="text"
                              ref="serviceOwner" onChange={this.handleInputChange}
                              value={this.state.serviceRequest.serviceOwner} />
                   </div>
-              </div>
 
-              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
                   <div className="input-group">
                       <span className="input-group-label">Sourcing Manager</span>
                       <input className="input-group-field" type="text"
                              ref="sourcingManager" onChange={this.handleInputChange}
                              value={this.state.serviceRequest.sourcingManager}/>
                   </div>
-              </div>
 
-              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
                   <div className="input-group">
                       <span className="input-group-label">Acquiring Division</span>
                       <select className="input-group-field" ref="acquiringDivision"
@@ -340,26 +329,22 @@ class Detail extends React.Component{
                           <option value="5">Division 4 </option>
                       </select>
                   </div>
-              </div>
 
-              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
                   <textarea rows="5" ref="sourcingComments"
                             placeholder="Sourcing Comments"
                             onChange={this.handleInputChange}
                             value={this.state.serviceRequest.sourcingComments}/>
-              </div>
 
-              <div className="small-7 small-offset-2 large-7 large-offset-2 columns">
                   <div className="input-group">
                       <span className="input-group-label">Supplier</span>
                       <input className="input-group-field" type="text" ref="buContractingService"
                              onChange={this.handleInputChange}
                              value={this.state.serviceRequest.buContractingService} />
                   </div>
-              </div>
 
             </form>
-            </div>
+
+           </div>
 
           </div>
 

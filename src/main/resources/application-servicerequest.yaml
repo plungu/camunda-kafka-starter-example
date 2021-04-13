@@ -7,6 +7,9 @@ server.servlet.context-path: /
 #Spring Rest API context path
 spring.data.rest.base-path: /api
 
-
 # How database updates should be handled
-spring.jpa.hibernate.ddl-auto=update
+spring:
+    jpa:
+        hibernate:
+            ddl-auto: none
+

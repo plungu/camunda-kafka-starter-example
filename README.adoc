@@ -28,15 +28,24 @@ This section of the workflow demonstrates the possibility to use DMN and busines
 ====
 
 ## Running the use-case
-IMPORTANT: Running the app once with no profile is necessary to initalize the Camunda database.
-```
-mvn spring-boot:run
-```
 
-Then again with the profiles
+There are two possibilities to run the demo.
+
+- 1. Use spring-boot at the command line. This will require that you run Kafaka at the command line as well and have it configured. You can use the kafka install.
+
 ```
 mvn spring-boot:run -Dspring.profiles.active=servicerequest,integration,cors
 ```
+
+- 2. Use docker-compose. This should allow you to simple run the in a self contained manner. You must have docker installed on the machine.
+
+```
+docker-compose up
+```
+
+- 3. Use Kuberneties. This is still in progress.
+
+### Using Profiles
 
 **Profiles** can be specified at the command line when the application starts. The notation is as follows.
 

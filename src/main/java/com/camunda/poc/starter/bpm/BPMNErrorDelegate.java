@@ -27,6 +27,7 @@ public class BPMNErrorDelegate implements JavaDelegate {
             + ", processInstanceId=" + execution.getProcessInstanceId()
             + ", businessKey=" + execution.getProcessBusinessKey()
             + ", executionId=" + execution.getId()
+            + ", tennantId=" + execution.getTenantId()
             + " \n\n");
 
 //    throw new BpmnError("217");

@@ -26,7 +26,8 @@ spring:
   h2.console.enabled: true
 
   jpa:
-    generate-ddl: false
+#    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: false
     hibernate.ddl-auto: none
 
 camunda.bpm:
