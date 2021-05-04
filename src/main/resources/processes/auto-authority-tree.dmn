@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="Definitions_0negj7c" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.0.0">
+  <decision id="calculate-ratings" name="Calculate Ratings">
+    <decisionTable id="DecisionTable_15pr0ie">
+      <input id="Input_1">
+        <inputExpression id="InputExpression_1" typeRef="boolean">
+          <text>approved</text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="someVar" name="someVar" typeRef="string" />
+    </decisionTable>
+  </decision>
+</definitions>
