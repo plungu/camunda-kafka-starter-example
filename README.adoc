@@ -46,7 +46,7 @@ docker-compose up
 - 3. Use Kuberneties. This is still in progress.
 
 ### Using Profiles
-
+====
 **Profiles** can be specified at the command line when the application starts. The notation is as follows.
 
 `-Dspring.profiles.active=servicerequest,integration,cors`
@@ -56,6 +56,7 @@ Or you can use the application.properties file to specify the profile.
 ```yaml
 spring.profiles.active: servicerequest,integration,cors
 ```
+====
 
 IMPORTANT: Using Camunda Enterprise - it's necessary to request a Camunda Enterprise License.
 
@@ -123,7 +124,7 @@ The Service Request Event meta-data helps other components understand what to do
 ====
 
 ### ReactJS UI Integration
-
+====
 The Maven frontend-maven-plugin configured in pom.xml is used to build the ReactJS app. The plugin creates a bundle.js file which ends up in `src/main/resources/static/built/bundle.js`. The static directory makes static resources such as JS and HTML available to the java app.
 
 The Java application boot-straps the ReactJS App through Thymeleaf a java/spring frontend framework. The templates directory `src/main/resources/templates/app.html` has a HTML file app.html which calls the React app through a `<script />` tag loading the HTML into the react div `<div id="react"></div>`
@@ -136,9 +137,14 @@ Webpack and package.json define the structure and dependencies for the React App
 
 Foundation CSS is used for styling https://get.foundation/sites/docs/index.html
 
+NOTE: The react app is built in this manner, wrapped in spring-boot app, for convenience and consistency. This makes dev-ops, demoing and getting started easier and may not be appropriate for other technology stacks and dev-ops scenarios.
+
+====
+
 ### Handling Business Data and UI Integration
 TIP: see the pattern described in the Camunda Best Practices https://camunda.com/best-practices/handling-data-in-processes/ and https://camunda.com/best-practices/enhancing-tasklists-with-business-data/
 
+====
 Often and for numerous reasons we need to consolidate data from different sources. In this app I use JPA and Spring REST with some of springs features to build a custom API. Primarily for making integration with the UI easier. Here are few reasons why I take this approach.
 
 - Reduce queries the UI does to the backend
@@ -147,6 +153,7 @@ Often and for numerous reasons we need to consolidate data from different source
 - Have a source of truth for process meta-data
 
 NOTE: Also keep in mind I want to keep every-thing self contained for PoC purposes. Think in logical terms and that these components could be another technology or several other technologies depending on the specific needs.
+====
 
 #### How does it work
 ====
@@ -164,8 +171,10 @@ https://spring.io/blog/2011/02/10/getting-started-with-spring-data-jpa[Spring Da
 ====
 
 ## Developing with this PoC Starter Project
+
 #### Setting up React for Dev
 
+====
 - Configure the api endpoint. This is the backend spring-boot server where the react app gets data
 ```
 In the .env file in the project home directory change the environment variables to match the spring-boot server context.
@@ -185,24 +194,45 @@ In the .env file in the project home directory change the environment variables 
 ```
 nodemon server.js
 ```
-also run the web-pack watch in the project home so you can update the bundle as you build reactjs
+also run the web-pack watch in the project home so you can update the bundle as you modify reactjs
 ```
 webpack -w
 ```
 
+IMPORTANT: You may need to install nodejs, nodemon and webpack depending on your environment setup
+
+====
+
 #### Running the server for Dev
+
+====
 NOTE: you need to run the cors profile when using nodemon
 
-- Also note you can use spring-dev-tools to build front and back-end component in dev mode providing faster restarts and live-reload.
+NOTE: you can enable spring-dev-tools to build front and back-end component in dev mode providing faster restarts and live-reload.
 
-for dev mode run the following with the appropriate profiles
+If you are developing only front-end components than you can user docker-compose and follow the React setup above.
+
+cd to the docker-compose directory and run
+```
+docker-compose up
+```
+
+For development on the backed use run the spring-boot app on command line
+
+You can also run the app in dev mode by uncommenting spring-dev-tools in pom.xml
+
+WARNING: spring-dev-tools affects the way Camunda serializes objects into process vars and will cause serialization errors in some cases. So it is commented out in pom.xml by default.
+
+run the following with the appropriate profiles
+
 ```
 mvn spring-boot:run mvn spring-boot:run -Dspring.profiles.active=servicerequest,integration,cors
 ```
 
-WARNING: spring-dev-tools affects the way Camunda serializes objects into process vars and will cause serialization errors in some cases. So it is commented out in pom.xml by default.
+====
 
 #### Running Kafka
+====
 NOTE: A simple Kafka congfig is packaged into docker-compose. See `docker-compose` directory in the project home folder. Also you can run docker compose as follows.
 ```
  docker-compose up
@@ -215,3 +245,4 @@ NOTE: I use the consumer in the kafka distro during dev to see when messages are
 ```
 ./bin/kafka-console-consumer.sh --topic service-request-events --bootstrap-server localhost:9092
 ```
+====

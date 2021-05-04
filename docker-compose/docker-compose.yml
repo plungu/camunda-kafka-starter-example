@@ -4,7 +4,7 @@ services:
 ########################################
 # Camunda Service
 ########################################
-  camunda-node-1:
+  camunda-kafka-node-1:
     build:
       context: ../
     links:
@@ -43,7 +43,7 @@ services:
 #  initialSize: 5
 #  removeAbandoned: true
 ########################################
-  db:
+  db-camunda-kafka:
     image: library/postgres:12.2
     restart: always
     environment:

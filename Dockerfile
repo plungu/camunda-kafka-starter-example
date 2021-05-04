@@ -8,7 +8,7 @@ COPY webpack.config.js webpack.config.js
 COPY .env .env
 COPY src/ src/
 
-RUN mvn -s settings.xml dependency:resolve-plugins dependency:resolve clean package -DskipTests --activate-profiles !default
+RUN mvn -s settings.xml dependency:resolve-plugins dependency:resolve clean package -DskipTests -Dhttps.protocols=TLSv1.1,TLSv1.2 --activate-profiles !default
 RUN mvn clean package -DskipTests
 
 # create another image layer and run the app that was built
