@@ -1,0 +1,52 @@
+
+## Running the use-case
+
+===== Option 1. Use spring-boot at the command line
+```
+mvn spring-boot:run -Dspring.profiles.active=servicerequest,integration,cors
+```
+
+===== Option 2. Use docker-compose
+This should allow you to simple run the in a self contained manner. You must have docker installed on the machine.
+```
+docker-compose up
+```
+
+===== Option 3. Build the jar
+Build the .jar with maven
+
+  mvn clean package -DskipTests
+
+Run the .jar with java
+
+java -Dspring.profiles.active=servicerequest,integration,cors -jar ./target/camunda-poc-starter.jar
+
+===== Option 4. Use Kuberneties and Delcaritive Infra
+This is still in progress.
+
+
+### Using Profiles
+====
+**Profiles** can be specified at the command line when the application starts. The notation is as follows.
+
+`-Dspring.profiles.active=servicerequest,integration,cors`
+
+Or you can use the application.properties file to specify the profile.
+
+```yaml
+spring.profiles.active: servicerequest,integration,cors
+```
+====
+
+IMPORTANT: Using Camunda Enterprise - it's necessary to request a Camunda Enterprise License.
+
+//### Loading Test Data
+//TODO: Create REST end-point to parse csv and load service request data, start processes associating with a service id/business key
+
+### See it running
+====
+  Visit `http://<server>:<port>/sr` to access the React app
+
+  Visit `http://<server>:<port>/camunda/app/cockpit` to access Camunda Cockpit
+
+====

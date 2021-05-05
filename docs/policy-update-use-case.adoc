@@ -1,0 +1,25 @@
+## Use Case
+
+Service Request use-case is focused on demonstrating the service request process through Web Based UI, Notifications and Camunda workflow. The service request process models several human review steps where a approval or rejection can happen. As well as system interactions through async over TCP communications with eventing system (Kafak) and synchronous communications through HTTP/REST in a point to point pattern.
+
+image:./docs/images/service-request-workflow-model.png[Service Request BPMN]
+This can server as an example for designing distributed systems with workflow engines as an orchestrator in a choreographed event oriented architecture.
+
+
+#### Interesting points in the process
+image:./docs/images/service-request-approval-and-integration.png[Service Request BPMN]
+====
+This section of the process is particularly interesting and packed with functionality. At the workflow level we are orchestrating user tasks for the explicit multilevel review of service requests. After each review we send a Event to kafka potentially notifying other systems, like a UI, about the completion of the task and update of the service request.
+
+Notice on the rejection path no User Task is defined for Requester of the service request. This is intentional to signify that the Requestor can be notified in many ways about the rejection and the method of updating the service request is not important to the workflow itself. In technical terms this signifies a loose coupling for these events due to the workflow not orchestrating the interaction rather using a choreography approach. Essentially all the workflow cares about is the rejection is handled in some way but no idea how it happens.
+====
+
+
+image:./docs/images/service-request-error-handling.png[Service Request BPMN]
+====
+This section of the process demonstrates the capability to explicitly handle errors and potentially compensate or retry certain activities in the workflow.
+====
+image:./docs/images/service-request-biz-calcs.png[Service Request BPMN]
+====
+This section of the workflow demonstrates the possibility to use DMN and business rules to accomplish the assessment calculations.
+====

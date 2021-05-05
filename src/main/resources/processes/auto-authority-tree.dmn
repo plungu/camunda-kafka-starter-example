@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="Definitions_0negj7c" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.0.0">
-  <decision id="calculate-ratings" name="Calculate Ratings">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="Definitions_0negj7c" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+  <decision id="auto-authority-tree" name="Auto Authority Tree">
     <decisionTable id="DecisionTable_15pr0ie">
       <input id="Input_1">
         <inputExpression id="InputExpression_1" typeRef="boolean">
@@ -10,4 +10,11 @@
       <output id="Output_1" label="someVar" name="someVar" typeRef="string" />
     </decisionTable>
   </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0ruqxex">
+      <dmndi:DMNShape id="DMNShape_0gt4zmn" dmnElementRef="auto-authority-tree">
+        <dc:Bounds height="80" width="180" x="150" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
 </definitions>

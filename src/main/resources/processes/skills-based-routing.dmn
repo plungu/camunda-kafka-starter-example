@@ -1,13 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" id="Definitions_0negj7c" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.0.0">
-  <decision id="calculate-ratings" name="Calculate Ratings">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="Definitions_" name="DRD_skills-based-routing-rule" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+  <decision id="skills-based-routing-rule" name="Skills Based Routing Rule">
     <decisionTable id="DecisionTable_15pr0ie">
       <input id="Input_1">
         <inputExpression id="InputExpression_1" typeRef="boolean">
-          <text>approved</text>
+          <text>policyType</text>
         </inputExpression>
       </input>
-      <output id="Output_1" label="someVar" name="someVar" typeRef="string" />
+      <output id="Output_1" label="assignee" name="someVar" typeRef="string" />
+      <rule id="DecisionRule_0065bdq">
+        <inputEntry id="UnaryTests_0wgncxw">
+          <text>"umbrella"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1pqswn8">
+          <text>"group-a"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1umsh0t">
+        <inputEntry id="UnaryTests_0hgbon3">
+          <text>"auto"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1f4iybx">
+          <text>"group-b"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1ofs8uz">
+        <inputEntry id="UnaryTests_0ym8bcy">
+          <text>"property-casulaty"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_02jdkh7">
+          <text>"group-c"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0tlyz2v">
+        <inputEntry id="UnaryTests_117bkr5">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_01crlee">
+          <text></text>
+        </outputEntry>
+      </rule>
     </decisionTable>
   </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="DMNDiagram_0k5c2hd">
+      <dmndi:DMNShape id="DMNShape_05opwmd" dmnElementRef="skills-based-routing-rule">
+        <dc:Bounds height="80" width="180" x="150" y="80" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
 </definitions>

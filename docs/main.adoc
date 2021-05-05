@@ -1,0 +1,26 @@
+= Workflow Business Case: Ordering with Approvals and Complex Business Data
+Doc Writer <paul.lungu@camunda.com>
+v1.0, 2020-06-01
+:toc: right
+
+#### https://github.com/plungu/camunda-chubb-poc-starter[Go to Code]
+
+See the https://github.com/plungu/camunda-chubb-poc-starter[code in github]. You can downlaod and run the project.
+
+include::./policy-update-use-case.adoc[]
+
+include::./running-use-case.adoc[]
+
+include::./using-enterprise-camunda.adoc[]
+
+include::./postman-testing.adoc[]
+
+include::./architecture.adoc[]
+
+include::./ui-integration.adoc[]
+
+include::./handling-business-data.adoc[]
+
+include::./developer-how-to.adoc[]
+
+include::./other-tools.adoc[]
