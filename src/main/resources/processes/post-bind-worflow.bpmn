@@ -56,7 +56,7 @@
     <bpmn:startEvent id="StartEvent_1" name="Start Policy Update">
       <bpmn:outgoing>Flow_08rk3ba</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:userTask id="Activity_00h4lke" name="Triage">
+    <bpmn:userTask id="Activity_00h4lke" name="Triage" camunda:assignee="${assignee}">
       <bpmn:incoming>Flow_08rk3ba</bpmn:incoming>
       <bpmn:outgoing>Flow_1ygwkvi</bpmn:outgoing>
     </bpmn:userTask>
@@ -68,20 +68,26 @@
     <bpmn:endEvent id="Event_1msk24b">
       <bpmn:incoming>Flow_01xuz5d</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:businessRuleTask id="Activity_0t9c91q" name="Auto Authority Decision Tree" camunda:resultVariable="group" camunda:decisionRef="auto-authority-tree" camunda:mapDecisionResult="singleEntry">
+    <bpmn:businessRuleTask id="Activity_0t9c91q" name="Auto Authority Decision Tree" camunda:resultVariable="route" camunda:decisionRef="auto-authority-tree" camunda:mapDecisionResult="singleEntry">
       <bpmn:incoming>Flow_1ygwkvi</bpmn:incoming>
       <bpmn:outgoing>Flow_0zu6pl0</bpmn:outgoing>
     </bpmn:businessRuleTask>
-    <bpmn:userTask id="Activity_0xzc1vn" name="Processing Center Rep">
+    <bpmn:userTask id="Activity_0xzc1vn" name="Processing Center Rep" camunda:candidateGroups="${group}">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="${emailDelegate}" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_0eg5e7m</bpmn:incoming>
       <bpmn:incoming>Flow_1niwnd7</bpmn:incoming>
       <bpmn:outgoing>Flow_01xuz5d</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:userTask id="Activity_1ufzw15" name="Underwriting Assitant">
+    <bpmn:userTask id="Activity_1ufzw15" name="Underwriting Assitant" camunda:assignee="${assignee}">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="${emailDelegate}" event="start" />
+      </bpmn:extensionElements>
       <bpmn:incoming>Flow_1wqfepx</bpmn:incoming>
       <bpmn:outgoing>Flow_0eg5e7m</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:businessRuleTask id="skills-based-routing-rule" name="Skills Based Routing Rule" camunda:decisionRef="skills-based-routing-rule">
+    <bpmn:businessRuleTask id="skills-based-routing-rule" name="Skills Based Routing Rule" camunda:resultVariable="group" camunda:decisionRef="skills-based-routing-rule" camunda:mapDecisionResult="singleEntry">
       <bpmn:incoming>Flow_0996reb</bpmn:incoming>
       <bpmn:outgoing>Flow_1niwnd7</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -119,10 +125,10 @@
     <bpmn:sequenceFlow id="Flow_01xuz5d" sourceRef="Activity_0xzc1vn" targetRef="Event_1msk24b" />
     <bpmn:sequenceFlow id="Flow_0eg5e7m" sourceRef="Activity_1ufzw15" targetRef="Activity_0xzc1vn" />
     <bpmn:sequenceFlow id="Flow_1wqfepx" name="Yes" sourceRef="Gateway_0r0wbkj" targetRef="Activity_1ufzw15">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${route == "underwriting"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0996reb" name="No" sourceRef="Gateway_0r0wbkj" targetRef="skills-based-routing-rule">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${false}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${route == "processing"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0zu6pl0" sourceRef="Activity_0t9c91q" targetRef="Gateway_0r0wbkj" />
     <bpmn:sequenceFlow id="Flow_08rk3ba" sourceRef="StartEvent_1" targetRef="Activity_00h4lke" />

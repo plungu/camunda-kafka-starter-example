@@ -33,6 +33,7 @@ class home extends React.Component {
         this.state = {
             tasks: [],
             task: null,
+            workflowVariables: {variables:{}, withVariablesInReturn: true},
             policy: {},
             isLoading: false,
             attributes: [],
@@ -55,6 +56,7 @@ class home extends React.Component {
         this.handleApprove = this.handleApprove.bind(this);
         this.handleReject = this.handleReject.bind(this);
         this.handleStart = this.handleStart.bind(this);
+        this.updateWorkflowVariables = this.updateWorkflowVariables.bind(this);
         this.post = this.post.bind(this);
     }
 
@@ -72,20 +74,23 @@ class home extends React.Component {
     }
     // end::follow-1[]
 
-    handleApprove(e){
-        e.preventDefault();
+    updateWorkflowVariables(variables) {
+        let updatedVariables = this.state.workflowVariables;
+        updatedVariables.variables = variables;
+        this.setState({
+            workflowVariables: updatedVariables
+        });
+    }
 
-        var serviceRequest = this.state.task.serviceRequest;
-        serviceRequest.approved = true;
+    handleApprove(task){
 
-        console.log("HandleApprove: " + JSON.stringify(serviceRequest));
+        let variables = this.state.workflowVariables;
 
-        this.post(serviceRequest, "sr/save");
-        this.post(serviceRequest, "sr/task/approve");
+        console.log("Task -> Home -> HandleApprove: " + JSON.stringify(variables));
+
+        this.post('POST', variables, `engine-rest/task/${this.state.task.id}/complete`);
 
         this.props.history.push('/tasks#');
-        this.state.callUpdate(this.state.pageSize, this);
-        this.handleBackClick();
     }
 
     handleReject(e){
@@ -107,7 +112,7 @@ class home extends React.Component {
         console.log("Task -> Home -> HandleStart: " + JSON.stringify(task));
         console.log("Task -> Home -> HandleStart: " + JSON.stringify(policy));
 
-        this.post('POST', {"messageName" : "start-credit-check-event", "businessKey" : policy.qrCode }, `engine-rest/message`);
+        this.post('POST', {"messageName" : "start-credit-check-event", "businessKey" : policy.coPolicyNo }, `engine-rest/message`);
         // this.post("PATCH", {creditCheckStarted: true}, `api/policyEntities/${policy.id}`)
 
         this.props.history.push('/tasks');
@@ -189,7 +194,7 @@ class home extends React.Component {
 
         console.log("Task -> Home -> handleUpdatePolicy: "+ JSON.stringify(policy))
 
-        this.loadPolicyFromServer(policy.qrCode)
+        this.loadPolicyFromServer(policy.coPolicyNo)
 
     }
 
@@ -242,7 +247,7 @@ class home extends React.Component {
         follow(client, apiRoot, [
                 {rel: 'policyEntities'},
                 {rel: 'search'},
-                {rel: 'findPolicyEntitiesByQrCode', params: {qrCode: id}}
+                {rel: 'findPolicyEntitiesByCoPolicyNo', params: {coPolicyNo: id}}
             ]
         ).then(itemCollection => {
             return client({
@@ -269,6 +274,7 @@ class home extends React.Component {
       if (this.state.task !== null) {
         item = <Detail  task={this.state.task}
                         policy={this.state.policy}
+                        updateWorkflowVariables={this.updateWorkflowVariables}
                         displayInfo={this.state.displayInfo}
                         displayLine={this.state.displayLine}
                         handleReject={this.handleReject}

@@ -152,6 +152,12 @@ label.text-center {
     background-color: #fefefe
 }
 
+.my-form.my-info {
+    padding-top: 5rem;
+    padding-bottom: 0rem;
+    background-color: #fefefe
+}
+
 .my-form.detail-form {
 
     padding-bottom: 41rem;

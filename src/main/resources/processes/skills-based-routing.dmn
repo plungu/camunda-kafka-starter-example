@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="Definitions_" name="DRD_skills-based-routing-rule" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="Definitions_" name="DRD_skills-based-routing-rule" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
   <decision id="skills-based-routing-rule" name="Skills Based Routing Rule">
     <decisionTable id="DecisionTable_15pr0ie">
-      <input id="Input_1">
-        <inputExpression id="InputExpression_1" typeRef="boolean">
+      <input id="Input_1" biodi:width="192">
+        <inputExpression id="InputExpression_1" typeRef="string">
           <text>policyType</text>
         </inputExpression>
       </input>
-      <output id="Output_1" label="assignee" name="someVar" typeRef="string" />
+      <output id="Output_1" label="group" name="group" typeRef="string" />
       <rule id="DecisionRule_0065bdq">
         <inputEntry id="UnaryTests_0wgncxw">
           <text>"umbrella"</text>
@@ -34,10 +34,10 @@
       </rule>
       <rule id="DecisionRule_0tlyz2v">
         <inputEntry id="UnaryTests_117bkr5">
-          <text></text>
+          <text>"ciber"</text>
         </inputEntry>
         <outputEntry id="LiteralExpression_01crlee">
-          <text></text>
+          <text>"group-c"</text>
         </outputEntry>
       </rule>
     </decisionTable>

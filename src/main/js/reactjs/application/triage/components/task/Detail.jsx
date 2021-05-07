@@ -34,7 +34,8 @@ class Detail extends React.Component{
           <Info task={this.props.task}
                 policy={this.props.policy}/>
 
-          <OptionForm policy={this.props.policy} />
+          <OptionForm policy={this.props.policy}
+                      updateWorkflowVariables={this.props.updateWorkflowVariables}/>
 
           <ActionForm task={this.props.task}
               handleReject={this.props.handleReject}

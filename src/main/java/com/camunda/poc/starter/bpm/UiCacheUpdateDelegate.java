@@ -38,7 +38,7 @@ public class UiCacheUpdateDelegate implements JavaDelegate {
             + ", executionId=" + execution.getId()
             + " \n\n");
 
-    PolicyEntity policy = policyRepository.findPolicyEntitiesByQrCode(execution.getBusinessKey());
+    PolicyEntity policy = policyRepository.findPolicyEntitiesByCoPolicyNo(execution.getBusinessKey());
 
     policy.setCreditCheckStarted(false);
 

@@ -48,7 +48,7 @@ class Info extends React.Component{
                    <p className="feature-desc">Application Owner Information</p>
                    <div className="card-section" style={{borderTop: "1px dashed #3adb76"}}>
                        <ul>
-                           <li><span className="label">QR Code</span><span className="data">{this.props.item.qrCode}</span></li>
+                           <li><span className="label">QR Code</span><span className="data">{this.props.item.coPolicyNo}</span></li>
                            <li><span className="label">Quantity</span><span className="data">{this.props.item.quantity}</span></li>
                        </ul>
                    </div>

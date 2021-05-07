@@ -19,18 +19,21 @@ public class PolicyEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name="product", nullable=false)
-    private String product;
-    @Column(name="pmi_code", nullable=true)
-    private String pmiCode;
-    @Column(name="pmi_description", nullable=true)
-    private String pmiDescription;
-    @Column(name="qr_code", nullable=true)
-    private String qrCode;
-    @Column(name="product_image", nullable=true)
-    private String productImage;
-    @Column(name="quantity", nullable=true)
-    private Integer quantity;
+    @Column(name="co_policy_no", nullable=true)
+    private String coPolicyNo;
+
+    @Column(name="co_policy_term", nullable=true)
+    private String coPolicyTerm;
+
+    @Column(name="co_insured_nm", nullable=true)
+    private String coInsuredNm;
+
+    @Column(name="co_quote_no", nullable=true)
+    private String coQuoteNo;
+
+    @Column(name="co_ins_co_nm", nullable=true)
+    private String coInsCoNm;
+
     @Column(name="credit_check_started", nullable=true)
     private boolean creditCheckStarted;
 
@@ -38,55 +41,47 @@ public class PolicyEntity {
         return id;
     }
 
-    public String getProduct() {
-        return product;
+    public String getCoPolicyNo() {
+        return coPolicyNo;
     }
 
-    public void setProduct(String product) {
-        this.product = product;
+    public void setCoPolicyNo(String coPolicyNo) {
+        this.coPolicyNo = coPolicyNo;
     }
 
-    public String getPmiCode() {
-        return pmiCode;
+    public String getCoPolicyTerm() {
+        return coPolicyTerm;
     }
 
-    public void setPmiCode(String pmiCode) {
-        this.pmiCode = pmiCode;
+    public void setCoPolicyTerm(String coPolicyTerm) {
+        this.coPolicyTerm = coPolicyTerm;
     }
 
-    public String getPmiDescription() {
-        return pmiDescription;
+    public String getCoInsuredNm() {
+        return coInsuredNm;
     }
 
-    public void setPmiDescription(String pmiDescription) {
-        this.pmiDescription = pmiDescription;
+    public void setCoInsuredNm(String coInsuredNm) {
+        this.coInsuredNm = coInsuredNm;
     }
 
-    public String getQrCode() {
-        return qrCode;
+    public String getCoQuoteNo() {
+        return coQuoteNo;
     }
 
-    public void setQrCode(String qrCode) {
-        this.qrCode = qrCode;
+    public void setCoQuoteNo(String coQuoteNo) {
+        this.coQuoteNo = coQuoteNo;
     }
 
-    public String getProductImage() {
-        return productImage;
+    public String getCoInsCoNm() {
+        return coInsCoNm;
     }
 
-    public void setProductImage(String productImage) {
-        this.productImage = productImage;
+    public void setCoInsCoNm(String coInsCoNm) {
+        this.coInsCoNm = coInsCoNm;
     }
 
-    public Integer getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(Integer quantity) {
-        this.quantity = quantity;
-    }
-
-    public boolean getCreditCheckStarted() {
+    public boolean isCreditCheckStarted() {
         return creditCheckStarted;
     }
 

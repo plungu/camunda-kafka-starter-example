@@ -27,7 +27,7 @@ class SearchForm extends React.Component {
         e.preventDefault();
         var policy = this.props.policy;
 
-        policy.qrCode = this.refs.policyId.value;
+        policy.coPolicyNo = this.refs.policyId.value;
 
         this.props.handleUpdatePolicy(policy);
     }
@@ -36,7 +36,7 @@ class SearchForm extends React.Component {
 
       var policyId = "";
       if (this.props.policy != null){
-          policyId = this.props.policy.qrCode;
+          policyId = this.props.policy.coPolicyNo;
       }
 
     return (

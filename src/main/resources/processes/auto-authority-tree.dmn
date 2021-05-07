@@ -1,13 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="Definitions_0negj7c" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" id="Definitions_0negj7c" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.5.0">
   <decision id="auto-authority-tree" name="Auto Authority Tree">
     <decisionTable id="DecisionTable_15pr0ie">
-      <input id="Input_1">
-        <inputExpression id="InputExpression_1" typeRef="boolean">
-          <text>approved</text>
+      <input id="Input_1" biodi:width="192">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text>type</text>
         </inputExpression>
       </input>
-      <output id="Output_1" label="someVar" name="someVar" typeRef="string" />
+      <output id="Output_1" label="route" name="route" typeRef="string" />
+      <rule id="DecisionRule_11nflne">
+        <inputEntry id="UnaryTests_0jgoy50">
+          <text>"cop"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0tpuxhf">
+          <text>"processing"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1qy1nov">
+        <inputEntry id="UnaryTests_0f35gh4">
+          <text>"er"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16xxdz8">
+          <text>"underwriting"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1tfopm0">
+        <inputEntry id="UnaryTests_123v6wp">
+          <text>"lpmc"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0wiy5zv">
+          <text>"processing"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1g4dvo4">
+        <inputEntry id="UnaryTests_1epigrb">
+          <text>"mlac"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_16p6wor">
+          <text>"processing"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_052n94b">
+        <inputEntry id="UnaryTests_11d15uz">
+          <text>"fs4"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1tgciav">
+          <text>"underwriting"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_02sckql">
+        <inputEntry id="UnaryTests_11cil5p">
+          <text>"20plus"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1h7hqjz">
+          <text>"underwriting"</text>
+        </outputEntry>
+      </rule>
     </decisionTable>
   </decision>
   <dmndi:DMNDI>

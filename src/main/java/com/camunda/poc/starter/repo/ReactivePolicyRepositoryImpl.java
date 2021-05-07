@@ -23,7 +23,7 @@ public class ReactivePolicyRepositoryImpl implements ReactivePolicyRepository{
 
 	public Mono<PolicyEntity> findPolicyById(String id){
 //		PolicyEntity p = policyRepository.findPolicyEntitiesById(id);
-		PolicyEntity p = policyRepository.findPolicyEntitiesByQrCode(id);
+		PolicyEntity p = policyRepository.findPolicyEntitiesByCoPolicyNo(id);
 		return Mono.just(p);
 	}
 

@@ -15,7 +15,7 @@ public interface PolicyRepository extends PagingAndSortingRepository<PolicyEntit
 
 	PolicyEntity findPolicyEntitiesById(@Param("id") String id);
 
-	PolicyEntity findPolicyEntitiesByQrCode(@Param("qrCode") String qrCode);
+	PolicyEntity findPolicyEntitiesByCoPolicyNo(@Param("coPolicyNo") String qrCode);
 
 	List<PolicyEntity> findPolicyEntitiesByCreditCheckStarted(@Param("isCreditCheckStarted") Boolean isCreditCheckStarted);
 

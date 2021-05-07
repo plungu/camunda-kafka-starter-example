@@ -48,7 +48,7 @@ class Line extends React.Component{
               <td onClick={this.props.onSelectItem.bind(null, this.props.item)}>{this.props.item.product}</td>
               <td onClick={this.props.onSelectItem.bind(null, this.props.item)}>{this.props.item.pmiCode}</td>
               <td onClick={this.props.onSelectItem.bind(null, this.props.item)}>{this.props.item.pmiDescription}</td>
-              <td onClick={this.props.onSelectItem.bind(null, this.props.item)}>{this.props.item.qrCode}</td>
+              <td onClick={this.props.onSelectItem.bind(null, this.props.item)}>{this.props.item.coPolicyNo}</td>
               <td className="item-quantity"><input className="input-group-field" type="text"
                          ref="item" onChange={this.handleChange}
                          value={this.props.item.quantity} /></td>

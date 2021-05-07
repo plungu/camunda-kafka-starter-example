@@ -33,16 +33,42 @@ class Info extends React.Component{
 
         var policyId = "";
         if (this.props.policy != null){
-          policyId = this.props.policy.qrCode
+          policyId = this.props.policy.coPolicyNo
         }
 
-        var displayProduct = "";
-        if(this.props.policy.product != null && this.props.policy.product != "") {
-            displayProduct =  <ul>
-                         <li><span className="label">Product</span><span className="data">{this.props.policy.product}</span></li>
+        var displayPolicyTerm = "";
+        if(this.props.policy.coPolicyTerm != null && this.props.policy.coPolicyTerm != "") {
+            displayPolicyTerm =  <ul>
+                         <li><span className="label">Co Policy Term</span><span className="data">{this.props.policy.coPolicyTerm}</span></li>
                        </ul>
 
         }
+
+        var displayInsuredNm = "";
+        if(this.props.policy.coInsuredNm != null && this.props.policy.coInsuredNm != "") {
+            displayInsuredNm =  <ul>
+                <li><span className="label">Co Insured Nm</span><span className="data">{this.props.policy.coInsuredNm}</span></li>
+            </ul>
+
+        }
+
+        var displayQuoteNo = "";
+        if(this.props.policy.coQuoteNo != null && this.props.policy.coQuoteNo != "") {
+            displayQuoteNo =  <ul>
+                <li><span className="label">Co Quote No</span><span className="data">{this.props.policy.coQuoteNo}</span></li>
+            </ul>
+
+        }
+
+        var displayInsCoNm = "";
+        if(this.props.policy.coInsCoNm != null && this.props.policy.coInsCoNm != "") {
+            displayInsCoNm =  <ul>
+                <li><span className="label">Co Insurance Name</span><span className="data">{this.props.policy.coInsCoNm}</span></li>
+            </ul>
+
+        }
+
+
         var displayCreditCheckStarted = "";
         if(this.props.policy.creditCheckStarted != null) {
             var status = "Not Started";
@@ -56,7 +82,7 @@ class Info extends React.Component{
         }
 
       return (
-          <div className="my-form">
+          <div className="my-form my-info">
             <div className="row">
 
               <div className="small-5 small-offset-1 columns">
@@ -80,9 +106,12 @@ class Info extends React.Component{
                         </div>
                         <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
                             <ul>
-                                <li><span className="label">Policy Id</span><span className="data">{policyId}</span></li>
+                                <li><span className="label">Co Policy No</span><span className="data">{policyId}</span></li>
                             </ul>
-                            {displayProduct}
+                            {displayPolicyTerm}
+                            {displayInsuredNm}
+                            {displayQuoteNo}
+                            {displayInsCoNm}
                             {displayCreditCheckStarted}
                         </div>
                     </div>
