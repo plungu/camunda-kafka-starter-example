@@ -30,7 +30,7 @@ class StatusBar extends React.Component {
         const request = interval(1000).pipe(
             startWith(0),
             switchMap(() =>
-                fetch(apiHost+'sr/rejected')
+                fetch(apiHost+'policy/creditcheck/started')
                     .then((response) => response.json())
             ));
 
@@ -101,7 +101,7 @@ class StatusBar extends React.Component {
                         <small>Tasks</small>
                       </div>
                       <div className="menu small-4 large-4 columns text-center">
-                          <small>Rejected</small>
+                          <small>Credit Checks</small>
                       </div>
                       <div className="menu small-4 large-4 columns text-center">
                           <small>Groups</small>

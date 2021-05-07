@@ -1,4 +1,4 @@
-## Using Enterprise Camunda
+## [[enterprise-camunda]]Using Enterprise Camunda
 
 IMPORTANT: Using Camunda Enterprise - it's necessary to request a https://camunda.com/download/enterprise/[Camunda Enterprise License].
 

@@ -34,8 +34,8 @@ var MarketingBar = React.createClass({
         <div className="top-bar" >
           <div className="small-4 large-6 columns top-bar-right">
               <div className="button-group">
-                <IndexLink to="/" activeClassName="active" className="button radius secondary small" activeStyle={{fontWeight: 'bold'}}>Triage Policies</IndexLink>
-                <Link to="/tasks" activeClassName="active" className="button radius secondary small" activeStyle={{fontWeight: 'bold'}}>Review Task History</Link>
+                <IndexLink to="/tasks" activeClassName="active" className="button radius secondary small" activeStyle={{fontWeight: 'bold'}}>Triage Policies</IndexLink>
+                {/*<Link to="/tasks" activeClassName="active" className="button radius secondary small" activeStyle={{fontWeight: 'bold'}}>Review Task History</Link>*/}
                 {/*<IndexLink to="/rejected" activeClassName="active" className="button radius secondary small" activeStyle={{fontWeight: 'bold'}}>Rejected</IndexLink>*/}
               </div>
           </div>

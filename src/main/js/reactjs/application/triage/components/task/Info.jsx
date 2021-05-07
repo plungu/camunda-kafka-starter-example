@@ -6,26 +6,55 @@
 'use strict';
 
 // tag::nodeModules[]
+import {startWith, switchMap} from "rxjs/operators";
+import {interval} from "rxjs";
+
+const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const apiRoot = `${apiHost}${process.env.API_ROOT}`;
+
 const React = require('react');
 
 // tag::customComponents
-const DisplayDate = require('src/main/js/reactjs/application/service-request/components/date/DisplayDate.jsx');
 // tag::vars[]
 
 
 class Info extends React.Component{
+
   constructor(props) {
       super(props);
-      // this.handleDelete = this.handleDelete.bind(this);
+      this.state = {
+          isLoading: false,
+      }
+
   }
 
-  // handleDelete(e){
-  //     e.preventDefault;
-  //     alert("Sure you want to delete this property? Press the [esc] button to cancel this action.");
-  //     this.props.onDelete(this.props.task);
-  // }
-  
-  render(){
+
+    render(){
+
+        var policyId = "";
+        if (this.props.policy != null){
+          policyId = this.props.policy.qrCode
+        }
+
+        var displayProduct = "";
+        if(this.props.policy.product != null && this.props.policy.product != "") {
+            displayProduct =  <ul>
+                         <li><span className="label">Product</span><span className="data">{this.props.policy.product}</span></li>
+                       </ul>
+
+        }
+        var displayCreditCheckStarted = "";
+        if(this.props.policy.creditCheckStarted != null) {
+            var status = "Not Started";
+            if(this.props.policy.creditCheckStarted) {
+                status = "Started"
+            }
+            displayCreditCheckStarted =  <ul>
+                <li><span className="label">Credit Check Status</span><span className="data">{status}</span></li>
+            </ul>
+
+        }
+
       return (
           <div className="my-form">
             <div className="row">
@@ -44,55 +73,22 @@ class Info extends React.Component{
                 </div>
               </div>
 
-              <div className="small-5 columns">
-                <div className="card" style={{width: "400px"}}>
-                  <div className="card-divider text-center">
-                    <h4>Service Owner</h4>
-                  </div>
-                  <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
-                      <ul>
-                          <li><span className="label">Service Owner</span><span className="data">{this.props.task.serviceRequest.serviceOwner}</span></li>
-                      </ul>
-                  </div>
+                <div className="small-5 columns">
+                    <div className="card" style={{width: "400px"}}>
+                        <div className="card-divider text-center">
+                            <h4>Policy Info</h4>
+                        </div>
+                        <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
+                            <ul>
+                                <li><span className="label">Policy Id</span><span className="data">{policyId}</span></li>
+                            </ul>
+                            {displayProduct}
+                            {displayCreditCheckStarted}
+                        </div>
+                    </div>
                 </div>
-              </div>
 
-              {/*<div className="small-4 columns">*/}
-              {/*  <div className="card" style={{width: "300px"}}>*/}
-              {/*      <a className="button small float-right" key="last" onClick={this.handleDelete}>Delete</a>*/}
-              {/*  </div>*/}
-              {/*</div>*/}
-            </div>
-        
-            <div className="row">
-              <div className="small-5 small-offset-1 columns" >
-                <div className="card" >
-                  <div className="card-divider text-center">
-                    <h4>Status</h4>
-                  </div>
-                  <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
-                    <ul>
-                      <li><span className="label">Assigned Date</span><span className="data">{this.props.task.serviceRequest.acquiringDivision} </span></li>
-                        <li><span className="label">Due Date</span><span className="data">{this.props.task.serviceRequest.serviceDescription} </span></li>
-                      <li><span className="label">RAG Status</span><span className="data">{this.props.task.serviceRequest.sourcingManager}</span></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="small-5  columns">
-                <div className="card" style={{width: "400px"}}>
-                  <div className="card-divider text-center">
-                    <h4>Service Info</h4>
-                  </div>
-                  <div className="card-section" style={{borderTop: "1px dashed #2199e8"}}>
-                    <ul>
-                      <li><span className="label">Service ID</span><span className="data">{this.props.task.serviceRequest.serviceId}</span></li>
-                      <li><span className="label">Service Category</span><span className="data">{this.props.task.serviceRequest.serviceCategory}</span></li>
-                      <li><span className="label">Sourcing Comments</span><span className="data">{this.props.task.serviceRequest.sourcingComments}</span></li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
+
             </div>
         </div>
       )                 

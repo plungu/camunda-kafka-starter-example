@@ -9,8 +9,8 @@
 const React = require('react');
 
 // tag::customComponents
-const Line = require('src/main/js/reactjs/application/service-request/components/task/Line.jsx');
-const FilterBar = require('src/main/js/reactjs/application/service-request/components/task/FilterBar.jsx');
+const Line = require('TaskLine');
+const FilterBar = require('TaskFilterBar');
 
 // tag::vars[]
 
@@ -44,14 +44,12 @@ class List extends React.Component{
 					  <thead>
 						<tr>
 							<th>Task Name</th>
-							<th>Service Owner</th>
-							<th width="105">Sourcing Manager</th>
-							<th width="105">Service Description</th>
-							<th>Acquiring Division</th>
-							<th>Service Category</th>
-							<th>Sourcing Comments</th>
-							<th>Service Id</th>
-                        </tr>
+							<th>Assignee</th>
+							<th width="105">Created</th>
+							<th width="105">Due</th>
+							<th>Delegated</th>
+							<th>Priority</th>
+						</tr>
 					  </thead>
 					  <tbody>
                         {tasks}

@@ -6,18 +6,22 @@
 'use strict';
 
 // tag::nodeModules[]
+import { interval } from 'rxjs';
+import { startWith, switchMap } from 'rxjs/operators';
+
 const React = require('react');
 const ReactDOM = require('react-dom');
-const client = require('../client.jsx');
-const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
+const client = require('client');
+const follow = require('follow'); // function to hop multiple links by "rel"
 
 // tag::customComponents
-const List = require('src/main/js/reactjs/application/service-request/components/task/List.jsx');
-const Detail = require('src/main/js/reactjs/application/service-request/components/task/Detail.jsx');
+const List = require('TaskList');
+const Detail = require('TaskDetail');
 // tag::customComponents
 
 // tag::vars[]
 const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
+const camApiRoot = `${apiHost}${process.env.CAMUNDA_API_ROOT}`;
 const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
@@ -27,9 +31,10 @@ class home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            serviceRequest: null,
             tasks: [],
             task: null,
+            policy: {},
+            isLoading: false,
             attributes: [],
             pageSize: 10,
             links: {},
@@ -40,14 +45,16 @@ class home extends React.Component {
             toggleDetailInfo: "off",
             callUpdate: function (pageSize, that) {that.loadAllFromServer(pageSize)}
         };
-        this.updatePageSize = this.updatePageSize.bind(this);
-        this.onNavigate = this.onNavigate.bind(this);
+        // this.updatePageSize = this.updatePageSize.bind(this);
+        // this.onNavigate = this.onNavigate.bind(this);
         this.handleSelectedItem = this.handleSelectedItem.bind(this);
+        this.handleUpdatePolicy = this.handleUpdatePolicy.bind(this);
         this.handleBackClick = this.handleBackClick.bind(this);
-        this.handleToggleClick = this.handleToggleClick.bind(this);
-        this.handleFilterAll = this.handleFilterAll.bind(this);
+        // this.handleToggleClick = this.handleToggleClick.bind(this);
+        // this.handleFilterAll = this.handleFilterAll.bind(this);
         this.handleApprove = this.handleApprove.bind(this);
         this.handleReject = this.handleReject.bind(this);
+        this.handleStart = this.handleStart.bind(this);
         this.post = this.post.bind(this);
     }
 
@@ -69,103 +76,106 @@ class home extends React.Component {
         e.preventDefault();
 
         var serviceRequest = this.state.task.serviceRequest;
-
         serviceRequest.approved = true;
 
         console.log("HandleApprove: " + JSON.stringify(serviceRequest));
 
         this.post(serviceRequest, "sr/save");
-
         this.post(serviceRequest, "sr/task/approve");
 
         this.props.history.push('/tasks#');
-
         this.state.callUpdate(this.state.pageSize, this);
         this.handleBackClick();
-
     }
 
     handleReject(e){
         e.preventDefault();
-
         var serviceRequest = this.state.task.serviceRequest;
-
         serviceRequest.rejected = true;
-
         console.log("HandleReject: " + JSON.stringify(serviceRequest));
-
         this.post(serviceRequest, "sr/save");
-
         this.post(serviceRequest, "sr/task/reject");
-
-        this.props.history.push('/rejected');
-
-
+        this.props.history.push('/tasks');
     }
 
-    post(obj, context) {
-        console.log("POST Started")
+
+    handleStart(e){
+        e.preventDefault();
+        var task = this.state.task;
+        var policy = this.state.policy;
+
+        console.log("Task -> Home -> HandleStart: " + JSON.stringify(task));
+        console.log("Task -> Home -> HandleStart: " + JSON.stringify(policy));
+
+        this.post('POST', {"messageName" : "start-credit-check-event", "businessKey" : policy.qrCode }, `engine-rest/message`);
+        // this.post("PATCH", {creditCheckStarted: true}, `api/policyEntities/${policy.id}`)
+
+        this.props.history.push('/tasks');
+    }
+
+    post(method, obj, context) {
+        console.log("ORDER -> HOME -> POST == Started")
         client({
-            method: 'POST',
+            method: method,
             path: apiHost+context,
             entity: obj,
-            headers: {'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json', 'Accept':'*/*'}
         }).done(response => {
-            console.log("POST Request Complete");
+            console.log("ORDER -> HOME -> POST: "+JSON.stringify(response));
         });
     }
 
+    // post(obj, context) {
+    //     console.log("POST Started")
+    //     client({
+    //         method: 'POST',
+    //         path: apiHost+context,
+    //         entity: obj,
+    //         headers: {'Content-Type': 'application/json'}
+    //     }).done(response => {
+    //         console.log("POST Request Complete");
+    //     });
+    // }
 
     // tag::follow-2[]
     loadAllFromServer(pageSize) {
-        follow(client, apiRoot, [
-            {rel: 'serviceRequestEntities', params: {size: pageSize}}]
-        ).then(taskCollection => {
-            return client({
-                method: 'GET',
-                path: taskCollection.entity._links.profile.href,
-                headers: {'Accept': 'application/schema+json'}
-            }).then(schema => {
-                this.schema = schema.entity;
-                return taskCollection;
-            });
-        }).done(taskCollection => {
+        follow(client, camApiRoot+'/task',
+            [{rel: 'task'}]
+        ).done(taskCollection => {
+            console.log("TASK COLLECTIONS::: "+JSON.stringify(taskCollection));
             this.setState({
-                tasks: taskCollection.entity._embedded.serviceRequestEntities,
-                attributes: Object.keys(this.schema.properties),
-                pageSize: pageSize,
-                links: taskCollection.entity._links});
+                tasks: taskCollection
+            });
         });
     }
     // end::follow-2[]
 
     // tag::navigate[]
-    onNavigate(navUri) {
-        client({method: 'GET', path: navUri}).done(taskCollection => {
-            this.setState({
-                tasks: taskCollection.entity._embedded.tasks,
-                attributes: this.state.attributes,
-                pageSize: this.state.pageSize,
-                links: taskCollection.entity._links
-            });
-        });
-    }
+    // onNavigate(navUri) {
+    //     client({method: 'GET', path: navUri}).done(taskCollection => {
+    //         this.setState({
+    //             tasks: taskCollection.entity._embedded.tasks,
+    //             attributes: this.state.attributes,
+    //             pageSize: this.state.pageSize,
+    //             links: taskCollection.entity._links
+    //         });
+    //     });
+    // }
     // end::navigate[]
 
-    handleFilterAll(pageSize){
-      this.loadAllFromServer(pageSize);
-      this.setState({
-        callUpdate: function (pageSize, that) {that.loadAllFromServer(pageSize)}
-      });
-    }
+    // handleFilterAll(pageSize){
+    //   this.loadAllFromServer(pageSize);
+    //   this.setState({
+    //     callUpdate: function (pageSize, that) {that.loadAllFromServer(pageSize)}
+    //   });
+    // }
 
-    handleSelectedItem(serviceRequest, task) {
+    handleSelectedItem(task) {
 
         if (task == null){
-            alert("You don't have a task to complete. Please complete the service request first.");
+            alert("You don't have a task to complete.");
         }else {
-            task.serviceRequest = serviceRequest;
-            console.log("Megred Task: "+ JSON.stringify(task));
+            console.log("Task: "+ JSON.stringify(task));
             this.setState({
                 task: task,
                 displayDetail: "block",
@@ -175,6 +185,20 @@ class home extends React.Component {
     }
 
 
+    handleUpdatePolicy(policy){
+
+        console.log("Task -> Home -> handleUpdatePolicy: "+ JSON.stringify(policy))
+
+        this.loadPolicyFromServer(policy.qrCode)
+
+    }
+
+    // handleDelete(e){
+    //     e.preventDefault;
+    //     alert("Sure you want to delete this property? Press the [esc] button to cancel this action.");
+    //     this.props.onDelete(this.props.task);
+    // }
+
     handleBackClick(e){
        console.log("handleBackClick");
        this.setState({
@@ -183,31 +207,74 @@ class home extends React.Component {
          });
     }
 
-    handleToggleClick(e){
-        if (this.state.toggleDetailInfo === "off"){
-            this.setState({
-              toggleDetailInfo: "on",
-              displayInfo: "block",
-              displayLine: "none"
+    // handleToggleClick(e){
+    //     if (this.state.toggleDetailInfo === "off"){
+    //         this.setState({
+    //           toggleDetailInfo: "on",
+    //           displayInfo: "block",
+    //           displayLine: "none"
+    //         });
+    //     }else {
+    //         this.setState({
+    //             toggleDetailInfo: "off",
+    //             displayInfo: "none",
+    //             displayLine: "block"
+    //           });
+    //
+    //     }
+    // }
+
+    // loadTaskFromServer(businessKey){
+    //   client({
+    //       method: 'GET',
+    //       path: apiHost+"engine-rest/task",
+    //       params: {processInstanceBusinessKey: businessKey},
+    //       headers: {'Accept': 'application/json'}
+    //   }).done(response => {
+    //       this.setState({
+    //           task: response.entity[0]
+    //       });
+    //   });
+    // }
+
+    // tag::on-loadOrderFromServer[]
+    loadPolicyFromServer(id) {
+        follow(client, apiRoot, [
+                {rel: 'policyEntities'},
+                {rel: 'search'},
+                {rel: 'findPolicyEntitiesByQrCode', params: {qrCode: id}}
+            ]
+        ).then(itemCollection => {
+            return client({
+                method: 'GET',
+                path: itemCollection.entity._links.self.href,
+                headers: {'Accept': 'application/json'}
+            }).then(schema => {
+                this.schema = schema.entity;
+                return itemCollection;
             });
-        }else {
+        }).done(itemCollection => {
+            console.log("Task -> Home -> loadPolicyFromServer: "
+                +JSON.stringify(itemCollection.entity))
             this.setState({
-                toggleDetailInfo: "off",
-                displayInfo: "none",
-                displayLine: "block"
-              });
-    
-        }
+                policy: itemCollection.entity,
+                // attributes: Object.keys(this.schema.properties),
+                // pageSize: pageSize,
+                links: itemCollection.entity._links});
+        });
     }
 
     render() {
       var item = "";
       if (this.state.task !== null) {
         item = <Detail  task={this.state.task}
+                        policy={this.state.policy}
                         displayInfo={this.state.displayInfo}
                         displayLine={this.state.displayLine}
                         handleReject={this.handleReject}
-                        handleApprove={this.handleApprove} />
+                        handleApprove={this.handleApprove}
+                        handleStart={this.handleStart}
+                        handleUpdatePolicy={this.handleUpdatePolicy} />
       }
 
       return (

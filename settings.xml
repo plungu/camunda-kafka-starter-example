@@ -57,7 +57,7 @@ under the License.
       <username>proxyuser</username>
       <password>proxypass</password>
       <host>proxy.host.net</host>
-      <port>80</port>
+      <port>80</port>0
       <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
     </proxy>
     -->
@@ -70,8 +70,8 @@ under the License.
   <servers>
     <server>
 	<id>camunda-bpm-nexus-ee</id>
-      <username>paul.lungu</username>
-      <password>-b]?uiCYHZYH%>P_kzbM9m</password>
+      <username>trial_arunkumar_apot_chubb_com</username>
+      <password>e86096c7-50e8-4ad2-8</password>
     </server>
   </servers>
 

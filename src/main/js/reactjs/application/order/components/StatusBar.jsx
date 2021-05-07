@@ -30,7 +30,7 @@ class StatusBar extends React.Component {
         const request = interval(1000).pipe(
             startWith(0),
             switchMap(() =>
-                fetch(apiHost+'sr/rejected')
+                fetch(apiHost+'policy/creditcheck/started')
                     .then((response) => response.json())
             ));
 

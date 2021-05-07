@@ -1,6 +1,8 @@
 
 ## Running the use-case
 
+IMPORTANT: if you want to use Camunda Enterprise you will need to download the enterpise license. See the section on <<enterprise-camunda,setting up Camunda Enterprise>>
+
 ===== Option 1. Use spring-boot at the command line
 ```
 mvn spring-boot:run -Dspring.profiles.active=servicerequest,integration,cors

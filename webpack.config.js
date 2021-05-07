@@ -92,7 +92,9 @@ module.exports = {
             TaskLine: 'src/main/js/reactjs/application/triage/components/task/Line.jsx',
             TaskList: 'src/main/js/reactjs/application/triage/components/task/List.jsx',
             TaskDetail: 'src/main/js/reactjs/application/triage/components/task/Detail.jsx',
-            TaskForm: 'src/main/js/reactjs/application/triage/components/task/Form.jsx',
+            TaskActionForm: 'src/main/js/reactjs/application/triage/components/task/ActionForm.jsx',
+            TaskSearchForm: 'src/main/js/reactjs/application/triage/components/task/SearchForm.jsx',
+            TaskOptionForm: 'src/main/js/reactjs/application/triage/components/task/OptionForm.jsx',
             TaskInfo: 'src/main/js/reactjs/application/triage/components/task/Info.jsx',
             TaskFilterBar: 'src/main/js/reactjs/application/triage/components/task/FilterBar.jsx',
             // END Use Case Components

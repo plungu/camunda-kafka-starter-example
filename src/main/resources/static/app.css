@@ -148,13 +148,30 @@ label.text-center {
 
 .my-form {
     padding-top: 5rem;
-    padding-bottom: 15rem;
+    padding-bottom: 5rem;
     background-color: #fefefe
 }
 
 .my-form.detail-form {
 
     padding-bottom: 41rem;
+
+}
+
+span.input-label {
+    padding-left: 10px;
+    font-size: small;
+    font-weight: 900;}
+
+.my-form.search-form {
+
+    padding-bottom: 0rem;
+
+}
+
+.my-form.option-form {
+
+    padding-bottom: 15rem;
 
 }
 
