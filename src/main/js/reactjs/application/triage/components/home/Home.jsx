@@ -47,7 +47,7 @@ class Home extends React.Component {
                    <div className="top-bar-left">
                      <ul className="menu">
                        <li className="topbar-title">
-                         Triage Policy Updates
+                         {/*Triage Policy Updates*/}
                        </li>
                      </ul>
                    </div>

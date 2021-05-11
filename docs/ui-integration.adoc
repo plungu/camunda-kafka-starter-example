@@ -1,9 +1,9 @@
-## UI Integration
+## [[ui-integration]]UI Integration
 ---
 
 #### ReactJS Integration
 
-image:./docs/images/ui.png[User Interface]
+image:./images/gui/ui.png[User Interface]
 
 ====
 The Maven frontend-maven-plugin configured in pom.xml is used to build the ReactJS app. The plugin creates a bundle.js file which ends up in `src/main/resources/static/built/bundle.js`. The static directory makes static resources such as JS and HTML available to the java app.

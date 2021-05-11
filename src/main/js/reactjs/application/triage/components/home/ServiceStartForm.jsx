@@ -1,6 +1,7 @@
 var React = require('react');
+var {Link, IndexLink} = require('react-router');
 
-class ServiceStartForm extends React.Component {
+class StartForm extends React.Component {
 
     constructor(props) {
         super(props);
@@ -41,22 +42,24 @@ class ServiceStartForm extends React.Component {
         }
 
         return (
-            <div className="my-form">
+            <div className="my-form start-form">
 
                 <div className="small-8 small-offset-2 large-8 large-offset-2 columns">
                     <div className="form-registration-group">
 
-                        <a className="form-registration-social-button" href="#" onClick={this.props.onStart}>
-                            <i className="fa fa-facebook-official" aria-hidden="true"></i>Start Triage</a>
+                        {/*<a className="form-registration-social-button" href="#" onClick={this.props.onStart}>*/}
+                        {/*    <i className="fa fa-facebook-official" aria-hidden="true"></i>Start Triage</a>*/}
 
-                        <select className="form-registration-input"
-                                ref="pid"
-                                onChange={this.handleChange}
-                                value={this.props.serviceRequest.serviceId} >
+                        <IndexLink to="/tasks" activeClassName="active" className="form-registration-social-button" activeStyle={{fontWeight: 'bold'}}><i className="fa fa-facebook-official" aria-hidden="true"></i>Start Triage</IndexLink>
 
-                          <option defaultValue>Please Select</option>
-                          {options}
-                        </select>
+                        {/*<select className="form-registration-input"*/}
+                        {/*        ref="pid"*/}
+                        {/*        onChange={this.handleChange}*/}
+                        {/*        value={this.props.serviceRequest.serviceId} >*/}
+
+                        {/*  <option defaultValue>Please Select</option>*/}
+                        {/*  {options}*/}
+                        {/*</select>*/}
 
                         <p className="form-registration-member-signin">Already a member? <a href="#">Sign in</a></p>
                         <p className="form-registration-terms"><a href="#">Terms &amp; Conditions</a>|<a
@@ -70,4 +73,4 @@ class ServiceStartForm extends React.Component {
   }
 }
 
-module.exports = ServiceStartForm;
+module.exports = StartForm;

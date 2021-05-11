@@ -159,9 +159,12 @@ label.text-center {
 }
 
 .my-form.detail-form {
-
     padding-bottom: 41rem;
+}
 
+.my-form.start-form {
+    padding-top: 2rem;
+    padding-bottom: 12rem;
 }
 
 span.input-label {

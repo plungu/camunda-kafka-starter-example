@@ -1,25 +1,52 @@
 ## Use Case
 
-Service Request use-case is focused on demonstrating the service request process through Web Based UI, Notifications and Camunda workflow. The service request process models several human review steps where a approval or rejection can happen. As well as system interactions through async over TCP communications with eventing system (Kafak) and synchronous communications through HTTP/REST in a point to point pattern.
+#### Summary
+Post Buying Process use-case is demonstrating updating a insurance policy based on certain events that can trigger a policy update.
 
-image:./docs/images/service-request-workflow-model.png[Service Request BPMN]
-This can server as an example for designing distributed systems with workflow engines as an orchestrator in a choreographed event oriented architecture.
+The Web Based UI demonstrates the Triage of a Policy Update allowing the Triage role to see tasks based on skills and entitlement.
+
+A single Triage task combined with an Event Sub-process is used to simulate a case management pattern with BPMN.
+
+Additionally, DMN based business rules are utilized to route tasks to the correct business unit and assign the correct user roles to tasks.
+
+History data should be sent to Kafka to potentially store in a BI solution.
 
 
-#### Interesting points in the process
-image:./docs/images/service-request-approval-and-integration.png[Service Request BPMN]
+#### [[use-case-workflow]]Workflow
+Underwriters and Brokers interact to potentially trigger a policy update. This is normally done through email interactions. When a policy update is needed an underwirter will send an email to a shared email box. The Intake Framework with parse and determine the intent of the email then start a policy update workflow (post-bind-workflow) when appropriate.
+
+NOTE: The intake framework is simulate by a Postman call to start the workflow. See the `postman` directory for the request to start the workflow.
+
+The triage task is then activated. This enables a triage user to view the task in the Custom UI and prepare the task for Underwriting and Processing. Additionally, a case management feature can be used by the triage user potentially starting a credit-check.
+
+image:./images/use-case/use-case-triage-task-ui.png[triage task ui, 900]
+
+Once the triage user submits the task business rules are used to assign and route the tasks to the correct business unit and users.
+
+image:./images/use-case/post-buying-process.png[Update Policy BPMN]
+
+---
+
+### [[interesting-point-workflow]]Case management with Custom UI and BPMN
 ====
-This section of the process is particularly interesting and packed with functionality. At the workflow level we are orchestrating user tasks for the explicit multilevel review of service requests. After each review we send a Event to kafka potentially notifying other systems, like a UI, about the completion of the task and update of the service request.
+This section of the process illustrates case management with BPMN. The Triage user is able to start a credit check from the UI. The use clicks the `Start Credit Check` button which triggers the Credit Check SubProcess.
+====
+image:./images/patterns/ui-interaction-case-mgmt.png[Case Mangemet UI BPMN, 300,200]
+====
+The Credit Check sub-process is broken into two phases. An Event subprocess is utilized to capture the click from the UI and allows us to monitor the status of the credit check from the parent process. Additionally, using the Event sub-process doesn't interfere with execution of the parent process. In other words the Triage user could also submit the task and continue the normal flow of the process while the credit check continues.
 
-Notice on the rejection path no User Task is defined for Requester of the service request. This is intentional to signify that the Requestor can be notified in many ways about the rejection and the method of updating the service request is not important to the workflow itself. In technical terms this signifies a loose coupling for these events due to the workflow not orchestrating the interaction rather using a choreography approach. Essentially all the workflow cares about is the rejection is handled in some way but no idea how it happens.
+A separate BPMN workflow is also utilized for the Credit Check. It does the actual work of orchestrating the credit check. This allows for reuse of the credit check workflow and concise separation of concerns.
 ====
 
+image:./images/patterns/case-mgmt-pattern.png[Case Managment BPMN]
 
-image:./docs/images/service-request-error-handling.png[Service Request BPMN]
+### [[use-case-integrations-summary]]Integrations Summary
 ====
-This section of the process demonstrates the capability to explicitly handle errors and potentially compensate or retry certain activities in the workflow.
-====
-image:./docs/images/service-request-biz-calcs.png[Service Request BPMN]
-====
-This section of the workflow demonstrates the possibility to use DMN and business rules to accomplish the assessment calculations.
+The integrations with the UI are REST based. Starting, retrieving, completing tasks and workflows are done through the Camunda REST API.
+
+Technical integrations like email integration is done through Camunda delegates and listeners. When a user task is started an email is sent to the user.
+
+Additionally, Kafka integration is done through spring-eventing-bridge and spring-clould-streams framework for the purpose of sending Camunda event information to other systems i.e. BI reporting solutions. See <<patterns-for-integration, Patterns for Integration>> and <<kafka-integartion, Kafka Integration>>
+
+More on all these topics in later sections. Jump to section <<ui-integration, UI Integration>> <<spring-eventing-bridge, Spring Eventing Bridge>>
 ====

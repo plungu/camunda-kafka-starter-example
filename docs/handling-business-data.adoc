@@ -1,4 +1,4 @@
-## Handling Business Data and UI Integration
+## [[business-data-in-workflow]]Handling Business Data and UI Integration
 TIP: See the pattern described in the Camunda Best Practices https://camunda.com/best-practices/handling-data-in-processes/[Handling Data In Processes] and https://camunda.com/best-practices/enhancing-tasklists-with-business-data/[Enhancing Tasklist with Business Data]
 
 ====

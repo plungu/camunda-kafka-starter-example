@@ -1,0 +1,27 @@
+### [[kafka-integration]]Kafka Integration
+The spring-boot app is using spring cloud streams.
+
+https://spring.io/projects/spring-cloud-stream
+
+====
+The app has a has a single publisher and a single subscriber for the service-request-events topic.
+
+```
+spring.cloud.stream.bindings.publishServiceRequest.destination=service-request-events
+spring.cloud.stream.bindings.subscribeServiceRequest.destination=service-request-events
+```
+====
+IMPORTANT: See the `com.camunda.poc.starter.kafka.integration` package/folder for impl of publishers and subscribers.
+
+
+====
+A single subscriber is implemented `KafkaEventSubscriber.java`; it simply gets the message from the topic and serialized into memory. Then it saves/caches the Service Request into the local db based on the event type.
+====
+
+====
+A single publisher is implemented `KafkaEventPublishingDelegate.java`, but other publishers may be needed in your use case. This publisher is also a <<workflow-execution,Cmaunda JavaDelegte>> wired into the bpmn model and executed during the process execution. This is a powerful pattern as it provides control of the workflow execution and allows handling errors, incidents and more.
+
+The publisher publishes an Event with event meta-data such as the Name and Type as well as parameters such as workflow state and business data.
+
+The Event meta-data helps other components understand what to do with the event.
+====

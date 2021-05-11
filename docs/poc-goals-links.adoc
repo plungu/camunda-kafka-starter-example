@@ -1,0 +1,26 @@
+
+## Chubb PoC Goals
+- [x] *Identify gaps in Camunda* (Hopefully the PoC itself provided the context for this goal)
+- [x] *Pros and Cons of forms with Camunda* (Discussed need for custom UI integration, forms integration with Camunda is flexible and allows the use of third party form frameworks. See <<ui-integration, Example UI Integration>>)
+- [x] *Integration with custom UI* (See <<ui-integration, Example UI Integration>> and the <<custom-triage-tasks, Custom Traige Tasks>>)
+- [x] *Case managemet with Camunda and BPMN* (See <<ui-integration, Example UI Integration>> and the <<interesting-point-workflow, Case Management use-case>>)
+- [x] *Integration with Kafka* (See <<kafka-integration, Kafak Integration>>)
+- [x] *Business Data Integration* (See <<business-data-in-workflow, Handling Business Data in Workflows>>)
+- [x] *Reporting, metrics and capturing history events* (Demoed Optimize see <<use-case-integrations-summary, Integrations>> for more on metrics and capturing events)
+- [x] *Email integration with intake framework* (This was completely mocked with Postman due to the complexity of the integration)
+
+### Important Links
+-  See the https://github.com/plungu/camunda-chubb-poc-starter[code in github]. You can downlaod and run the project.
+-  See more about https://camunda.com/products/camunda-platform/optimize/reports/[Reporting and tracing with Optimize]
+-  See more about https://camunda.com/enterprise/[Enterprise Features]
+-  See more about https://camunda.com/products/camunda-platform/cockpit/#features[Enterprise Cockpit Features]
+-  See more about https://github.com/camunda/camunda-modeler/tree/master/docs/element-templates[Customize Modeler with Element Templates]
+-  See more about https://github.com/camunda/camunda-modeler-plugins[Customize Modeler with Plugins]
+-  See more about https://docs.camunda.org/manual/latest/user-guide/process-engine/transactions-in-processes/[Transactions in Process]
+-  See more about https://github.com/camunda/camunda-bpm-examples/tree/master/process-engine-plugin[Camunda Engine Plugins]
+-  See more about https://docs.camunda.org/manual/7.14/user-guide/spring-boot-integration/the-spring-event-bridge/[Camunda Spring Event Bridge]
+-  See more about https://docs.camunda.org/manual/7.12/user-guide/process-engine/history/[Understanding Camunda History]
+-  See more about https://camunda.com/best-practices/reporting-about-processes/#_accessing_strong_historical_data_strong[Accessing Historical Data]
+-  See more about https://docs.camunda.org/manual/latest/user-guide/process-engine/database/database-schema/[Understanding Camunda Database]
+-  See more about https://docs.camunda.org/manual/latest/user-guide/process-engine/external-tasks/[Understand External Tasks]
+-  See more about https://cawemo.com/[Modeling and Collaboration with Cawemo]

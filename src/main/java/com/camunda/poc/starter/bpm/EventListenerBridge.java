@@ -1,6 +1,7 @@
 package com.camunda.poc.starter.bpm;
 
 import com.camunda.poc.starter.kafka.integration.KafkaEventChannels;
+import com.camunda.poc.starter.repo.PolicyRepository;
 import com.camunda.poc.starter.repo.ServiceRequestRepository;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.DelegateTask;
@@ -19,12 +20,12 @@ public class EventListenerBridge {
 
 
     private KafkaEventChannels channels;
-    private ServiceRequestRepository serviceRequestRepository;
+    private PolicyRepository repository;
 
     @Autowired
-    public EventListenerBridge(KafkaEventChannels source, ServiceRequestRepository serviceRequestRepository){
+    public EventListenerBridge(KafkaEventChannels source, PolicyRepository repository){
         this.channels = source;
-        this.serviceRequestRepository = serviceRequestRepository;
+        this.repository = repository;
     }
 
 
@@ -41,9 +42,7 @@ public class EventListenerBridge {
                 + ", executionId=" + taskDelegate.getId()
                 + " \n\n");
 
-
-        channels.publish().send(MessageBuilder.withPayload("CAMUNDA POC TEST EVENT").build());
-
+        channels.publish().send(MessageBuilder.withPayload("{\"CAMUNDA-POC-EVENT\": \"CAMUNDA POC TEST EVENT\"}").build());
     }
 
     @EventListener
