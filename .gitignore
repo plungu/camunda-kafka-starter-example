@@ -26,5 +26,5 @@ application-dev.properties
 /.idea/
 *.iml
 /angular-starter/
-*/.DS_Store
+**/.DS_Store
 /.DS_Store
