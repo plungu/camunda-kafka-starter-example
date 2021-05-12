@@ -19,7 +19,7 @@ NOTE: The intake framework is simulate by a Postman call to start the workflow. 
 
 The triage task is then activated. This enables a triage user to view the task in the Custom UI and prepare the task for Underwriting and Processing. Additionally, a case management feature can be used by the triage user potentially starting a credit-check.
 
-image:./images/use-case/use-case-triage-task-ui.png[triage task ui, 900]
+//image:./images/use-case/use-case-triage-task-ui.png[triage task ui, 900]
 
 Once the triage user submits the task business rules are used to assign and route the tasks to the correct business unit and users.
 
