@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.5.0" camunda:diagramRelationId="e9bdb97f-5b05-4a44-adf3-3cbd912ef340">
   <bpmn:collaboration id="Collaboration_post-bind-workflow">
-    <bpmn:participant id="Participant_post-bind-workflow" name="Post Bind Workflow" processRef="post-bind-workflow" />
+    <bpmn:participant id="Participant_post-bind-workflow" name="Policy Update  Workflow" processRef="post-bind-workflow" />
     <bpmn:participant id="Participant_0bekhtb" name="Broker" />
     <bpmn:participant id="Participant_16xldsh" name="Underwirter" />
-    <bpmn:participant id="Participant_1twlm37" name="Intake Framework" />
+    <bpmn:participant id="Participant_1twlm37" name="API&#39;s" />
     <bpmn:participant id="Participant_0bqe6j0" name="Client WIP System" />
     <bpmn:participant id="Participant_credit-check-workflow" name="Credit Check Workflow" processRef="credit-check-workflow" />
     <bpmn:participant id="Participant_1pbuevm" name="UI" />
@@ -21,18 +21,6 @@
     <bpmn:messageFlow id="Flow_0q3orhu" sourceRef="Participant_1c02ojh" targetRef="Participant_0bqe6j0" />
     <bpmn:messageFlow id="Flow_0zpj7au" sourceRef="update-cache-credit-check-started" targetRef="Participant_1c02ojh" />
     <bpmn:messageFlow id="Flow_1l2ixe5" sourceRef="Event_12hrej9" targetRef="credit-check-start" />
-    <bpmn:textAnnotation id="TextAnnotation_0002l56">
-      <bpmn:text>Email Parsing Sub-system</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_043hkwt" sourceRef="Participant_1twlm37" targetRef="TextAnnotation_0002l56" />
-    <bpmn:textAnnotation id="TextAnnotation_0wuka3g">
-      <bpmn:text>Mock with a Postman call</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_1t2ex2a" sourceRef="Participant_1twlm37" targetRef="TextAnnotation_0wuka3g" />
-    <bpmn:textAnnotation id="TextAnnotation_0op2cca">
-      <bpmn:text>Valuable resource</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:association id="Association_1fgjw7v" sourceRef="Participant_16xldsh" targetRef="TextAnnotation_0op2cca" />
     <bpmn:association id="Association_04empj3" sourceRef="Participant_1pbuevm" targetRef="TextAnnotation_0lr5n19" />
     <bpmn:association id="Association_0z0k2da" sourceRef="Participant_1pbuevm" targetRef="TextAnnotation_00s5rn0" />
     <bpmn:association id="Association_0mz0pfh" sourceRef="Participant_1pbuevm" targetRef="TextAnnotation_0wu4n1e" />
@@ -132,30 +120,10 @@
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="Flow_0zu6pl0" sourceRef="Activity_0t9c91q" targetRef="Gateway_0r0wbkj" />
     <bpmn:sequenceFlow id="Flow_08rk3ba" sourceRef="StartEvent_1" targetRef="Activity_00h4lke" />
-    <bpmn:textAnnotation id="TextAnnotation_02o33h2">
-      <bpmn:text>Policy already exists.
-Policy needs modification</bpmn:text>
-    </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_1j875ds">
       <bpmn:text>What do we want ??? 
 
 Send rules in spreadsheet</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_0mpxlwf">
-      <bpmn:text>User cannot cherry pick tasks - they get the next task in the queue
-- Affects performance tracking</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_1hpd6gv">
-      <bpmn:text>Skills Based Routing
-Policy Types 
-- Umbrella 
-- Auto 
-- Property&amp;Casualty
-
-Assign the user based on rule</bpmn:text>
-    </bpmn:textAnnotation>
-    <bpmn:textAnnotation id="TextAnnotation_0ef3h1k">
-      <bpmn:text>Rep needs to see process history for a single transaction/workflow instance</bpmn:text>
     </bpmn:textAnnotation>
     <bpmn:textAnnotation id="TextAnnotation_1rr1l0h">
       <bpmn:text>Send Email to a broker or underwriter
@@ -167,12 +135,7 @@ example address proof</bpmn:text>
     <bpmn:textAnnotation id="TextAnnotation_0gxw27i">
       <bpmn:text>Notify by  SMTP that a task is available</bpmn:text>
     </bpmn:textAnnotation>
-    <bpmn:association id="Association_1ax3ou6" sourceRef="StartEvent_1" targetRef="TextAnnotation_02o33h2" />
     <bpmn:association id="Association_06et2po" sourceRef="Activity_0t9c91q" targetRef="TextAnnotation_1j875ds" />
-    <bpmn:association id="Association_0qqekrp" sourceRef="Activity_00h4lke" targetRef="TextAnnotation_0mpxlwf" />
-    <bpmn:association id="Association_0hoel14" sourceRef="skills-based-routing-rule" targetRef="TextAnnotation_1hpd6gv" />
-    <bpmn:association id="Association_0omje9m" sourceRef="TextAnnotation_1hpd6gv" targetRef="Activity_0xzc1vn" />
-    <bpmn:association id="Association_1jdneaq" sourceRef="Activity_0xzc1vn" targetRef="TextAnnotation_0ef3h1k" />
     <bpmn:association id="Association_1chzlen" sourceRef="Activity_0xzc1vn" targetRef="TextAnnotation_1rr1l0h" />
     <bpmn:association id="Association_05oeg4v" sourceRef="Activity_1ufzw15" targetRef="TextAnnotation_0gxw27i" />
   </bpmn:process>
@@ -211,50 +174,13 @@ example address proof</bpmn:text>
       <bpmndi:BPMNShape id="Participant_071efdo_di" bpmnElement="Participant_post-bind-workflow" isHorizontal="true">
         <dc:Bounds x="160" y="430" width="1600" height="700" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_02o33h2_di" bpmnElement="TextAnnotation_02o33h2">
-        <dc:Bounds x="200" y="580" width="99.99305040770942" height="67.99017790956265" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1j875ds_di" bpmnElement="TextAnnotation_1j875ds">
-        <dc:Bounds x="570" y="810" width="100" height="81" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0mpxlwf_di" bpmnElement="TextAnnotation_0mpxlwf" bioc:stroke="#E53935" bioc:fill="#FFCDD2">
-        <dc:Bounds x="480" y="560" width="119.99128919860627" height="107.99578977932636" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1hpd6gv_di" bpmnElement="TextAnnotation_1hpd6gv" bioc:stroke="#E53935" bioc:fill="#FFCDD2">
-        <dc:Bounds x="790" y="440" width="150" height="147" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0ef3h1k_di" bpmnElement="TextAnnotation_0ef3h1k" bioc:stroke="#E53935" bioc:fill="#FFCDD2">
-        <dc:Bounds x="1100" y="460" width="150" height="70" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_1rr1l0h_di" bpmnElement="TextAnnotation_1rr1l0h">
-        <dc:Bounds x="1370" y="452" width="230" height="85" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0gxw27i_di" bpmnElement="TextAnnotation_0gxw27i" bioc:stroke="#E53935" bioc:fill="#FFCDD2">
-        <dc:Bounds x="1280" y="880" width="100" height="67" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1niwnd7_di" bpmnElement="Flow_1niwnd7">
-        <di:waypoint x="1020" y="640" />
-        <di:waypoint x="1150" y="640" />
+      <bpmndi:BPMNEdge id="Flow_08rk3ba_di" bpmnElement="Flow_08rk3ba">
+        <di:waypoint x="336" y="728" />
+        <di:waypoint x="410" y="728" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1ygwkvi_di" bpmnElement="Flow_1ygwkvi">
-        <di:waypoint x="510" y="728" />
-        <di:waypoint x="610" y="728" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_01xuz5d_di" bpmnElement="Flow_01xuz5d">
-        <di:waypoint x="1250" y="640" />
-        <di:waypoint x="1652" y="640" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0eg5e7m_di" bpmnElement="Flow_0eg5e7m">
-        <di:waypoint x="1190" y="770" />
-        <di:waypoint x="1190" y="680" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1wqfepx_di" bpmnElement="Flow_1wqfepx">
-        <di:waypoint x="840" y="753" />
-        <di:waypoint x="840" y="810" />
-        <di:waypoint x="1140" y="810" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="847" y="779" width="18" height="14" />
-        </bpmndi:BPMNLabel>
+      <bpmndi:BPMNEdge id="Flow_0zu6pl0_di" bpmnElement="Flow_0zu6pl0">
+        <di:waypoint x="710" y="728" />
+        <di:waypoint x="815" y="728" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0996reb_di" bpmnElement="Flow_0996reb">
         <di:waypoint x="840" y="703" />
@@ -264,13 +190,29 @@ example address proof</bpmn:text>
           <dc:Bounds x="848" y="669" width="15" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0zu6pl0_di" bpmnElement="Flow_0zu6pl0">
-        <di:waypoint x="710" y="728" />
-        <di:waypoint x="815" y="728" />
+      <bpmndi:BPMNEdge id="Flow_1wqfepx_di" bpmnElement="Flow_1wqfepx">
+        <di:waypoint x="840" y="753" />
+        <di:waypoint x="840" y="810" />
+        <di:waypoint x="1140" y="810" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="847" y="779" width="18" height="14" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_08rk3ba_di" bpmnElement="Flow_08rk3ba">
-        <di:waypoint x="336" y="728" />
-        <di:waypoint x="410" y="728" />
+      <bpmndi:BPMNEdge id="Flow_0eg5e7m_di" bpmnElement="Flow_0eg5e7m">
+        <di:waypoint x="1190" y="770" />
+        <di:waypoint x="1190" y="680" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_01xuz5d_di" bpmnElement="Flow_01xuz5d">
+        <di:waypoint x="1250" y="640" />
+        <di:waypoint x="1652" y="640" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1ygwkvi_di" bpmnElement="Flow_1ygwkvi">
+        <di:waypoint x="510" y="728" />
+        <di:waypoint x="610" y="728" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1niwnd7_di" bpmnElement="Flow_1niwnd7">
+        <di:waypoint x="1020" y="640" />
+        <di:waypoint x="1150" y="640" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="300" y="710" width="36" height="36" />
@@ -305,38 +247,26 @@ example address proof</bpmn:text>
       <bpmndi:BPMNShape id="Activity_1k9mq18_di" bpmnElement="credit-check-event-subprocess" isExpanded="true">
         <dc:Bounds x="700" y="910" width="550" height="200" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_09i8ywn_di" bpmnElement="Flow_09i8ywn">
-        <di:waypoint x="788" y="1010" />
-        <di:waypoint x="862" y="1010" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1sevwty_di" bpmnElement="Flow_1sevwty">
-        <di:waypoint x="898" y="1010" />
-        <di:waypoint x="962" y="1010" />
+      <bpmndi:BPMNEdge id="Flow_1g1qolz_di" bpmnElement="Flow_1g1qolz">
+        <di:waypoint x="1088" y="1010" />
+        <di:waypoint x="1142" y="1010" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_18magn0_di" bpmnElement="Flow_18magn0">
         <di:waypoint x="998" y="1010" />
         <di:waypoint x="1052" y="1010" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1g1qolz_di" bpmnElement="Flow_1g1qolz">
-        <di:waypoint x="1088" y="1010" />
-        <di:waypoint x="1142" y="1010" />
+      <bpmndi:BPMNEdge id="Flow_1sevwty_di" bpmnElement="Flow_1sevwty">
+        <di:waypoint x="898" y="1010" />
+        <di:waypoint x="962" y="1010" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNShape id="Event_06ij4pt_di" bpmnElement="Event_12hrej9" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
-        <dc:Bounds x="962" y="992" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="940" y="955" width="80" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_09i8ywn_di" bpmnElement="Flow_09i8ywn">
+        <di:waypoint x="788" y="1010" />
+        <di:waypoint x="862" y="1010" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_05xpb2z_di" bpmnElement="start-credit-check" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <dc:Bounds x="752" y="992" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="725" y="968" width="90" height="14" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Event_1ps7664_di" bpmnElement="update-cache-credit-check-started" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
-        <dc:Bounds x="862" y="992" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <dc:Bounds x="844" y="968" width="71" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1dja7jd_di" bpmnElement="update-cache-credit-check-complete" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
@@ -345,35 +275,36 @@ example address proof</bpmn:text>
           <dc:Bounds x="1137" y="962" width="48" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1ps7664_di" bpmnElement="update-cache-credit-check-started" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="862" y="992" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="844" y="968" width="71" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06ij4pt_di" bpmnElement="Event_12hrej9" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="962" y="992" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="940" y="955" width="80" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Event_1ssp2fk_di" bpmnElement="Event_11bzgxj" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
         <dc:Bounds x="1052" y="992" width="36" height="36" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1030" y="955" width="80" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_1ax3ou6_di" bpmnElement="Association_1ax3ou6">
-        <di:waypoint x="311" y="712" />
-        <di:waypoint x="282" y="648" />
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="TextAnnotation_1j875ds_di" bpmnElement="TextAnnotation_1j875ds">
+        <dc:Bounds x="570" y="810" width="100" height="81" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_1rr1l0h_di" bpmnElement="TextAnnotation_1rr1l0h">
+        <dc:Bounds x="1370" y="452" width="230" height="85" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="TextAnnotation_0gxw27i_di" bpmnElement="TextAnnotation_0gxw27i" bioc:stroke="#E53935" bioc:fill="#FFCDD2">
+        <dc:Bounds x="1280" y="880" width="100" height="67" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Association_06et2po_di" bpmnElement="Association_06et2po">
         <di:waypoint x="644" y="768" />
         <di:waypoint x="626" y="810" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0qqekrp_di" bpmnElement="Association_0qqekrp">
-        <di:waypoint x="478" y="688" />
-        <di:waypoint x="487" y="668" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0hoel14_di" bpmnElement="Association_0hoel14">
-        <di:waypoint x="965" y="600" />
-        <di:waypoint x="940" y="568" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0omje9m_di" bpmnElement="Association_0omje9m">
-        <di:waypoint x="940" y="512" />
-        <di:waypoint x="1154" y="602" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1jdneaq_di" bpmnElement="Association_1jdneaq">
-        <di:waypoint x="1188" y="600" />
-        <di:waypoint x="1166" y="530" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_1chzlen_di" bpmnElement="Association_1chzlen">
         <di:waypoint x="1249" y="607" />
@@ -392,24 +323,27 @@ example address proof</bpmn:text>
       <bpmndi:BPMNShape id="Participant_0o1i88b_di" bpmnElement="Participant_1twlm37" isHorizontal="true">
         <dc:Bounds x="250" y="240" width="600" height="60" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Participant_1wtyl12_di" bpmnElement="Participant_0bqe6j0" isHorizontal="true">
+        <dc:Bounds x="250" y="1370" width="301" height="60" />
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_090zdeb_di" bpmnElement="Participant_credit-check-workflow" isHorizontal="true">
         <dc:Bounds x="250" y="1530" width="1170" height="240" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Flow_1h6dke2_di" bpmnElement="Flow_1h6dke2">
-        <di:waypoint x="1120" y="1650" />
-        <di:waypoint x="1322" y="1650" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1ohhrer_di" bpmnElement="Flow_1ohhrer">
-        <di:waypoint x="860" y="1650" />
-        <di:waypoint x="1020" y="1650" />
+      <bpmndi:BPMNEdge id="Flow_1jn9jzk_di" bpmnElement="Flow_1jn9jzk">
+        <di:waypoint x="378" y="1650" />
+        <di:waypoint x="530" y="1650" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1ukcf41_di" bpmnElement="Flow_1ukcf41">
         <di:waypoint x="630" y="1650" />
         <di:waypoint x="760" y="1650" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1jn9jzk_di" bpmnElement="Flow_1jn9jzk">
-        <di:waypoint x="378" y="1650" />
-        <di:waypoint x="530" y="1650" />
+      <bpmndi:BPMNEdge id="Flow_1ohhrer_di" bpmnElement="Flow_1ohhrer">
+        <di:waypoint x="860" y="1650" />
+        <di:waypoint x="1020" y="1650" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1h6dke2_di" bpmnElement="Flow_1h6dke2">
+        <di:waypoint x="1120" y="1650" />
+        <di:waypoint x="1322" y="1650" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Event_0mfxzwi_di" bpmnElement="credit-check-start" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
         <dc:Bounds x="342" y="1632" width="36" height="36" />
@@ -432,17 +366,11 @@ example address proof</bpmn:text>
       <bpmndi:BPMNShape id="Activity_1jo9upj_di" bpmnElement="Activity_1l6damk" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
         <dc:Bounds x="760" y="1610" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Participant_0iwy2of_di" bpmnElement="Participant_1c02ojh" isHorizontal="true" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
-        <dc:Bounds x="1000" y="1370" width="300" height="60" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Participant_0dryvnj_di" bpmnElement="Participant_1pbuevm" isHorizontal="true" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <dc:Bounds x="630" y="1370" width="300" height="60" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Participant_1wtyl12_di" bpmnElement="Participant_0bqe6j0" isHorizontal="true">
-        <dc:Bounds x="250" y="1370" width="301" height="60" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0002l56_di" bpmnElement="TextAnnotation_0002l56">
-        <dc:Bounds x="940" y="236" width="100" height="54" />
+      <bpmndi:BPMNShape id="Participant_0iwy2of_di" bpmnElement="Participant_1c02ojh" isHorizontal="true" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="1000" y="1370" width="300" height="60" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_00s5rn0_di" bpmnElement="TextAnnotation_00s5rn0" bioc:stroke="#E53935" bioc:fill="#FFCDD2">
         <dc:Bounds x="190" y="1200" width="169.98765969802554" height="69.994918699187" />
@@ -453,31 +381,9 @@ example address proof</bpmn:text>
       <bpmndi:BPMNShape id="TextAnnotation_0wu4n1e_di" bpmnElement="TextAnnotation_0wu4n1e" bioc:stroke="#E53935" bioc:fill="#FFCDD2">
         <dc:Bounds x="580" y="1177" width="99.99156545209178" height="66.1268556005398" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0op2cca_di" bpmnElement="TextAnnotation_0op2cca">
-        <dc:Bounds x="1410" y="175" width="100" height="40" />
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0kv6oon_di" bpmnElement="TextAnnotation_0kv6oon" bioc:stroke="rgb(229, 57, 53)" bioc:fill="rgb(255, 205, 210)">
         <dc:Bounds x="820" y="1200" width="100" height="68" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="TextAnnotation_0wuka3g_di" bpmnElement="TextAnnotation_0wuka3g" bioc:stroke="#E53935" bioc:fill="#FFCDD2">
-        <dc:Bounds x="180" y="340" width="100" height="40" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="Association_1tam93k_di" bpmnElement="Association_1tam93k">
-        <di:waypoint x="776" y="1027" />
-        <di:waypoint x="842" y="1200" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1fgjw7v_di" bpmnElement="Association_1fgjw7v">
-        <di:waypoint x="1303" y="140" />
-        <di:waypoint x="1411" y="175" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_043hkwt_di" bpmnElement="Association_043hkwt">
-        <di:waypoint x="850" y="257" />
-        <di:waypoint x="940" y="253" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_1t2ex2a_di" bpmnElement="Association_1t2ex2a">
-        <di:waypoint x="280" y="300" />
-        <di:waypoint x="244" y="340" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_04empj3_di" bpmnElement="Association_04empj3">
         <di:waypoint x="630" y="1370" />
         <di:waypoint x="514" y="1243" />
@@ -490,49 +396,17 @@ example address proof</bpmn:text>
         <di:waypoint x="679" y="1370" />
         <di:waypoint x="645" y="1243" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Association_0h4uva2_di" bpmnElement="Association_0h4uva2">
-        <di:waypoint x="783" y="1370" />
-        <di:waypoint x="841" y="1268" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Association_0vcl6c8_di" bpmnElement="Association_0vcl6c8">
         <di:waypoint x="271" y="1270" />
         <di:waypoint x="259" y="1370" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0kpg6w7_di" bpmnElement="Flow_0kpg6w7" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
-        <di:waypoint x="318" y="300" />
-        <di:waypoint x="318" y="710" />
+      <bpmndi:BPMNEdge id="Association_0h4uva2_di" bpmnElement="Association_0h4uva2">
+        <di:waypoint x="783" y="1370" />
+        <di:waypoint x="841" y="1268" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_06t7qi9_di" bpmnElement="Flow_06t7qi9" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
-        <di:waypoint x="690" y="1370" />
-        <di:waypoint x="690" y="1150" />
-        <di:waypoint x="460" y="1150" />
-        <di:waypoint x="460" y="768" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1l2ixe5_di" bpmnElement="Flow_1l2ixe5" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
-        <di:waypoint x="980" y="1028" />
-        <di:waypoint x="980" y="1500" />
-        <di:waypoint x="360" y="1500" />
-        <di:waypoint x="360" y="1632" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0rx3h9g_di" bpmnElement="Flow_0rx3h9g" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
-        <di:waypoint x="770" y="1370" />
-        <di:waypoint x="770" y="1028" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0zpj7au_di" bpmnElement="Flow_0zpj7au" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
-        <di:waypoint x="880" y="1028" />
-        <di:waypoint x="880" y="1150" />
-        <di:waypoint x="1030" y="1150" />
-        <di:waypoint x="1030" y="1370" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_13w234i_di" bpmnElement="Flow_13w234i" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
-        <di:waypoint x="1160" y="1028" />
-        <di:waypoint x="1160" y="1370" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1nvm0ql_di" bpmnElement="Flow_1nvm0ql" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
-        <di:waypoint x="1340" y="1632" />
-        <di:waypoint x="1340" y="1150" />
-        <di:waypoint x="1070" y="1150" />
-        <di:waypoint x="1070" y="1028" />
+      <bpmndi:BPMNEdge id="Association_1tam93k_di" bpmnElement="Association_1tam93k">
+        <di:waypoint x="776" y="1027" />
+        <di:waypoint x="842" y="1200" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0wyelgc_di" bpmnElement="Flow_0wyelgc">
         <di:waypoint x="910" y="90" />
@@ -548,15 +422,51 @@ example address proof</bpmn:text>
         <di:waypoint x="560" y="190" />
         <di:waypoint x="560" y="240" />
       </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0kpg6w7_di" bpmnElement="Flow_0kpg6w7" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <di:waypoint x="318" y="300" />
+        <di:waypoint x="318" y="710" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_13w234i_di" bpmnElement="Flow_13w234i" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="1160" y="1028" />
+        <di:waypoint x="1160" y="1370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0rx3h9g_di" bpmnElement="Flow_0rx3h9g" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <di:waypoint x="770" y="1370" />
+        <di:waypoint x="770" y="1028" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1nvm0ql_di" bpmnElement="Flow_1nvm0ql" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <di:waypoint x="1340" y="1632" />
+        <di:waypoint x="1340" y="1150" />
+        <di:waypoint x="1070" y="1150" />
+        <di:waypoint x="1070" y="1028" />
+      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0tnu7ac_di" bpmnElement="Flow_0tnu7ac" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
         <di:waypoint x="930" y="1400" />
         <di:waypoint x="1000" y="1400" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_06t7qi9_di" bpmnElement="Flow_06t7qi9" bioc:stroke="rgb(251, 140, 0)" bioc:fill="rgb(255, 224, 178)">
+        <di:waypoint x="690" y="1370" />
+        <di:waypoint x="690" y="1150" />
+        <di:waypoint x="460" y="1150" />
+        <di:waypoint x="460" y="768" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_0q3orhu_di" bpmnElement="Flow_0q3orhu" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
         <di:waypoint x="1010" y="1430" />
         <di:waypoint x="1010" y="1460" />
         <di:waypoint x="480" y="1460" />
         <di:waypoint x="480" y="1430" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0zpj7au_di" bpmnElement="Flow_0zpj7au" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <di:waypoint x="880" y="1028" />
+        <di:waypoint x="880" y="1150" />
+        <di:waypoint x="1030" y="1150" />
+        <di:waypoint x="1030" y="1370" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1l2ixe5_di" bpmnElement="Flow_1l2ixe5" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <di:waypoint x="980" y="1028" />
+        <di:waypoint x="980" y="1500" />
+        <di:waypoint x="360" y="1500" />
+        <di:waypoint x="360" y="1632" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

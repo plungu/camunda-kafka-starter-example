@@ -3,7 +3,7 @@ Doc Writer <paul.lungu@camunda.com>
 v1.0, 2021-05-10
 :toc: right
 
-include::./poc-goals-links.adoc[]
+//include::./poc-goals-links.adoc[]
 
 include::./use-case-policy-update.adoc[]
 

@@ -15,7 +15,7 @@ var MarketingBar = React.createClass({
                   <li className="menu-text">
                       <button className="menu-icon" type="button" data-toggle></button>
                       {/*<div className="title-bar-title">Insurance Application - Camunda - PoC</div>*/}
-                      <medium>VERA</medium>
+                      <medium>SR</medium>
                   </li>
                   <li className="menu-text">
                       {/*<span className="title-bar-title"><img src="logo.png?text=MorganStanley"/></span>*/}

@@ -28,3 +28,4 @@ application-dev.properties
 /angular-starter/
 **/.DS_Store
 /.DS_Store
+settings.xml
