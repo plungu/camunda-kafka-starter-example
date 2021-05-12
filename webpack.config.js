@@ -7,7 +7,7 @@ module.exports = {
         'babel-polyfill',
 	    'script!jquery/dist/jquery.min.js',
 	    'script!foundation-sites/dist/foundation.min.js',
-	    './src/main/js/reactjs/service-request/app.jsx'
+	    './src/main/js/reactjs/application/app.jsx'
 	  ],
 	externals: {
 		jquery: 'jQuery'
@@ -28,70 +28,77 @@ module.exports = {
     resolve: {
         root: __dirname,
         alias: {
-            Main: 'src/main/js/reactjs/service-request/components/Main.jsx',
-            Nav: 'src/main/js/reactjs/service-request/components/Nav.jsx',
-            IFrame: 'src/main/js/reactjs/service-request/components/IFrame.jsx',
+            //Generic Reusable Components
+            client: 'src/main/js/reactjs/application/components/client.jsx',
+            follow: 'src/main/js/reactjs/application/components/follow.jsx',
+            IFrame: 'src/main/js/reactjs/application/components/IFrame.jsx',
+            UpdateNoteDialog: 'src/main/js/reactjs/application/components/note/UpdateNoteDialog.jsx',
+            DisplayDate: 'src/main/js/reactjs/application/components/date/DisplayDate.jsx',
+            DisplayDateTime: 'src/main/js/reactjs/application/components/date/DisplayDateTime.jsx',
 
-            DisplayDate: 'src/main/js/reactjs/service-request/components/date/DisplayDate.jsx',
-            DisplayDateTime: 'src/main/js/reactjs/service-request/components/date/DisplayDateTime.jsx',
+            MessageLine: 'src/main/js/reactjs/application/components/message/MessageLine.jsx',
+            MessageDetail: 'src/main/js/reactjs/application/components/message/MessageDetail.jsx',
+            MessageList: 'src/main/js/reactjs/application/components/message/MessageList.jsx',
+            MessageFilterBar: 'src/main/js/reactjs/application/components/message/MessageFilterBar.jsx',
 
-            MarketingBar: 'src/main/js/reactjs/service-request/components/MarketingBar.jsx',
-            StatusBar: 'src/main/js/reactjs/service-request/components/StatusBar.jsx',
-            FooterBar: 'src/main/js/reactjs/service-request/components/FooterBar.jsx',
+            TenantMain: 'src/main/js/reactjs/application/components/tenant/TenantMain.jsx',
+            TenantLine: 'src/main/js/reactjs/application/components/tenant/TenantLine.jsx',
+            TenantList: 'src/main/js/reactjs/application/components/tenant/TenantList.jsx',
+            TenantDetail: 'src/main/js/reactjs/application/components/tenant/TenantDetail.jsx',
+            TenantFilterBar: 'src/main/js/reactjs/application/components/tenant/TenantFilterBar.jsx',
+            Tenant: 'src/main/js/reactjs/application/components/tenant/Tenant.jsx',
 
-            Home: 'src/main/js/reactjs/service-request/components/home/Home.jsx',
-            RejectHome: 'src/main/js/reactjs/service-request/components/home/RejectHome.jsx',
-            Line: 'src/main/js/reactjs/service-request/components/home/Line.jsx',
-            List: 'src/main/js/reactjs/service-request/components/home/List.jsx',
-            Detail: 'src/main/js/reactjs/service-request/components/home/Detail.jsx',
-            RejectDetail: 'src/main/js/reactjs/service-request/components/home/RejectDetail.jsx',
-            ServiceStartForm: 'src/main/js/reactjs/service-request/components/home/ServiceStartForm.jsx',
-            ServiceSelectForm: 'src/main/js/reactjs/service-request/components/home/ServiceSelectForm.jsx',
-            ServiceForm: 'src/main/js/reactjs/service-request/components/home/ServiceForm.jsx',
-            ServiceDetailForm: 'src/main/js/reactjs/service-request/components/home/ServiceDetailForm.jsx',
-            ServiceSupplierForm: 'src/main/js/reactjs/service-request/components/home/ServiceSupplierForm.jsx',
-            Info: 'src/main/js/reactjs/service-request/components/home/Info.jsx',
-            FilterBar: 'src/main/js/reactjs/service-request/components/home/FilterBar.jsx',
-            ActionBar: 'src/main/js/reactjs/service-request/components/home/ActionBar.jsx',
-
-            Task: 'src/main/js/reactjs/service-request/components/task/Home.jsx',
-            TaskLine: 'src/main/js/reactjs/service-request/components/task/Line.jsx',
-            TaskList: 'src/main/js/reactjs/service-request/components/task/List.jsx',
-            TaskDetail: 'src/main/js/reactjs/service-request/components/task/Detail.jsx',
-            TaskForm: 'src/main/js/reactjs/service-request/components/task/Form.jsx',
-            TaskInfo: 'src/main/js/reactjs/service-request/components/task/Info.jsx',
-            TaskFilterBar: 'src/main/js/reactjs/service-request/components/task/FilterBar.jsx',
-
-            UpdateNoteDialog: 'src/main/js/reactjs/service-request/components/note/UpdateNoteDialog.jsx',
-
-            MessageLine: 'src/main/js/reactjs/service-request/components/message/MessageLine.jsx',
-            MessageDetail: 'src/main/js/reactjs/service-request/components/message/MessageDetail.jsx',
-            MessageList: 'src/main/js/reactjs/service-request/components/message/MessageList.jsx',
-            MessageFilterBar: 'src/main/js/reactjs/service-request/components/message/MessageFilterBar.jsx',
-
-            TenantMain: 'src/main/js/reactjs/service-request/components/tenant/TenantMain.jsx',
-            TenantLine: 'src/main/js/reactjs/service-request/components/tenant/TenantLine.jsx',
-            TenantList: 'src/main/js/reactjs/service-request/components/tenant/TenantList.jsx',
-            TenantDetail: 'src/main/js/reactjs/service-request/components/tenant/TenantDetail.jsx',
-            TenantFilterBar: 'src/main/js/reactjs/service-request/components/tenant/TenantFilterBar.jsx',
-            Tenant: 'src/main/js/reactjs/service-request/components/tenant/Tenant.jsx',
-
-            CannedMessageMain: 'src/main/js/reactjs/service-request/components/canned-message/CannedMessageMain.jsx',
-            CannedMessageLine: 'src/main/js/reactjs/service-request/components/canned-message/CannedMessageLine.jsx',
-            CannedMessageList: 'src/main/js/reactjs/service-request/components/canned-message/CannedMessageList.jsx',
-            CannedMessageDetail: 'src/main/js/reactjs/service-request/components/canned-message/CannedMessageDetail.jsx',
-
-            Import: 'src/main/js/reactjs/service-request/components/Import.jsx',
-            ImportRenewalForm: 'src/main/js/reactjs/service-request/components/import/ImportRenewalForm.jsx',
-            ImportTenantForm: 'src/main/js/reactjs/service-request/components/import/ImportTenantForm.jsx',
-            ImportCannedMessageForm: 'src/main/js/reactjs/service-request/components/import/ImportCannedMessageForm.jsx',
-            ImportRenewalMain: 'src/main/js/reactjs/service-request/components/import/ImportRenewalMain.jsx',
-            ImportTenantMain: 'src/main/js/reactjs/service-request/components/import/ImportTenantMain.jsx',
-            ImportCannedMessageMain: 'src/main/js/reactjs/service-request/components/import/ImportCannedMessageMain.jsx',
+            Import: 'src/main/js/reactjs/application/components/Import.jsx',
+            ImportRenewalForm: 'src/main/js/reactjs/application/components/import/ImportRenewalForm.jsx',
+            ImportTenantForm: 'src/main/js/reactjs/application/components/import/ImportTenantForm.jsx',
+            ImportCannedMessageForm: 'src/main/js/reactjs/application/components/import/ImportCannedMessageForm.jsx',
+            ImportRenewalMain: 'src/main/js/reactjs/application/components/import/ImportRenewalMain.jsx',
+            ImportTenantMain: 'src/main/js/reactjs/application/components/import/ImportTenantMain.jsx',
+            ImportCannedMessageMain: 'src/main/js/reactjs/application/components/import/ImportCannedMessageMain.jsx',
 
             uriListConverter: 'src/main/js/api/uriListConverter.js',
             uriTemplateInterceptor: 'src/main/js/api/uriTemplateInterceptor.js',
-            applicaitonStyles: 'src/main/resources/static/app.css'
+
+            applicaitonStyles: 'src/main/resources/static/app.css',
+            // END Generic Reusable Components
+
+            // Use Case Components
+            Main: 'src/main/js/reactjs/application/triage/components/Main.jsx',
+            Nav: 'src/main/js/reactjs/application/triage/components/Nav.jsx',
+
+            MarketingBar: 'src/main/js/reactjs/application/triage/components/MarketingBar.jsx',
+            StatusBar: 'src/main/js/reactjs/application/triage/components/StatusBar.jsx',
+            FooterBar: 'src/main/js/reactjs/application/triage/components/FooterBar.jsx',
+
+            Home: 'src/main/js/reactjs/application/triage/components/home/Home.jsx',
+            FilterBar: 'src/main/js/reactjs/application/triage/components/home/FilterBar.jsx',
+            ActionBar: 'src/main/js/reactjs/application/triage/components/home/ActionBar.jsx',
+
+            RejectHome: 'src/main/js/reactjs/application/triage/components/home/RejectHome.jsx',
+            RejectDetail: 'src/main/js/reactjs/application/triage/components/home/RejectDetail.jsx',
+            Line: 'src/main/js/reactjs/application/triage/components/home/Line.jsx',
+            List: 'src/main/js/reactjs/application/triage/components/home/List.jsx',
+            Detail: 'src/main/js/reactjs/application/triage/components/home/Detail.jsx',
+
+            ServiceStartForm: 'src/main/js/reactjs/application/triage/components/home/ServiceStartForm.jsx',
+            ServiceSelectForm: 'src/main/js/reactjs/application/triage/components/home/ServiceSelectForm.jsx',
+            ServiceForm: 'src/main/js/reactjs/application/triage/components/home/ServiceForm.jsx',
+            ServiceDetailForm: 'src/main/js/reactjs/application/triage/components/home/ServiceDetailForm.jsx',
+            ServiceSupplierForm: 'src/main/js/reactjs/application/triage/components/home/ServiceSupplierForm.jsx',
+
+            Info: 'src/main/js/reactjs/application/triage/components/home/Info.jsx',
+
+            Task: 'src/main/js/reactjs/application/triage/components/task/Home.jsx',
+            TaskLine: 'src/main/js/reactjs/application/triage/components/task/Line.jsx',
+            TaskList: 'src/main/js/reactjs/application/triage/components/task/List.jsx',
+            TaskDetail: 'src/main/js/reactjs/application/triage/components/task/Detail.jsx',
+            TaskActionForm: 'src/main/js/reactjs/application/triage/components/task/ActionForm.jsx',
+            TaskSearchForm: 'src/main/js/reactjs/application/triage/components/task/SearchForm.jsx',
+            TaskOptionForm: 'src/main/js/reactjs/application/triage/components/task/OptionForm.jsx',
+            TaskInfo: 'src/main/js/reactjs/application/triage/components/task/Info.jsx',
+            TaskFilterBar: 'src/main/js/reactjs/application/triage/components/task/FilterBar.jsx',
+            // END Use Case Components
+
         },
         extensions: ['', '.js', '.jsx']
     },

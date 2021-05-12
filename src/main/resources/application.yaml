@@ -41,3 +41,6 @@ camunda.bpm:
   filter:
     create: All Tasks
   history-level: FULL
+  eventing.execution: true
+  eventing.history: true
+  eventing.task: true

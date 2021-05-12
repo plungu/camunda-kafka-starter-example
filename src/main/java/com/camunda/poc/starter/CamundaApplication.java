@@ -1,6 +1,6 @@
 package com.camunda.poc.starter;
 
-import com.camunda.poc.starter.usecase.servicerequest.entity.ServiceRequestEntity;
+import com.camunda.poc.starter.entity.ServiceRequestEntity;
 
 import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
 
@@ -26,49 +26,8 @@ import java.util.logging.Logger;
 @EnableProcessApplication("spring-boot-starter")
 public class CamundaApplication {
 
-	private final Logger LOGGER = Logger.getLogger(CamundaApplication.class.getName());
-
 	public static void main(String... args) {
 	    SpringApplication.run(CamundaApplication.class, args);
 	}
 
-	@Value("${spring.datasource.url}")
-	private String url;
-
-	@Value("${spring.datasource.username}")
-	private String userName;
-
-	@Value("${spring.datasource.password}")
-	private String password;
-
-	@EventListener
-	public void onApplicationEvent(ContextRefreshedEvent event) throws SQLException {
-
-		LOGGER.info("\n\n ********************** post app hook *********************** \n\n ");
-
-		Map<String, String> settings = new HashMap<>();
-		settings.put("hibernate.connection.url", url);
-		settings.put("hibernate.connection.username", userName);
-		settings.put("hibernate.connection.password", password);
-		settings.put("hibernate.show_sql", "true");
-		settings.put("hibernate.format_sql", "true");
-
-		ServiceRegistry serviceRegistry =
-				new StandardServiceRegistryBuilder()
-						.applySettings(settings).build();
-
-		MetadataSources metadata = new MetadataSources(serviceRegistry);
-		metadata.addAnnotatedClass(ServiceRequestEntity.class);
-
-		EnumSet<TargetType> enumSet = EnumSet.of(TargetType.DATABASE);
-
-		SchemaExport export = new SchemaExport()
-				.setDelimiter(";")
-				.setFormat(true);
-
-		export.execute(enumSet, SchemaExport.Action.CREATE, metadata.buildMetadata());
-
-		LOGGER.info("\n\n **** Tables Created ****** \n\n");
-
-	}
 }

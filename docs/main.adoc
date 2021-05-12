@@ -1,0 +1,30 @@
+= Workflow Business Case: Policy Updates with Workflow Orchestration, Case Management with BPMN and Custom UI
+Doc Writer <paul.lungu@camunda.com>
+v1.0, 2021-05-10
+:toc: right
+
+//include::./poc-goals-links.adoc[]
+
+include::./use-case-policy-update.adoc[]
+
+include::./running-use-case.adoc[]
+
+include::./using-enterprise-camunda.adoc[]
+
+include::./postman-testing.adoc[]
+
+include::./architecture.adoc[]
+
+include::./patterns-for-integration.adoc[]
+
+include::./example-kafka-integration.adoc[]
+
+include::./example-spring-event-listener-bridge.adoc[]
+
+include::./ui-integration.adoc[]
+
+include::./handling-business-data.adoc[]
+
+include::./developer-how-to.adoc[]
+
+include::./other-tools.adoc[]

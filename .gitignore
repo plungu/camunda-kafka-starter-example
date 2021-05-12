@@ -27,4 +27,9 @@ application-dev.properties
 *.iml
 /angular-starter/
 **/.DS_Store
+<<<<<<< HEAD
 /.DS_Store
+=======
+/.DS_Store
+settings.xml
+>>>>>>> chubb-poc
