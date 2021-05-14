@@ -6,6 +6,8 @@
 'use strict';
 
 const React = require('react');
+const client = require('../client.jsx');
+const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 const ActionBar = require('ActionBar');
 

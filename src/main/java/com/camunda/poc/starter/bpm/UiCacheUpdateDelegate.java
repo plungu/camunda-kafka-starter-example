@@ -5,6 +5,7 @@ import com.camunda.poc.starter.repo.PolicyRepository;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
@@ -15,6 +16,7 @@ import java.util.logging.Logger;
  * illustrating how a Java Delegate can be used 
  * from within a BPMN 2.0 Service Task.
  */
+@Profile("policy")
 @Component("uiCacheUpdateDelegate")
 public class UiCacheUpdateDelegate implements JavaDelegate {
  

@@ -7,13 +7,10 @@
 
 // tag::nodeModules[]
 const React = require('react');
-const client = require('../client.jsx');
-const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
+const client = require('client');
+const follow = require('follow'); // function to hop multiple links by "rel"
 
 // tag::customComponents
-// const StatusBar = require('StatusBar');
-// const NavBar = require('TaskNavBar');
-// const FilterBar = require('FilterBar');
 const List = require('ItemList');
 const Detail = require('ItemDetail');
 // tag::customComponents

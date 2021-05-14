@@ -2,12 +2,14 @@ package com.camunda.poc.starter.repo;
 
 import com.camunda.poc.starter.entity.PolicyEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+@Profile("policy")
 @Repository
 public class ReactivePolicyRepositoryImpl implements ReactivePolicyRepository{
 

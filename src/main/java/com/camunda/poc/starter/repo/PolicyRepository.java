@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-@Profile("triage")
+@Profile("policy")
 public interface PolicyRepository extends PagingAndSortingRepository<PolicyEntity, Long>{
 
 //	@Query("select l from renewal l where l.end <= ?1 and l.renewalStarted = false and l.renewalCompleted = false")

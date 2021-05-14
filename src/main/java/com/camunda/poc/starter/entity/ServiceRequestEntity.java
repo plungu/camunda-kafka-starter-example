@@ -1,6 +1,6 @@
 package com.camunda.poc.starter.entity;
 
-import com.camunda.poc.starter.kafka.integration.ServiceRequest;
+import com.camunda.poc.starter.kafka.integration.KafkaRequestMapper;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
@@ -15,31 +15,6 @@ public class ServiceRequestEntity {
     Long version;
 
     public ServiceRequestEntity(){}
-
-    public ServiceRequestEntity setServiceRequest(ServiceRequest sr){
-        this.serviceId = sr.getServiceId();
-        this.serviceCategory = sr.getServiceCategory();
-        this.acquiringDivision = sr.getAcquiringDivision();
-        this.additionalReviewer = sr.getAdditionalReviewer();
-        this.additionalReviewerNotes = sr.getAdditionalReviewerNotes();
-        this.additionalReviewerMSID = sr.getAdditionalReviewerMSID();
-        this.applicationName = sr.getApplicationName();
-        this.buContractingService = sr.getBuContractingService();
-        this.eonId = sr.getEonId();
-        this.estimatedAnnualSpend = sr.getEstimatedAnnualSpend();
-        this.leContractingServiceCode = sr.getLeContractingServiceCode();
-        this.serviceDescription = sr.getServiceDescription();
-        this.serviceDetailsComments = sr.getServiceDetailsComments();
-        this.serviceOwnerMSID = sr.getServiceOwnerMSID();
-        this.serviceOwner = sr.getServiceOwner();
-        this.sourcingComments = sr.getSourcingComments();
-        this.sourcingManager = sr.getSourcingManager();
-        this.started = sr.getStarted();
-        this.approved = sr.isApproved();
-        this.rejected = sr.isRejected();
-
-        return this;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

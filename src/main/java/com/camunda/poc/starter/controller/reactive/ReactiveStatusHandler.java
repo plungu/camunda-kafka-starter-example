@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Profile("triage")
+@Profile("reactive")
 @RestController
 @RequestMapping
-public class PolicyStatusHandler {
+public class ReactiveStatusHandler {
 
     @Autowired
     ReactivePolicyRepositoryImpl policyRepository;

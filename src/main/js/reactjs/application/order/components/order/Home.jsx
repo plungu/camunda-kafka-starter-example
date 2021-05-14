@@ -8,8 +8,8 @@
 // tag::nodeModules[]
 const React = require('react');
 const ReactDOM = require('react-dom');
-const client = require('../client.jsx');
-const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
+const client = require('client');
+const follow = require('follow'); // function to hop multiple links by "rel"
 
 // tag::customComponents
 // const StatusBar = require('StatusBar');

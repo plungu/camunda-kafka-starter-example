@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.HandlerMapping;
 import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
@@ -18,7 +19,7 @@ import reactor.core.publisher.Mono;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Profile("reactive")
 @Configuration
 public class ReactiveWebSocketConfiguration {
 

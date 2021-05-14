@@ -1,7 +1,5 @@
 package com.camunda.poc.starter.controller.workflow;
 
-import com.camunda.poc.starter.entity.PolicyEntity;
-import com.camunda.poc.starter.kafka.integration.ServiceRequest;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.task.Task;
@@ -12,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 

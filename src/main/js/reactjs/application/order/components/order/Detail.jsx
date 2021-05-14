@@ -7,9 +7,6 @@
 
 // tag::nodeModules[]
 const React = require('react');
-const ReactDOM = require('react-dom')
-const client = require('../client.jsx');
-const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 // tag::customComponents
 // const Form = require('OrderForm');

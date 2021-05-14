@@ -1,7 +1,6 @@
 package com.camunda.poc.starter;
 
-import com.camunda.poc.starter.entity.PolicyEntity;
-import com.camunda.poc.starter.entity.ServiceRequestEntity;
+import com.camunda.poc.starter.entity.*;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
@@ -19,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-@Profile("triage")
+@Profile("db")
 @Configuration
 public class DbEntityCreateConfig {
 
@@ -51,8 +50,10 @@ public class DbEntityCreateConfig {
                         .applySettings(settings).build();
 
         MetadataSources metadata = new MetadataSources(serviceRegistry);
-        metadata.addAnnotatedClass(PolicyEntity.class);
-
+        metadata.addAnnotatedClass(Order.class);
+        metadata.addAnnotatedClass(OrderItem.class);
+        metadata.addAnnotatedClass(StockItem.class);
+        metadata.addAnnotatedClass(Contact.class);
 
         EnumSet<TargetType> enumSet = EnumSet.of(TargetType.DATABASE);
 

@@ -7,7 +7,6 @@
 
 // tag::nodeModules[]
 const React = require('react');
-const client = require('../client.jsx');
 
 class Form extends React.Component {
         

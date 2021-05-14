@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" id="Definitions_10kafy1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <bpmn:process id="pm-order-approval" name="Approve PM Order" isExecutable="true">
+    <bpmn:sequenceFlow id="Flow_1hfc0x8" sourceRef="pm-order-created" targetRef="approve-pm-order" />
+    <bpmn:startEvent id="pm-order-created" name="PM Order Created" camunda:asyncBefore="true">
+      <bpmn:outgoing>Flow_1hfc0x8</bpmn:outgoing>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_1hblp01" messageRef="Message_1wavihr" />
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_05lkbme" sourceRef="approve-pm-order" targetRef="udpate-local-pm-invnetory" />
+    <bpmn:boundaryEvent id="Event_06gelac" name="after one day" cancelActivity="false" attachedToRef="approve-pm-order">
+      <bpmn:outgoing>Flow_176zjg8</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_06ruky5">
+        <bpmn:timeCycle xsi:type="bpmn:tFormalExpression">R2/PT5M</bpmn:timeCycle>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:sequenceFlow id="Flow_176zjg8" sourceRef="Event_06gelac" targetRef="Activity_05ltwh2" />
+    <bpmn:endEvent id="Event_1gk1ln9" name="Reminder to Approver Sent">
+      <bpmn:incoming>Flow_09u4dzj</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_09u4dzj" sourceRef="Activity_05ltwh2" targetRef="Event_1gk1ln9" />
+    <bpmn:sequenceFlow id="Flow_0yxrsrb" sourceRef="Event_11csxpv" targetRef="escalate-sr-approver" />
+    <bpmn:sequenceFlow id="Flow_0mbg3sp" sourceRef="escalate-sr-approver" targetRef="Gateway_0wfhh96" />
+    <bpmn:userTask id="approve-pm-order" name="Approve PM Order">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="${emailApprover}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_1hfc0x8</bpmn:incoming>
+      <bpmn:incoming>Flow_1xldvu6</bpmn:incoming>
+      <bpmn:outgoing>Flow_05lkbme</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:boundaryEvent id="Event_11csxpv" name="after three days" attachedToRef="approve-pm-order">
+      <bpmn:outgoing>Flow_0yxrsrb</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="TimerEventDefinition_0bo3jiu">
+        <bpmn:timeDuration xsi:type="bpmn:tFormalExpression">PT7M</bpmn:timeDuration>
+      </bpmn:timerEventDefinition>
+    </bpmn:boundaryEvent>
+    <bpmn:userTask id="escalate-sr-approver" name="Escalate to Senior Approver">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="${emailApprover}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0yxrsrb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0mbg3sp</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:sendTask id="Activity_05ltwh2" name="Remind Approver" camunda:delegateExpression="${logger}">
+      <bpmn:incoming>Flow_176zjg8</bpmn:incoming>
+      <bpmn:outgoing>Flow_09u4dzj</bpmn:outgoing>
+    </bpmn:sendTask>
+    <bpmn:exclusiveGateway id="Gateway_0wfhh96" default="Flow_0hzfv02">
+      <bpmn:incoming>Flow_0mbg3sp</bpmn:incoming>
+      <bpmn:outgoing>Flow_0hzfv02</bpmn:outgoing>
+      <bpmn:outgoing>Flow_1xldvu6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:sequenceFlow id="Flow_0hzfv02" name="complete" sourceRef="Gateway_0wfhh96" targetRef="udpate-local-pm-invnetory" />
+    <bpmn:sequenceFlow id="Flow_1xldvu6" name="reassign" sourceRef="Gateway_0wfhh96" targetRef="approve-pm-order">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${false}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
+    <bpmn:endEvent id="Event_1pfa2yv" name="Send Order Confirmation">
+      <bpmn:extensionElements>
+        <camunda:executionListener delegateExpression="${emailSalesRepListner}" event="start" />
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0oyc8kx</bpmn:incoming>
+      <bpmn:messageEventDefinition id="MessageEventDefinition_18d390t" camunda:delegateExpression="${BccEmailDelegate}" />
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_0oyc8kx" sourceRef="udpate-local-pm-invnetory" targetRef="Event_1pfa2yv" />
+    <bpmn:serviceTask id="udpate-local-pm-invnetory" name="Update Local PM Inventory" camunda:delegateExpression="${updatePMItemLocalInventory}">
+      <bpmn:incoming>Flow_0hzfv02</bpmn:incoming>
+      <bpmn:incoming>Flow_05lkbme</bpmn:incoming>
+      <bpmn:outgoing>Flow_0oyc8kx</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:message id="Message_1wavihr" name="start-pm-order-approval" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="pm-order-approval">
+      <bpmndi:BPMNEdge id="Flow_0oyc8kx_di" bpmnElement="Flow_0oyc8kx">
+        <di:waypoint x="1000" y="120" />
+        <di:waypoint x="1062" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1xldvu6_di" bpmnElement="Flow_1xldvu6">
+        <di:waypoint x="750" y="145" />
+        <di:waypoint x="750" y="220" />
+        <di:waypoint x="470" y="220" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="699" y="183" width="42" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0hzfv02_di" bpmnElement="Flow_0hzfv02">
+        <di:waypoint x="775" y="120" />
+        <di:waypoint x="900" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="777" y="102" width="45" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0mbg3sp_di" bpmnElement="Flow_0mbg3sp">
+        <di:waypoint x="680" y="120" />
+        <di:waypoint x="725" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0yxrsrb_di" bpmnElement="Flow_0yxrsrb">
+        <di:waypoint x="410" y="189" />
+        <di:waypoint x="410" y="120" />
+        <di:waypoint x="580" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_09u4dzj_di" bpmnElement="Flow_09u4dzj">
+        <di:waypoint x="680" y="390" />
+        <di:waypoint x="1062" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_176zjg8_di" bpmnElement="Flow_176zjg8">
+        <di:waypoint x="410" y="305" />
+        <di:waypoint x="410" y="390" />
+        <di:waypoint x="580" y="390" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_05lkbme_di" bpmnElement="Flow_05lkbme">
+        <di:waypoint x="470" y="247" />
+        <di:waypoint x="950" y="247" />
+        <di:waypoint x="950" y="160" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1hfc0x8_di" bpmnElement="Flow_1hfc0x8">
+        <di:waypoint x="215" y="247" />
+        <di:waypoint x="370" y="247" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0tnyl0p_di" bpmnElement="pm-order-created" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="179" y="229" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="153" y="272" width="90" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_1gk1ln9_di" bpmnElement="Event_1gk1ln9">
+        <dc:Bounds x="1062" y="372" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1045" y="415" width="71" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0j3htvp_di" bpmnElement="approve-pm-order">
+        <dc:Bounds x="370" y="207" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_020dn2o_di" bpmnElement="escalate-sr-approver">
+        <dc:Bounds x="580" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_04jiblh_di" bpmnElement="Activity_05ltwh2" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="580" y="350" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Gateway_0wfhh96_di" bpmnElement="Gateway_0wfhh96" isMarkerVisible="true">
+        <dc:Bounds x="725" y="95" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_06t7mj0_di" bpmnElement="Event_1pfa2yv" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="1062" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1049" y="145" width="63" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_06kabgj_di" bpmnElement="udpate-local-pm-invnetory" bioc:stroke="rgb(142, 36, 170)" bioc:fill="rgb(225, 190, 231)">
+        <dc:Bounds x="900" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_015zn3g_di" bpmnElement="Event_11csxpv" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="392" y="189" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="321" y="183" width="77" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0e73vq6_di" bpmnElement="Event_06gelac" bioc:stroke="rgb(67, 160, 71)" bioc:fill="rgb(200, 230, 201)">
+        <dc:Bounds x="392" y="269" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="327" y="303" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

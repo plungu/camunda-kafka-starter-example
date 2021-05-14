@@ -9,24 +9,26 @@ import org.camunda.bpm.engine.impl.history.event.HistoryEvent;
 import org.camunda.bpm.spring.boot.starter.event.ExecutionEvent;
 import org.camunda.bpm.spring.boot.starter.event.TaskEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.logging.Logger;
 
+@Profile("event-bridge")
 @Component
 public class EventListenerBridge {
 
 
-    private KafkaEventChannels channels;
-    private PolicyRepository repository;
-
-    @Autowired
-    public EventListenerBridge(KafkaEventChannels source, PolicyRepository repository){
-        this.channels = source;
-        this.repository = repository;
-    }
+//    private KafkaEventChannels channels;
+//    private PolicyRepository repository;
+//
+//    @Autowired
+//    public EventListenerBridge(KafkaEventChannels source, PolicyRepository repository){
+//        this.channels = source;
+//        this.repository = repository;
+//    }
 
 
     private final Logger LOGGER = Logger.getLogger(EventListenerBridge.class.getName());
@@ -42,7 +44,7 @@ public class EventListenerBridge {
                 + ", executionId=" + taskDelegate.getId()
                 + " \n\n");
 
-        channels.publish().send(MessageBuilder.withPayload("{\"CAMUNDA-POC-EVENT\": \"CAMUNDA POC TEST EVENT\"}").build());
+//        channels.publish().send(MessageBuilder.withPayload("{\"CAMUNDA-POC-EVENT\": \"CAMUNDA POC TEST EVENT\"}").build());
     }
 
     @EventListener

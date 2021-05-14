@@ -7,7 +7,6 @@
 
 // tag::nodeModules[]
 var {Link, IndexLink} = require('react-router');
-const client = require('../client.jsx');
 const React = require('react');
 
 // tag::customComponents

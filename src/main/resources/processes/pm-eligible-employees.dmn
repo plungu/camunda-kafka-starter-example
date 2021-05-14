@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="https://www.omg.org/spec/DMN/20191111/MODEL/" xmlns:dmndi="https://www.omg.org/spec/DMN/20191111/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/2.0" xmlns:camunda="http://camunda.org/schema/1.0/dmn" id="Definitions_1x4jke0" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="4.4.0">
+  <decision id="eligibleEmployeeDecision" name="Eligible Employees">
+    <decisionTable id="DecisionTable_1p38n39" hitPolicy="FIRST">
+      <input id="Input_1" label="Promo Country Code" biodi:width="272" camunda:inputVariable="promoCode">
+        <inputExpression id="InputExpression_1" typeRef="string">
+          <text></text>
+        </inputExpression>
+      </input>
+      <output id="Output_1" label="Email Group" name="emailGroup" typeRef="string" />
+      <output id="OutputClause_19ob9h2" label="Country" name="country" typeRef="string" />
+      <rule id="DecisionRule_0rsvp32">
+        <description>Great Britain region</description>
+        <inputEntry id="UnaryTests_1k4xgf1" expressionLanguage="feel">
+          <text>"GB"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0hkou9g">
+          <text>"region1"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_05h86pv">
+          <text>"Great Britain"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1fvgewx">
+        <description>United States region</description>
+        <inputEntry id="UnaryTests_1h24r5l">
+          <text>"US"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0tuxrvc">
+          <text>"region2"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_02v37p7">
+          <text>"United States"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_121pdri">
+        <description>Australia region</description>
+        <inputEntry id="UnaryTests_0g2i4cc">
+          <text>"AU"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_001wgub">
+          <text>"region3"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_06jk0e2">
+          <text>"Australia"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1cngp79">
+        <description>Canada region</description>
+        <inputEntry id="UnaryTests_1kezh9m">
+          <text>"CA"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1qlrmev">
+          <text>"region4"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0b58hz0">
+          <text>"Canada"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1h8awzy">
+        <description>Germany region</description>
+        <inputEntry id="UnaryTests_05ne4at">
+          <text>"DE"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0dqv7ig">
+          <text>"region5"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0sgx3pz">
+          <text>"Germany"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_05p3166">
+        <description>France region</description>
+        <inputEntry id="UnaryTests_1orr7cv">
+          <text>"FR"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1thcrle">
+          <text>"region6"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_0a5hzhz">
+          <text>"France"</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0oouwq9">
+        <description>Region for rest of world</description>
+        <inputEntry id="UnaryTests_1d87rhc">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1dch9jx">
+          <text>"regionROW"</text>
+        </outputEntry>
+        <outputEntry id="LiteralExpression_03v1794">
+          <text>"Rest of World"</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram>
+      <dmndi:DMNShape dmnElementRef="eligibleEmployeeDecision">
+        <dc:Bounds height="80" width="180" x="160" y="100" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</definitions>

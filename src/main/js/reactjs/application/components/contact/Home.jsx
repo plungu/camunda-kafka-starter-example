@@ -19,8 +19,8 @@ class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          // displayDetail: "block",
-          // callUpdate: function (pageSize, that) {that.loadAllFromServer(pageSize)}
+          displayDetail: "block",
+          callUpdate: function (pageSize, that) {that.loadAllFromServer(pageSize)}
         };
         this.handleRedirect = this.handleRedirect.bind(this);
 

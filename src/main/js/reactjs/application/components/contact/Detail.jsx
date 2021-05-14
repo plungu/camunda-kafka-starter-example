@@ -7,8 +7,9 @@
 
 // tag::nodeModules[]
 const React = require('react');
-const client = require('client');
-const follow = require('follow'); // function to hop multiple links by "rel"
+const ReactDOM = require('react-dom')
+const client = require('../client.jsx');
+const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 // tag::customComponents
 const StartForm = require('StartForm');
@@ -31,8 +32,8 @@ class Detail extends React.Component{
         items: [],
         contact: {},
         displayDetail: "block",
-        displayServiceStartForm: "block",
-        displayServiceDetailForm: "none",
+        displayServiceStartForm: "none",
+        displayServiceDetailForm: "block",
         displayItems: "none",
         displayConfirmation:"none",
         attributes: [],
@@ -289,16 +290,17 @@ class Detail extends React.Component{
 
       console.log("Detail Render: "+JSON.stringify(this.state.order));
 
-      if (this.state.order.orderKey != null) {
+      // if (this.state.order.orderKey != null) {
          info =  <Info item={this.state.order} contact={this.state.contact}/>
-      }
+      // }
 
     return (
       <div>
 
         <FilterBar toggleForm={this.toggleForm} title="Promotional Material Order"/>
 
-        {info}
+        {/*{info}*/}
+        <Info item={this.state.order} contact={this.state.contact}/>
 
         <div style={{display: displayServiceStartForm}}>
             <StartForm onUpdateStartState={this.handleUpdateStartState}

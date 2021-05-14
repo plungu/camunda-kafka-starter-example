@@ -7,32 +7,36 @@ import java.util.Map;
 @Profile("integration")
 public class KafkaEvent {
 
-    private ServiceRequest serviceRequest;
+    public static String START_WORKFLOW_EVENT = "start-worflow-event";
+    public static String UPDATE_WORKFLOW_EVENT = "update-worflow-event";
+    public static String END_WORKFLOW_EVENT = "end-worflow-event";
+
+    private KafkaRequestMapper kafkaRequestMapper;
     private String eventName;
     private String eventType;
     private Map<String, Object> eventParams;
 
     public KafkaEvent(){}
 
-    public KafkaEvent(ServiceRequest serviceRequest){
-        this.serviceRequest = serviceRequest;
+    public KafkaEvent(KafkaRequestMapper kafkaRequestMapper){
+        this.kafkaRequestMapper = kafkaRequestMapper;
     }
 
     public KafkaEvent(Map eventParams){
         this.eventParams = eventParams;
     }
 
-    public KafkaEvent(ServiceRequest serviceRequest, Map eventParams){
+    public KafkaEvent(KafkaRequestMapper kafkaRequestMapper, Map eventParams){
         this.eventParams = eventParams;
-        this.serviceRequest = serviceRequest;
+        this.kafkaRequestMapper = kafkaRequestMapper;
     }
 
-    public ServiceRequest getServiceRequest() {
-        return serviceRequest;
+    public KafkaRequestMapper getKafkaRequestMapper() {
+        return kafkaRequestMapper;
     }
 
-    public void setServiceRequest(ServiceRequest serviceRequest) {
-        this.serviceRequest = serviceRequest;
+    public void setKafkaRequestMapper(KafkaRequestMapper kafkaRequestMapper) {
+        this.kafkaRequestMapper = kafkaRequestMapper;
     }
 
     public String getEventName() {

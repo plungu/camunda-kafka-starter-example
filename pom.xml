@@ -113,7 +113,20 @@
       <artifactId>camunda-engine-plugin-spin</artifactId>
     </dependency>
 
-	<!-- Testing -->
+      <!-- External Task Client-->
+      <!--    <dependency>-->
+      <!--      <groupId>org.camunda.bpm</groupId>-->
+      <!--      <artifactId>camunda-external-task-client</artifactId>-->
+      <!--      <version>${camunda.version}</version>-->
+      <!--    </dependency>-->
+
+      <dependency>
+          <groupId>org.camunda.bpm.springboot</groupId>
+          <artifactId>camunda-bpm-spring-boot-starter-external-task-client</artifactId>
+          <version>7.15.0</version>
+      </dependency>
+
+      <!-- Testing -->
     <dependency>
       <groupId>org.camunda.bpm.extension</groupId>
       <artifactId>camunda-bpm-assert-scenario</artifactId>

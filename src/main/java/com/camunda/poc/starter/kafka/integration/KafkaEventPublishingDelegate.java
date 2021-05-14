@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.camunda.poc.starter.entity.Order;
 import com.camunda.poc.starter.entity.ServiceRequestEntity;
+import com.camunda.poc.starter.repo.OrderRepository;
 import com.camunda.poc.starter.repo.ServiceRequestRepository;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -27,35 +29,47 @@ public class KafkaEventPublishingDelegate implements JavaDelegate {
 
 
   private KafkaEventChannels channels;
-  private ServiceRequestRepository serviceRequestRepository;
 
-  @Autowired
-  public KafkaEventPublishingDelegate(KafkaEventChannels source, ServiceRequestRepository serviceRequestRepository){
-    this.channels = source;
-    this.serviceRequestRepository = serviceRequestRepository;
-  }
+//  private OrderRepository repository;
 
-  public void execute(DelegateExecution execution) throws Exception {
+//  @Autowired
+//  public KafkaEventPublishingDelegate(KafkaEventChannels source, OrderRepository repository){
+//    this.channels = source;
+//    this.repository = repository;
+//  }
 
-      String businessKey = execution.getBusinessKey();
-      Boolean approved = (Boolean) execution.getVariable("approved");
+    @Autowired
+    public KafkaEventPublishingDelegate(KafkaEventChannels source){
+        this.channels = source;
+    }
 
-      ServiceRequestEntity srEntity = serviceRequestRepository.findServiceRequestByServiceId(businessKey);
-      ServiceRequest serviceRequest = new ServiceRequest(srEntity);
+    public void execute(DelegateExecution execution) throws Exception {
 
-      Map eventParams = new HashMap();
-      if (approved != null)
+        String businessKey = execution.getBusinessKey();
+        Boolean approved = (Boolean) execution.getVariable("approved");
+
+        //Get business data
+        //Order bizEntity = repository.findOrderByOrderKey(businessKey);
+        //KafkaRequestMapper kafkaRequestMapper = new KafkaRequestMapper(bizEntity);
+
+        KafkaRequestMapper kafkaRequestMapper = new KafkaRequestMapper();
+
+        Map eventParams = new HashMap();
+        if (approved != null)
           eventParams.put("approved", approved);
 
-      KafkaEvent sre = new KafkaEvent(serviceRequest, eventParams);
+        if (businessKey != null)
+          eventParams.put("businessKey", businessKey);
 
-      sre.setEventName("CREATE-SERVICE-REQUEST");
-      sre.setEventType("CREATE");
 
-      channels.publish().send(MessageBuilder.withPayload(sre).build());
+        KafkaEvent event = new KafkaEvent(kafkaRequestMapper, eventParams);
 
-      LOGGER.info(" \n\n Service Request Payload Sent: "+sre);
+        event.setEventName(KafkaEvent.UPDATE_WORKFLOW_EVENT);
+        event.setEventType("CREATE");
 
+        channels.publish().send(MessageBuilder.withPayload(event).build());
+
+        LOGGER.info(" \n\n Kafka Payload Sent: "+event);
   }
 
 }

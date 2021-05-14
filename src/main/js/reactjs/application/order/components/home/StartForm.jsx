@@ -1,7 +1,11 @@
+/**
+ * @author Paul Lungu
+ * @type {{DOM, PropTypes, createElement, isValidElement, version, __spread, PureComponent, createMixin, createClass, Children, Component, createFactory, cloneElement}}
+ */
+
+'use strict';
+
 var React = require('react');
-const client = require('../client.jsx');
-const DisplayDate = require('src/main/js/reactjs/application/components/date/DisplayDate.jsx');
-const follow = require('../follow.jsx'); // function to hop multiple links by "rel"
 
 class StartForm extends React.Component {
 

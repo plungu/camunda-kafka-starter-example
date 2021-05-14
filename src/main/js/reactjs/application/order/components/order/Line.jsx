@@ -6,16 +6,12 @@
 'use strict';
 
 // tag::nodeModules[]
-var {Link, IndexLink} = require('react-router');
-const client = require('../client.jsx');
 const React = require('react');
 
 // tag::customComponents
 // end::customComponents
 
 // tag::vars[]
-const apiHost = process.env.API_HOST != "" ? `${process.env.API_HOST}:${process.env.API_PORT}/` : "/";
-const apiRoot = `${apiHost}${process.env.API_ROOT}`;
 // end::vars[]
 
 class Line extends React.Component{
